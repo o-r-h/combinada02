@@ -1,0 +1,167 @@
+﻿@using Veritrade2018.Helpers
+@using Veritrade2018.Models.Admin
+@using Veritrade2018.Util;
+@{
+    var objTabData = (TabData)Model;
+
+    bool isDemo = Extensiones.GetCookie("IsDemo") == "1";
+
+}
+@foreach (var item in objTabData.ListRowsTab)
+{
+    <tr>
+        <td class="text-right">@item.Nro</td>
+        <td class="text-center">
+            @item.Fecha
+            <br />
+            @if (item.IsVisibleLupa)
+            {
+                <a href="javascript:void(0)" data-id="@item.Id" class="lnkVerDetalleById">
+                    <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                </a>
+            }
+            
+        </td>
+        <td class="text-center">
+            @item.PartidaAduanera
+            <br />
+            @if (item.IsVisibleLupaPartida)
+            {
+                if (isDemo)
+                {
+                    <a class="lnkSentinel">
+                        <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                    </a>
+                }
+                else
+                {
+                    <a onclick="TablaDeDatos.ClickArancelesPartida('@item.PartidaAduanera');">
+                        <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                    </a>
+                }
+            }
+        </td>
+        @if (objTabData.GridHead.IsVisibleImportador)
+        {
+    <td class="text-center">
+        @item.Importador
+        <br />
+        @if (item.IsVisibleSentinel)
+        {
+            if (item.IsPlanPermiteSentinel)
+            {
+                <a data-idruc="@item.Ruc" href="javascript:void(0)" class="lnkSentinel" title="SENTINEL, Alertas y Reportes de Deudas">
+                    <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" class="cursor-action" />
+                </a>
+            }
+            else
+            {
+                <a title="SENTINEL, Alertas y Reportes de Deudas" onclick="TablaDeDatos.VerMensajePlanNoSentinel('@Resources.AdminResources.SentinelValidation_Text');" href="javascript:void(0)">
+                    <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" class="cursor-action" />
+                </a>
+            }
+        }
+        @if ((item.mostrarInformaColombia) && (!isDemo))
+        {
+            if (item.IsPlanPermiteSentinel)
+            {
+                <a title="Informa Colombia" onclick="TablaDeDatos.ClickInformaColombia('@item.IdImportador2');">
+                    <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                </a>
+                @*<a title="Informa Colombia" onclick="TablaDeDatos.ObtenerImportadorColombia('@item.Id');">
+                    <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                </a>*@
+            }
+            else
+            {
+                <a title="Informa Colombia"  onclick="TablaDeDatos.VerMensajePlanNoInformaColombia('@Resources.AdminResources.SentinelValidation_Text');" href="javascript:void(0)">
+                    <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                </a>
+            }
+
+        }
+        else if ((item.mostrarInformaColombia) && (isDemo))
+        {
+            <a class="lnkSentinel">
+                <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+            </a>
+        }
+        else
+        {
+            <a href="@item.LnkGoogle" target="_blank">
+                <img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" class="cursor-action" />
+            </a>
+        }
+        
+    </td>
+        }
+        @if (objTabData.GridHead.IsVisibleExportador && (Session["TipoOpe"].ToString()=="I" || 
+           (Session["TipoOpe"].ToString() == "E" && Session["Plan"].ToString() != "ESENCIAL")))
+        {
+            <td class="text-center">
+                @item.Exportador
+                <br />
+                <a href="@item.LnkGoogle2" target="_blank">
+                    <img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" class="cursor-action" />
+                </a>
+            </td>
+        }
+        @if (objTabData.GridHead.IsVisibleMarcaEC)
+        {
+            <td class="text-center">
+                @item.Marca
+            </td>
+        }
+
+        @if (objTabData.GridHead.IsVisibleKgNeto)
+        {
+            <td class="text-right">
+                @item.TotalKg
+            </td>
+        }
+        <td class="text-right">
+            @item.Cantidad
+        </td>
+        <td class="text-right">
+            @item.UndMedida
+        </td>
+        @if (objTabData.GridHead.IsVisibleFobUnit)
+        {
+            <td class="text-right">
+                @item.FobUnit
+            </td>
+        }
+        @if (objTabData.GridHead.IsVisibleCifUnit)
+        {
+            <td class="text-right">
+                @item.CifUnit
+            </td>
+        }
+        @if (objTabData.GridHead.IsVisibleCifImptos)
+        {
+            <td class="text-right">
+                @item.CifUnitImp
+            </td>
+        }
+        @if (objTabData.GridHead.IsVisibleDua)
+        {
+            <td class="text-center">@item.Dua</td>
+        }
+        @if (objTabData.GridHead.IsVisiblePaisOrigen)
+        {
+            <td class="text-center">@item.PaisOrigen</td>
+        }
+        @if (objTabData.GridHead.IsVisibleDesCom)
+        {
+            <td class="text-justify"><p class="wspace-normal">
+                @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+            </p></td>
+        }
+        @if (objTabData.GridHead.IsVisibleDistrito)
+        {
+            <td>
+                @item.Distrito
+            </td>
+        }
+    </tr>
+}

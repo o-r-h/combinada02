@@ -1,0 +1,59 @@
+﻿@using Veritrade2018.Helpers
+@using System.Globalization
+
+@{
+    string culture = CultureHelper.GetCurrentCulture();
+}
+<div class="modal fade ventana_fondo" tabindex="-1" role="dialog" id="ModalVentanaVideo">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="icon-close-modal" aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="text-center title-ventana-video">
+                            <p>
+                                @Resources.AdminResources.Modal_VentanaVideo_Title
+                            </p>
+                            <img src="@Url.Content("/Content/Images/flecha_old.png")" width="53" height="20" />
+                        </div>
+
+                        <div class="text-center texto-venta-video">
+                            <p>
+                                @Resources.AdminResources.Modal_VentanaVideo_Message
+                            </p>
+                        </div>
+
+                        <div class="text-center iframe-video" style="margin-bottom: 20px;">
+                            @if (Session["TipoUsuario"].ToString() != "Free Trial")
+                            {                                
+                                <iframe id="videoYoutube" src="@Resources.AdminResources.Modal_VentanaVideo_UrlVideo" class="video_parte04 youtube-frame" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+                            }
+                            else
+                            {
+                                if (culture == "es")
+                                {
+                                <iframe id="videoYoutube" src="https://www.youtube.com/embed/PHcAmuALHTo" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                }
+                                else
+                                {
+                                <iframe id="videoYoutube" src="https://www.youtube.com/embed/OgDJXZzOs_4" width="560" height="315" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                }
+                            }
+                        </div>
+                        <p style="font-size: 13px;">
+                            <button id="btnNoShowMe" class="btn btn-ok"> @Resources.AdminResources.Modal_VentanaVideo_Button_No_Show </button>
+                            @Resources.AdminResources.Modal_VentanaVideo_Text_No_Show
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

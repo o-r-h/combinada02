@@ -1,0 +1,352 @@
+﻿@using Veritrade2018.Helpers
+@using Veritrade2018.Models
+@using System.Threading
+@{
+
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var codCampania = ViewData["CodCampaña"];
+    if (Session["c"] != null && Session["c"].ToString() != "")
+    {
+        codCampania = Session["c"].ToString();
+    }
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+
+    var codigoOperacion = ViewData["codigoOperacion"].ToString();
+    string urlImagen = "" , colorHeader ="" , colorSubHeader = "" , colorText15="", colorText16 = "", colorText16Hover = "";
+    string width = "200px";
+    string height = "50px";
+    switch (codigoOperacion)
+    {
+        case "SNI":
+            urlImagen = "logo_SNI.png";
+            colorHeader = "#001f3d";
+            colorSubHeader = "#0087AD";
+            width = "100px";
+            break;
+        case "AMCHAM":
+            urlImagen = "logo_AMCHAM.jpg";
+            colorHeader = "#FFFFFF";
+            colorSubHeader = "#173f72";
+            break;
+        case "AHKPERU":
+            urlImagen = "logo_DEI.png";
+            colorHeader = "#FFFFFF";
+            colorSubHeader = "#6D8398";
+            break;
+        case "CAMCHAL":
+            urlImagen = "logo_CAMCHAL.png";
+            colorHeader = "#FFFFFF";
+            colorSubHeader = "#6D8398";
+            width = "300px";
+            height = "70px";
+            break;
+        case "CCIPERU":
+            urlImagen = "logo_CAMERITPE.png";
+            colorHeader = "#000000";
+            colorSubHeader = "#999999";
+            break;
+        case "COCEP":
+            urlImagen = "logo_COCEP.png";
+            colorHeader = "#FFFFFF";
+            colorSubHeader = "#FFFFFF";
+            break;
+        case "ASEAN":
+            width = "100px";
+            height = "100px";
+            urlImagen = "logo_ASEAN.png";
+            colorHeader = "#FFFFFF";
+            colorSubHeader = "#2f2e2e";
+            break;
+        // Ruben 202303
+        case "AHKARG":
+            urlImagen = "logo_AHKARG.png";
+            colorHeader = "#FFFFFF";
+            colorSubHeader = "#6D8398";
+            break;
+    }
+}
+
+@helper Selected(string c, string culture)
+{
+        if (c == culture)
+        {
+        @:selected="selected"
+        }
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    @*Ruben 202301*@
+    <meta name="robots" content="noindex">
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/Images/favicon.ico")" rel="shortcut icon" type="image/x-icon" />
+    <meta name="description" content="@ViewBag.Description">
+
+    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/admin")
+    @Scripts.Render("~/bundles/modernizr")
+    @RenderSection("styles", false)
+
+    <style>
+
+        .container {
+            margin-left: 0px;
+            padding-left: 3%;
+        }
+
+        .cabeceraFija {
+            height: 90px;
+            position: relative;
+            text-align: center;
+            width: 100%;
+            z-index: 999;
+        }
+
+        .cabeceraSubFija {
+            height: 13px;
+            position: relative;
+            text-align: center;
+            width: 100%;
+            z-index: 999;
+        }
+
+
+        .like-table-cell {
+            display: table-cell;
+            float: none;
+        }
+
+        .cab_linea01 .text_cabecera {
+            vertical-align: middle;
+            width: 33%;
+        }
+
+        .btn-language {
+            font-family: ProximaNova-Regular;
+            font-size: 14px;
+            letter-spacing: 0.2pt;
+            padding-top: 2px;
+            text-decoration: none;
+        }
+
+
+        .text15 {
+            font-family: ProximaNova-LightIt;
+            font-size: 11px;
+            line-height: 11px;
+            letter-spacing: 0.2pt;
+            padding-top: 4px;
+        }
+
+        .text16 {
+            font-family: ProximaNova-Regular;
+            font-size: 16px;
+            letter-spacing: 0.2pt;
+            padding-top: 2px;
+            text-decoration: none;
+        }
+
+            .text16:hover {
+                font-family: ProximaNova-Regular;
+                font-size: 16px;
+                letter-spacing: 0.2pt;
+                padding-top: 2px;
+            }
+
+        .copyright {
+            color: #001f3d;
+            font-family: ProximaNova-Regular;
+            font-size: 12px;
+            letter-spacing: 0.2pt;
+            padding-top: 4px;
+            padding-right: 2%;
+        }
+    </style>
+    @if (codigoOperacion == "SNI")
+    {
+        <style>
+            .text15 {
+                color: rgba(255, 255, 255, 0.6);
+            }
+
+            .text16 {
+                color: #dbdbdb;
+            }
+
+                .text16:hover {
+                    color: #FFFFFF;
+                }
+
+            .btn-language {
+                background-color: #001f3d;
+                color: #dbdbdb;
+            }
+
+                .btn-language:hover, .btn-language:active, .btn-language:focus {
+                    color: #C9E7F8 !important;
+                }
+
+                .btn-language:active {
+                    background-color: #001f3d;
+                }
+        </style>
+    }
+    else if (codigoOperacion == "AHKPERU" || codigoOperacion == "CAMCHAL" || codigoOperacion == "AHKARG") // Ruben 202303
+    {
+        <style>
+            .text15 {
+                color: rgba(25,54,96,0.6);
+            }
+
+            .btn-language, .text16 {
+                color: #183861;
+            }
+
+                .text16:hover, .btn-language:hover, .btn-language:active, .btn-language:focus {
+                    color: #CC3300;
+                }
+
+                .btn-language, .btn-language:active {
+                    background-color: #FFFFFF;
+                }
+        </style>
+    }
+    else if (codigoOperacion == "AMCHAM")
+    {
+        <style>
+            .text15 {
+                color: rgba(23, 63, 114, 0.6);
+            }
+
+            .btn-language, .text16 {
+                color: #173F72;
+            }
+
+                .text16:hover, .btn-language:hover, .btn-language:active, .btn-language:focus {
+                    color: #DF0021 !important;
+                }
+
+                .btn-language, .btn-language:active {
+                    background-color: #FFFFFF;
+                }
+        </style>
+    }
+    else if (codigoOperacion == "CCIPERU")
+    {
+        <style>
+            .text15 {
+                color: rgba(255,255,255,0.8);
+            }
+
+            .btn-language, .text16 {
+                color: #E0E0E0;
+            }
+
+                .text16:hover, .btn-language:hover, .btn-language:active, .btn-language:focus {
+                    color: #FFFFFF !important;
+                }
+
+                .btn-language, .btn-language:active {
+                    background-color: #000000;
+                }
+        </style>
+    }
+    else if (codigoOperacion == "COCEP")
+    {
+        <style>
+            .text15 {
+                color: #183861;
+            }
+
+            .btn-language, .text16 {
+                color: #183861;
+            }
+
+                .text16:hover, .btn-language:hover, .btn-language:active, .btn-language:focus {
+                    color: #CC3300 !important;
+                }
+
+                .btn-language, .btn-language:active {
+                    background-color: #FFFFFF;
+                }
+
+            .cabeceraSubFija {
+                border-bottom-color: #000000;
+                border-bottom-width: thin;
+                border-bottom-style: solid;
+            }
+        </style>
+    }
+    else if (codigoOperacion == "ASEAN")
+    {
+        <style>
+            .text15 {
+                color: rgba(23, 63, 114, 0.6);
+            }
+
+            .btn-language, .text16 {
+                color: #173F72;
+            }
+
+                .text16:hover, .btn-language:hover, .btn-language:active, .btn-language:focus {
+                    color: #DF0021 !important;
+                }
+
+                .btn-language, .btn-language:active {
+                    background-color: #FFFFFF;
+                }
+        </style>
+    }
+</head>
+<body>
+<div class="cabeceraFija like-table " style="background-color: @colorHeader; z-index: 9999">
+    <div class="cab_linea01 container null-padding like-table-row">
+        <div class="text_cabecera like-table-cell" style="text-align: left;padding-left: 6%;">
+            <img src="@Url.Content("~/Content/Images/freemium/"+urlImagen)" width="@width" height="@height" alt="" />
+        </div>
+        <div class="text_cabecera like-table-cell">
+        </div>
+        <div class="info-cabecera like-table-cell" style="text-align: right;padding-right: 6%;">
+            <button type="button" id="idioma" class="btn btn-language">@Resources.AdminResources.LayoutBar_LanguageButton.ToUpper() +</button>
+            <label class="text15">Powered by</label>
+            @Html.ActionLink("Veritrade", "Index", "PruebaGratis", new { culture, campania = codCampania }, new { @class = "text16" })
+        </div>
+        @*<div class="hidden">*@
+            @using (Html.BeginForm("SetCulture", controller, null, FormMethod.Post, htmlAttributes: new { @id = "form-language" }))
+            {
+                <select name="culture" class="bot_cabecera_01" style="display:none">
+                    <option value="en-us" @Selected("es", culture)>English</option>
+                    <option value="es" @Selected("en", culture)>Español</option>
+                </select>
+            }
+        @*</div>*@
+        </div>
+    </div>
+    <div class="cabeceraSubFija like-table " style="background-color: @colorSubHeader; z-index: 9999">
+    </div>
+<div class="container">
+
+    @RenderBody()
+</div>
+        <div class="cabeceraSubFija like-table " style="background-color: @colorSubHeader; z-index: 9999">
+        </div>
+        <div align="right" class="copyright">© Veritrade @DateTime.Now.Year - Powered by Veritrade</div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/jqueryval")
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#idioma").click(function () {
+                $("#form-language").submit();
+            });
+        });
+    </script>
+</body>
+</html>
+

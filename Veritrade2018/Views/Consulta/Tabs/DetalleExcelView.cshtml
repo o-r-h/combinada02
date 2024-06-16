@@ -1,0 +1,82 @@
+﻿@using Veritrade2018.Models
+@{
+    var modelo = (ConsultaForm)Model;
+}
+<div class="tab-pane" id="tab-DetalleExcel">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 divTabMessageExcel">
+            @Resources.Resources.Demo_ExcelDonwloadMessage_Part1
+            <span class="spanTabMessageExcel">@Resources.Resources.Demo_DetailExcel_Tab</span>
+            @Resources.Resources.Demo_ExcelDonwloadMessage_Part2&nbsp;
+            <a class="downloadExcel">
+                <img src="~/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" />
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <div class="table-responsive">
+
+                @if (modelo.TipoOpe == "I")
+                {
+                    <table id="table-tabDetalleExcelImports" class="table cell-border compact datatable-page-demo" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Date</th>
+                                <th>HTS Code</th>
+                                <th>Importer</th>
+                                <th>
+                                    @(modelo.CodPais != "CL" ? "Exporter" : "Marca")
+                                </th>
+                                <th>@(modelo.CampoPeso == "PesoNeto" ? "Net kg" : "Gross kg")</th>
+                                <th>Quanty</th>
+                                <th>Unit</th>
+                                <th>
+                                    @(modelo.CodPais != "US" ? "US$ FOB Unit" : "US$ FAS Unit")
+                                </th>
+                                <th>US$ @modelo.Cif Unit</th>
+                                <th>US$ CIF Unit + Taxes</th>
+                                <th>Origin Country</th>
+                                <th>
+                                    Commercial Description
+                                    <br />
+                                    <input id="txtDesComercialBB" type="text" />
+                                    <a id="lnkSearchDetalleByFilter"><img src="@Url.Content("/Content/Images/bot_lupal_off.png")" title="Buscar" width="20" height="20" /></a>
+                                    <a id="lnkLoadDettalle"><img src="@Url.Content("/Content/Images/bot_recarga_off.png")" title="Restablecer" width="20" height="20" /></a>
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+
+                }
+                else
+                {
+                    <table id="table-tabDetalleExcelImports" class="table cell-border compact datatable-page-demo" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>
+                                <th>No.</th>
+                                <th>Date</th>
+                                <th>HTS Code</th>
+                                <th>Exporter</th>
+                                <th>Importer</th>
+                                <th>Net kg</th>
+                                <th>Quanty</th>
+                                <th>Unit</th>
+                                <th>US$ FOB Unit</th>
+                                <th>Destination Country</th>
+                                <th>
+                                    Commercial Description
+                                    <br />
+                                    <input id="txtDesComercialBB" type="text" />
+                                    <a id="lnkSearchDetalleByFilter"><img src="@Url.Content("~/Content/Images/bot_lupal_off.png")" title="Buscar" width="20" height="20" /></a>
+                                    <a id="lnkLoadDettalle"><img src="@Url.Content("~/Content/Images/bot_recarga_off.png")" title="Restablecer" width="20" height="20" /></a>
+                                </th>
+                            </tr>
+                        </thead>
+                    </table>
+                }
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="@Url.Content("~/Content/Images/favicon.ico")" rel="shortcut icon" type="image/x-icon" />
+    <meta name="description" content="@ViewBag.Description">
+</head>
+<body style="margin: 0;">
+    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+        @RenderPage("~/Views/Shared/Partials/CorreoHeader.cshtml")
+
+        @RenderBody()
+
+        @RenderPage("~/Views/Shared/Partials/CorreoFooter.cshtml")
+    </table>       
+</body>
+</html>

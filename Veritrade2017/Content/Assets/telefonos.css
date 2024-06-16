@@ -1,0 +1,105 @@
+﻿.lista_telefonos .dropdown-menu, #telefonoPais_menu .dropdown-menu {
+    background-color: #272727;
+}
+
+.btn_telefono_paises {
+    background-color: #272727;
+    position: absolute;
+    z-index: 9999;
+    color: white;
+}
+
+.btn_telefono_paises_menu {
+    background-color: #212836;
+    position: absolute;
+    z-index: 9999;
+    color: white;
+    font-size: 10px;
+}
+
+.btn_telefono_paises:hover, .btn_telefono_paises:focus, .btn_telefono_paises_menu:hover, .btn_telefono_paises_menu:focus, .telefonoPais {
+    color: white;
+}
+
+.img_tel {
+    margin-left: 13%;
+}
+
+.fa-whatsapp {
+    color: white;
+    font-size: 15px;
+    color: #00bb2d;
+}
+
+.telefono_wsp {
+    color: white;
+    font-family: ProximaNova-Regular;
+    font-size: 15px;
+}
+
+.telefono_wsp_movil {
+    color: white;
+    font-family: ProximaNova-Regular;
+}
+
+.fa-phone-alt {
+    color: #5dbcd2;
+}
+
+.selectTelefonoPais a {
+    color: #fff !important;
+}
+
+.selectTelefonoPais li a:hover, .selectTelefonoPais li.selected a {
+    background: #212836;
+}
+
+.btn_telefono_paises_menu img, .selectTelefonoPaisMobile img {
+    width: 18px;
+    height: 13px;
+}
+
+.selectTelefonoPaisMobile a {
+    color: #fff !important;
+    font-size: 10px;
+}
+
+.selectTelefonoPaisMobile li a:hover, .selectTelefonoPaisMobile li.selected a {
+    background: #212836;
+}
+
+.espaciado_numero_telefono {
+    margin-left: 7%;
+    margin-bottom: 10%;
+}
+
+.btn_select_movil{
+    /*padding: 0px 8px !important;*/
+    padding-left: 5%;
+}
+
+.tel_wsp {
+    top: 6px;
+}
+
+.lista_telefonos a:hover, .lista_telefonos a:visited, .lista_telefonos a:link, .lista_telefonos a:active, .num_telefono a:hover, .num_telefono a:visited, .num_telefono a:link, .num_telefono a:active {
+    text-decoration: none !important;
+}
+
+@media (max-width: 433px) {
+
+    #telefonoPais_menu {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 320px) {
+
+    #telefonoPais_menu {
+       font-size:10px;
+    }
+
+    .movil-form-select .prueba_movil {
+        font-size: 10px;
+    }
+}

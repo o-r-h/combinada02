@@ -1,0 +1,252 @@
+﻿@using Veritrade2018.Helpers
+@using Veritrade2018.Models
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var codCampania = ViewData["CodCampaña"];
+    if (Session["c"] != null && Session["c"].ToString() != "")
+    {
+        codCampania = Session["c"].ToString();
+    }
+
+    //var urlAdmin = SettingUtility.GetUrlBack() + (culture.Equals("es") ? "/Veritrade/MisBusquedas.aspx" : "/Veritrade/MisBusquedas.aspx?l=en");
+
+    var urlAdmin = Url.Action("Index", "MisBusquedas");
+}
+
+@helper Selected(string c, string culture)
+    {
+        if (c == culture)
+        {
+            @:selected="selected"
+        }
+}
+
+@helper ActiveMenu(string item)
+    {
+        if (ViewBag.Menu == item)
+        {
+            @:active
+        }
+        else
+        {
+            @:""
+        }
+}
+
+<nav class="navbar navbar-inverse barra_navegacion" style="border: none; z-index: 9999">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <div class="visible-xs movil-form">
+                @using (Html.BeginForm("SetCulture", "Home", FormMethod.Post, new { @class = "idioma_movil" }))
+                {
+                    <select name="culture" class="bot_cabecera_01">
+                        <option value="en-us" @Selected("en", culture)>English</option>
+                        <option value="es" @Selected("es", culture)>Español</option>
+                    </select>
+                }
+                <div class="prueba_movil_content">
+                    @Html.ActionLink(Resources.Resources.TrialText, "Index", "PruebaGratis", new { culture, campania = codCampania + "m" }, new { @class = "prueba_movil" })
+                </div>
+            </div>
+
+            <a class="navbar-brand" href="@Url.Action("Index", "Home", new {culture})">
+                <img class="cabecera_logo" alt="Veritrade" src="@Url.Content("~/Content/Images/logo_cabecera.jpg")">
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle link_menu @ActiveMenu("servicios")" data-toggle="dropdown">@Resources.Resources.MenuItem01</a>
+
+                    <ul class="dropdown-menu submenu-left">
+                        @foreach (var servicio in (List<Servicios>)ViewData["serviciosMenu"])
+                        {
+                            <li>@Html.ActionLink(servicio.Titulo, "Index", "Servicios", new { culture, slug = servicio.Slug }, new { @class = "" })</li>
+                        }
+                    </ul>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Ayuda", new {culture})" class="link_menu @ActiveMenu("ayuda")">@Resources.Resources.MenuItem02</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Consulta", new {culture})" class="link_menu @ActiveMenu("consulta")">@Resources.Resources.MenuItem03</a>
+                </li>
+                <li>
+                    <a href="#" class="dropdown-toggle link_menu @ActiveMenu("paises")" data-toggle="dropdown">@Resources.Resources.MenuItem04</a>
+
+                    <ul class="dropdown-menu submenu-right">
+                        @foreach (var pais in (List<ServiciosPaises>)ViewData["paisesMenu"])
+                        {
+                            <li>
+                                <a href="@Url.Action("Index", "Paises", new {culture, slug = pais.Abreviatura.Trim()})">
+                                    <img class="image-menu" src="@Url.Content("~/Content/Images/" + pais.ImagenBandera)" width="27" height="16" alt=""> @pais.NombrePais
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Planes", new {culture})" class="link_menu @ActiveMenu("planes")">@Resources.Resources.MenuItem05</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Blog", new {culture})" class="link_menu @ActiveMenu("blog")">@Resources.Resources.MenuItem06</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "ProductoPerfil", new {culture})" class="link_menu hidden ">Producto Perfil</a>
+                </li>
+                <li class="hidden-xs">
+                    <img class="separator" src="@Url.Content("~/Content/Images/transparente.gif")" alt="">
+                </li>
+                <li class="visible-xs">
+                    <hr />
+                </li>
+                <li class="link_log">
+                    <a href="#" class="contactenos access_content">@Resources.Resources.MenuItem07</a>
+                </li>
+                <li class="link_log dropdown">
+                    @if (ViewData["registrado"] != null)
+                    {
+                        <a href="@urlAdmin" class="access_content">@ViewData["registrado"]</a>
+                    }
+                    else
+                    {
+                        <a href="#" onclick="ga('send', 'event', 'boton', 'click', 'login');" class="dropdown-toggle access_content" data-toggle="dropdown">@Resources.Resources.MenuItem08</a>
+                        <div class="login-form dropdown-menu">
+
+                            <div id="loadingLogin" class="loaderLogin">
+                                <div class="objectLoadingLogin"></div>
+                            </div>
+
+                            <p class="title">@Resources.Resources.LoginTitle </p>
+
+                            <form action="@urlAdmin" id="loginForm" method="post" role="form">
+                                @Html.AntiForgeryToken()
+                                <div>
+                                    <label>@Resources.Resources.LoginUserLabel</label>
+
+                                    @Html.TextBox("txtCodUsuario", null, new {@class = "control"})
+                                </div>
+                                <div>
+                                    <label>@Resources.Resources.LoginPasswordLabel</label>
+
+                                    @Html.Password("txtPassword", null, new {@class = "control"})
+                                </div>
+                                <div style="margin-top: 15px;">
+                                    <p>
+                                        <a href="#" class="forgot_link">@Resources.Resources.LoginForgotLabel</a>
+                                        <span id="login_button" class="bot_cabecera">Login ></span>
+                                    </p>
+                                </div>
+                                <div>
+                                    <div class="login_text">
+                                        @Resources.Resources.LoginDevelopedLabel<br/>@Resources.Resources.LoginNavegadoresLabel
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="login_text">
+                                        <input id="chkTerminos" checked="checked" type="checkbox">
+                                        @Resources.Resources.LoginTerminosLabel
+
+                                        @Html.ActionLink(Resources.Resources.Footer_TermsConditions, "", null, new {@class = "link_terminos", href = "#ModalTerminosCondiciones", data_toggle = "modal"})
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    }
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div>
+</nav>
+
+
+<nav class="navbar navbar-inverse navbar-fixed-top barra_navegacion barra_navegacion_fixed hidden-xs" style="border: none;">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+
+            <div class="visible-xs movil-form">
+                @using (Html.BeginForm("SetCulture", "Home", FormMethod.Post, new { @class = "idioma_movil" }))
+                {
+                    <select name="culture" class="bot_cabecera_01">
+                        <option value="en-us" @Selected("en", culture)>English</option>
+                        <option value="es" @Selected("es", culture)>Español</option>
+                    </select>
+                }
+                <div class="prueba_movil_content">
+                    @Html.ActionLink(Resources.Resources.TrialText, "Index", "PruebaGratis", new { culture, campania = codCampania + "m" }, new { @class = "prueba_movil" })
+                </div>
+            </div>
+
+            <a class="navbar-brand" href="@Url.Action("Index", "Home", new {culture})">
+                <img class="cabecera_logo" alt="Veritrade" src="@Url.Content("~/Content/Images/logo_cabecera.jpg")">
+            </a>
+        </div>
+
+        <div class="collapse navbar-collapse" id="navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle link_menu @ActiveMenu("servicios")" data-toggle="dropdown">@Resources.Resources.MenuItem01</a>
+
+                    <ul class="dropdown-menu submenu-left">
+                        @foreach (var servicio in (List<Servicios>)ViewData["serviciosMenu"])
+                        {
+                            <li>@Html.ActionLink(servicio.Titulo, "Index", "Servicios", new { culture, slug = servicio.Slug }, new { @class = "" })</li>
+                        }
+                    </ul>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Ayuda", new {culture})" class="link_menu @ActiveMenu("ayuda")">@Resources.Resources.MenuItem02</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Consulta", new {culture})" class="link_menu @ActiveMenu("consulta")">@Resources.Resources.MenuItem03</a>
+                </li>
+                <li>
+                    <a href="#" class="dropdown-toggle link_menu @ActiveMenu("paises")" data-toggle="dropdown">@Resources.Resources.MenuItem04</a>
+
+                    <ul class="dropdown-menu submenu-right">
+                        @foreach (var pais in (List<ServiciosPaises>)ViewData["paisesMenu"])
+                        {
+                            <li>
+                                <a href="@Url.Action("Index", "Paises", new {culture, slug = pais.Abreviatura.Trim()})">
+                                    <img class="image-menu" src="@Url.Content("~/Content/Images/" + pais.ImagenBandera)" width="27" height="16" alt=""> @pais.NombrePais
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Planes", new {culture})" class="link_menu @ActiveMenu("planes")">@Resources.Resources.MenuItem05</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Blog", new {culture})" class="link_menu @ActiveMenu("blog")">@Resources.Resources.MenuItem06</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "ProductoPerfil", new {culture})" class="link_menu">@Resources.Resources.MenuItem06</a>
+                </li>
+                <li class="hidden-xs">
+                    <img class="separator" src="@Url.Content("~/Content/Images/transparente.gif")" alt="">
+                </li>
+                <li class="visible-xs">
+                    <hr />
+                </li>
+                <li class="link_prueba">
+                    @Html.ActionLink(Resources.Resources.TrialText, "Index", "PruebaGratis", new { culture, campania = codCampania }, new { @class = "access_content" })
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div>
+</nav>

@@ -1,0 +1,707 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/">
+      <s:element name="ExisteCodUsuario">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CodUsuario" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExisteCodUsuarioResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExisteCodUsuarioResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExisteEmail1">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="Email1" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ExisteEmail1Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ExisteEmail1Result" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Valida">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CodUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IdAplicacion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IdUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodSeguridad" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="CantUsuariosUnicos" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidaResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ValidaResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="IdUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodSeguridad" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="CantUsuariosUnicos" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Valida2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CodUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IdUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IdAplicacion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodSeguridad" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="CantUsuariosUnicos" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Valida2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Valida2Result" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="IdUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IdAplicacion" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodSeguridad" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="CantUsuariosUnicos" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidaIPPais">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IdUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DireccionIP" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidaIPPaisResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ValidaIPPaisResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GrabaHistorial">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IdUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DireccionIP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Navegador" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodEstado" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GrabaHistorialResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="GrabaHistorial2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IdUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DireccionIP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Navegador" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ProcessorID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MACAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ComputerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodEstado" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GrabaHistorial2Response">
+        <s:complexType />
+      </s:element>
+      <s:element name="GrabaHistorial3">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IdUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="DireccionIP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Navegador" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ProcessorID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MACAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ComputerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="VersionLogin" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodEstado" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GrabaHistorial3Response">
+        <s:complexType />
+      </s:element>
+      <s:element name="ValidaSeguridad">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IdUsuario" type="s:string" />
+            <s:element minOccurs="1" maxOccurs="1" name="CantUsuariosUnicos" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="ProcessorID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MACAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ComputerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="VersionLogin" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ValidaSeguridadResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ValidaSeguridadResult" type="s:boolean" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GrabaLog">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="IdUsuario" type="s:int" />
+            <s:element minOccurs="0" maxOccurs="1" name="Logs" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="GrabaLogResponse">
+        <s:complexType />
+      </s:element>
+      <s:element name="BuscaUbicacionIP">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DireccionIP" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaUbicacionIPResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaUbicacionIPResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaUbicacionIP2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="DireccionIP" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodPais" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="BuscaUbicacionIP2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="BuscaUbicacionIP2Result" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodPais" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Save">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="A" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="B" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="C" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="D" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="E" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="F" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="SaveResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="SaveResult" type="s:int" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Save3">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="CodUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ProcessorID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MACAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ComputerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Validador" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="IdUsuario" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="Save3Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="Save3Result" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="IdUsuario" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtieneVariables">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="IdHistorial" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ProcessorID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MACAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ComputerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="ObtieneVariablesResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="1" maxOccurs="1" name="ObtieneVariablesResult" type="s:boolean" />
+            <s:element minOccurs="0" maxOccurs="1" name="CodUsuario" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Password" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ProcessorID" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="MACAddress" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ComputerName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="UserName" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="ExisteCodUsuarioSoapIn">
+    <wsdl:part name="parameters" element="tns:ExisteCodUsuario" />
+  </wsdl:message>
+  <wsdl:message name="ExisteCodUsuarioSoapOut">
+    <wsdl:part name="parameters" element="tns:ExisteCodUsuarioResponse" />
+  </wsdl:message>
+  <wsdl:message name="ExisteEmail1SoapIn">
+    <wsdl:part name="parameters" element="tns:ExisteEmail1" />
+  </wsdl:message>
+  <wsdl:message name="ExisteEmail1SoapOut">
+    <wsdl:part name="parameters" element="tns:ExisteEmail1Response" />
+  </wsdl:message>
+  <wsdl:message name="ValidaSoapIn">
+    <wsdl:part name="parameters" element="tns:Valida" />
+  </wsdl:message>
+  <wsdl:message name="ValidaSoapOut">
+    <wsdl:part name="parameters" element="tns:ValidaResponse" />
+  </wsdl:message>
+  <wsdl:message name="Valida2SoapIn">
+    <wsdl:part name="parameters" element="tns:Valida2" />
+  </wsdl:message>
+  <wsdl:message name="Valida2SoapOut">
+    <wsdl:part name="parameters" element="tns:Valida2Response" />
+  </wsdl:message>
+  <wsdl:message name="ValidaIPPaisSoapIn">
+    <wsdl:part name="parameters" element="tns:ValidaIPPais" />
+  </wsdl:message>
+  <wsdl:message name="ValidaIPPaisSoapOut">
+    <wsdl:part name="parameters" element="tns:ValidaIPPaisResponse" />
+  </wsdl:message>
+  <wsdl:message name="GrabaHistorialSoapIn">
+    <wsdl:part name="parameters" element="tns:GrabaHistorial" />
+  </wsdl:message>
+  <wsdl:message name="GrabaHistorialSoapOut">
+    <wsdl:part name="parameters" element="tns:GrabaHistorialResponse" />
+  </wsdl:message>
+  <wsdl:message name="GrabaHistorial2SoapIn">
+    <wsdl:part name="parameters" element="tns:GrabaHistorial2" />
+  </wsdl:message>
+  <wsdl:message name="GrabaHistorial2SoapOut">
+    <wsdl:part name="parameters" element="tns:GrabaHistorial2Response" />
+  </wsdl:message>
+  <wsdl:message name="GrabaHistorial3SoapIn">
+    <wsdl:part name="parameters" element="tns:GrabaHistorial3" />
+  </wsdl:message>
+  <wsdl:message name="GrabaHistorial3SoapOut">
+    <wsdl:part name="parameters" element="tns:GrabaHistorial3Response" />
+  </wsdl:message>
+  <wsdl:message name="ValidaSeguridadSoapIn">
+    <wsdl:part name="parameters" element="tns:ValidaSeguridad" />
+  </wsdl:message>
+  <wsdl:message name="ValidaSeguridadSoapOut">
+    <wsdl:part name="parameters" element="tns:ValidaSeguridadResponse" />
+  </wsdl:message>
+  <wsdl:message name="GrabaLogSoapIn">
+    <wsdl:part name="parameters" element="tns:GrabaLog" />
+  </wsdl:message>
+  <wsdl:message name="GrabaLogSoapOut">
+    <wsdl:part name="parameters" element="tns:GrabaLogResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscaUbicacionIPSoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaUbicacionIP" />
+  </wsdl:message>
+  <wsdl:message name="BuscaUbicacionIPSoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaUbicacionIPResponse" />
+  </wsdl:message>
+  <wsdl:message name="BuscaUbicacionIP2SoapIn">
+    <wsdl:part name="parameters" element="tns:BuscaUbicacionIP2" />
+  </wsdl:message>
+  <wsdl:message name="BuscaUbicacionIP2SoapOut">
+    <wsdl:part name="parameters" element="tns:BuscaUbicacionIP2Response" />
+  </wsdl:message>
+  <wsdl:message name="SaveSoapIn">
+    <wsdl:part name="parameters" element="tns:Save" />
+  </wsdl:message>
+  <wsdl:message name="SaveSoapOut">
+    <wsdl:part name="parameters" element="tns:SaveResponse" />
+  </wsdl:message>
+  <wsdl:message name="Save3SoapIn">
+    <wsdl:part name="parameters" element="tns:Save3" />
+  </wsdl:message>
+  <wsdl:message name="Save3SoapOut">
+    <wsdl:part name="parameters" element="tns:Save3Response" />
+  </wsdl:message>
+  <wsdl:message name="ObtieneVariablesSoapIn">
+    <wsdl:part name="parameters" element="tns:ObtieneVariables" />
+  </wsdl:message>
+  <wsdl:message name="ObtieneVariablesSoapOut">
+    <wsdl:part name="parameters" element="tns:ObtieneVariablesResponse" />
+  </wsdl:message>
+  <wsdl:portType name="SeguridadSoap">
+    <wsdl:operation name="ExisteCodUsuario">
+      <wsdl:input message="tns:ExisteCodUsuarioSoapIn" />
+      <wsdl:output message="tns:ExisteCodUsuarioSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ExisteEmail1">
+      <wsdl:input message="tns:ExisteEmail1SoapIn" />
+      <wsdl:output message="tns:ExisteEmail1SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Valida">
+      <wsdl:input message="tns:ValidaSoapIn" />
+      <wsdl:output message="tns:ValidaSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Valida2">
+      <wsdl:input message="tns:Valida2SoapIn" />
+      <wsdl:output message="tns:Valida2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidaIPPais">
+      <wsdl:input message="tns:ValidaIPPaisSoapIn" />
+      <wsdl:output message="tns:ValidaIPPaisSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GrabaHistorial">
+      <wsdl:input message="tns:GrabaHistorialSoapIn" />
+      <wsdl:output message="tns:GrabaHistorialSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GrabaHistorial2">
+      <wsdl:input message="tns:GrabaHistorial2SoapIn" />
+      <wsdl:output message="tns:GrabaHistorial2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GrabaHistorial3">
+      <wsdl:input message="tns:GrabaHistorial3SoapIn" />
+      <wsdl:output message="tns:GrabaHistorial3SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ValidaSeguridad">
+      <wsdl:input message="tns:ValidaSeguridadSoapIn" />
+      <wsdl:output message="tns:ValidaSeguridadSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="GrabaLog">
+      <wsdl:input message="tns:GrabaLogSoapIn" />
+      <wsdl:output message="tns:GrabaLogSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaUbicacionIP">
+      <wsdl:input message="tns:BuscaUbicacionIPSoapIn" />
+      <wsdl:output message="tns:BuscaUbicacionIPSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="BuscaUbicacionIP2">
+      <wsdl:input message="tns:BuscaUbicacionIP2SoapIn" />
+      <wsdl:output message="tns:BuscaUbicacionIP2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Save">
+      <wsdl:input message="tns:SaveSoapIn" />
+      <wsdl:output message="tns:SaveSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="Save3">
+      <wsdl:input message="tns:Save3SoapIn" />
+      <wsdl:output message="tns:Save3SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneVariables">
+      <wsdl:input message="tns:ObtieneVariablesSoapIn" />
+      <wsdl:output message="tns:ObtieneVariablesSoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="SeguridadSoap" type="tns:SeguridadSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ExisteCodUsuario">
+      <soap:operation soapAction="http://tempuri.org/ExisteCodUsuario" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExisteEmail1">
+      <soap:operation soapAction="http://tempuri.org/ExisteEmail1" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Valida">
+      <soap:operation soapAction="http://tempuri.org/Valida" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Valida2">
+      <soap:operation soapAction="http://tempuri.org/Valida2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidaIPPais">
+      <soap:operation soapAction="http://tempuri.org/ValidaIPPais" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GrabaHistorial">
+      <soap:operation soapAction="http://tempuri.org/GrabaHistorial" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GrabaHistorial2">
+      <soap:operation soapAction="http://tempuri.org/GrabaHistorial2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GrabaHistorial3">
+      <soap:operation soapAction="http://tempuri.org/GrabaHistorial3" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidaSeguridad">
+      <soap:operation soapAction="http://tempuri.org/ValidaSeguridad" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GrabaLog">
+      <soap:operation soapAction="http://tempuri.org/GrabaLog" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaUbicacionIP">
+      <soap:operation soapAction="http://tempuri.org/BuscaUbicacionIP" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaUbicacionIP2">
+      <soap:operation soapAction="http://tempuri.org/BuscaUbicacionIP2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save">
+      <soap:operation soapAction="http://tempuri.org/Save" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save3">
+      <soap:operation soapAction="http://tempuri.org/Save3" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneVariables">
+      <soap:operation soapAction="http://tempuri.org/ObtieneVariables" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="SeguridadSoap12" type="tns:SeguridadSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="ExisteCodUsuario">
+      <soap12:operation soapAction="http://tempuri.org/ExisteCodUsuario" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ExisteEmail1">
+      <soap12:operation soapAction="http://tempuri.org/ExisteEmail1" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Valida">
+      <soap12:operation soapAction="http://tempuri.org/Valida" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Valida2">
+      <soap12:operation soapAction="http://tempuri.org/Valida2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidaIPPais">
+      <soap12:operation soapAction="http://tempuri.org/ValidaIPPais" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GrabaHistorial">
+      <soap12:operation soapAction="http://tempuri.org/GrabaHistorial" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GrabaHistorial2">
+      <soap12:operation soapAction="http://tempuri.org/GrabaHistorial2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GrabaHistorial3">
+      <soap12:operation soapAction="http://tempuri.org/GrabaHistorial3" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ValidaSeguridad">
+      <soap12:operation soapAction="http://tempuri.org/ValidaSeguridad" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="GrabaLog">
+      <soap12:operation soapAction="http://tempuri.org/GrabaLog" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaUbicacionIP">
+      <soap12:operation soapAction="http://tempuri.org/BuscaUbicacionIP" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="BuscaUbicacionIP2">
+      <soap12:operation soapAction="http://tempuri.org/BuscaUbicacionIP2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save">
+      <soap12:operation soapAction="http://tempuri.org/Save" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="Save3">
+      <soap12:operation soapAction="http://tempuri.org/Save3" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ObtieneVariables">
+      <soap12:operation soapAction="http://tempuri.org/ObtieneVariables" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="Seguridad">
+    <wsdl:port name="SeguridadSoap" binding="tns:SeguridadSoap">
+      <soap:address location="http://admin.veritrade.info/VeritradeAdmin/Seguridad.asmx" />
+    </wsdl:port>
+    <wsdl:port name="SeguridadSoap12" binding="tns:SeguridadSoap12">
+      <soap12:address location="http://admin.veritrade.info/VeritradeAdmin/Seguridad.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

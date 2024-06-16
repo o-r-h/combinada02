@@ -1,0 +1,77 @@
+﻿@using Veritrade2017.Helpers
+@model Veritrade2017.Models.CompraPayMe
+@{
+    var enviroment = SettingUtility.GetAlignetEnviroment();
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+}
+
+<form name="f1" id="f1" action="#" method="post" class="alignet-form-vpos2">
+    <!-- PARAMETROS OBLIGATORIOS PARA LA CONEXION A VPOS2 (INCLUIDO WALLET) -->
+    <!-- ID de Adquiriente unico por ambiente. Para ambiente de Integracion = 144 y para ambiente de Produccion = 29 -->
+    @Html.Hidden("acquirerId", Model.AcquirerId)
+    <!-- ID unico por Comercio. Asignado por Alignet -->
+    @Html.Hidden("idCommerce", Model.IdCommerce)
+    <!-- Numero de Operacion unico por cada transaccion -->
+    @Html.Hidden("purchaseOperationNumber", Model.PurchaseOperationNumber)
+    <!-- Monto total de la compra. Tomar en cuenta que no se debe incluir ningun tipo de separador decimal -->
+    @Html.Hidden("purchaseAmount", Model.PurchaseAmount)
+    <!-- Codigo ISO de la moneda. Tiene dos opciones: Soles = 604 | Dolares = 840 -->
+    @Html.Hidden("purchaseCurrencyCode", Model.PurchaseCurrencyCode)
+    <!-- Lenguaje en el que se visualizara la pasarela. SP para Español y EN para ingles -->
+    @*@Html.Hidden("language", Model.Lenguaje)*@
+    @Html.Hidden("language", culture)
+    @Html.Hidden("shippingFirstName", Model.Names)
+    @Html.Hidden("shippingLastName", Model.LastNames)
+    @Html.Hidden("shippingEmail", Model.Mail)
+    @Html.Hidden("shippingAddress", "Address ABC")
+    @Html.Hidden("shippingZIP", "Zip 123")
+    @Html.Hidden("shippingCity", "City ABC")
+    @Html.Hidden("shippingState", "State ABC")
+    @Html.Hidden("shippingCountry", "PE")
+    <!-- Parametro para la Integracion con Wallet. Contiene el valor del parametro codCardHolderCommerce -->
+    @Html.Hidden("userCommerce", Model.CodCardHolderCommerce)
+    <!-- Parametro para la Integracion con Wallet. Contiene el valor del parametro codAsoCardHolderWallet -->
+    @Html.Hidden("userCodePayme", Model.UserCodePayme)
+    <!-- Campo donde se envia la descripcion del producto -->
+    @Html.Hidden("descriptionProducts", "Producto ABC")
+    <!-- Campo donde se especifica el lenguaje de programacion -->
+    @Html.Hidden("programmingLanguage", "C# .NET")
+    @Html.Hidden("purchaseVerification", Model.PurchaseVerification)
+    <!-- Campo donde se especifica el lenguaje de programacion -->
+    @Html.Hidden("reserved1", Model.Reserved1)
+    @Html.Hidden("reserved2", Model.Reserved2)
+    @Html.Hidden("reserved3", Model.Reserved3)
+    @Html.Hidden("reserved4", Model.Reserved4)
+    @Html.Hidden("reserved5", Model.Reserved5)
+    @Html.Hidden("reserved6", Model.Reserved6)
+    @Html.Hidden("reserved7", Model.Reserved7)
+    @Html.Hidden("reserved8", Model.Reserved8)
+    @Html.Hidden("reserved9", Model.Reserved9)
+    @Html.Hidden("reserved10", Model.Reserved10)
+    <!-- Boton para ambiente de Integracion -->
+    <!-- Boton para ambiente de Produccion | Varia de acuerdo al tipo de diseño escogido -->
+    <!-- <tr>
+        <td colspan="2">
+            <input type="button" onclick="javascript: AlignetVPOS2.openModal('','1')" value="Comprar">
+        </td>
+    </tr> -->
+    <!-- <tr>
+        <td colspan="2">
+            <input type="button" onclick="javascript: AlignetVPOS2.openModal('','2')" value="Comprar">
+        </td>
+    </tr> -->
+    <!-- <tr>
+        <td colspan="2">
+            <input type="button" onclick="javascript: AlignetVPOS2.openModal('','3')" value="Comprar">
+        </td>
+    </tr> -->
+    @if (enviroment == "TEST")
+    {
+          <input type="button" class="button-pagar" onclick="javascript: AlignetVPOS2.openModal('https://integracion.alignetsac.com/');" value="Comprar">
+        
+    }
+    else
+    {
+        <input type="button" class="button-pagar" onclick="javascript: AlignetVPOS2.openModal('', '2');" value="Comprar">
+    }
+</form>

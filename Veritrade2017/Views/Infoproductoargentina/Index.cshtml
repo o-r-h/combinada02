@@ -1,0 +1,89 @@
+﻿@using Veritrade2017.Models
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var idiomaMoneda = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+    var uri = "";
+    if (culture == "es")
+    {
+        uri = HttpContext.Current.Request.Url.AbsolutePath.Substring(0, 10);
+    }
+    else
+    {
+        uri = HttpContext.Current.Request.Url.AbsolutePath.Substring(0, 9);
+    }
+    //  var seoConf = ConfiguracionesSeo.GetConfig(culture, uri);
+
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    //   var codPaisIp = Session["IPPaisIngreso"].ToString();
+    //   var fontSize = codPaisIp == "CL" ? "style=font-size:25px" : "";
+}
+
+<div class="container">
+    <div class="row" style="padding-left:20px; padding-left:55px; padding-bottom: 20px">
+        <h4>@ViewBag.TituloInfoProducto  </h4>
+    </div>
+    <div class="row">
+        <div class="col-md-3">
+            <ul style="list-style: none;">
+                @foreach (var item in ViewBag.MiLista0)
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "ProductosporSubcategoria" ,
+                            new { culture = culture, codigoPais = item.CodigoPais, idSubcategoria = item.IdSubcategoria })">
+                            @item.SubCategoria
+                        </a>
+                       
+                    </li>
+                }
+
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <ul style="list-style: none;">
+                @foreach (var item in ViewBag.MiLista1)
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "ProductosporSubcategoria" ,
+         new { culture = culture, codigoPais = item.CodigoPais, idSubcategoria = item.IdSubcategoria })">
+                            @item.SubCategoria
+                        </a>
+
+                    </li>
+                }
+
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <ul style="list-style: none;">
+                @foreach (var item in ViewBag.MiLista2)
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "ProductosporSubcategoria" ,
+         new { culture = culture, codigoPais = item.CodigoPais, idSubcategoria = item.IdSubcategoria })">
+                            @item.SubCategoria
+                        </a>
+
+                    </li>
+                }
+
+            </ul>
+        </div>
+        <div class="col-md-3">
+            <ul style="list-style: none;">
+                @foreach (var item in ViewBag.MiLista3)
+                {
+                    <li>
+                        <a href="@Url.Action("Index", "ProductosporSubcategoria" ,
+         new { culture = culture, codigoPais = item.CodigoPais, idSubcategoria = item.IdSubcategoria })">
+                            @item.SubCategoria
+                        </a>
+
+                    </li>
+                }
+
+            </ul>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,61 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    var objPerfil = (MiPerfil)Model;
+
+    var objFlagsFavoritesAndGroups = objPerfil.MyFavoriteAndGroup;
+}
+<div class="col-xs-12 col-sm-12">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <h3 class="tittle-opcion">
+                @Resources.MiPerfil.SettingUpMyAlerts_Text
+            </h3>
+            <p class="description-opcion" style="margin-bottom: 10px;">
+                @Resources.AdminResources.Description_AlertsFavorites_Text
+            </p>
+
+            <p class="description-opcion" style="margin-bottom: 10px;">
+                @Resources.AdminResources.Description_AlertsFavorites2_Text
+            </p>
+            <p class="description-opcion">
+                @Resources.AdminResources.Description_AlertsFavorites3_Text
+            </p>
+            <div class="col-xs-12 col-sm-12 text-center">
+                @if (objFlagsFavoritesAndGroups.ExistPartida)
+                {
+                <a href="@Url.Action("Index", "AdminMisAlertasFavoritas", new {tipoFavorito = "Producto"})" class="btn boton-opcion" role="button" data-field="Mis Productos">
+                    @Resources.AdminResources.NavBar_Item02
+                </a>
+                }
+                @if ((objFlagsFavoritesAndGroups.ExistImporter || objFlagsFavoritesAndGroups.ExistExporter
+                    || objFlagsFavoritesAndGroups.ExistSupplier || objFlagsFavoritesAndGroups.ExistImporterExp) && (!objFlagsFavoritesAndGroups.ExistRestriccion))
+                {
+                <a href="@Url.Action("Index", "AdminMisAlertasFavoritas", new {tipoFavorito = "Compañia"})" class="btn boton-opcion" role="button" data-field="Mis Compañias">
+
+                    @Resources.AdminResources.NavBar_Item03
+                </a>
+                }
+                @if (objFlagsFavoritesAndGroups.ExistPartida && (objFlagsFavoritesAndGroups.ExistImporter || objFlagsFavoritesAndGroups.ExistExporter
+                    || objFlagsFavoritesAndGroups.ExistSupplier || objFlagsFavoritesAndGroups.ExistImporterExp))
+                {
+                <a href="@Url.Action("Index", "AdminMisAlertasFavoritas", new {tipoFavorito = "ProductoCompañia"})" class="btn boton-opcion" role="button" data-field="Mis Productos - Compañias">
+
+                    @Resources.AdminResources.NavBar_Item04
+                </a>
+                }
+                @if (objFlagsFavoritesAndGroups.ExistPartida && (objFlagsFavoritesAndGroups.ExistImporter || objFlagsFavoritesAndGroups.ExistExporter
+                    || objFlagsFavoritesAndGroups.ExistSupplier || objFlagsFavoritesAndGroups.ExistImporterExp) && objPerfil.CodPaisSelected != "MXD")
+                {
+
+                <a href="@Url.Action("Index", "AdminMisAlertasFavoritas", new {tipoFavorito = "CompañiaProducto"})" class="btn boton-opcion" role="button" data-field="Mis Compañias - Productos">
+
+                    @Resources.AdminResources.NavBar_Item05
+                </a>
+                }
+
+                <a href="@Url.Action("Index","MisBusquedas")" class="btn boton-volver" role="button">@Resources.MiPerfil.Btn_BackHome</a>
+
+            </div>
+        </div>
+    </div>
+</div>

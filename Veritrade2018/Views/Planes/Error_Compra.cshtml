@@ -1,0 +1,35 @@
+﻿@using Veritrade2018.Helpers
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+
+    ViewBag.Title = Resources.Resources.Compra_Text;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+    <link href="@Url.Content("~/Content/Assets/planes.css")" rel="stylesheet" type="text/css" />
+}
+
+<div class="container compra-container">
+    <div class="compra-completada">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <img class="compra-image" src="@Url.Content("~/Content/Images/Tarjetas/compra_error.png")" alt="" />
+            </div>
+            <div class="col-xs-12 col-sm-4 col-sm-offset-4 text-center">
+                <h3>¡error en la <span>Transacción!</span></h3>
+                <br />
+                <div class="clearfix"></div>
+                <br />
+                <p>@ViewData["error_message"]</p>
+            </div>
+        </div>
+        <br /><br />
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                @Html.ActionLink(Resources.Resources.Button_Back, "Index", "Home", new { culture }, new { @class = "btn-back" })
+            </div>
+        </div>
+    </div>
+</div>

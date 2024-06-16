@@ -1,0 +1,650 @@
+﻿.consulta_section {
+    font-family: ProximaNova-Regular;
+    margin: 20px auto;
+    position: relative;
+    width: 100%;
+}
+
+    .consulta_section .consulta_content label.label_content {
+        color: #30a7e5;
+        font-family: ProximaNova-Regular;
+        font-size: 15px;
+        letter-spacing: 0.2pt;
+        padding-top: 4px;
+        text-decoration: none;
+    }
+
+    .consulta_section .label_content {
+        color: #30a7e5;
+        font-family: ProximaNova-Regular;
+        font-size: 15px;
+        letter-spacing: 0.2pt;
+        padding-top: 4px;
+        text-decoration: none;
+    }
+
+    .consulta_section hr {
+        border-top: thin dotted;
+        margin-bottom: 15px;
+        margin-top: 15px;
+    }
+
+    .consulta_section .title h2 {
+        color: #3e4d5c;
+        font-family: ProximaNova-Bold;
+        font-size: 24px;
+        line-height: 26px;
+        margin: 0 auto;
+        padding-bottom: 6px;
+        padding-top: 0;
+        text-decoration: none;
+    }
+
+    .consulta_section .consulta_content {
+        padding: 10px 0;
+    }
+
+        .consulta_section .consulta_content .form-group input[type="radio"] + label {
+            font-family: ProximaNova-Regular;
+            font-size: 14px;
+            font-weight: 600;
+            color: #7a8090;
+            text-align: left;
+            line-height: 24px;
+        }
+
+        .consulta_section .consulta_content .form-group input[type="radio"]:checked + label {
+            font-family: ProximaNova-Regular;
+            font-size: 14px;
+            font-weight: 600;
+            color: #2d3b61;
+            text-align: left;
+            line-height: 24px;
+        }
+
+.consulta_content .form_select {
+    color: #212935;
+    cursor: pointer;
+    font-family: ProximaNova-Light;
+    font-size: 14px;
+    height: 30px;
+    letter-spacing: 0.2pt;
+    line-height: 20px;
+    width: 194px;
+}
+
+.consulta_content .form_textfield {
+    border: thin solid #c1c1c1;
+    color: #212935;
+    font-family: ProximaNova-Light;
+    font-size: 14px;
+    height: 30px;
+    letter-spacing: 0.2pt;
+    line-height: 20px;
+    overflow: hidden;
+    padding-left: 10px;
+    padding-top: 3px;
+    width: 100%;
+}
+
+.consulta_content .form_listbox {
+    border: thin solid #c1c1c1;
+    color: #212935;
+    font-family: ProximaNova-Light;
+    font-size: 11px;
+    letter-spacing: 0.2pt;
+    line-height: 15px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    overflow: hidden;
+    padding-left: 10px;
+    padding-top: 7px;
+    width: 100%;
+}
+
+.consulta_content .form_button {
+    background-color: #30a7e5;
+    border: thin solid #598497;
+    color: #FFFFFF;
+    font-family: ProximaNova-Light;
+    font-size: 14px;
+    height: 30px;
+    letter-spacing: 0.2pt;
+    line-height: 20px;
+    padding-top: 3px;
+    white-space: nowrap;
+    width: 190px;
+}
+
+    .consulta_content .form_button:hover {
+        background-color: #5594B3;
+        border: thin solid #598497;
+        cursor: pointer;
+    }
+
+.consulta_content .botonConsulta {
+    background-color: #7dd614;
+    border: thin solid #64b710;
+    color: #FFFFFF;
+    font-family: ProximaNova-Light;
+    font-size: 14px;
+    height: 30px;
+    letter-spacing: 0.2pt;
+    line-height: 20px;
+    padding-top: 3px;
+    white-space: nowrap;
+}
+
+    .consulta_content .botonConsulta:hover {
+        background-color: #69B011;
+        border: thin solid #559C0E;
+        cursor: pointer;
+    }
+
+
+.consulta_content .botonAction {
+    background-color: #30a7e5;
+    border: thin solid #598497;
+    color: #FFFFFF;
+    font-family: ProximaNova-Light;
+    font-size: 14px;
+    height: 30px;
+    letter-spacing: 0.2pt;
+    line-height: 20px;
+    padding-top: 3px;
+    white-space: nowrap;
+}
+
+    .consulta_content .botonAction:hover {
+        background-color: #5594B3;
+        border: thin solid #598497;
+        cursor: pointer;
+    }
+
+
+.dxeRadioButtonList_MetropolisBlue {
+    border: none;
+    height: 26px;
+}
+
+    .dxeRadioButtonList_MetropolisBlue .dxichTextCellSys > label {
+        color: #212935;
+        font-family: ProximaNova-Light;
+        font-size: 14px;
+        letter-spacing: 0.2pt;
+        line-height: 20px;
+        padding-top: 4px;
+    }
+
+.dxeButtonEdit_MetropolisBlue {
+    color: #212935;
+    cursor: pointer;
+    font-family: ProximaNova-Light;
+    font-size: 14px;
+    height: 26px;
+    letter-spacing: 0.2pt;
+    line-height: 20px;
+}
+
+.dxeTextBox_MetropolisBlue {
+    color: #212935;
+    cursor: pointer;
+    font-family: ProximaNova-Light;
+    font-size: 14px;
+    height: 26px;
+    letter-spacing: 0.2pt;
+    line-height: 20px;
+}
+
+.dxeEditArea_MetropolisBlue.dxeEditAreaSys {
+    border-bottom-style: none;
+    border-left-style: none;
+    border-right-style: none;
+    border-top-style: none;
+    color: #212935;
+    cursor: pointer;
+    font-family: ProximaNova-Light;
+    font-size: 14px;
+    height: 26px;
+    letter-spacing: 0.2pt;
+    line-height: 20px;
+}
+
+#submitConsulta {
+    text-transform: uppercase;
+}
+
+
+/*------------------------
+    Filtros de demo
+------------------------*/
+
+/*Filtros form demo*/
+.consulta_section .consulta_content .formFilterDemo label {
+    font-family: 'ProximaNova-Regular';
+    font-size: 12px;
+    font-weight: 600;
+    color: #2d3b61;
+    text-align: left;
+}
+
+    .consulta_section .consulta_content .formFilterDemo label.label_content {
+        color: #54ace6;
+        font-family: 'ProximaNova-Regular';
+        font-size: 12px !important;
+        font-weight: 600;
+    }
+
+.consulta_section .consulta_content .formFilterDemo .select-formFieldFilterDemo {
+    background-color: #ffffff;
+    font-family: 'ProximaNova-Regular';
+    font-size: 12px;
+    font-weight: 600;
+    color: #7a8090;
+    width:200px;
+    display:inline-block;
+    margin-left:3px;
+}
+
+.consulta_section .consulta_content .formFilterDemo .selectMultiple-formfieldFilterDemo {
+    font-family: 'ProximaNova-Regular';
+    font-size: 12px;
+    font-weight: 600;
+    color: #7a8090;
+}
+
+.consulta_section .consulta_content .formFilterDemo .radiosFilter input[type="radio"] {
+    margin-top: 1px !important;
+}
+
+.consulta_section .consulta_content .formFilterDemo .radiosFilter select#cboPais,
+.consulta_section .consulta_content .formFilterDemo .radiosFilter select#cboPais2 {
+    display: inline !important;
+    width: auto !important;
+}
+
+.consulta_section .consulta_content .formFilterDemo .textfield_filter {
+    background-color: #ffffff;
+    border: 1px solid #e7e7e7;
+    height: 32px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #7a8090;
+    text-align: left;
+    line-height: 35px;
+    padding: 0 10px;
+}
+
+    .consulta_section .consulta_content .formFilterDemo .textfield_filter:focus {
+        border-color: #66afe9 !important;
+        outline: 0 !important;
+    }
+
+.demo-mensaje-tiempo-prueba{
+    margin-left:10px;
+    float: left;
+}
+
+.filtro-periodo {
+    float: left  !important;
+    margin-right:8px !important;
+}
+
+.filtro-periodo input {
+    pointer-events: none;
+}
+
+.filtro-periodo .input-group-addon {
+    padding: 6px 12px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.filtro-periodo .input-group-addon:last-child {
+    border-left: 0;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+ .filtro-periodo .input-group-addon .glyphicon-calendar {
+        content: url(/Content/Images/filter-calendar.png);
+    }
+.filtro-periodo .input-group-addon .glyphicon-calendar:before {
+    content: url(/Content/Images/filter-calendar.png);
+}
+
+.labelToRangoFechas {
+    margin-top: 5px !important;
+}
+
+/*Tabs-Demo*/
+.ui-widget-header {
+    border: 1px solid #4c99c3;
+    background: #fff;
+    border-radius: 0;
+}
+
+    .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+        border: 1px solid #4c99c3;
+        background: #F5FAFC;
+        font-weight: normal;
+        color: #026faa;
+    }
+
+        .ui-state-default a, .ui-state-default a:link, .ui-state-default a:visited {
+            color: #026faa;
+            text-decoration: none;
+        }
+
+    .ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+        border: 1px solid #4C99C3;
+        background: #54b6e8;
+        font-weight: normal;
+        color: #fff;
+    }
+
+        .ui-state-active a, .ui-state-active a:link, .ui-state-active a:visited {
+            color: #fff;
+            text-decoration: none;
+        }
+
+.ui-tabs .ui-tabs-nav li {
+    font-size: 12px;
+    font-family: ProximaNova-Regular;
+}
+
+/*DataTables*/
+.dataTables_wrapper {
+    padding: 1px;
+    border-radius: 50%;
+}
+
+table.dataTable {
+    font-family: 'ProximaNova-Light';
+    font-size: 10px;
+    border-collapse: collapse;
+    border-radius: 50%;
+}
+
+    table.dataTable.compact thead th, table.dataTable.compact thead td {
+        padding: 4px 4px 4px 4px;
+    }
+
+table.datatable-page-demo thead tr th{
+    border: 1px solid #4C9AC3 !important;
+}
+
+table.datatable-page-demo tbody tr td {
+    border-left: 1px solid #4C9AC3 !important;
+    border-right: 1px solid #4C9AC3 !important;
+}
+
+table.datatable-page-demo tfoot tr th {
+    border-left: 1px solid #4C9AC3 !important;
+    border-right: 1px solid #4C9AC3 !important;
+}
+
+table.datatable-page-demo thead th {
+    background-color: #54b6e8 !important;
+    color: #FFFFFF !important;
+    font-weight: bold !important;
+    padding: 10px 4px !important;
+    padding-bottom: 7px !important;
+}
+
+    table.datatable-page-demo thead th.underlineHeadDataTable {
+        text-decoration: underline !important;
+    }
+
+table.datatable-page-demo thead select.filter-select-datatable {
+    font-family: 'ProximaNova-Light';
+    font-size: 10px;
+    font-weight: 400;
+    color: #362b36;
+    padding: 1px !important;
+    height: 16px !important;
+}
+
+
+table.datatable-page-demo tbody td {
+    border-bottom: 1px solid #4C9AC3 !important;
+}
+
+    table.datatable-page-demo tbody td.columnUnderline {
+        text-decoration: underline;
+        color: #337ab7;
+        text-align: right;
+        cursor: pointer;
+    }
+
+table.datatable-page-demo tfoot th {
+    border-top: none !important;
+    border-bottom: 1px solid #4C9AC3 !important;
+    text-align: right !important;
+    padding: 8px 4px !important;
+    background-color: #54b6e8 !important;
+    color: #FFFFFF !important;
+    font-weight: bold !important;
+}
+
+
+
+
+/*Estilos para paginación de tablas*/
+.dataTables_wrapper .dataTables_paginate {
+    width: 100%;
+    border-left: 1px solid #4C9AC3;
+    border-bottom: 1px solid #4C9AC3;
+    border-right: 1px solid #4C9AC3;
+    text-align: center !important;
+}
+
+    .dataTables_wrapper .dataTables_paginate a {
+        font-size: 9px;
+        font-family: Verdana, Geneva, sans-serif;
+    }
+
+    .dataTables_wrapper .dataTables_paginate .paginate_button,
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover,
+    .dataTables_wrapper .dataTables_paginate .paginate_button:active {
+        border: none !important;
+        background: none !important;
+        text-decoration: underline !important;
+        color: #3A85AD !important;
+        margin-left: 1px;
+        padding: 1px;
+        cursor: pointer;
+    }
+
+        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+            text-decoration: none !important;
+            color: #555555;
+            cursor: default;
+        }
+
+/*--- Fin de estilos de paginación de tablas*/
+
+.section-btn-tabs {
+    width: 100%;
+    position: relative;
+    display: inline-block;
+    margin: 24px auto;
+    text-align: right;
+}
+
+    .section-btn-tabs .btn {
+        background-color: #54b6e8;
+        border: thin solid #598497;
+        font-size: 14px;
+        font-family: ProximaNova-Light;
+        color: #FFFFFF;
+        border-radius: 0;
+        letter-spacing: 0.2pt;
+        line-height: 20px;
+        padding: 3px 16px 3px 16px;
+    }
+
+        .section-btn-tabs .btn:hover {
+            background-color: #598497;
+        }
+
+.divTabMessageExcel {
+    font-family: ProximaNova-Regular;
+    font-size: 15px;
+    color: #787671;
+    margin-top: 20px;
+    margin-bottom: 5px;
+}
+
+span.spanTabMessageExcel {
+    font-family: ProximaNova-Regular;
+    font-size: 15px;
+    color: #30a7e5;
+    letter-spacing: 0.2pt;
+    padding-top: 4px;
+    text-decoration: none;
+}
+
+.hideRegisterFound {
+    display: none !important;
+}
+
+.showRegisterFound {
+    display: block !important;
+}
+
+.columnImporterTag, .columExporterExpTag, a.downloadExcel {
+    cursor: pointer;
+}
+
+#table-tabDetalleExcelImports input#txtDesComercialBB,
+#table-tabDetalleExcelExports input#txtDesComercialBB {
+    color: #555555;
+    font-family: Lucida Grande,Lucida Sans,Arial,sans-serif;
+}
+
+table#table-tabDetalleExcelImports a#lnkSearchDetalleByFilter,
+table#table-tabDetalleExcelImports a#lnkLoadDettalle,
+table#table-tabDetalleExcelExports a#lnkSearchDetalleByFilter,
+table#table-tabDetalleExcelExports a#lnkLoadDettalle {
+    cursor: pointer;
+}
+
+table#table-tabDetalleExcelImports,
+table#table-tabDetalleExcelExports {
+    border-bottom: none;
+}
+
+#divRegisterFound {
+    font-family: ProximaNova-Regular;
+    font-size: 15px;
+    color: #787671;
+}
+
+.btn-filtro, .btn-filtro:hover {
+    position: relative;
+    display: inline-block;
+    min-width: 100px;
+    background-color: #f5c223;
+    font-family: 'ProximaNova-Regular';
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffffff !important;
+    border: 0;
+    border-radius: 0;
+    padding: 8px 24px;
+}
+
+.btn-buscar, .btn-buscar:hover {
+    position: relative;
+    display: inline-block;
+    min-width: 100px;
+    margin-right: 8px;
+    background-color: #7ad800;
+    font-family: 'ProximaNova-Regular';
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffffff !important;
+    border: 0;
+    border-radius: 0;
+    padding: 8px 24px;
+}
+
+.btn-reset, .btn-reset:hover {
+    position: relative;
+    display: inline-block;
+    min-width: 100px;
+    background-color: #54b6e8;
+    font-family: 'ProximaNova-Regular';
+    font-size: 12px;
+    font-weight: 600;
+    color: #ffffff !important;
+    border: 0;
+    border-radius: 0;
+    padding: 8px 24px;
+}
+
+.select-formfield {
+    color: #7a8090;
+    background-color: #ffffff;
+    border: 1px solid #e7e7e7;
+    border-radius: 0;
+    font-weight: 600;
+    background-image: url(/Content/Images/Busqueda/arrow_down.png);
+    background-position: center right;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    padding-right: 24px;
+}
+
+    .select-formfield::-ms-expand {
+        display: none;
+    }
+
+.txt-formfield {
+    height: 32px;
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #e7e7e7;
+    font-family: 'ProximaNova-Regular';
+    font-size: 12px;
+    font-weight: 600;
+    color: #7a8090;
+    text-align: left;
+    line-height: 35px;
+    margin-right: 15px;
+    min-height: 32px;
+}
+
+.ui-helper-hidden-accessible {
+    display: none !important;
+}
+
+.form-horizontal .checkbox, .form-horizontal .checkbox-inline, .form-horizontal .radio, .form-horizontal .radio-inline {
+    padding-top: 0px;
+}
+
+
+@media screen and (max-width: 767px) {
+    .labelFromRangoFechas,
+    .labelToRangoFechas {
+        display: block;
+    }
+
+    .selecFrom,
+    .selectTo {
+        width:100% !important;
+        margin-bottom:10px;
+    }
+
+    
+}

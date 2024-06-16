@@ -1,0 +1,126 @@
+﻿<?xml version='1.0' encoding='utf-8'?>
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="Veritrade2017.Properties" GeneratedClassName="Settings">
+  <Profiles />
+  <Settings>
+    <Setting Name="Veritrade_VeritradeAdmin_Seguridad" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://business.veritrade.info/VeritradeAdmin/Seguridad.asmx</Value>
+    </Setting>
+    <Setting Name="IP_Veritrade" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">200.48.77.66</Value>
+    </Setting>
+    <Setting Name="Veritrade_VeritradeServicios_ServiciosCorreo" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://25.80.119.250/VeritradeServicios/ServiciosCorreo.asmx</Value>
+    </Setting>
+    <Setting Name="Veritrade2017_VeritradeAdmin_Seguridad" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://admin.veritrade.info/VeritradeAdmin/Seguridad.asmx</Value>
+    </Setting>
+    <Setting Name="Veritrade2017_VeritradeServicios_ServiciosCorreo" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://admin.veritrade.info/VeritradeServicios/ServiciosCorreo.asmx</Value>
+    </Setting>
+    <Setting Name="AlignetEnviroment" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">TEST</Value>
+    </Setting>
+    <Setting Name="AlignetPassWallet" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">WcwczkSKmYcVeaLGE.3685326925</Value>
+    </Setting>
+    <Setting Name="AlignetPassPasarela" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">rGzPfdCEsCYrhJV?63924887</Value>
+    </Setting>
+    <Setting Name="AlignetMoneda" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">840</Value>
+    </Setting>
+    <Setting Name="StripeApiKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">sk_test_jfZQtCF9eWLteSwr1GVyixuV</Value>
+    </Setting>
+    <Setting Name="StripeWebKey" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">pk_test_CNbnrkIqWPUsj9sftr1yVMnj</Value>
+    </Setting>
+    <Setting Name="Campania_Expired" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">45</Value>
+    </Setting>
+    <Setting Name="Credencial_User" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">admin</Value>
+    </Setting>
+    <Setting Name="Credencial_Pass" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">vrtadmin2050</Value>
+    </Setting>
+    <Setting Name="Veritrade_SentinelPeru_SentinelWS02" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">http://www2.sentinelperu.com/ws/asentinelws02.aspx</Value>
+    </Setting>
+    <Setting Name="CodTransbankIntegracion" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">597020000540</Value>
+    </Setting>
+    <Setting Name="PublicCertPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">c:\cert\serverTBK.crt</Value>
+    </Setting>
+    <Setting Name="HabilitarTrackingMixPanel" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">true</Value>
+    </Setting>
+    <Setting Name="TokenDevMixPanel" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">d4d77c98cb662bd7ce78365526c77885</Value>
+    </Setting>
+    <Setting Name="UrlMixPanel" Type="(Web Service URL)" Scope="Application">
+      <Value Profile="(Default)">https://api.mixpanel.com/engage/</Value>
+    </Setting>
+    <Setting Name="TokenProdMixPanel" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">24afa81fa167622c3b101ea05504ec68</Value>
+    </Setting>
+    <Setting Name="UrlProdHostWeb" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">https://www.veritradecorp.com</Value>
+    </Setting>
+    <Setting Name="IP_Debug" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">200.111.233.190</Value>
+    </Setting>
+    <Setting Name="CodTransbankProduccion" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">35018859</Value>
+    </Setting>
+    <Setting Name="PrivateCertPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:/cert/597035018859.key</Value>
+    </Setting>
+    <Setting Name="PrivateCertPass" Type="System.String" Scope="Application">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="WebpayCertPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">c:\cert\serverTBK.crt</Value>
+    </Setting>
+    <Setting Name="FrontEnd" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://localhost:52530/</Value>
+    </Setting>
+    <Setting Name="UrlWeb" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://localhost:63393/</Value>
+    </Setting>
+    <Setting Name="UrlAdmin" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://localhost:52530/</Value>
+    </Setting>
+    <Setting Name="UrlAdminOld" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">http://localhost:52530/</Value>
+    </Setting>
+    <Setting Name="transbankHabilitado" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">true</Value>
+    </Setting>
+    <Setting Name="Jwt_Secret_Key" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">clave-secreta-api</Value>
+    </Setting>
+    <Setting Name="Jwt_Expire_Days" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">7</Value>
+    </Setting>
+    <Setting Name="AlignetIdCommerce" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">7751</Value>
+    </Setting>
+    <Setting Name="AlignetIdWallet" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">501</Value>
+    </Setting>
+    <Setting Name="AlignetIdAdquiriente" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">29</Value>
+    </Setting>
+    <Setting Name="AlignetCodPedido" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">322</Value>
+    </Setting>
+    <Setting Name="TransbankCertPath" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">C:/Path/to/private/Cert.pfx</Value>
+    </Setting>
+    <Setting Name="TransbankCertPass" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">PfxPassword</Value>
+    </Setting>
+  </Settings>
+</SettingsFile>

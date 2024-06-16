@@ -1,0 +1,193 @@
+﻿@using Veritrade2018.Models.Admin
+
+@{
+    ViewBag.Title = "Administrador Favoritos";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    AdminMyFavorite objAdminMyFavorite = (AdminMyFavorite)ViewData["objAdminMyFavorite"];
+}
+<style>
+    .hidden-xs {
+        display: block !important;
+    }
+
+    #cboGruposF {
+        height: 27px !important;
+    }
+
+</style>
+
+<div id="loadingPageAdmin" class="loader is-active-loading">
+    <div class="objectLoading"></div>
+</div>
+
+<div class="padding-height-sm">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <p class="tittle-info">
+                <label id="descQuantityFavorites">
+                    @objAdminMyFavorite.DescripcionCantidad
+                </label>
+                <a class="downloadExcel"><img src="/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" /></a>
+            </p>
+        </div>
+
+        @Html.Partial("Partials/Options_FavoritesTable", objAdminMyFavorite.OptionFavoriteTable)
+
+        <div class="col-xs-12 col-sm-12">
+            @Html.Partial("GridViews/TableView", objAdminMyFavorite)
+        </div>
+
+        @Html.Partial("Partials/Options_FavoritesTable", objAdminMyFavorite.OptionFavoriteTable)
+    </div>
+</div>
+
+<!-- Inicio Modal AddToGroup-->
+@Html.Partial("~/Views/Shared/Admin/Modal_AddToGroup.cshtml", objAdminMyFavorite)
+<!-- Fin Modal AddToGroup -->
+
+<!--Inicio Modal Ventana Sesión-->
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaSesion.cshtml")
+<!--Fin-->
+
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaContactenos.cshtml")
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaMensaje.cshtml")
+
+
+@section Scripts{
+    <script src="@Url.Content("~/Scripts/Plugins/jquery.twbsPagination.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Admin/admin.js?2")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Admin/AdminMyFavorites/AdminMyFavorites.js")" defer type="text/javascript"></script>
+
+    <script type="text/javascript">
+
+        //Lógica de sessión
+        var t;
+        var timeout = 15 * 60 * 1000;
+
+        function SessionExpiredAlert() {
+            t = setTimeout(function () {
+                $('#ModalVentanaSesion').modal({
+                    show: true,
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }, timeout);
+        };
+
+        function InIEventSession() {
+            clearTimeout(t);
+            SessionExpiredAlert();
+        };
+        //
+
+        $(document).ready(function () {
+
+            var urlPagingTableFavorites = '@Url.Action("PageIndexChanging", "AdminMisFavoritos")';
+
+            if ('@objAdminMyFavorite.TotalPaginas' > 0) {
+                
+                TableAdminMyFavorites.RegisterPaging(urlPagingTableFavorites,
+                    '@objAdminMyFavorite.TotalPaginas',
+                    '@objAdminMyFavorite.CountVisiblePages');
+            }
+
+            $("#lnkSearchByCompany, #lnkResetByCompany").click(function() {
+                var vTxtEmpresaF = $("#txtEmpresaF").val();
+
+                if (this == $("#lnkSearchByCompany")[0] && vTxtEmpresaF == "")
+                    return;
+
+                if (this == $("#lnkResetByCompany")[0]) {
+                    vTxtEmpresaF  = "";
+                    $("#txtEmpresaF").val("");
+                }
+
+                TableAdminMyFavorites.SearchOrResetByCompany('@Url.Action("SearchByCompany", "AdminMisFavoritos")',
+                    vTxtEmpresaF,
+                    urlPagingTableFavorites);
+            });
+
+
+            $("#cboGruposF").change(function () {
+                TableAdminMyFavorites.ChangeGruposF("@Url.Action("GruposFavoritosChange", "AdminMisFavoritos")",
+                    $(this).prop('selectedIndex'),
+                    $(this).val(),
+                    $("#cboGruposF option:selected").text(),
+                    urlPagingTableFavorites);
+            });
+
+            $(document).on('click',
+                'button.btnAddToGroup',
+                function () {
+                    OptionAdminMyFavorite.AddToGroup('@Url.Action("AddToGroup", "AdminMisFavoritos")');
+                });
+
+            ModalAdmin.registerShownEventListener('ModalVentanaContactenos');
+            ModalAdmin.registerHiddenEventListener('ModalVentanaContactenos');
+
+            var urlSendMessageContact = '@Url.Action("EnviarMensajeContactenos", "MisBusquedas")';
+            ModalAdmin.ListenerEnviarMensajeContactenos(urlSendMessageContact);
+
+            ModalAdmin.registerShownEventListener('ModalVentanaMensaje');
+            ModalAdmin.registerHiddenEventListener('ModalVentanaMensaje');
+
+            $("#btnUpdateGroup").click(function() {
+                OptionAdminMyFavorite.UpdateGroup('@Url.Action("UpdateGroup", "AdminMisFavoritos")');
+            });
+            $("#btnCancelUpdateGroup").click(function () {
+                ModalAdmin.hide("ModalAddToGroup");
+                OptionAdminMyFavorite.ResetModalAddToGroup();
+            });
+
+            $(document).on('click',
+                'button.btnDeleteSelection',
+                function () {
+                    OptionAdminMyFavorite.DeleteSelection('@Url.Action("DeleteFavorite", "AdminMisFavoritos")',
+                        urlPagingTableFavorites);
+                });
+
+            //Evento para descargar resumen de tablas
+            $(document).on('click', '.downloadExcel', function () {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetExcelFile", "AdminMisFavoritos")',
+                    data: {},
+                    beforeSend: function () {
+                        LoadingAdminPage.showOrHideLoadingPage(true);
+                    },
+                    success: function (response) {
+                        LoadingAdminPage.showOrHideLoadingPage(false);
+                        window.location.href = "@Url.RouteUrl(new { Controller = "AdminMisFavoritos", Action = "DownloadExcelFile" })/?fileName=" + response.fileName;
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            });
+            Size.ValidationChild();
+            LoadingAdminPage.showOrHideLoadingPage(false);
+
+        });
+
+        //Inicialiar y Verificar Sesión activa
+        $(document).ready(function() {
+            InIEventSession();
+            $('#ModalVentanaSesion').on('hidden.bs.modal', function () {
+                window.location.href = '@Url.Action("Index", "Home")';
+            });
+        });
+
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            if (jqxhr.status === 401) {
+                window.location.href = '@Url.Action("Index","Home")';
+            } else {
+                console.log(thrownError);
+            }
+        });
+        $( document ).ajaxComplete(function() {
+            InIEventSession();
+        });
+        //
+    </script>
+}

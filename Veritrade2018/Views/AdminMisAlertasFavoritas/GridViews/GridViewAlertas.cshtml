@@ -1,0 +1,67 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    var lista = (List<SelectListItem>)Model;
+    var listaFavoritos = (List<SelectListItem>)Session["ListaMyFavourites"];
+    var tipoFavorito = Session["tipoFavorito"].ToString();
+    List<string> valor = new List<string>();
+    int cont = 0;
+    foreach (var v in listaFavoritos)
+    {
+        valor.Add(v.Value);
+        cont++;
+    }
+    var count = 1;
+}
+
+@foreach (var list in lista)
+{
+    <tr>
+        <td>
+            @(count++)
+        </td>
+        <td class="valueField" data-field="Nandina">
+            @list.Text
+        </td>
+        <td class="checkField">
+            <div class="text-center">
+                @if (tipoFavorito.Equals("ProductoCompañia") || tipoFavorito.Equals("CompañiaProducto"))
+                {
+                    <img id="@list.Value" src="@Url.Content("~/Content/Images/Admin/pencil.png")" class="icon-detail" alt="" />
+                }
+                <label>
+                    @{
+
+                        if (tipoFavorito.Equals("ProductoCompañia") || tipoFavorito.Equals("CompañiaProducto"))
+                        {
+                            @*string[] valores = list.Value.Split('-');
+                            if (valor.Contains(valores[1]))
+                            {
+                                <input class="c_template_checkbox" type="checkbox" checked value="@list.Value" aria-label="...">
+                            }
+                            else
+                            {
+                                <input class="c_template_checkbox" type="checkbox" value="@list.Value" aria-label="...">
+                            }*@
+                        }
+                        else
+                        {
+                            if (valor.Contains(list.Value))
+                            {
+                                <input class="c_template_checkbox" type="checkbox" checked value="@list.Value" aria-label="...">
+                            }
+                            else
+                            {
+                                <input class="c_template_checkbox" type="checkbox" value="@list.Value" aria-label="...">
+                            }
+                        }
+
+                    }
+                </label>
+            </div>
+        </td>
+
+    </tr>
+}
+
+
+

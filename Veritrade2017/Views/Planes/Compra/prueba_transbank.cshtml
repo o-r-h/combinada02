@@ -1,0 +1,20 @@
+﻿<script type="text/javascript">
+    if (@ViewData["ErrorType"] != 1) {
+        form = $('<form />', {
+            action: '@ViewData["Url"]',
+            method: 'POST',
+            style: 'display: none;'
+        });
+        $('<input />', {
+            type: 'hidden',
+            name: 'token_ws',
+            value: '@ViewData["token"]'
+        }).appendTo(form);
+        $(document.body).append(form);
+        form.submit();
+    } else {
+        alert("ERROR");
+        console.log('@ViewData["ex"]');
+
+    }
+</script>

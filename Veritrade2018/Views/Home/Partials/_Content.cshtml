@@ -1,0 +1,84 @@
+﻿@using Veritrade2018.Models
+@using Veritrade2018.Helpers
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+}
+
+<div class="home_content">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6 col-md-6 col-lg-6">
+                <div class="row null-margin-h">
+                    <h2>@Resources.Resources.Home_Content_Title01</h2>
+                    <div class="col-sm-12 home_content_left">
+                        <div class="col-sm-12">
+                            <div class="owl-carousel" id="imageSlider">
+                                <div>
+                                    <img src="@Url.Content("~/Content/Images/logos_home_01.jpg")" width="490" height="80" alt="" />
+                                </div>
+                                <div>
+                                    <img src="@Url.Content("~/Content/Images/logos_home_02.jpg")" width="490" height="80" alt="" />
+                                </div>
+                                <div>
+                                    <img src="@Url.Content("~/Content/Images/logos_home_03.jpg")" width="490" height="80" alt="" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12" style="text-align: center; margin: 6px auto;">
+                            @Html.ActionLink(Resources.Resources.Home_Service_Button, "", null, new { }, new { href = "#ModalCliente", @class = "home_link", data_toggle = "modal" })
+                        </div>
+                    </div>
+                </div>
+                <div class="row null-margin-h">
+                    <h2>@Resources.Resources.MenuItem06</h2>
+                    <div class="col-sm-12 home_content_right">
+                        @foreach (var post in (List<PostLanguage>)ViewData["post_language"])
+                        {
+                            <div class="col-sm-6 blog_item">
+                                <a href="@Url.Action("Post", "Blog", new {id = post.Id, culture})">
+                                    <img src="@Url.Content("~/Content/Images/Blog/" + post.ImagenPortada)" alt="@post.ImagenPortada" />
+                                </a>
+                                <a href="@Url.Action("Post", "Blog", new {id = post.Id, culture})" class="blog_title">@post.Post.Titulo</a>
+                                <p class="blog_description">
+                                    @if (post.Post.Descripcion.Length > 175)
+                                    {
+                                        @post.Post.Descripcion.Substring(0, 175)
+                                        @:...
+                                    }
+                                    else
+                                    {
+                                        @post.Post.Descripcion
+                                    }
+                                </p>
+                            </div>
+                        }
+                        <div class="col-sm-12" style="text-align: center; margin: 6px auto;">
+                            @Html.ActionLink(Resources.Resources.Home_Service_Button, "Index", "Blog", new { culture }, new { @class = "home_link" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 col-md-6 col-lg-6 null-margin-h">
+                <div class="row null-margin-h">
+                    <h2>@Resources.Resources.Home_Content_Title02</h2>
+                    <div class="col-md-12 list_data_content">
+                        @foreach (var pais in (List<Paises>)ViewData["paises_list"])
+                        {
+                            <div class="list_data_item">
+                                <a href="@Url.Action("Index", "Paises", new {culture, slug = new Paises().GetCod3(pais.CodPais.Substring(0, 2))})" class="home_list_data">
+                                    <img src="@Url.Content("~/Content/Images/" + pais.Bandera)" width="27" height="16" alt="">
+                                    @pais.PaisRegimen
+                                    <span class="pull-right">@pais.FechaFin</span>
+                                </a>
+                            </div>
+                            <hr />
+                        }
+                        <div class="col-md-12" style="text-align: center">
+                            @Html.ActionLink(Resources.Resources.Home_Countries_Button, "", null, new { }, new { href = "#ModalPaises", @class = "home_link", data_toggle = "modal", style = "margin: 6px auto;" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

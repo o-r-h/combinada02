@@ -1,0 +1,183 @@
+﻿@import "admin/_fonts.scss";
+
+body {
+    font-family: ProximaNova-Regular;
+}
+.padding-left-righ-error{
+    padding-left:40px;
+    padding-right:40px;
+}
+
+.cabecera01 {
+    background-color: #212934;
+    padding-top:10px;
+    padding-bottom:10px;    
+    font-size: 11px;
+}
+
+a.lnkContactenosCabecera {
+    margin-top: 5px;
+    color: #5cb3e8;
+    border: thin solid #161c27;
+
+    & :hover {
+        color: #C9E7F8;
+        border: thin solid #161c27;
+        cursor: pointer;
+        background-color: #181F27;
+        text-decoration:none;
+    }
+}
+
+
+.cabecera02 {
+    background-color: #E2EFF5;
+    font-family: ProximaNova-Bold;
+    color: #212934;
+    font-size: 14.5px;
+    padding-top: 10px;
+    padding-bottom: 10px;   
+    margin-bottom: 20px;
+}
+
+.saludo-cliente {
+    font-size: 13.5px;
+    color: #30a7e5;
+    letter-spacing: 0.2pt;
+    padding-top: 4px;
+    margin-bottom:20px;
+}
+
+.mensaje-error {
+    font-family: ProximaNova-Light;
+    font-size: 11px;
+    line-height: 15px;
+    color: #212935;
+    letter-spacing: 0.2pt;
+
+    padding-bottom: 15px;
+    border-bottom: 1px dashed;
+
+    margin-bottom:10px;
+}
+
+.lnkContactenosMensaje {
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+
+    & :hover {
+        color: blue;
+        text-decoration: underline;
+        cursor: pointer;
+    }
+}
+
+
+
+a.btnVeritrade {
+    background-color: #7dd614;
+    border: thin solid #64b710;
+    color: #fff;
+    line-height: 24px;
+    margin-top: 10px;
+    padding: 0 15px;
+    text-transform: uppercase;
+    border-radius:0;
+    font-size:11px;
+}
+a.btnVeritrade:hover {
+    background-color: #69b011;
+    border: thin solid #559c0e;
+    cursor: pointer;
+    color: #ffffff;
+}
+.boton01 {
+    background-color: #69B011;
+    border: thin solid #559C0E;
+    cursor: pointer;
+    height: 31px;
+    font-size: 14px;
+    color: #FFFFFF;
+    letter-spacing: 0.2pt;
+    padding-right: 16px;
+    padding-left: 16px;
+    padding-top: 8px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    PADDING-BOTTOM: 8PX;
+    text-decoration: none !important;
+}
+.boton01:hover {
+    background-color: #69B011;
+    color: #FFFFFF;
+    background-color:#559C0E;
+}
+.title_referido {
+    font-family: ProximaNova-Regular;
+    font-size: 17px;
+    color: #30a7e5;
+    letter-spacing: 0.2pt;
+    padding-top: 4px;
+}
+
+/*Ventana Contactenos*/
+#ModalVentanaContactenos {
+
+    & .modal-dialog {
+        width: 38% !important;
+    }
+
+    & .modal-header {
+        & button.close {
+            opacity: 1 !important;
+            margin-top: 1px !important;
+            margin-right: 1px !important;
+        }
+    }
+
+    & .modal-body {
+        padding-left: 45px;
+        padding-right: 45px;
+        margin-bottom: 30px;
+    }
+
+
+    & .title-ventana-contactenos {
+        font-family: ProximaNova-Bold;
+        font-size: 24px;
+        line-height: 14.5px;
+        color: #3e4d5c;
+        margin-bottom: 20px;
+        padding-top: 17px;
+    }
+
+    & label {
+        color: #787671;
+        font-size: 15px;
+    }
+
+    & textarea {
+        border-radius: 0 !important;
+        color: #a7a8aa;
+        font-size: 15px;
+        resize: none !important;
+    }
+
+    & button#btnEnviarMensaje {
+        border: thin solid #369EE8;
+        color: #5cb3e8;
+        font-family: ProximaNova-Bold;
+        font-size: 15px;
+        border-radius: 0 !important;
+        background: #ffffff;
+
+        &:hover {
+            background-color: #E8E8E6;
+            border: thin solid #2980b9;
+            color: #2980b9;
+            cursor: pointer;
+            border-radius: 0 !important;
+        }
+    }
+}

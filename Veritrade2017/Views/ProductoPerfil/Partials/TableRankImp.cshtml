@@ -1,0 +1,164 @@
+﻿@using PagedList
+@using Veritrade2017.Helpers
+@using Veritrade2017.Models
+
+@{
+    Layout = null;
+    var listaRanking = (IPagedList<ListProductByPaises>)Model;
+    decimal total = 0;
+    var culture = CultureHelper.GetCurrentCulture();
+    var idiomaText = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+    var TipoOpe = Session["Regimen"].ToString();
+    ViewData["CodesCampanias"] = Session["CodsCamp"];
+    var sty = ((Campania.TYPE_CAMPANIA)((int?)Session["TypeCampania"] ?? 0));
+
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    var CodesCampanias = Campania.CodFormateds3((ViewData["CodesCampanias"] as Dictionary<Campania.CONTROL, string>), culture, Request.Browser.IsMobileDevice, sty );
+
+    //var CodesCampanias = ViewData["CodesCampanias"] as Dictionary<Campania.CONTROL, string>;
+
+
+    var values = RouteDataContext.RouteValuesFromUri(Request.UrlReferrer);
+    if (values != null && sty == Campania.TYPE_CAMPANIA.ORGANIC )
+    {
+        if (new[] {"Productos", "ProductoPerfil"}.Contains(values["controller"]))
+        {
+            if (culture != "es")
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_PRODUCTOS_EN];
+            }
+            else
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_PRODUCTOS];
+            }
+
+        }
+
+    }
+}
+@if (listaRanking.Count > 0)
+{
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="tab-detalle">
+                <div class="detalle">
+                    <div class="table-responsive">
+                        <div class="table2">
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="table-title">
+                                        <th class="impair-column">@ProductProfileResources.Countries</th>
+                                        <th class="pair-column" style="width: 90px">
+                                            US$
+                                            <span class="glyphicon" aria-hidden="true">
+                                                <img src="~/Content/Images/Minisite/order_arrows.png" alt="" />
+                                            </span>
+                                        </th>
+                                        <th class="impair-column">%</th>
+                                        <th class="pair-column" style="width: 30px"></th>
+                                    </tr>
+                                </thead>
+
+
+                                <tbody>
+                                    @foreach (var i in listaRanking)
+                                    {
+                                        total = i.ImportsExports + total;
+                                        <tr>
+                                            <td>@i.PaisAduana</td>
+
+                                            <td class="text-center">@string.Format(idiomaText, "{0:N0}", i.ImportsExports)</td>
+
+                                            <td class="text-center">@string.Format(idiomaText, "{0:0.0}", i.Porcentaje)</td>
+                                            <td class="text-center">
+                                                <input type="radio" name="paises" />
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+
+                                <tfoot>
+                                    <tr class="table-title">
+                                        <td class="impair-column">TOTAL</td>
+                                        <td class="pair-column">
+                                            @{
+                                                decimal totalCom = 0;
+                                                for (int i = 0; i < listaRanking.Count; i++)
+                                                {
+                                                    totalCom += listaRanking[i].ImportsExports;
+                                                }
+                                            }
+                                            @string.Format(idiomaText, "{0:N0}", totalCom)
+                                        </td>
+                                        <td class="impair-column">100.0</td>
+                                        <td class="pair-column"></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="box-trial-pieChart" id="BoxPais">
+                            <div class="box box-lg">
+                                <p>
+                                    @if (culture == "es")
+                                    {
+                                        @ProductProfileResources.Box_Trial_01 <a href="@Url.RouteUrl("PruebaGratis", new {culture, campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS]})" onclick="dataLayerProducto();" >@ProductProfileResources.Box_Trial_02.ToLower()</a>
+                                    }
+                                    else
+                                    {
+                                        @ProductProfileResources.Box_Trial_01 <a href="@Url.RouteUrl("PruebaGratisUS", new {culture, campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS]})" onclick="dataLayerProducto();" >@ProductProfileResources.Box_Trial_02.ToLower()</a>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+
+                        @*<div class="text-center">
+                                <nav aria-label="Page navigation">
+                                    <ul class="pagination pagination-sm">
+                                        <li>
+                                            <a href="#" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li><a class="active" href="#">1</a></li>
+                                        <li><a href="#">2</a></li>
+                                        <li><a href="#">3</a></li>
+                                        <li><a href="#">4</a></li>
+                                        <li><a href="#">5</a></li>
+                                        <li>
+                                            <a href="#" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </nav>
+                            </div>*@
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+<script>
+    $(document).ready(function () {
+        var tableRowsPais = $('#tablaRankPais table tbody tr').length;
+        var flag = 0;
+        var newTr = '<tr><td></td> <td>/td><td></td><td><input type="radio" name="paises"></td></tr>';
+        var heightBox = 2;
+        if (tableRowsPais > 0) {
+            heightBox += (6 - tableRowsPais) * 40;
+            if (tableRowsPais > 3) {
+                heightBox = 122;
+            }
+            while (flag < 6 - tableRowsPais) {
+                $('#tablaRankPais table tbody').append(newTr);
+                flag++;
+            }
+            $('#BoxPais').css('height', heightBox);
+        }
+
+        var tableHeight = $('#tablaRankPais .table-responsive table').outerHeight();
+
+        $('#tableComparative .table-responsive table').css('height', tableHeight);
+    });
+</script>

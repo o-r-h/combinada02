@@ -1,0 +1,801 @@
+﻿@using Veritrade2018.Helpers
+@using Veritrade2018.Models.Admin
+@{
+    ViewBag.Title = "Veritrade Business";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+
+    MySearchForm objMySearchForm = (MySearchForm)ViewData["objMySearchForm"];
+    var bOcultarVideo = Convert.ToBoolean(ViewData["OcultarVideo"]);
+    string urlVideo = (string)ViewData["UrlVideo"];
+    string formatFechaPeriodo = "M/d/yyyy HH:mm:ss";
+
+
+}
+
+@section Styles{
+    <link href="@Url.Content("~/Scripts/Plugins/BootstrapDatepicker/css/bootstrap-datepicker.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Scripts/Plugins/BootstrapColorSelector/css/bootstrap-colorselector.css")" rel="stylesheet" type="text/css" />
+    <style>
+        .chart-tittle2 {
+            font-family: ProximaNova-Bold;
+            font-size: 10px;
+            line-height: 13px;
+            color: #212934;
+        }
+
+        .highcharts-title, .highcharts-subtitle {
+            white-space: nowrap !important;
+            text-overflow: ellipsis !important;
+            overflow: hidden !important
+        }
+
+        #cboPais {
+            /*max-width: 190px !important;*/
+        }
+
+        mark {
+            background-color: yellow;
+        }
+
+        #messageDescarga a {
+            font-size: 29px;
+        }
+
+
+        #ModalVentanaDescarga .modal-dialog {
+            width: 26% !important;
+        }
+
+        #ModalVentanaDescarga .modal-header button.close {
+            opacity: 1 !important;
+            margin-top: 1px !important;
+            margin-right: 1px !important;
+        }
+
+        #ModalVentanaDescarga .title-ventana-mensaje {
+            font-family: ProximaNova-Bold;
+            font-size: 14.5px;
+            color: #212934;
+            margin-bottom: 20px;
+        }
+
+        #ModalVentanaDescarga .texto-ventana-mensaje {
+            font-family: ProximaNova-Light;
+            font-size: 11px;
+            line-height: 15px;
+            color: #212935;
+            margin-bottom: 25px;
+        }
+
+            #ModalVentanaDescarga .texto-ventana-mensaje #lnkContactenosDescarga a {
+                text-decoration: underline;
+                color: blue;
+                cursor: pointer;
+            }
+    </style>
+}
+
+<div id="loadingPageAdmin" class="loader is-active-loading">
+    <div class="objectLoading"></div>
+</div>
+
+<div class="padding-height-sm filtersMyProducts">
+    <div class="form-horizontal">
+        @Html.AntiForgeryToken()
+
+        @Html.Partial("~/Views/Shared/Consulta/_FormBusqueda.cshtml", objMySearchForm)
+    </div>
+</div>
+
+<div id="resultados" class="row">
+    <div id="divResultsTitle" class="col-sm-12 no-display">
+        <div class="form-group">
+            <label id="titleResults" class="control-label text-search"></label>
+
+            <select id="cboDescargas" class="form-control filter-selectField-vt cboDescargas"></select>
+
+            <a id="downloadAllExcelFile">
+                <img src="~/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" />
+            </a>
+
+            <button type="button" id="btnVerArancelesPartida" class="btn btn-aranceles hidden" style="margin-left:0.5%;">
+                @Html.Raw(Resources.AdminResources.ViewTariffs_Button)
+            </button>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="row">
+            <div id="periodSummary" class="col-sm-6 padding-height-sm no-display">
+            </div>
+
+            <div id="chartMPValorImp" class="col-sm-6 padding-height-sm no-display">
+
+                <div class="title-container title-with-theme">
+                    <p class="chart-tittle" id="titleValorImp"></p>
+                    <div class="form-group group-select-themes pull-right">
+                        <label class="control-label">
+                            @Resources.AdminResources.ChartThemes_Text:
+                        </label>
+
+                        <select id="themesChartMPValorImp"
+                                class="form-control filter-selectField-vt select-themes"
+                                data-filtro="containerMPValorImp"></select>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 data-content">
+                    <div id="containerMPValorImp" class="chat-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="row">
+
+            <div id="chartMPPricesProm" class="col-sm-6 padding-height-sm no-display">
+
+                <div class="title-container title-with-theme">
+                    <p class="chart-tittle" id="titlePricesProm"></p>
+                    <div class="form-group group-select-themes pull-right">
+                        <label class="control-label">
+                            @Resources.AdminResources.ChartThemes_Text:
+                        </label>
+
+                        <select id="themesChartMPPricesProm"
+                                class="form-control filter-selectField-vt select-themes "
+                                data-filtro="containerMPPricesProm"></select>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 data-content">
+                    <div id="containerMPPricesProm" class="chat-container"></div>
+                </div>
+            </div>
+
+            <div id="chartMPComparative" class="col-sm-6 padding-height-sm no-display">
+                <div class="title-container title-with-theme">
+                    <p class="chart-tittle" id="titleComparative"></p>
+                    <div class="form-group group-select-themes pull-right">
+                        <label class="control-label">
+                            @Resources.AdminResources.ChartThemes_Text:
+                        </label>
+
+                        <select id="themesChartMPComparative"
+                                class="form-control filter-selectField-vt select-themes "
+                                data-filtro="containerMPComparative"></select>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 data-content">
+                    <div id="containerMPComparative" class="chat-container"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-sm-12">
+        <div class="row">
+            <div id="divImporterOrExporter" class="col-sm-6 padding-height-sm no-display">
+
+                <div class="title-container title-with-theme">
+                    <p class="chart-tittle" id="titleImporterOrExporter"></p>
+                    <div class="form-group group-select-themes pull-right">
+                        <label class="control-label">
+                            @Resources.AdminResources.ChartThemes_Text:
+                        </label>
+
+                        <select id="themesChartImporterOrExporter"
+                                class="form-control filter-selectField-vt select-themes themes-piechart"
+                                data-filtro="pieImporterOrExporter"></select>
+
+                        <a title="@Resources.AdminResources.ExportTableToExcel_Text" data-tabla="Importadores" class="downloadExcelTable lnkDownloadExcel">
+                            <img src="~/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" />
+                        </a>
+
+                    </div>
+                </div>
+
+
+                <div class="col-sm-12 data-content">
+                    <div id="pieImporterOrExporter" class="graphic-content"></div>
+
+                    <div class="row">
+                        <div class="col-sm-12" id="tableImporterOrExporter">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="divOriginOrDestinationCountry" class="col-sm-6 padding-height-sm no-display">
+
+
+                <div class="title-container title-with-theme">
+                    <p class="chart-tittle" id="titleOriginOrDestinationCountry"></p>
+                    <div class="form-group group-select-themes pull-right">
+                        <label class="control-label">
+                            @Resources.AdminResources.ChartThemes_Text:
+                        </label>
+
+                        <select id="themesChartOriginOrDestinationCountry"
+                                class="form-control filter-selectField-vt select-themes themes-piechart"
+                                data-filtro="pieOriginOrDestinationCountry"></select>
+
+                        <a title="@Resources.AdminResources.ExportTableToExcel_Text" data-tabla="PaisesOrigen" class="downloadExcelTable lnkDownloadExcel">
+                            <img src="~/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" />
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-12 data-content">
+                    <div id="pieOriginOrDestinationCountry" class="graphic-content"></div>
+
+                    <div class="row">
+                        <div class="col-sm-12" id="tableOriginOrDestinationCountry">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12">
+        <div class="row">
+            <div id="divSupplierOrImporterExp" class="col-sm-6 padding-height-sm no-display">
+
+                <div class="title-container title-with-theme">
+                    <p class="chart-tittle" id="titleSupplierOrImporterExp"></p>
+                    <div class="form-group group-select-themes pull-right">
+                        <label class="control-label">
+                            @Resources.AdminResources.ChartThemes_Text:
+                        </label>
+
+                        <select id="themesChartSupplierOrImporterExp"
+                                class="form-control filter-selectField-vt select-themes themes-piechart"
+                                data-filtro="pieSupplierOrImporterExp"></select>
+
+                        <a title="@Resources.AdminResources.ExportTableToExcel_Text" data-tabla="Proveedores" class="downloadExcelTable lnkDownloadExcel">
+                            <img src="~/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" />
+                        </a>
+                    </div>
+                </div>
+
+
+                <div class="col-sm-12 data-content">
+                    <div id="pieSupplierOrImporterExp" class="graphic-content"></div>
+
+                    <div class="row">
+                        <div class="col-sm-12" id="tableSupplierOrImporterExp">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--Inicio Modal Ventana Sesión-->
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaSesion.cshtml")
+<!--Fin-->
+
+
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaMensaje.cshtml")
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaContactenos.cshtml")
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaVideo.cshtml", urlVideo)
+
+@Html.Partial("Modals/Modal_VerRegistro")
+
+<!--Inicio Modal Ver Descarga -->
+@Html.Partial("Modals/Modal_VentanaDescarga")
+@Html.Partial("Modals/Modal_verInfoColombia")
+<!--Fin-->
+<!--Inicio Modal Ver Aranceles Partida -->
+@Html.Partial("Modals/Modal_VerInfoArancelesPartida")
+<!--Fin-->
+
+@section scripts
+{
+    @Scripts.Render("~/bundles/highcharts")
+    @Scripts.Render("~/bundles/bootstrapDatepicker")
+    <script src="@Url.Content("~/Scripts/Plugins/jquery.twbsPagination.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Plugins/jquery.dotdotdot.js")"></script>
+    <script src="@Url.Content("~/Scripts/moment.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/Admin/admin.js?2")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Admin/GlobalVariables.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Admin/MisProductos/MisProductos.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/MixPanel/MisProductos/MisProductosMP.js?2")" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        //Lógica de sessión
+        var t;
+        var timeout = 150 * 60 * 1000;
+
+        function SessionExpiredAlert() {
+            t = setTimeout(function () {
+                $('#ModalVentanaSesion').modal({
+                    show: true,
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }, timeout);
+        };
+
+        function InIEventSession() {
+            clearTimeout(t);
+            SessionExpiredAlert();
+        };
+        //
+
+        $(document).ready(function () {
+            //Ocultar Modal Descarga
+            $(document).on("click", "#idDescarga", function () {
+                $("#ModalVentanaDescarga").modal('hide');
+            });
+
+            Highcharts.SVGRenderer.prototype.symbols.download = function(x, y, w, h) {
+                var path = [
+                    // Arrow stem
+                    'M', x + w * 0.5, y,
+                    'L', x + w * 0.5, y + h * 0.7,
+                    // Arrow head
+                    'M', x + w * 0.3, y + h * 0.5,
+                    'L', x + w * 0.5, y + h * 0.7,
+                    'L', x + w * 0.7, y + h * 0.5,
+                    // Box
+                    'M', x, y + h * 0.9,
+                    'L', x, y + h,
+                    'L', x + w, y + h,
+                    'L', x + w, y + h * 0.9
+                ];
+                return path;
+            };
+
+            $("input:radio[name=rdbTipoOpe]").change(function() {
+                FiltrosMisProductos.HiddenContainers();
+                FiltrosMisProductos.ClearFields();
+                FiltrosTabMis.changeTipoOpe('@Url.Action("TipoOpeChange", "MisProductos")',
+                    $('input:radio[name=rdbTipoOpe]:checked').val(),
+                    'cboMyFilters'
+                );
+            });
+
+            $("#cboPais2").change(function() {
+                FiltrosMisProductos.HiddenContainers();
+                FiltrosMisProductos.ClearFields();
+                FiltrosTabMis.changePais2('@Url.Action("Pais2Change", "MisProductos")',
+                    $(this).val(),
+                    'cboMyFilters', $("#cboPais2").find("option:selected").text());
+            });
+
+            $("#cboPais").change(function() {
+                FiltrosMisProductos.HiddenContainers();
+                FiltrosMisProductos.ClearFields();
+                FiltrosTabMis.changePais('@Url.Action("PaisChange", "MisProductos")',
+                    $(this).val(),
+                    $("#cboPais option:selected").text(),
+                    'cboMyFilters'
+                );
+            });
+
+            $("#cboMyFilters").change(function() {
+                FiltrosMisProductos.HiddenContainers();
+                FiltrosMisProductos.ClearFields();
+                var index = $(this).prop('selectedIndex');
+                if (index > 0) {
+                    FiltrosTabMis.changeMyFilters('@Url.Action("MyFiltersChange", "MisProductos")',
+                        $(this).val(),
+                        $("#cboMyFilters option:selected").text());
+                }
+            });
+
+            $("input:radio[name=TipoUnidadAnalisis]").change(function() {
+                FiltrosMisProductos.HiddenContainers();
+                FiltrosMisProductos.ClearFields();
+            });
+
+            //Config Inicial de Filtros periodos
+            ConfigInicialPeriodos();
+
+            $("#cboOpcion").change(function () {
+                FiltrosMisProductos.HiddenContainers();
+                FiltrosMisProductos.ClearFields();
+                FiltrosTabMis.changeOptionPeriod(this);
+            });
+
+            $("#btnVerGraficos").click(function () {
+                FiltrosMisProductos.ClearFields();
+                var index = $("#cboMyFilters").prop('selectedIndex');
+                if (index <= 0) {
+                    ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                        "messageTitle",
+                        'Veritrade',
+                        "message",
+                        '@Html.Raw(Resources.AdminResources.Message_Validate_SelectProduct_Text)',
+                        "lnkContactenos",
+                        false);
+                } else {
+
+                    Highcharts.setOptions(dbThemes[0].value);
+                    gLangOptionHighcharts = {
+                        exportMenuButtonTitle: '@Resources.AdminResources.ExportMenuButtonTitle_Text',
+                        downloadPNG: '@Resources.AdminResources.DownloadPNG_Text',
+                        downloadPDF: '@Resources.AdminResources.DownloadPDF_Text',
+                        printChart: '@Resources.AdminResources.PrintChart_Text'
+                    };
+
+                    // JANAQ 200720
+                    gOptionGrafico = {
+                        downloadPNG: 'Exportar a PNG',
+                        printChart: 'Imprimir gráfico'
+                    };
+
+                    Highcharts.setOptions({
+                        colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+                            return {
+                                radialGradient: {
+                                    cx: 0.5,
+                                    cy: 0.3,
+                                    r: 0.7
+                                },
+                                stops: [
+                                    [0, color],
+                                    [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+                                ]
+                            };
+                        }),
+                        lang: gLangOptionHighcharts
+                    });
+
+                    var urlVerGarficos = '@Url.Action("VerGraficos", "MisProductos")';
+                    var urlPaginTables = '@Url.Action("PageIndexChanging", "MisProductos")';
+                    var urlVerRegistros = '@Url.Action("VerRegistros", "MisProductos")';
+                    var urlVerRegistrosPaging = '@Url.Action("VerRegistrosPageIndexChanging", "MisProductos")';
+                    var urlBuscarPorDesComercial = '@Url.Action("BuscarPorDesComercial", "MisProductos")';
+
+                    var urlRegistrosByChartSeriesPoint = '@Url.Action("VerRegistrosByChartSeriesPoint", "MisProductos")';
+                    var urlRegistrosByCategoryAndSerie = '@Url.Action("VerRegistrosByCategoryAndSerie", "MisProductos")';
+
+                    TabMisProductos.verGraficos(urlVerGarficos,
+                        urlPaginTables,
+                        urlVerRegistros,
+                        urlVerRegistrosPaging,
+                        urlBuscarPorDesComercial,
+                        urlRegistrosByChartSeriesPoint,
+                        urlRegistrosByCategoryAndSerie);
+                }
+
+
+
+            });
+
+
+            ModalAdmin.registerShowByShowOption('ModalVentanaVideo', !('@bOcultarVideo'.toLowerCase() == "true"));
+
+
+
+            //Evento para descargar archivo todos
+            $(document).on('click', '#downloadAllExcelFile', function() {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetAllExcelFile", "MisProductos")',
+                    data: {
+                        codDescarga: $("#cboDescargas").val()
+                    },
+                    beforeSend: function () {
+                        LoadingAdminPage.showOrHideLoadingPage(true);
+                    },
+                    success: function (response) {
+
+                        if (response.objMensaje != null) {
+                            LoadingAdminPage.showOrHideLoadingPage(false);
+                            ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                                "messageTitle",
+                                response.objMensaje.titulo,
+                                "message",
+                                response.objMensaje.mensaje,
+                                "lnkContactenos",
+                                response.objMensaje.flagContactenos);
+                        } else {
+                            if (response.objMensajeFlag != null) {
+
+                                LoadingAdminPage.showOrHideLoadingPage(false);
+                                var ruta =
+                                    "@Url.RouteUrl(new { Controller = "MisProductos", Action = "DownloadFile" })/?file=" +
+                                        response.infoArchivo.fileName +
+                                        "&typeFile=" +
+                                        response.infoArchivo.extensionArchivo;
+                                var link = '<a id="idDescarga" href = "' +
+                                    ruta +
+                                    '" title = "' +
+                                    response.objMensajeFlag.mensaje +
+                                    '"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span><a/>';
+                                // console.log(link)
+                                ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaDescarga",
+                                    "messageTitleDescarga",
+                                    response.objMensajeFlag.titulo,
+                                    "messageDescarga",
+                                    link,
+                                    "lnkContactenosDescarga",
+                                    response.objMensajeFlag.flagContactenos);
+                            } else {
+                                LoadingAdminPage.showOrHideLoadingPage(false);
+                                window.location.href = "@Url.RouteUrl(new { Controller = "MisProductos", Action = "DownloadFile" })/?file=" + response.infoArchivo.fileName + "&typeFile=" + response.infoArchivo.extensionArchivo;
+                            }
+                        }
+
+
+
+
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            });
+
+            //Evento para descargar archivo de Modal Ver Registros
+            $(document).on('click', '#downloadFileVerRegistro', function() {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetVerRegistrosExcelFile", "MisProductos")',
+                    data: {
+                        codDescarga: $("#cboDescargasVerRegistro").val()
+                    },
+                    beforeSend: function () {
+                        LoadingAdminPage.showOrHideLoadingPage(true);
+                    },
+                    success: function (response) {
+
+                        if (response.objMensaje != null) {
+                            LoadingAdminPage.showOrHideLoadingPage(false);
+                            ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                                "messageTitle",
+                                response.objMensaje.titulo,
+                                "message",
+                                response.objMensaje.mensaje,
+                                "lnkContactenos",
+                                response.objMensaje.flagContactenos);
+                        } else {
+
+                            if (response.objMensajeFlag != null) {
+
+                                LoadingAdminPage.showOrHideLoadingPage(false);
+                                var ruta =
+                                    "@Url.RouteUrl(new { Controller = "MisProductos", Action = "DownloadFile" })/?file=" +
+                                        response.infoArchivo.fileName +
+                                        "&typeFile=" +
+                                        response.infoArchivo.extensionArchivo;
+                                var link = '<a id="idDescarga" href = "' +
+                                    ruta +
+                                    '" title = "' +
+                                    response.objMensajeFlag.mensaje +
+                                    '"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span><a/>';
+                                // console.log(link)
+                                ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaDescarga",
+                                    "messageTitleDescarga",
+                                    response.objMensajeFlag.titulo,
+                                    "messageDescarga",
+                                    link,
+                                    "lnkContactenosDescarga",
+                                    response.objMensajeFlag.flagContactenos);
+                            } else {
+                                LoadingAdminPage.showOrHideLoadingPage(false);
+                                window.location.href = "@Url.RouteUrl(new { Controller = "MisProductos", Action = "DownloadFile" })/?file=" + response.infoArchivo.fileName + "&typeFile=" + response.infoArchivo.extensionArchivo;
+                            }
+
+                        }
+
+
+
+
+
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            });
+
+            //Evento para descargar resumen de tablas
+            $(document).on('click', '.downloadExcelTable', function () {
+                var vOpcion = $(this).data("tabla");
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetExportTableToExcel", "MisProductos")',
+                    data: {
+                        opcion: vOpcion
+                    },
+                    beforeSend: function () {
+                        LoadingAdminPage.showOrHideLoadingPage(true);
+                    },
+                    success: function (response) {
+                        //console.info(response);
+                        if (response.objMensajeFlag != null) {
+
+                            LoadingAdminPage.showOrHideLoadingPage(false);
+                            var ruta =
+                                "@Url.RouteUrl(new { Controller = "MisProductos", Action = "DownloadExcelFile" })/?fileName=" +
+                                    response.fileName;
+                            var link = '<a id="idDescarga" href = "' +
+                                ruta +
+                                '" title = "' +
+                                response.objMensajeFlag.mensaje +
+                                '"><span class="glyphicon glyphicon-download-alt" aria-hidden="true"></span><a/>';
+                            // console.log(link)
+                            ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaDescarga",
+                                "messageTitleDescarga",
+                                response.objMensajeFlag.titulo,
+                                "messageDescarga",
+                                link,
+                                "lnkContactenosDescarga",
+                                response.objMensajeFlag.flagContactenos);
+                        } else {
+                            LoadingAdminPage.showOrHideLoadingPage(false);
+                            window.location.href = "@Url.RouteUrl(new { Controller = "MisProductos", Action = "DownloadExcelFile" })/?fileName=" + response.fileName;
+                        }
+
+
+
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            });
+
+            ModalAdmin.registerShownEventListener('ModalVentanaContactenos');
+            ModalAdmin.registerHiddenEventListener('ModalVentanaContactenos');
+
+            var urlSendMessageContact = '@Url.Action("EnviarMensajeContactenos", "MisBusquedas")';
+            ModalAdmin.ListenerEnviarMensajeContactenos(urlSendMessageContact);
+
+            ModalAdmin.registerShownEventListener('ModalVentanaMensaje');
+            ModalAdmin.registerHiddenEventListener('ModalVentanaMensaje');
+
+            LoadingAdminPage.showOrHideLoadingPage(false);
+
+            @if (ViewData["Seleccionado"].ToString() != "")
+            {
+                <text>
+
+                    $("#btnVerGraficos").trigger("click");
+
+                </text>
+            }
+
+        });
+
+        //Inicialiar y Verificar Sesión activa
+        $(document).ready(function() {
+            InIEventSession();
+            $('#ModalVentanaSesion').on('hidden.bs.modal', function () {
+                window.location.href = '@Url.Action("Index", "Home")';
+            });
+
+            $('#ModalVentanaVideo').on('hidden.bs.modal', function () {
+                var videoURL = $('#iframeVideo').prop('src');
+                videoURL = videoURL.replace("&autoplay=1", "");
+                //alert("se va a detener" + videoURL)
+                $('#iframeVideo').prop('src','');
+                $('#iframeVideo').prop('src',videoURL);
+            });
+
+
+        });
+
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            if (jqxhr.status === 401) {
+                window.location.href = '@Url.Action("Index","Home")';
+            } else {
+                console.log(thrownError);
+            }
+        });
+        $( document ).ajaxComplete(function() {
+            InIEventSession();
+        });
+        //
+
+        //Funciones Iniciales de Cargar Periodos
+
+        function ConfigInicialPeriodos() {
+            $("#cboAnioMesIni").datepicker({
+                format: 'M yyyy',
+                minViewMode: "months",
+                startDate: moment('@objMySearchForm.FiltroPeriodo.FechaInfoIni.ToString(formatFechaPeriodo)').toDate(),
+                endDate: moment('@objMySearchForm.FiltroPeriodo.FechaInfoFin.ToString(formatFechaPeriodo)').toDate(),
+                language: '@culture',
+                enableOnReadonly: true,
+                keyboardNavigation: false,
+                autoclose: true
+            }).on('changeMonth',
+                    function (e) {
+                        var fechaPrev = $('#cboAnioMesIni').datepicker('getDate');
+                        var fechaPost = e.date;
+                        if (fechaPrev != fechaPost) {
+                            FiltrosTabMis.changeMonthAnioMesIni(fechaPost);
+                            $(this).datepicker('hide');
+                        }
+                    })
+                .keypress(function(e) {
+                    e.preventDefault();
+                    return false;
+                });
+
+            $("#cboAnioMesIni").datepicker("setDate",
+                moment('@objMySearchForm.FiltroPeriodo.DefaultFechaInfoIni.ToString(formatFechaPeriodo)').toDate());
+
+            $("#cboAnioMesFin").datepicker({
+                format: 'M yyyy',
+                minViewMode: "months",
+                startDate: moment('@objMySearchForm.FiltroPeriodo.DefaultFechaInfoIni.ToString(formatFechaPeriodo)').toDate(),
+                endDate: moment('@objMySearchForm.FiltroPeriodo.FechaInfoFin.ToString(formatFechaPeriodo)').toDate(),
+                language: '@culture',
+                enableOnReadonly: true,
+                keyboardNavigation: false,
+                autoclose: true
+            }).on('changeMonth', function() {
+                    $(this).datepicker('hide');
+                })
+                .keypress(function (e) {
+                e.preventDefault();
+                return false;
+            });
+            $("#cboAnioMesFin").datepicker("setDate",
+                moment('@objMySearchForm.FiltroPeriodo.DefaultFechaInfoFin.ToString(formatFechaPeriodo)').toDate());
+
+
+            $("#cboAnioIni").datepicker({
+                format: 'yyyy',
+                minViewMode: "years",
+                startDate: moment('@objMySearchForm.FiltroPeriodo.FechaAnioIni.ToString(formatFechaPeriodo)').toDate(),
+                endDate: moment('@objMySearchForm.FiltroPeriodo.FechaAnioFin.ToString(formatFechaPeriodo)').toDate(),
+                language: '@culture',
+                    enableOnReadonly: true,
+                keyboardNavigation: false,
+                autoclose: true
+                }).on('changeYear',
+                    function(e) {
+                        var fechaPrev = $('#cboAnioIni').datepicker('getDate');
+                        var fechaPost = e.date;
+                        if (fechaPrev != fechaPost) {
+                            FiltrosTabMis.changeYearAnioIni(fechaPost);
+                            $(this).datepicker('hide');
+                        }
+                    })
+                .keypress(function(e) {
+                    e.preventDefault();
+                    return false;
+                });
+
+            $("#cboAnioIni").datepicker("setDate",
+                moment('@objMySearchForm.FiltroPeriodo.DefaultFechaAnioIni.ToString(formatFechaPeriodo)').toDate());
+
+            $("#cboAnioFin").datepicker({
+                format: 'yyyy',
+                minViewMode: "years",
+                startDate: moment('@objMySearchForm.FiltroPeriodo.DefaultFechaAnioIni.ToString(formatFechaPeriodo)').toDate(),
+                endDate: moment('@objMySearchForm.FiltroPeriodo.DefaultFechaAnioFin.ToString(formatFechaPeriodo)').toDate(),
+                language: '@culture',
+                enableOnReadonly: true,
+                keyboardNavigation: false,
+                autoclose: true
+            }).on('changeYear', function() {
+                    $(this).datepicker('hide');
+                })
+                .keypress(function (e) {
+                e.preventDefault();
+                return false;
+            });
+            $("#cboAnioFin").datepicker("setDate",
+                moment('@objMySearchForm.FiltroPeriodo.DefaultFechaAnioFin.ToString(formatFechaPeriodo)').toDate());
+        }
+
+
+
+    </script>
+}

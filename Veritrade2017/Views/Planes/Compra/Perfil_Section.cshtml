@@ -1,0 +1,57 @@
+﻿@using Veritrade2017.Helpers
+@model Veritrade2017.Models.CompraPerfil
+
+@{
+    Model.Empresa = ViewData["Empresa"] != null ? ViewData["Empresa"].ToString() : Model.Empresa;
+    Model.Nombres = ViewData["Nombres"] != null ? ViewData["Nombres"].ToString() : Model.Nombres;
+    Model.Apellidos = ViewData["Apellidos"] != null ? ViewData["Apellidos"].ToString() : Model.Apellidos;
+    Model.Email = ViewData["Email1"] != null ? ViewData["Email1"].ToString() : Model.Email;
+    Model.Telefono = ViewData["Telefono"] != null ? ViewData["Telefono"].ToString() : Model.Telefono;
+    Model.Pais = ViewData["CodPais"] != null ? ViewData["CodPais"].ToString() : Model.Pais;
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+}
+
+<div class="row" style="margin-top: 40px">
+    <div class="col-xs-12 col-sm-12">
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                @Html.TextBoxFor(m => m.Nombres, new { placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Nombres).ToHtmlString()), @class = "form-control-pago", autocomplete = "off" })
+                <span class="required-span">*</span>
+                @Html.ValidationMessageFor(m => m.Nombres, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-6 form-group">
+                @Html.TextBoxFor(m => m.Apellidos, new { placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Apellidos).ToHtmlString()), @class = "form-control-pago", autocomplete = "off" })
+                <span class="required-span">*</span>
+                @Html.ValidationMessageFor(m => m.Apellidos, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                @Html.TextBoxFor(m => m.Email, new { placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Email).ToHtmlString()), @class = "form-control-pago", autocomplete = "off" })
+                <span class="required-span">*</span>
+                @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-6 form-group">
+                @Html.TextBoxFor(m => m.Empresa, new { placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Empresa).ToHtmlString()), @class = "form-control-pago", autocomplete = "off" })
+                @Html.ValidationMessageFor(m => m.Empresa, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-6 form-group">
+                @Html.TextBoxFor(m => m.Telefono, new { placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Telefono).ToHtmlString()), @class = "form-control-pago", autocomplete = "off" })
+                <span class="required-span">*</span>
+                @Html.ValidationMessageFor(m => m.Telefono, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-sm-6 form-group">
+                @Html.DropDownListFor(m => m.Pais, new SelectList(new ListaPaises().Listado(culture), "Value", "Text", ""), HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Pais).ToHtmlString()), new { @class = "form-control-pago", autocomplete = "off" })
+                <span class="required-span">*</span>
+                @Html.ValidationMessageFor(m => m.Pais, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 form-group">
+                <span style="color: #eb5454; font-size: 25px; vertical-align: bottom;">*</span> @Resources.Required_Text
+            </div>
+        </div>
+    </div>
+</div>

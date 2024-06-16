@@ -1,0 +1,72 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    var objAdminMyProduct = (AdminMyProduct)Model;
+    var idsSeleccionados = objAdminMyProduct.IdsSeleccionados;
+
+    bool verificarCheckBox = (idsSeleccionados != null && idsSeleccionados.Count > 0);
+    
+}
+
+@foreach (var product in objAdminMyProduct.ProductosFavoritos)
+{
+    <tr>
+        <td class="text-center">
+            @product.Index
+        </td>
+
+        <td>
+            <p>@product.Nandina</p>
+        </td>
+
+        <td class="column-width-md">
+            <p class="wspace-normal">
+                @product.Partida
+            </p>
+        </td>
+
+        <td class="column-width-md">
+            @if (product.IsVisibleActualizar)
+            {
+                <input type="text" id="@("TxtPartidaFav"+@product.IdPartida)" class="form-control txt-formfield" value="@product.PartidaFav"/>
+                <br/>
+                <a  class="lnkActualizarPartidaFav"  data-idpartida="@product.IdPartida" data-id-txtpartidafav="@("TxtPartidaFav"+@product.IdPartida)">
+                    @Resources.MiPerfil.Update_Text
+                </a>
+            }
+        </td>
+
+        <td>
+            @foreach (var grupo in product.GrupoFavoritos)
+            {
+                <p class="wspace-normal">@grupo.Grupo</p>
+            }
+        </td>
+
+        <td class="text-center">
+            @foreach (var item in product.GrupoFavoritos)
+            {
+                var idCheck = item.IdFavorito + "-" + item.IdGrupo;
+                @*<div class="checkbox">
+                                <label>*@
+                <p class="wspace-normal">
+                        @if (verificarCheckBox)
+                        {
+                            if (idsSeleccionados.Contains(idCheck))
+                             {
+                                 <input class="mt_m8" type="checkbox" name="name" checked="checked" value="@idCheck" />
+                            }else{
+                                 <input class="mt_m8" type="checkbox" name="name" value="@idCheck" />
+                             }
+                        }
+                        else
+                        {
+                            <input class="mt_m8" type="checkbox" name="name" value="@idCheck" />
+                        }
+                 </p>
+                    @*</label>
+                </div>*@
+            }
+        </td>
+
+    </tr>
+}

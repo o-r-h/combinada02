@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://pe.com.alignet/WalletCommerce/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" attributeFormDefault="unqualified" elementFormDefault="unqualified" targetNamespace="http://pe.com.alignet/WalletCommerce/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <xsd:element name="RegisterCardHolderRequest">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="idEntCommerce" type="xsd:string" />
+        <xsd:element name="codCardHolderCommerce" type="xsd:string" />
+        <xsd:element name="mail" type="xsd:string" />
+        <xsd:element name="names" type="xsd:string" />
+        <xsd:element name="lastNames" type="xsd:string" />
+        <xsd:element minOccurs="0" name="reserved1" type="xsd:string" />
+        <xsd:element minOccurs="0" name="reserved2" type="xsd:string" />
+        <xsd:element minOccurs="0" name="reserved3" type="xsd:string" />
+        <xsd:element minOccurs="0" name="registerVerification" type="xsd:string" />
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+  <xsd:element name="RegisterCardHolderResponse">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="ansCode" type="xsd:string" />
+        <xsd:element name="ansDescription" type="xsd:string" />
+        <xsd:element name="codAsoCardHolderWallet" type="xsd:string" />
+        <xsd:element name="date" type="xsd:string" />
+        <xsd:element name="hour" type="xsd:string" />
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+</xsd:schema>

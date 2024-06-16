@@ -1,0 +1,285 @@
+﻿@media all and (min-width: 992px) and (max-width: 1360px) {
+    .navbar-brand .cabecera_logo {
+        height: 50px;
+        margin: 15px auto;
+        margin-left: 25px;
+        width: 75px;
+        background-color: transparent;
+    }
+
+    .navbar.barra_navegacion_fixed .navbar-brand .cabecera_logo {
+        height: 35px;
+        margin: 0;
+        margin-left: 25px;
+        width: 55px;
+    }
+
+    /* Barra de Navegacion */
+    .menu-content {
+        height: 80px !important;
+    }
+
+        .barra_navegacion div#navbar ul.nav {
+            margin: 0;
+            padding-bottom: 0;
+            padding-top: 0;
+        }
+
+    .barra_navegacion_fixed a.navbar-brand {
+        padding-top: 5px;
+    }
+
+    .barra_navegacion_fixed div#navbar ul.nav {
+        padding-bottom: 0;
+        padding-top: 0;
+    }
+
+    img.separator {
+        height: 10px;
+        width: 15px;
+    }
+
+    .navbar.barra_navegacion > .container {
+        padding: 0;
+    }
+
+    .navbar.barra_navegacion li a.link_menu, .navbar.barra_navegacion li a.link_menu:visited {
+        font-size: 14px;
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .navbar.barra_navegacion li a.access_content {
+        font-size: 14px;
+        line-height: 40px;
+        margin-top: 15px;
+        padding: 0 10px;
+    }
+
+    .submenu-left {
+        left: -200px !important;
+        width: 800px !important;
+    }
+
+        .submenu-left:before {
+            right: 67% !important;
+        }
+
+    .submenu-right {
+        right: -320px !important;
+        width: 900px !important;
+    }
+
+        .submenu-right:before {
+            right: 36% !important;
+        }
+
+    .nav-dropdown a {
+        padding: 10px 20px !important;
+    }
+
+    /* Home */
+    .banner .banner_section .banner_content {
+        padding: 20px 45px;
+        position: relative;
+    }
+
+        .banner .banner_section .banner_content h3 {
+            font-size: 36px;
+            padding-top: 10px;
+        }
+
+    .banner .banner_section .underline-image {
+        width: 120px;
+    }
+
+    .banner_section .banner_content .video_banner {
+        border: 8px solid white !important;
+        height: 166px !important;
+        width: 282px !important;
+    }
+
+    .banner_section p {
+        margin: 10px auto !important;
+    }
+
+    .consulta_section .title h2, .servicios_section .title h2 {
+        font-size: 22px;
+    }
+
+
+    /* Servicios */
+    .servicios_section .servicios_content img.content {
+        padding: 50px 0 !important;
+        width: 380px;
+    }
+
+    .consulta_section .consulta_content {
+        font-size: 11px !important;
+        padding: 0 !important;
+    }
+
+    .dxeRadioButtonList_MetropolisBlue td.dxe, .dxeCheckBoxList_MetropolisBlue td.dxe {
+        padding: 3px 0;
+    }
+
+    /* Ayuda */
+    div.vertical-tab {
+        width: 91% !important;
+    }
+
+    .ayuda_section .ayuda_content .video_content {
+        padding: 0 5% !important;
+    }
+
+        .ayuda_section .ayuda_content .video_content .video_item {
+            margin: auto 12px !important;
+            width: 30%;
+        }
+
+    /* Pais */
+    .paises_section .paises_content img.content {
+        padding: 15px 0 !important;
+        width: 100%;
+    }
+
+    .paises_section .paises_content label.servicios_title {
+        font-size: 26px !important;
+        padding-bottom: 10px !important;
+    }
+
+    .paises_section .paises_content p.titulo_detalle {
+        font-size: 16px !important;
+    }
+
+    .paises_section .paises_content li {
+        font-size: 13px !important;
+    }
+
+    .paises_section .paises_content p.nota {
+        font-size: 13px !important;
+    }
+
+    .paises_section .paises_content .button-content {
+        padding-left: 10% !important;
+    }
+
+    /* Planes y Precios */
+    hr.plan-separator {
+        margin-bottom: 35px !important;
+        margin-top: 35px !important;
+    }
+
+    .table {
+        border-spacing: 20px 0 !important;
+    }
+
+    .plan-descripcion.titulo-plan p, .plan-descripcion.detalle-titulo p {
+        font-size: 13px !important;
+    }
+
+    .border-content .titulo-plan p, .border-content .descripcion p, .border-content .precio p {
+        font-size: 15px !important;
+        line-height: 18px !important;
+    }
+
+    .btn-comprar {
+        width: 110px !important;
+        height: 30px !important;
+        font-size: 13px !important;
+        line-height: 34px !important;
+    }
+
+    .descripcion p {
+        font-size: 13px !important;
+        line-height: 18px !important;
+    }
+
+    .descripcion span {
+        font-size: 13px !important;
+        line-height: 18px !important;
+    }
+
+    .detalle-descripcion {
+        padding: 24px !important;
+    }
+
+        .detalle-descripcion p {
+            font-size: 13px !important;
+            line-height: 18px !important;
+        }
+
+        .detalle-descripcion span {
+            font-size: 13px !important;
+            line-height: 18px !important;
+        }
+
+    .plan-item .precio-content .precio_periodo {
+        font-size: 13px !important;
+        line-height: 18px !important;
+    }
+
+    .plan-item .precio-content .precio_total {
+        font-size: 33px !important;
+        line-height: 28px !important;
+    }
+
+        .plan-item .precio-content .precio_total span {
+            font-size: 18px !important;
+        }
+
+    /* Blog */
+    .noticias-blog .blog_content_left .post-section .post-item {
+        min-height: 495px !important;
+    }
+
+    .noticia-destacada .noticia-destacada-content .noticia-body {
+        min-height: 350px !important;
+        padding: 20px 10px !important;
+        width: 72% !important;
+    }
+
+    .noticia-destacada .noticia-destacada-content h2 {
+        font-size: 24px !important;
+    }
+
+    .noticia-destacada .noticia-destacada-content {
+        font-size: 16px !important;
+        width: 42% !important;
+    }
+
+    .noticia-destacada .noticia-destacada-imagen {
+        min-height: 350px !important;
+        width: 58% !important;
+    }
+
+        .noticia-destacada .noticia-destacada-imagen img {
+            min-height: 275px !important;
+            padding-top: 20px !important;
+        }
+
+    .noticias-blog .blog_content_left .post-section .post-item {
+        width: 45% !important;
+    }
+
+        .noticias-blog .blog_content_left .post-section .post-item .detalle {
+            min-height: 128px !important;
+        }
+}
+
+
+@media all and (min-width: 992px) and (max-width: 1199px) {
+    .title-fixed {
+        max-width: 910px !important;
+    }
+}
+
+@media all and (min-width: 1200px) and (max-width: 1359px) {
+    .title-fixed {
+        max-width: 1110px !important;
+    }
+
+    .table {
+        border-spacing: 30px 0 !important;
+    }
+}

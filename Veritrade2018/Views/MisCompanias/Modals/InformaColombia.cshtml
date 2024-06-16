@@ -1,0 +1,534 @@
+﻿
+@using Veritrade2018.Models
+@{
+    var @objInformaColombia = (InformaColombia)Model;
+
+}
+
+@if (@objInformaColombia.EstadoEmpresa == null || @objInformaColombia.EstadoEmpresa == "")
+{
+    <div class="row fila-info-sentinel">
+        <div class="col-sm-12 info-empresa-sentinel">
+            <div class="col-sm-10 pull-left info-empresa">
+                <div class="form-horizontal">
+                    <div class="form-group" style="text-align:center">
+                        <h2>Sin Información</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    @functions {
+
+        public static int txtScoreToInt(string score)
+        {
+            switch (score)
+            {
+                case "NOTA SUSPENDIDA":
+                    return 0;
+                case "LA TIPOLOGIA DE ESTA EMPRESA NO NOS PERMITE PRONUNCIARNOS EN MATERIA DE CREDITO":
+                    return 0;
+                case "RIESGO CASI NULO":
+                    return 0;
+                case "RIESGO MEDIO BAJO":
+                    return 15;
+                case "RIESGO MEDIO ALTO.SE ACONSEJA LA CONSECUCION DE GARANTIA REAL":
+                    return 45;
+                case "ALTO RIESGO":
+                    return 75;
+            }
+            return 0;
+        }
+
+        public static string txtScoreToColor(string score)
+        {
+            switch (score)
+            {
+                case "NOTA SUSPENDIDA":
+                    return "#a4a4a4";
+                case "LA TIPOLOGIA DE ESTA EMPRESA NO NOS PERMITE PRONUNCIARNOS EN MATERIA DE CREDITO":
+                    return "#a4a4a4";
+                case "RIESGO CASI NULO":
+                    return "#19a51c";
+                case "RIESGO MEDIO BAJO":
+                    return "#19a51c";
+                case "RIESGO MEDIO ALTO.SE ACONSEJA LA CONSECUCION DE GARANTIA REAL":
+                    return "#ffee36";
+                case "ALTO RIESGO":
+                    return "#d63e26";
+            }
+            return "#19a51c";
+        }
+    }
+
+
+    string claseBarra = "j_barras_green";
+    int score = 0;
+    switch (objInformaColombia.OpinionCreditoActual)
+    {
+        case "NOTA SUSPENDIDA":
+            claseBarra = "j_barras_gray";
+            score = 0;
+            break;
+        case "LA TIPOLOGIA DE ESTA EMPRESA NO NOS PERMITE PRONUNCIARNOS EN MATERIA DE CREDITO":
+            claseBarra = "j_barras_gray";
+            score = 0;
+            break;
+        case "RIESGO CASI NULO":
+            claseBarra = "j_barras_green";
+            score = 0;
+            break;
+        case "RIESGO MEDIO BAJO":
+            claseBarra = "j_barras_green";
+            score = 15;
+            break;
+        case "RIESGO MEDIO ALTO.SE ACONSEJA LA CONSECUCION DE GARANTIA REAL":
+            claseBarra = "j_barras_yellow";
+            score = 45;
+            break;
+        case "ALTO RIESGO":
+            claseBarra = "j_barras_red";
+            score = 75;
+            break;
+    }
+    <link rel="stylesheet" href="~/Content/Assets/j_popup.css">
+    <style>
+        .text_limit {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2; /* number of lines to show */
+            -webkit-box-orient: vertical;
+        }
+    </style>
+
+    <script src="~/Scripts/Plugins/Highcharts/highcharts-more.js"></script>
+    <script src="~/Scripts/Plugins/Highcharts/modules/accessibility.js"></script>
+    <script src="~/Scripts/Plugins/Highcharts/modules/data.js"></script>
+
+    <br />
+    <div class="graphic-content">
+        <b class="j_pop_titlea">@objInformaColombia.RazonSocial</b>
+        <span class="j_pop_belowtitle">ICI: @objInformaColombia.ID Nlt: @objInformaColombia.NumeroId Mat. Mercantil @objInformaColombia.NumeroMatricula</span>
+        <div class="j_rowb">
+            <div class="j_colb j_colb1">
+                <b class="j_riesgotitle">
+                    Riesgo Comercial por Informa Colombia
+                </b>
+                <div class="j_box_frowb">
+                    <b>Nivel de riesgo:</b>
+                    <span>@objInformaColombia.OpinionCreditoActual</span>
+                </div>
+            </div>
+
+            <div class="j_colb j_colb2">
+                <div class="j_logow">
+                    <img src="~/Content/Images/informaColombia/logoinformacolombia.png" alt="">
+                    <br>
+                    <a href="http://www.informacolombia.com/Veritrade" target="_blank" rel="noopener noreferrer">
+                        MÁS INFORMACIÓN
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="j_row">
+            <div class="j_col j_col1">
+                <div class="j_box">
+                    <b class="j_boxtitle">
+                        CONSTITUCÍON
+                    </b>
+                    <div class="j_box_row">
+                        <b class="j_box_col1">Actividad CIIU</b>
+                        <span class="j_box_col2 text_limit" title="@objInformaColombia.CodigoActividad - @objInformaColombia.DescripcionActividad">
+                            @objInformaColombia.CodigoActividad - @objInformaColombia.DescripcionActividad
+                        </span>
+                    </div>
+
+                    <div class="j_box_row">
+                        <b class="j_box_col1">Fecha constitución</b>
+                        <span class="j_box_col2">@objInformaColombia.FechaConstitucion.ToString("dd/MM/yyyy")</span>
+                    </div>
+                    <div class="j_box_row">
+                        <b class="j_box_col1">Estado</b>
+                        <span class="j_box_col2">@objInformaColombia.EstadoEmpresa</span>
+                    </div>
+                    <div class="j_box_row">
+                        <b class="j_box_col1">Forma juridíca</b>
+                        <span class="j_box_col2">@objInformaColombia.FormaJuridica</span>
+                    </div>
+                    <div class="j_box_row">
+                        <b class="j_box_col1">Cámara de Comercio / Registro Mercantil</b>
+                        <span class="j_box_col2">@objInformaColombia.Camara</span>
+                    </div>
+                </div>
+
+                <div class="j_box">
+                    <b class="j_boxtitle">
+                        CONTACTO
+                    </b>
+                    <div class="j_box_row">
+                        <b class="j_box_col1">Dirección</b>
+                        <span class="j_box_col2">@objInformaColombia.Direccion</span>
+                    </div>
+                    <div class="j_box_row">
+                        <b class="j_box_col1">Ciudad</b>
+                        <span class="j_box_col2">@objInformaColombia.Ciudad</span>
+                    </div>
+                    <div class="j_box_row">
+                        <b class="j_box_col1">Teléfono</b>
+                        <span class="j_box_col2">@objInformaColombia.Telefono</span>
+                    </div>
+                    <div class="j_box_row">
+                        <b class="j_box_col1">Email</b>
+                        <span class="j_box_col2">@objInformaColombia.Email</span>
+                    </div>
+                </div>
+
+
+                <div class="j_box">
+                    <b class="j_boxtitle">
+                        ACTUALIZACIONES DESTACADAS
+                    </b>
+                    <div class="j_box_row">
+                        <b class="j_box_col1">Incidentes judiciales vigentes:</b>
+                        <span class="j_box_col2">@(objInformaColombia.NumIncidenciasJudiciales != null && objInformaColombia.NumIncidenciasJudiciales != "" ? "Si" : "No")</span>
+                    </div>
+                    <div class="j_box_row">
+                        <b class="j_box_col1">Estructura corporativa</b>
+                        <span class="j_box_col2">@objInformaColombia.EstructuraCorporativa</span>
+                    </div>
+                    <div class="j_box_row">
+                        <b class="j_box_col1">Información LAFT(Lavados Activos/Financ. Terrorismo):</b>
+                        <span class="j_box_col2">@objInformaColombia.FuentesLaft</span>
+                    </div>
+                </div>
+
+
+
+
+
+            </div>
+
+            <div class="j_col j_col2">
+                <div class="j_box">
+                    <b class="j_boxtitle j_boxtitle-blue">
+                        NIVEL DE RIESGO INFORMA
+                    </b>
+                    <div class="j_images1_row">
+                        <div class="j_images1_col1">
+                            <figure class="highcharts-figure">
+                                <div id="container"></div>
+                            </figure>
+                        </div>
+                        <div class="j_images1_col2">
+                            <div class="j_barras">
+                                <span class="@claseBarra" style="width:100%">
+                                </span>
+                            </div>
+                            <b class="j_green-text">@objInformaColombia.OpinionCreditoActual</b>
+                            <div class="text-center">
+                                <a href="http://www.informacolombia.com/Veritrade" target="_blank" rel="noopener noreferrer">
+                                    <span class="j_link-text">Acceda a la calificación de la empresa</span>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="j_box">
+                    <b class="j_boxtitle">
+                        EVOLUCIÓN DEL NIVEL DE RIESGO INFORMA
+                    </b>
+                    <div class="j_graphicw">
+                        <div id="containerb"></div>
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="col-md-10">
+                        <div class="j_logow">
+                            <a href="http://www.informacolombia.com/Veritrade" target="_blank" rel="noopener noreferrer">
+                                Ver Informe completo
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-2"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        $(document).ready(function () {
+            Highcharts.chart('container', {
+
+                chart: {
+                    type: 'gauge',
+                    plotBackgroundColor: null,
+                    plotBackgroundImage: null,
+                    plotBorderWidth: 0,
+                    plotShadow: false
+                },
+
+                title: {
+                    text: ''
+                },
+
+                pane: {
+                    startAngle: -150,
+                    endAngle: 150,
+                    background: [{
+                        backgroundColor: {
+                            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                            stops: [
+                                [0, '#FFF'],
+                                [1, '#333']
+                            ]
+                        },
+                        borderWidth: 0,
+                        outerRadius: '109%'
+                    }, {
+                        backgroundColor: {
+                            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                            stops: [
+                                [0, '#333'],
+                                [1, '#FFF']
+                            ]
+                        },
+                        borderWidth: 1,
+                        outerRadius: '107%'
+                    }, {
+                        // default background
+                    }, {
+                        backgroundColor: '#DDD',
+                        borderWidth: 0,
+                        outerRadius: '105%',
+                        innerRadius: '103%'
+                    }]
+                },
+
+                // the value axis
+                yAxis: {
+                    min: 0,
+                    max: 90,
+                    showFirstLabel: false,
+                    showLastLabel: false,
+                    minorTickInterval: 'auto',
+                    minorTickWidth: 1,
+                    minorTickLength: 10,
+                    minorTickPosition: 'inside',
+                    minorTickColor: '#666',
+
+                    tickPixelInterval: 30,
+                    tickWidth: 2,
+                    tickPosition: 'inside',
+                    tickLength: 10,
+                    tickColor: '#666',
+                    labels:
+                    {
+                      enabled: false
+                    },
+                    plotBands: [{
+                        from: 0,
+                        to: 30,
+                        color: '#19a51c' // green
+                    }, {
+                        from: 30,
+                        to: 60,
+                        color: '#ffee36' // yellow
+                    }, {
+                        from: 60,
+                        to: 90,
+                        color: '#d63e26' // red
+                    }]
+                },
+
+                series: [{
+                    name: '',
+                    data: [@score],
+                    dataLabels: {
+                        formatter: function () {
+                            return null;
+                        },
+                    },
+                    tooltip: {
+                        valueSuffix: ''
+                    }
+                }],
+                exporting: {
+                    enabled: false
+                }
+
+            },
+                // Add some life
+                function (chart) {
+
+                });
+
+
+
+
+
+
+            Highcharts.chart('containerb', {
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: ''
+                },
+                xAxis: {
+                    categories: [
+                        '@objInformaColombia.FechaEvaluacion4',
+                        '@objInformaColombia.FechaEvaluacion3',
+                        '@objInformaColombia.FechaEvaluacion2',
+                        '@objInformaColombia.FechaEvaluacion1'
+                    ]
+                },
+                series: [{
+                    data: [{ y: 100, color: '@txtScoreToColor(objInformaColombia.OpinionCredito4)' }
+                        , { y: 100, color: '@txtScoreToColor(objInformaColombia.OpinionCredito3)' }
+                        , { y: 100, color: '@txtScoreToColor(objInformaColombia.OpinionCredito2)' }
+                        ,{ y:100, color: '@txtScoreToColor(objInformaColombia.OpinionCredito1)'}]
+                }]
+                ,
+                tooltip: {
+                    enabled:false
+                },
+                exporting: {
+                    enabled: false
+                }
+            });
+            /*Highcharts.chart('container', {
+
+                chart: {
+                    type: 'gauge',
+                    plotBackgroundColor: null,
+                    plotBackgroundImage: null,
+                    plotBorderWidth: 0,
+                    plotShadow: false
+                },
+
+                title: {
+                    text: ''
+                },
+
+                pane: {
+                    startAngle: -150,
+                    endAngle: 150,
+                    background: [{
+                        backgroundColor: {
+                            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                            stops: [
+                                [0, '#FFF'],
+                                [1, '#333']
+                            ]
+                        },
+                        borderWidth: 0,
+                        outerRadius: '109%'
+                    }, {
+                        backgroundColor: {
+                            linearGradient: { x1: 0, y1: 0, x2: 0, y2: 1 },
+                            stops: [
+                                [0, '#333'],
+                                [1, '#FFF']
+                            ]
+                        },
+                        borderWidth: 1,
+                        outerRadius: '107%'
+                    }, {
+                        // default background
+                    }, {
+                        backgroundColor: '#DDD',
+                        borderWidth: 0,
+                        outerRadius: '105%',
+                        innerRadius: '103%'
+                    }]
+                },
+
+                // the value axis
+                yAxis: {
+                    min: 10,
+                    max: 80,
+
+                    minorTickInterval: 'auto',
+                    minorTickWidth: 1,
+                    minorTickLength: 10,
+                    minorTickPosition: 'inside',
+                    minorTickColor: '#666',
+
+                    tickPixelInterval: 30,
+                    tickWidth: 2,
+                    tickPosition: 'inside',
+                    tickLength: 10,
+                    tickColor: '#666',
+                    labels: {
+                        step: 2,
+                        rotation: 'auto'
+                    },
+                    title: {
+                        text: 'rating'
+                    },
+                    plotBands: [{
+                        from: 50,
+                        to: 80,
+                        color: '#19a51c' // green
+                    }, {
+                        from: 30,
+                        to: 50,
+                        color: '#ffee36' // yellow
+                    }, {
+                        from: 0,
+                        to: 30,
+                        color: '#d63e26' // red
+                    }]
+                },
+
+                series: [{
+                    name: '',
+                    data: [50],
+                    tooltip: {
+                        valueSuffix: ''
+                    }
+                }]
+
+            },
+                // Add some life
+                function (chart) {
+
+                });
+            Highcharts.chart('containerb', {
+                data: {
+                    table: 'datatable'
+                },
+                chart: {
+                    type: 'column'
+                },
+                title: {
+                    text: ''
+                },
+                yAxis: {
+                    allowDecimals: false,
+                    title: {
+                        text: ''
+                    }
+                },
+                tooltip: {
+                    formatter: function () {
+                        return '<b>' + this.series.name + '</b><br/>' +
+                            this.point.y + ' ' + this.point.name.toLowerCase();
+                    }
+                }
+            });*/
+        });
+
+
+
+    </script>
+
+}

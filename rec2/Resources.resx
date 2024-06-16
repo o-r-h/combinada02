@@ -1,0 +1,690 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Agree_Text" xml:space="preserve">
+    <value>Acepto los</value>
+  </data>
+  <data name="Archive_Text" xml:space="preserve">
+    <value>Noticias anteriores</value>
+  </data>
+  <data name="Btn_Comprar" xml:space="preserve">
+    <value>Comprar</value>
+  </data>
+  <data name="Btn_Contactanos" xml:space="preserve">
+    <value>Contáctanos</value>
+  </data>
+  <data name="Btn_Planes" xml:space="preserve">
+    <value>Planes a tu medida aquí</value>
+  </data>
+  <data name="Button_Back" xml:space="preserve">
+    <value>Volver</value>
+  </data>
+  <data name="Close_Text" xml:space="preserve">
+    <value>Cerrar</value>
+  </data>
+  <data name="Compra_Pedido_Titulo01" xml:space="preserve">
+    <value>Artículo</value>
+  </data>
+  <data name="Compra_Pedido_Titulo02" xml:space="preserve">
+    <value>Resumen</value>
+  </data>
+  <data name="Compra_Pedido_Titulo03" xml:space="preserve">
+    <value>Cantidad</value>
+  </data>
+  <data name="Compra_Text" xml:space="preserve">
+    <value>Compra</value>
+  </data>
+  <data name="Compra_Titulo01" xml:space="preserve">
+    <value>Su Pedido</value>
+  </data>
+  <data name="Compra_Titulo02" xml:space="preserve">
+    <value>Registre su Usuario en Veritrade</value>
+  </data>
+  <data name="Compra_Titulo03" xml:space="preserve">
+    <value>Detalle de su pago</value>
+  </data>
+  <data name="Button_Continue" xml:space="preserve">
+    <value>Continuar</value>
+  </data>
+  <data name="Button_Download" xml:space="preserve">
+    <value>Descargar muestra</value>
+  </data>
+  <data name="Footer_AllRightsReserved" xml:space="preserve">
+    <value>Todos los derechos reservados</value>
+  </data>
+  <data name="Footer_Email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="Footer_Phone" xml:space="preserve">
+    <value>Teléfonos</value>
+  </data>
+  <data name="Footer_Searchby" xml:space="preserve">
+    <value>Búscanos en</value>
+  </data>
+  <data name="Footer_SiteMap" xml:space="preserve">
+    <value>Mapa del sitio</value>
+  </data>
+  <data name="Footer_TermsConditions" xml:space="preserve">
+    <value>Términos y condiciones</value>
+  </data>
+  <data name="Home_Content_Title01" xml:space="preserve">
+    <value>Clientes</value>
+  </data>
+  <data name="Home_Content_Title02" xml:space="preserve">
+    <value>Bases de Datos actualizadas al:</value>
+  </data>
+  <data name="Home_Countries_Button" xml:space="preserve">
+    <value>Ver todos los Países &gt;</value>
+  </data>
+  <data name="Home_Modal_Clientes_Title" xml:space="preserve">
+    <value>Nuestros Clientes</value>
+  </data>
+  <data name="Home_Modal_Pais_Title" xml:space="preserve">
+    <value>Actualizaciones de Base de Datos</value>
+  </data>
+  <data name="Home_Search_Cbo_Item01" xml:space="preserve">
+    <value>Partida arancelaria</value>
+  </data>
+  <data name="Home_Search_Cbo_Item02" xml:space="preserve">
+    <value>Descripción comercial</value>
+  </data>
+  <data name="Home_Search_Item01" xml:space="preserve">
+    <value>Interesado en (*)</value>
+  </data>
+  <data name="Home_Search_Item02" xml:space="preserve">
+    <value>Régimen (*)</value>
+  </data>
+  <data name="Home_Search_Item03" xml:space="preserve">
+    <value>Realizar la búsqueda por</value>
+  </data>
+  <data name="Home_Search_Radio_Item01" xml:space="preserve">
+    <value>Importaciones</value>
+  </data>
+  <data name="Home_Search_Radio_Item02" xml:space="preserve">
+    <value>Exportaciones</value>
+  </data>
+  <data name="Home_Service_Button" xml:space="preserve">
+    <value>Ver más &gt;</value>
+  </data>
+  <data name="LatestNews" xml:space="preserve">
+    <value>Últimas noticias</value>
+  </data>
+  <data name="MenuItem01" xml:space="preserve">
+    <value>A quiénes ayudamos</value>
+  </data>
+  <data name="MenuItem01_SubItem01" xml:space="preserve">
+    <value>Importadores</value>
+  </data>
+  <data name="MenuItem01_SubItem02" xml:space="preserve">
+    <value>Exportadores</value>
+  </data>
+  <data name="MenuItem01_SubItem03" xml:space="preserve">
+    <value>Marketing y ventas</value>
+  </data>
+  <data name="MenuItem01_SubItem04" xml:space="preserve">
+    <value>Compradores locales</value>
+  </data>
+  <data name="MenuItem01_SubItem05" xml:space="preserve">
+    <value>Analistas</value>
+  </data>
+  <data name="MenuItem01_SubItem06" xml:space="preserve">
+    <value>Operadores logísticos</value>
+  </data>
+  <data name="MenuItem02" xml:space="preserve">
+    <value>Cómo te ayudamos</value>
+  </data>
+  <data name="MenuItem03" xml:space="preserve">
+    <value>Demo</value>
+  </data>
+  <data name="MenuItem04" xml:space="preserve">
+    <value>Países</value>
+  </data>
+  <data name="MenuItem05" xml:space="preserve">
+    <value>Planes y Precios</value>
+  </data>
+  <data name="MenuItem06" xml:space="preserve">
+    <value>Blog</value>
+  </data>
+  <data name="MenuItem07" xml:space="preserve">
+    <value>Contáctenos</value>
+  </data>
+  <data name="MenuItem08" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="MenuItem09" xml:space="preserve">
+    <value>Buscar empresa</value>
+  </data>
+  <data name="Mes01" xml:space="preserve">
+    <value>Enero</value>
+  </data>
+  <data name="Mes02" xml:space="preserve">
+    <value>Febrero</value>
+  </data>
+  <data name="Mes03" xml:space="preserve">
+    <value>Marzo</value>
+  </data>
+  <data name="Mes04" xml:space="preserve">
+    <value>Abril</value>
+  </data>
+  <data name="Mes05" xml:space="preserve">
+    <value>Mayo</value>
+  </data>
+  <data name="Mes06" xml:space="preserve">
+    <value>Junio</value>
+  </data>
+  <data name="Mes07" xml:space="preserve">
+    <value>Julio</value>
+  </data>
+  <data name="Mes08" xml:space="preserve">
+    <value>Agosto</value>
+  </data>
+  <data name="Mes09" xml:space="preserve">
+    <value>Septiembre</value>
+  </data>
+  <data name="Mes10" xml:space="preserve">
+    <value>Octubre</value>
+  </data>
+  <data name="Mes11" xml:space="preserve">
+    <value>Noviembre</value>
+  </data>
+  <data name="Mes12" xml:space="preserve">
+    <value>Diciembre</value>
+  </data>
+  <data name="Most_Reads" xml:space="preserve">
+    <value>Más leidos</value>
+  </data>
+  <data name="Button_Pay" xml:space="preserve">
+    <value>Pagar</value>
+  </data>
+  <data name="Planes_Veritrade" xml:space="preserve">
+    <value>Planes Veritrade</value>
+  </data>
+  <data name="PlanSummary_Text" xml:space="preserve">
+    <value>Resumen del plan</value>
+  </data>
+  <data name="Plans_Details_Title" xml:space="preserve">
+    <value>&lt;small&gt;Detalles de nuestros&lt;/small&gt; Planes</value>
+  </data>
+  <data name="Plans_Title" xml:space="preserve">
+    <value>&lt;small&gt;Planes&lt;/small&gt; Veritrade</value>
+  </data>
+  <data name="Plans_Title_Countries" xml:space="preserve">
+    <value>Paises</value>
+  </data>
+  <data name="Plans_Title_Downloads" xml:space="preserve">
+    <value>Ingresos y Descargas</value>
+  </data>
+  <data name="Plans_Title_Excel" xml:space="preserve">
+    <value>Plantillas de Excel</value>
+  </data>
+  <data name="Plans_Title_Favorites" xml:space="preserve">
+    <value>Favoritos y Grupos</value>
+  </data>
+  <data name="Plans_Title_Information" xml:space="preserve">
+    <value>Informacion Comex</value>
+  </data>
+  <data name="Plans_Title_Modules" xml:space="preserve">
+    <value>Módulos</value>
+  </data>
+  <data name="Plans_Title_Plans" xml:space="preserve">
+    <value>Planes</value>
+  </data>
+  <data name="Plans_Title_Price" xml:space="preserve">
+    <value>Precio</value>
+  </data>
+  <data name="Plans_Title_Users" xml:space="preserve">
+    <value>Usuarios</value>
+  </data>
+  <data name="Required_Text" xml:space="preserve">
+    <value>es obligatorio</value>
+  </data>
+  <data name="Search_Button" xml:space="preserve">
+    <value>Buscar</value>
+  </data>
+  <data name="Search_Form_Item01" xml:space="preserve">
+    <value>Usted desea ver las</value>
+  </data>
+  <data name="Search_Form_Item02" xml:space="preserve">
+    <value>de</value>
+  </data>
+  <data name="Search_Form_Item03" xml:space="preserve">
+    <value>Descripción Comercial</value>
+  </data>
+  <data name="Search_Form_Item04" xml:space="preserve">
+    <value>Partida</value>
+  </data>
+  <data name="Search_Form_Item05" xml:space="preserve">
+    <value>Importador</value>
+  </data>
+  <data name="Search_Form_Item06" xml:space="preserve">
+    <value>Exportador</value>
+  </data>
+  <data name="Search_Form_Item07" xml:space="preserve">
+    <value>Filtros</value>
+  </data>
+  <data name="Search_Form_Item08" xml:space="preserve">
+    <value>Información en línea desde 01-ENE.-2012 hasta 30-ABR.-2017</value>
+  </data>
+  <data name="Search_Form_Item09" xml:space="preserve">
+    <value>Desde</value>
+  </data>
+  <data name="Search_Form_Item10" xml:space="preserve">
+    <value>hasta</value>
+  </data>
+  <data name="Search_Form_Item11" xml:space="preserve">
+    <value>En la prueba gratuita solo se muestran 03 meses de información</value>
+  </data>
+  <data name="Search_ResetButton" xml:space="preserve">
+    <value>Restablecer Buscador</value>
+  </data>
+  <data name="Service_Text_Title_For" xml:space="preserve">
+    <value>Para</value>
+  </data>
+  <data name="Terminos_Venta_Link" xml:space="preserve">
+    <value>Términos de Venta</value>
+  </data>
+  <data name="Terminos_Venta_Titulo" xml:space="preserve">
+    <value>Condiciones de Venta</value>
+  </data>
+  <data name="TrialText" xml:space="preserve">
+    <value>Prueba Gratis</value>
+  </data>
+  <data name="TypeCard_Text" xml:space="preserve">
+    <value>Tipo de tarjeta</value>
+  </data>
+  <data name="ViewFeatures_Text" xml:space="preserve">
+    <value>Ver detalles del plan</value>
+  </data>
+  <data name="Field_Company_Text" xml:space="preserve">
+    <value>Empresa</value>
+  </data>
+  <data name="Field_Email_Text" xml:space="preserve">
+    <value>Correo</value>
+  </data>
+  <data name="Field_Fullname_Text" xml:space="preserve">
+    <value>Nombre Completo</value>
+  </data>
+  <data name="Field_Message_Text" xml:space="preserve">
+    <value>Mensaje</value>
+  </data>
+  <data name="Field_Phone_Text" xml:space="preserve">
+    <value>Teléfono</value>
+  </data>
+  <data name="Send_Button" xml:space="preserve">
+    <value>Enviar &gt;</value>
+  </data>
+  <data name="Request_Text01" xml:space="preserve">
+    <value>Solicitud de Contacto o Soporte</value>
+  </data>
+  <data name="Request_Text02" xml:space="preserve">
+    <value>Solicitud de Cotización</value>
+  </data>
+  <data name="Request_Message" xml:space="preserve">
+    <value>Su solicitud está siendo procesada y nos contactaremos a la brevedad con usted.</value>
+  </data>
+  <data name="Request_Title" xml:space="preserve">
+    <value>¡Muchas gracias por su interés!</value>
+  </data>
+  <data name="Request_Error_Message" xml:space="preserve">
+    <value>Algo salío mal, inténtalo de nuevo más tarde</value>
+  </data>
+  <data name="Request_Error_Title" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="Field_Country_Text" xml:space="preserve">
+    <value>País</value>
+  </data>
+  <data name="Field_Names_Text" xml:space="preserve">
+    <value>Nombre y Apellidos</value>
+  </data>
+  <data name="Stripe_Form_BillingAddress" xml:space="preserve">
+    <value>Dirección de Facturación 1</value>
+  </data>
+  <data name="Stripe_Form_BillingAddress2" xml:space="preserve">
+    <value>Dirección de Facturación 2</value>
+  </data>
+  <data name="Stripe_Form_BillingCity" xml:space="preserve">
+    <value>Ciudad de Facturación</value>
+  </data>
+  <data name="Stripe_Form_BillingCountry" xml:space="preserve">
+    <value>País de Facturación</value>
+  </data>
+  <data name="Stripe_Form_BillingState" xml:space="preserve">
+    <value>Estado de Facturación</value>
+  </data>
+  <data name="Stripe_Form_CardName" xml:space="preserve">
+    <value>Titular de la tarjeta</value>
+  </data>
+  <data name="Stripe_Form_CardNumber" xml:space="preserve">
+    <value>Numero de tarjeta</value>
+  </data>
+  <data name="Stripe_Form_Cvc" xml:space="preserve">
+    <value>Codigo de Seguridad</value>
+  </data>
+  <data name="Stripe_Form_Email" xml:space="preserve">
+    <value>Dirección de Correo Electrónico</value>
+  </data>
+  <data name="Stripe_Form_Expiry" xml:space="preserve">
+    <value>Fecha de Expiracion (MM/YY)</value>
+  </data>
+  <data name="Stripe_Form_Phone" xml:space="preserve">
+    <value>Número de Teléfono</value>
+  </data>
+  <data name="Stripe_Form_Zip" xml:space="preserve">
+    <value>Codigo Postal</value>
+  </data>
+  <data name="Field_EmailUser_Text" xml:space="preserve">
+    <value>E-mail (Usuario)</value>
+  </data>
+  <data name="FreeTrial_Button_Send" xml:space="preserve">
+    <value>Ingresa</value>
+  </data>
+  <data name="FreeTrial_Title01" xml:space="preserve">
+    <value>¡Estás a un paso de hacer crecer tu negocio!</value>
+  </data>
+  <data name="FreeTrial_Title02" xml:space="preserve">
+    <value>Solicita nuestra prueba gratis</value>
+  </data>
+  <data name="Button_Edit" xml:space="preserve">
+    <value>Editar</value>
+  </data>
+  <data name="Button_GoHome" xml:space="preserve">
+    <value>Ingresa a tu cuenta en Veritrade</value>
+  </data>
+  <data name="Compra_Pedido_Igv" xml:space="preserve">
+    <value>Más IGV</value>
+  </data>
+  <data name="Compra_Pedido_Tax" xml:space="preserve">
+    <value>Impuesto a las ventas (sólo en NY)</value>
+  </data>
+  <data name="Compra_Pedido_Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Home_Search_Tab01" xml:space="preserve">
+    <value>Buscar por Empresa</value>
+  </data>
+  <data name="Field_LastNames_Text" xml:space="preserve">
+    <value>Apellidos</value>
+  </data>
+  <data name="Field_FirstName_Text" xml:space="preserve">
+    <value>Nombres</value>
+  </data>
+  <data name="Post_Publish" xml:space="preserve">
+    <value>Publicado el</value>
+  </data>
+  <data name="Compra_Pedido_Direccion" xml:space="preserve">
+    <value>Dirección</value>
+  </data>
+  <data name="Compra_Pedido_RazonSocial" xml:space="preserve">
+    <value>Razón Social</value>
+  </data>
+  <data name="Compra_Pedido_Ruc" xml:space="preserve">
+    <value>Ruc</value>
+  </data>
+  <data name="Invoice_Text" xml:space="preserve">
+    <value>Deseo factura</value>
+  </data>
+  <data name="Compra_Confirmacion_Mensaje" xml:space="preserve">
+    <value>Le enviaremos un &lt;span&gt;correo electrónico&lt;/span&gt; con la confirmación y los datos de su compra</value>
+  </data>
+  <data name="Compra_Confirmacion_Titulo" xml:space="preserve">
+    <value>¡Gracias por tu &lt;span&gt;Compra!&lt;/span&gt;</value>
+  </data>
+  <data name="Compra_Verificacion_Mensaje" xml:space="preserve">
+    <value>Usted ya cuenta con un plan vigente, cualquier duda sobre nuestros planes &lt;a class="contactenos"&gt;contáctenos&lt;/a&gt;</value>
+  </data>
+  <data name="Compra_Verificacion_Titulo" xml:space="preserve">
+    <value>Verificación de Usuario</value>
+  </data>
+  <data name="Home_Search_Company" xml:space="preserve">
+    <value>Nombre de la empresa</value>
+  </data>
+  <data name="Home_Search_Tab02" xml:space="preserve">
+    <value>Búsqueda Avanzada</value>
+  </data>
+  <data name="Pdf_text" xml:space="preserve">
+    <value>Descargar PDF</value>
+  </data>
+  <data name="LoginDevelopedLabel" xml:space="preserve">
+    <value>Desarrollado para</value>
+  </data>
+  <data name="LoginForgotLabel" xml:space="preserve">
+    <value>¿Olvidaste tu contraseña?</value>
+  </data>
+  <data name="LoginNavegadoresLabel" xml:space="preserve">
+    <value>Chrome, IE9, Edge y Firefox</value>
+  </data>
+  <data name="LoginPasswordLabel" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="LoginTerminosLabel" xml:space="preserve">
+    <value>He leído y estoy de acuerdo con los</value>
+  </data>
+  <data name="LoginTitle" xml:space="preserve">
+    <value>Bienvenido a Veritrade</value>
+  </data>
+  <data name="LoginUserLabel" xml:space="preserve">
+    <value>Usuario</value>
+  </data>
+  <data name="LoginValidated_Characters" xml:space="preserve">
+    <value>El usuario y password no pueden contener los siguientes caracteres</value>
+  </data>
+  <data name="LoginValidated_Pwd" xml:space="preserve">
+    <value>Ingrese su contraseña</value>
+  </data>
+  <data name="LoginValidated_Terms" xml:space="preserve">
+    <value>Debe aceptar los t\u00E9rminos y condiciones</value>
+  </data>
+  <data name="LoginValidated_User" xml:space="preserve">
+    <value>Ingrese su usuario</value>
+  </data>
+  <data name="desc_title1" xml:space="preserve">
+    <value>Su Usuario y/o Contraseña no han sido ingresados correctamente.</value>
+  </data>
+  <data name="desc_title10" xml:space="preserve">
+    <value>Ocurrio un error al enviar el correo</value>
+  </data>
+  <data name="desc_title2" xml:space="preserve">
+    <value>Por favor vuelva a intentarlo.</value>
+  </data>
+  <data name="desc_title3" xml:space="preserve">
+    <value>Si olvidó su Usuario y/ o Clave, por favor </value>
+  </data>
+  <data name="desc_title4" xml:space="preserve">
+    <value>No se pude ingresar debido a que su usuario se encuentra Inactivo en Veritrade.</value>
+  </data>
+  <data name="desc_title5" xml:space="preserve">
+    <value>Si desea activarlo, por favor</value>
+  </data>
+  <data name="desc_title6" xml:space="preserve">
+    <value>Lo sentimos, este usuario no tiene acceso desde este país.</value>
+  </data>
+  <data name="desc_title7" xml:space="preserve">
+    <value>Si tiene una consulta, por favor </value>
+  </data>
+  <data name="desc_title8" xml:space="preserve">
+    <value>Si Ud. aún no es cliente de Veritrade, inicie su: </value>
+  </data>
+  <data name="desc_title9" xml:space="preserve">
+    <value>, por favor </value>
+  </data>
+  <data name="rpta4" xml:space="preserve">
+    <value>Su usuario ya alcanzó el máximo contratado de ingresos al mes.</value>
+  </data>
+  <data name="rpta5" xml:space="preserve">
+    <value>SINPROGRAMA</value>
+  </data>
+  <data name="rpta6" xml:space="preserve">
+    <value>Lo sentimos, el ingreso desde esta máquina excede a la cantidad contratada.</value>
+  </data>
+  <data name="Success_title1" xml:space="preserve">
+    <value>Usuario y/o Contraseña incorrectos</value>
+  </data>
+  <data name="Success_title2" xml:space="preserve">
+    <value>Usuario inactivo</value>
+  </data>
+  <data name="Success_title3" xml:space="preserve">
+    <value>¡Acceso no autorizado!</value>
+  </data>
+  <data name="Success_title4" xml:space="preserve">
+    <value>¡No se pudo ingresar al sistema!</value>
+  </data>
+  <data name="FreeTrial_Title_Slide_01" xml:space="preserve">
+    <value>La plataforma digital de comercio exterior para hacer crecer tu negocio.</value>
+  </data>
+  <data name="FreeTrial_Title_Slide_02" xml:space="preserve">
+    <value>Información de nuevos clientes, proveedores y precios de productos.</value>
+  </data>
+  <data name="FreeTrial_Title_Slide_03" xml:space="preserve">
+    <value>Datos de la competencia.</value>
+  </data>
+  <data name="FreeTrial_Title_Slide_04" xml:space="preserve">
+    <value>Oportunidades de negocio.</value>
+  </data>
+  <data name="FreeTrial_Content_Slide_01" xml:space="preserve">
+    <value>
+	  
+		&lt;p&gt;Con &lt;strong&gt;Veritrade&lt;/strong&gt; accede a:&lt;/p&gt;
+                    &lt;ul class="ul-puntos-verdes"&gt;
+                      &lt;li&gt;Información de nuevos clientes, proveedores y precios de productos.&lt;/li&gt;
+                      &lt;li&gt;Datos de tu competencia.&lt;/li&gt;
+                      &lt;li&gt;Oportunidades de negocio.&lt;/li&gt;
+                    &lt;/ul&gt;
+	 
+	</value>
+  </data>
+  <data name="Empresas_Buscar_Content_Subtitle" xml:space="preserve">
+    <value>Digite el nombre de una empresa</value>
+  </data>
+  <data name="Empresas_Buscar_Content_Title" xml:space="preserve">
+    <value>Información de comercio exterior de &lt;br&gt; &lt;span&gt;latinoamerica&lt;/span&gt; y el &lt;span&gt;mundo&lt;/span&gt;</value>
+  </data>
+  <data name="Empresas_Buscar_Seo_Description" xml:space="preserve">
+    <value>Buscar Empresas</value>
+  </data>
+  <data name="Empresas_Buscar_Seo_Title" xml:space="preserve">
+    <value>Buscar Empresas</value>
+  </data>
+  <data name="LastestSearch" xml:space="preserve">
+    <value>Últimas búsquedas</value>
+  </data>
+  <data name="MenuItem10" xml:space="preserve">
+    <value>Buscar Producto</value>
+  </data>
+</root>

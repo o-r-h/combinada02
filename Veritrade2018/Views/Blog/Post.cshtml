@@ -1,0 +1,62 @@
+﻿@using Veritrade2018.Models
+@using Veritrade2018.Helpers
+@using System.Globalization
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var postContent = (PostLanguage)ViewData["contenido_post"];
+    var idiomafecha = culture.Equals("es") ? CultureInfo.CreateSpecificCulture("es-pe") : CultureInfo.CreateSpecificCulture("en-us");
+
+    ViewBag.Title = postContent.Titulo;
+    ViewBag.Description = ViewData["post_description"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+    <link href="@Url.Content("~/Content/Assets/blog.css")" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function toggleTable(id) {
+            var lTable = document.getElementById(id);
+            lTable.style.display = (lTable.style.display === "block") ? "none" : "block";
+        }
+    </script>
+}
+
+<div class="container" style="margin-top: -2px;">
+    <div class="noticias-blog">
+        <div class="col-sm-8 blog_content_left">
+            <div class="post_content">
+                <h2>@postContent.Titulo</h2>
+                <span class="fecha-pub">@Resources.Resources.Post_Publish @postContent.FechaPublicacion.ToString("dd MMMM yyyy", idiomafecha)</span>
+                <div class="post-rrss">
+                    <div style="background-color: #F5F5F5">
+                        <label>Comparte</label>
+                        <a href="https://www.facebook.com/veritrade/" target="new">
+                            <img src="~/Content/Images/ico_facebook_over.jpg" width="30" height="30" alt="">
+                        </a>
+                        <a href="https://plus.google.com/u/0/105745704279265511357/posts" target="new">
+                            <img src="~/Content/Images/ico_google_over.jpg" width="30" height="30" alt="">
+                        </a>
+                        <a href="https://www.linkedin.com/company/veritrade-analysis" target="new">
+                            <img src="~/Content/Images/ico_linkedin_over.jpg" width="30" height="30" alt="">
+                        </a>
+                        <a href="#">
+                            <img src="~/Content/Images/ico_mail_over.jpg" width="30" height="30" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="content_detail">
+                    @Html.Raw(postContent.Contenido)
+                </div>
+                @Html.ActionLink(Resources.Resources.Button_Back, "Index", "Blog", new { }, new { culture, @class = "boton-atras" })
+            </div>
+        </div>
+        <div class="col-sm-4 blog_content_right">
+            @Html.Partial("Partials/Navegacion")
+        </div>
+    </div>
+</div>

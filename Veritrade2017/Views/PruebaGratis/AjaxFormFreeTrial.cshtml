@@ -1,0 +1,74 @@
+﻿@using Veritrade2017.Helpers
+@using Veritrade2017.Models
+@model Veritrade2017.Models.FreeTrial
+
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+
+    var sty = ((Campania.TYPE_CAMPANIA)((int?)Session["TypeCampania"] ?? 0));
+
+    var CodesCampanias = Campania.CodFormateds3((ViewData["CodesCampanias"] as Dictionary<Campania.CONTROL, string>), culture, Request.Browser.IsMobileDevice, sty);
+
+    var values = RouteDataContext.RouteValuesFromUri(Request.UrlReferrer);
+    if (values != null && sty == Campania.TYPE_CAMPANIA.ORGANIC)
+    {
+        if (new[] { /*"Empresas",*/ "Minisite" }.Contains(values["controller"]))
+        {
+            if (culture != "es")
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_EMPRESAS_EN];
+            }
+            else
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_EMPRESAS];
+            }
+            CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] += Request.Browser.IsMobileDevice ? "m" : "";
+        }
+        if (new[] { /*"Productos",*/ "ProductoPerfil" }.Contains(values["controller"]))
+        {
+            if (culture != "es")
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_PRODUCTOS_EN];
+            }
+            else
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_PRODUCTOS];
+            }
+        }
+    }
+}
+
+@Html.Hidden("culture", culture)
+@Html.Hidden("FtCodCampania", CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS]) @*ViewData["cod_campaña"])*@
+<div class="form-group">
+    @Html.TextBoxFor(m => m.FtEmail, new { @class = "form-control", autocomplete = "off", placeholder = Html.DisplayNameFor(x => x.FtEmail) })
+    @Html.ValidationMessageFor(m => m.FtEmail, "", new { @class = "text-danger" })
+    <span class="text-danger" id="mailExist"></span>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        @Html.TextBoxFor(m => m.FtNombres, new { @class = "form-control", autocomplete = "off" ,placeholder = Html.DisplayNameFor(x => x.FtNombres) })
+        @Html.ValidationMessageFor(m => m.FtNombres, "", new { @class = "text-danger" })
+    </div>
+    <div class="col-md-6">
+        @Html.TextBoxFor(m => m.FtApellidos, new { @class = "form-control", autocomplete = "off", placeholder = Html.DisplayNameFor(x => x.FtApellidos) })
+        @Html.ValidationMessageFor(m => m.FtApellidos, "", new { @class = "text-danger" })
+    </div>
+</div>
+<div class="form-group">
+    @Html.TextBoxFor(m => m.FtEmpresa, new { @class = "form-control", autocomplete = "off", placeholder = Html.DisplayNameFor(x => x.FtEmpresa) })
+    @Html.ValidationMessageFor(m => m.FtEmpresa, "", new { @class = "text-danger" })
+</div>
+@*<div class="form-group">
+    <label>@Html.DisplayNameFor(m => m.FtPais)</label>
+    @Html.DropDownListFor(m => m.FtPais, new SelectList(new ListaPaises().Listado(culture), "Value", "Text", ViewData["paisIP"]), HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.FtPais).ToHtmlString()), new { @class = "form-control", autocomplete = "off" })
+    @Html.ValidationMessageFor(m => m.FtPais, "", new { @class = "text-danger" })
+</div>*@
+<div class="form-group form-group-f">
+    @Html.TextBoxFor(m => m.FtTelefono, new { type="tel", @class="pick-phone", placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(x => x.FtTelefono).ToHtmlString()) })
+    @Html.ValidationMessageFor(m => m.FtTelefono, "", new { @class = "text-danger" })
+    
+</div>
+<div class="form-group">
+    <button type="submit" name="btnUpdate" class="btn button_trial" id="btnContinuarPrueba">@Resources.FreeTrial_Button_Send</button>
+</div>

@@ -1,0 +1,43 @@
+﻿
+.loaderLogin .objectLoadingLogin {
+    border: 3px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 3px solid #3498db;
+    width: 60px;
+    height: 60px;
+    position: relative;
+    animation: objectLoading-animation .45s ease-in-out infinite;
+    animation-delay: 0.4s;
+    top: 50%;
+    margin: -28px auto 0;
+    transition: all .2s ease-in-out;
+    display: none;
+}
+
+@keyframes objectLoading-animation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+
+.is-active-loading-login {
+    -webkit-box-align: center;
+    -ms-flex-align: center;
+    align-items: center;
+    background-color: rgba(150,150,150,.15);
+    width: 100%;
+    height: 100%;
+    left: 0;
+    top: 0;
+    position: absolute;
+    z-index: 999999;
+}
+
+.loaderLogin.is-active-loading-login .objectLoadingLogin {
+    display: block !important;
+}

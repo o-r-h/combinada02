@@ -1,0 +1,120 @@
+﻿@using Veritrade2018.Models
+@using Veritrade2018.Helpers
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var codCampania = ViewData["CodCampaña"];
+    if (Session["c"] != null && Session["c"].ToString() != "")
+    {
+        codCampania = Session["c"].ToString();
+    }
+    var urlWeb = SettingUtility.GetUrlFront() + "/" + culture + (culture == "es" ? "/pruebagratis/" : "/freetrial/") + codCampania;
+}
+<style>
+    #ModalVerRegistro .modal-dialog {
+        width: 90% !important;
+    }
+     .text17, .footer-title-info {
+         font-family: ProximaNova-Regular !important;
+         font-size: 20px !important;
+         color: #30a7e5 !important;
+         letter-spacing: -0.2pt !important;
+     }
+
+    .text05 {
+        font-family: ProximaNova-Light;
+        font-size: 10px;
+        line-height: 14px;
+        color: #212935;
+        letter-spacing: 0.2pt;
+        padding-top: 4px;
+    }
+
+    .footerImage, .footerText {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    .footerImage {
+        padding-left: 0px;
+    }
+
+    .footerText {
+        padding-left: 30px;
+    }
+
+    .modal-body {
+        margin: auto 15px;
+    }
+    #ModalVerRegistro table {
+        margin-top: 15px;
+        margin-bottom: 20px !important;
+    }
+
+    #ModalVerRegistro .modal-content, #ModalVerRegistro .modal-body {
+        padding: 20px!important; 
+    }
+
+    .btn-prueba, .btn-prueba:hover, .btn-prueba:focus {
+        font-family: 'ProximaNova-Regular';
+        font-size: 12px;
+        color: #fff;
+        text-align: center;
+        line-height: 30px;
+        height: 31px;
+        width: 145px;
+        background-color: #7ad800;
+        display: inline-block;
+    }
+</style>
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalVerRegistro">
+    <div class="modal-dialog modal-special" role="document">
+        <div class="modal-content" style="padding: 20px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="icon-close-modal" aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="titulo-verRegistro"></h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-sm-12 divRecordsFoundVerRegistro">
+                        <label id="recordsFoundVerRegistro">
+                        </label>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12 ">
+                        <div id="tablaVerRegistros" class="table-responsive">
+
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="col-sm-5 text-right hidden-xs">
+                            <img src="@Url.Content("~/Content/Images/logo_correo.png")">
+                        </div>
+                        <div class="col-sm-5 text-left">
+                            <div class="footer-right" style="">
+                                <p class="footer-title-info">@Resources.Resources.LblFooterModal1_Text</p>
+                                <p>@Resources.Resources.LblFooterModal2_Text</p>
+                                <p>
+                                    <a href="@urlWeb" target="_blank" class="btn-prueba">@Resources.Resources.TrialText</a>
+                                    
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

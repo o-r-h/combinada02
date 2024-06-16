@@ -1,0 +1,202 @@
+﻿@using Veritrade2018.Models
+@using Veritrade2018.Helpers
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var uri = HttpContext.Current.Request.Url.AbsolutePath;
+    var seoConf = ConfiguracionesSeo.GetConfig(culture, uri);
+
+    ViewBag.Title = seoConf.Title;
+    ViewBag.Description = seoConf.Description;
+
+    string url = (string)ViewData["url"];
+
+}
+
+@section Styles
+{
+    @Styles.Render("~/Content/home")
+    <link href="@Url.Content("~/Scripts/Plugins/OwlCarousel/assets/owl.carousel.min.css")" rel="stylesheet" type="text/css" />
+    <style>
+
+        .modal_popup .bot_cabecera:hover {
+            color: #2980b9;
+            border: thin solid #2980b9;
+        }
+
+        .modal_popup .bot_cabecera {
+            border: thin solid #369EE8;
+            color: #5cb3e8;
+            cursor: pointer;
+            background-color: #E8E8E6;
+            font-family: ProximaNova-Bold;
+            font-size: 15px;
+            height: 35px;
+            line-height: 20px;
+            padding: 8px 9px;
+            display: inline-block;
+        }
+
+        .modal_popup .login_text {
+            color: #787671;
+            font-family: ProximaNova-Regular;
+            font-size: 12px;
+            text-decoration: none;
+        }
+
+    </style>
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Plugins/OwlCarousel/owl.carousel.min.js")" defer type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var owl = $('#imageSlider');
+            owl.owlCarousel({
+                items: 1,
+                loop: true,
+                margin: 10,
+                autoplay: true,
+                autoplayTimeout: 3000,
+                autoplayHoverPause: true
+            });
+
+            var owlVideo = $('#videosCarousel');
+            owlVideo.owlCarousel({
+                items: 1,
+                loop: true,
+                margin: 10,
+                video: true,
+                lazyLoad: true,
+                center: true,
+                autoplay: true,
+                autoplayTimeout: 3000,
+                autoHeight: true,
+                videoHeight: 250,
+                autoplayHoverPause: true
+            });
+
+            $("#txtEmpresa").autocomplete({
+                appendTo: "#autocompleteEmpresa",
+                source: function(request, response) {
+                    $.ajax({
+                        url: "@Url.Action("BuscarEmpresa", "Minisite")",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            nandina: request.term
+                        },
+                        success: function(data) {
+                            response($.map(data,
+                                function(item) {
+                                    return { id: item.id, label: item.value, value: item.value };
+                                }));
+                        }
+                    });
+                },
+                minLength: 2,
+                open: function (event, ui) {
+                    $('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
+                },
+                select: function(event, ui) {
+                    if ('@culture' == "es") {
+                        $("#slug").val("/@culture/" +
+                            ui.item.id.pais +
+                            "/importaciones-y-exportaciones-" +
+                            ui.item.id.uri +
+                            "/" +
+                            ui.item.id.trib +
+                            "-" +
+                            ui.item.id.ruc);
+                    } else {
+                        $("#slug").val("/@culture/" +
+                            ui.item.id.pais +
+                            "/imports-and-exports-" +
+                            ui.item.id.uri +
+                            "/" +
+                            ui.item.id.trib +
+                            "-" +
+                            ui.item.id.ruc);
+                    }
+                }
+            });
+
+            $("#search").click(function() {
+                if ($("#slug").val().trim() !== "") {
+                    window.location.replace($("#slug").val());
+                }
+            });
+
+            $("#cboOpcion").change(function() {
+                var select = $(this).find("option:selected").val();
+                if (select === "PAR") {
+                    $("#txtDesComercialB").autocomplete({
+                        appendTo: "#autocompleteFilter",
+                        source: function(request, response) {
+                            $.ajax({
+                                url: "@Url.Action("BuscarPartida", "Consulta")",
+                                type: "POST",
+                                dataType: "json",
+                                data: {
+                                    codPais: $("#cboPais").find("option:selected").val(),
+                                    opcion: $("#cboOpcion").find("option:selected").val(),
+                                    nandina: request.term
+                                },
+                                success: function(data) {
+                                    response($.map(data,
+                                        function(item) {
+                                            return { id: item.id, label: item.value, value: item.value };
+                                        }));
+                                }
+                            });
+                        },
+                        minLength: 2,
+                        select: function(event, ui) {
+                            $("#idAutocompletado").val(ui.item.id);
+                        }
+                    });
+                } else {
+                    $("#txtDesComercialB").autocomplete("destroy");
+                }
+            });
+
+            $("#cboPais").change(function() {
+                var select = $(this).find("option:selected").val();
+                if (select === "BR" || select === "CN" || select === "MX" || select === "US") {
+                    $("#cboOpcion option[value='DES']").remove();
+                } else {
+                    if ($("#cboOpcion option[value='DES']").length === 0) {
+                        $("#cboOpcion").append($("<option></option>")
+                            .attr("value", "DES")
+                            .text("@Html.Raw(Resources.Resources.Home_Search_Cbo_Item02)"));
+                    }
+                }
+            });
+
+            @if (!string.IsNullOrEmpty(url))
+            {                
+                <text>
+                    $("#ModalLogin").modal("show");
+                </text>
+            }
+
+        });
+    </script>
+}
+
+<!-- Banner Section -->
+@Html.Partial("Partials/_Banner")
+
+<!-- Consulta Section -->
+@Html.Partial("Partials/_Consulta")
+
+<!-- Servicios Section -->
+@Html.Partial("Partials/_Servicios")
+
+<!-- Blog Section -->
+@Html.Partial("Partials/_Content")
+
+@Html.Partial("Modals/Modal_Clientes")
+@Html.Partial("Modals/Modal_Paises")
+@Html.Partial("Modals/Modal_Login")

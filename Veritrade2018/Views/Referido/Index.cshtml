@@ -1,0 +1,46 @@
+﻿@using System.Globalization
+@using Veritrade2018.Helpers
+@{
+    ViewBag.Title = "Veritrade";
+    Layout = "~/Views/Shared/_ErrorLayout.cshtml";
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var campaña = ViewData["Campaña"].ToString();
+}
+
+<div class="container-fluid">
+    <div class="row padding-left-righ-error">
+        <div class="col-xs-12">
+
+            <div class="title_referido tittle-opcion">
+                @Resources.Resources.Access_Title
+            </div>
+            <br />
+            <div class="">
+                <p>@Html.Raw(ViewData["MensajeError"].ToString())</p>
+                 @if (campaña.Equals("0"))
+                {
+                    <!--a class="boton01" href="@Url.Action("Index", "PruebaGratis" , new {culture})">@Resources.Resources.TrialText.ToUpper()</a-->
+					<a class="boton01" href="https://www.veritradecorp.com/@culture/pruebagratis?utm_source=universidades&utm_medium=limitacion&utm_campaign=pruebagratis">@Resources.Resources.TrialText.ToUpper()</a>
+                }
+                else
+                {
+                    <!--a class="boton01" href="@Url.Action("Index", "PruebaGratis" , new {culture,campania = campaña})">@Resources.Resources.TrialText.ToUpper()</a-->
+					<a class="boton01" href="https://www.veritradecorp.com/@culture/pruebagratis/@campaña?utm_source=universidades&utm_medium=limitacion&utm_campaign=pruebagratis">@Resources.Resources.TrialText.ToUpper()</a>
+                }
+            </div>
+            <br />
+            <br />
+            <p>
+                @Resources.Resources.Access_Contact_Info
+            </p>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script>
+    $(document).ready(function () {
+    });
+</script>
+
+}

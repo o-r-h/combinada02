@@ -1,0 +1,282 @@
+﻿@using Veritrade2018.Helpers
+@using Veritrade2018.Models.Admin
+@using Veritrade2018.Util;
+@{
+    var objDataTab = (TabData)Model;
+    bool isDemo = Extensiones.GetCookie("IsDemo") == "1";
+    if ((objDataTab.Filtro == "Partida") && (objDataTab.CodPais == "PE"))
+    {
+        foreach (var item in objDataTab.ListRows)
+        {
+            item.IsVisibleLupaPartida = true;
+        }
+    }
+
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="table-title">
+                        <th>
+                            @objDataTab.GridHead.Descripcion
+
+                            @if (objDataTab.GridHead.IsVisibleFiltroCboDescripcion)
+                            {
+                                <br />
+                                <select class="pull-left select-columnHead-tableLarge cboFiltroTabla"
+                                        data-filtro-cbo="@objDataTab.Filtro">
+                                    <option value="0" selected="selected">
+                                        @Resources.Resources.Option_Filter_All.ToUpper()
+                                    </option>
+                                    @foreach (var item in objDataTab.ListRowsCbo)
+                                    {
+                                        <option value="@item.Id">@item.Descripcion</option>
+                                    }
+                                </select>
+                            }
+
+                            <a class="pull-right orderIconColumnDescripcion lnkOrdenarTabla"
+                               data-filtro="@objDataTab.Filtro"
+                               data-orden="@objDataTab.Filtro"
+                               data-tipofiltro="@Enums.TipoFiltro.Resumen">
+                                <img src="@Url.Content("~/Content/Images/Minisite/order_arrows-2x.png")" alt="" width="16" height="16" />
+                            </a>
+                        </th>
+                        @if (objDataTab.IsVisibleInfoComplementario && (objDataTab.Filtro == "PaisOrigen" || objDataTab.Filtro == "PaisDestino") && (bool)(Session["isVisibleInfoComplementario"] ?? false))
+                        {
+                            <th>
+                                @if (objDataTab.Filtro == "PaisOrigen")
+                                {
+                                    @Resources.AdminResources.AduanaOriginInfoComplementaria_text
+                                }
+                                else
+                                {
+                                    @Resources.AdminResources.AduanaDestinationInfoComplementaria_text
+                                }
+                            </th>
+                        }
+                        <th>
+                            <div class="pull-left tableHeadText">
+                                @objDataTab.GridHead.TotalReg
+                            </div>
+                            <a class="pull-right orderIconProducts lnkOrdenarTabla"
+                               data-filtro="@objDataTab.Filtro"
+                               data-orden="CantReg desc"
+                               data-tipofiltro="@Enums.TipoFiltro.Resumen">
+                                <img src="@Url.Content("~/Content/Images/Minisite/order_arrows-2x.png")" alt="" width="16" height="16" />
+                            </a>
+                        </th>
+                        <th>
+                            <div class="pull-left tableHeadText">
+                                @objDataTab.GridHead.CiFoFobTot
+                            </div>
+                            <a class="pull-right orderIconProducts lnkOrdenarTabla"
+                               data-filtro="@objDataTab.Filtro"
+                               data-orden="@(objDataTab.GridHead.OrdenCiFoFobTot+" desc")"
+                               data-tipofiltro="@Enums.TipoFiltro.Resumen">
+                                <img src="@Url.Content("~/Content/Images/Minisite/order_arrows-2x.png")" alt="" width="16" height="16" />
+                            </a>
+                        </th>
+                        <th class="column-percentage column-text-center">
+                            @objDataTab.GridHead.CiFoFobPor
+                        </th>
+                        @if (objDataTab.IsVisibleCheck)
+                        {
+                            <th class="column-checkbox">
+                                <input id="chkAll@(Enums.TipoFiltro.Resumen+ objDataTab.Filtro)" type="checkbox"
+                                       onclick="TablaDeDatos.SeleccionaTodo('@("tbody"+Enums.TipoFiltro.Resumen+ objDataTab.Filtro)', this);" />
+                            </th>
+                        }
+                        @*@if (objDataTab.CodPais == "PE") {
+                        }*@
+                    </tr>
+                </thead>
+                <tbody id="@("tbody"+Enums.TipoFiltro.Resumen+ objDataTab.Filtro)">
+                    @foreach (var item in objDataTab.ListRows)
+                    {
+                    <tr>
+                        <td>
+                            <p class="wspace-normal">
+                                @if (item.IsVisibleSentinel)
+                                {
+                                    if (item.IsPlanPermiteSentinel)
+                                    {
+                                        <a data-idruc="@item.Ruc" class="lnkSentinel" title="SENTINEL, Alertas y Reportes de Deudas">
+                                            <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" class="cursor-action" />
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        <a title="SENTINEL, Alertas y Reportes de Deudas" onclick="TablaDeDatos.VerMensajePlanNoSentinel('@Resources.AdminResources.SentinelValidation_Text');">
+                                            <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" class="cursor-action" />
+                                        </a>
+                                    }
+                                    @*@Html.Raw("&nbsp;" + Funciones.TruncateText(objDataTab.Filtro, item))*@
+                                    @Html.Raw("&nbsp;" + string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                                }
+
+                                else if ((item.mostrarInformaColombia) && (!isDemo))
+                                {
+                                    if (item.IsPlanPermiteSentinel)
+                                    {
+                                        <a class="click_informaColombia" title="Informa Colombia" onclick="TablaDeDatos.ClickInformaColombia('@item.Id');">
+                                            <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                        </a>
+                                        @Html.Raw("&nbsp;" + string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                                    }
+                                    else
+                                    {
+                                        <a title="Informa Colombia" onclick="TablaDeDatos.VerMensajePlanNoInformaColombia('@Resources.AdminResources.SentinelValidation_Text');">
+                                            <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                        </a>
+                                        @Html.Raw("&nbsp;" + string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                                    }
+                                }
+                                else if ((item.mostrarInformaColombia) && (isDemo))
+                                {
+                                    <a class="lnkSentinel">
+                                        <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                    </a>
+                                    @Html.Raw("&nbsp;" + string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                                }
+                                else if (item.IsVisibleLupaPartida)
+                                {
+                                    if (isDemo)
+                                    {
+                                        @*<a class="lnkArancelesPartida">*@
+                                        <a class="lnkSentinel">
+                                            <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                        </a>
+                                        @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                                    }
+                                    else
+                                    {
+                                        <a onclick="TablaDeDatos.ClickArancelesPartida('@item.Descripcion');">
+                                            <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                        </a>
+                                        @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                                    }
+                                }
+                                else
+                                {
+                                    @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                                }
+
+                            </p>
+                        </td>
+                        @if (objDataTab.IsVisibleInfoComplementario && (objDataTab.Filtro == "PaisOrigen" || objDataTab.Filtro == "PaisDestino") && (bool)(Session["isVisibleInfoComplementario"] ?? false))
+                        {
+                            if (!string.IsNullOrEmpty(item.CodPaisComplementario))
+                            {
+                                <td>
+                                    <button class="InfoComplement" data-idregistro="@item.CodPaisComplementario" data-filtro="InfoComplementario">
+                                        @Resources.AdminResources.DetailButton_Text
+                                    </button>
+                                </td>
+                            }
+                            else
+                            {
+                                <td>
+
+                                </td>
+                            }
+
+                        }
+                        <td class="columnUnderline column-text-right cell-vertical-align-middle">
+                            @if (item.IsEnabledTotalReg)
+                            {
+                                <a class="lnkVerRegistros"
+                                   title="@objDataTab.GridHead.TitleColumnTotalReg"
+                                   data-filtro="@objDataTab.Filtro"
+                                   data-idregistro="@item.Id">
+                                    @item.TotalReg
+                                </a>
+                            }
+                            else
+                            {
+                                @item.TotalReg
+                            }
+                        </td>
+                        <td class="column-text-right cell-vertical-align-middle">
+                            @item.CiFoFobTot
+                        </td>
+                        <td class="column-text-right cell-vertical-align-middle">
+                            @item.CiFoFobPor
+                        </td>
+                        @if (objDataTab.IsVisibleCheck)
+                        {
+                            <td class="cell-vertical-align-middle">
+                                <input value="@item.Id" id="@("chk"+item.Id.ToString())" type="checkbox"
+                                       onclick="ValidarSeleccionCheck('@("chk"+item.Id.ToString())','@(Enums.TipoFiltro.Resumen+ objDataTab.Filtro)')" />
+                            </td>
+                        }
+                    </tr>
+                    }
+                </tbody>
+                <tfoot>
+                    <tr class="table-footer">
+                        <th>
+                            @Resources.Resources.TotalsText
+                        </th>
+                        @if (objDataTab.IsVisibleInfoComplementario && (objDataTab.Filtro == "PaisOrigen" || objDataTab.Filtro == "PaisDestino") && (bool)(Session["isVisibleInfoComplementario"] ?? false))
+                        {
+                            <th>
+                               
+                            </th>
+                        }
+                        <th class="column-text-right">
+                            @objDataTab.TotalRegistros
+                        </th>
+                        <th class="column-text-right">
+                            @objDataTab.CiFoFobTotal
+                        </th>
+                        <th class="column-text-right">100.00%</th>
+                        @if (objDataTab.IsVisibleCheck)
+                        {
+                            <th></th>
+                        }
+
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row buttons-options-table">
+    @*@if (objDataTab.TotalPaginasResumen > 1)
+    {*@
+        <div class="col-sm-8">
+            <nav aria-label="Page navigation">
+                <ul id="@("paging" + Enums.TipoFiltro.Resumen + objDataTab.Filtro)"
+                    data-id-tabla="@(Enums.TipoFiltro.Resumen + objDataTab.Filtro)"
+                    class="pagination pagination-sm">
+                </ul>
+            </nav>
+        </div>
+    @*}*@
+
+    @if (objDataTab.IsVisibleCheck)
+    {  
+        <div class="col-sm-4">
+            <button class="btn btn-addToFilters pull-right btnAddFilterAndSearch"
+                    data-filtro="@objDataTab.Filtro"
+                    data-id-tabla="@(Enums.TipoFiltro.Resumen + objDataTab.Filtro)">
+                @objDataTab.AddToFiltersAndSearchButton
+            </button>
+
+            @if (@*!(bool)(Session["opcionFreeTrial"] ?? false) &&*@ objDataTab.AddMyFavouritesButton != "" && Session["Plan"].ToString() != "UNIVERSIDADES" &&
+                                                                     Extensiones.GetCookie("IsDemo") != "1")
+            {
+                <button class="btn btn-addToFilters btn-margin-right pull-right btnAddMyFavourites"
+                        data-id-tabla="@(Enums.TipoFiltro.Resumen + objDataTab.Filtro)"
+                        data-filtro="@objDataTab.Filtro">
+                    @objDataTab.AddMyFavouritesButton
+                </button>
+            }
+        </div>
+    }
+</div>

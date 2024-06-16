@@ -1,0 +1,1430 @@
+﻿@using Veritrade2017.Models
+@using Veritrade2017.Models.CountryProfile
+
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var idiomaMoneda = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+    var uri = "";
+    var rutaE = "";
+    var rutaI = "";
+    var ruta1 = "";
+    var ruta2 = "";
+    var ruta4 = "";
+    string breadName = (String.Format("{0} {1}", @Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisExportaciones", culture).ToString(), @ViewBag.Pais));
+    string breadNameShort = String.Format("{0}", @ViewBag.PaisCap);
+
+    var ruta3 = String.Format("/files/{0}/{1}",culture, @ViewBag.Archivo);
+
+    if (culture == "es")
+    {
+        uri = HttpContext.Current.Request.Url.AbsolutePath.Substring(0, 10);
+    }
+    else
+    {
+        uri = HttpContext.Current.Request.Url.AbsolutePath.Substring(0, 9);
+    }
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@{
+    List<BannerGeneral> ListaEmpresaBanner = ViewBag.BannerEmpresa;
+    List<BannerGeneral> ListaProductoBanner = ViewBag.BannerProducto;
+    List<ExportacionCardInfoD> ListadoExportacionesEmpresa = ViewBag.ListadoExportacionesEmpresa;
+    List<ExportacionCardInfoD> ListadoExportacionesProducto = ViewBag.ListadoExportacionesProducto;
+    List<ExportacionCardInfoD> ListadoImportacionesEmpresa = ViewBag.ListadoImportacionesProducto;
+    List<ExportacionCardInfoD> ListadoImportacionesProducto = ViewBag.ListadoImportacionesProducto;
+
+}
+
+
+@section Styles{
+
+
+    <link href="@Url.Content("~/Content/Assets/loadingProductProfile.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Plugins/OwlCarousel2-2.2.1/assets/owl.carousel.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap-theme.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/fontawesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/CustomCountryProfile.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/Responsive.css")" rel="stylesheet" />
+    <link href=@Url.Content("~/Content/Components/ui-autocomplete.css") rel="stylesheet" />
+    <!-- Icon font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.11.4.min.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Admin/admin.js")"></script>
+    <script src="@Url.Content("~/Scripts/misproductos.js")"></script>
+
+
+
+
+    <script type="text/javascript">
+        $(function () {
+            var paisfiltro = '@ViewBag.PaisLower';
+           
+           
+        $("#txtEmpresa").autocomplete({
+            appendTo: "#autocompleteEmpresa",
+            source: function(request, response) {
+                $.ajax({
+                    url: "@Url.Action("BuscarEmpresa", "Minisite")",
+                    type: "POST",
+                    dataType: "json",
+                    data: {
+                        nandina: request.term
+                    },
+
+                    beforeSend: function () {
+                        var x = document.getElementById("loadingPageAdminE");
+                        x.style.display = "block";
+                    },
+                    success: function (data) {
+                        var x = document.getElementById("loadingPageAdminE");
+                        x.style.display = "none";
+                        response($.map(data,
+                            function(item) {
+                                return { id: item.id, label: item.value, value: item.value };
+                            }));
+                        $('#ui-id-1 li').each(function () {
+                            console.log($(this).text().toLowerCase());
+                            if ($(this).text().toLowerCase().indexOf(paisfiltro) === -1) {
+                                $(this).remove();
+                            }
+                        });
+
+                    }
+                });
+            },
+            minLength: 2,
+            open: function (event, ui) {
+                $('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
+            },
+            select: function (event, ui) {
+                //console.log(ui);
+                $('#search').prop("disabled", false);
+                if ('@culture' == "es") {
+                    /* Ruben 202211*/
+                    /* https://www.veritradecorp.com/es/importaciones-exportaciones-peru/alicorp/ruc-20100055237*/
+                    @*$("#slug").val("/@culture" +
+                        "/importaciones-exportaciones-" + ui.item.id.pais + "/" + ui.item.id.uri + "/" + ui.item.id.trib + "-" + ui.item.id.ruc);*@
+                    $("#slug").val("/@culture/" +
+                        ui.item.id.pais.replace(" ", "-") + // Ruben 202306
+                        "/importaciones-y-exportaciones-" +
+                        ui.item.id.uri +
+                        "/" +
+                        ui.item.id.trib +
+                        "-" +
+                        ui.item.id.ruc);
+                    var botonbuscar = document.getElementById('search')
+                    console.log(99);
+                    botonbuscar.click();
+                } else {
+                    @*$("#slug").val("/@culture" +
+                        "/imports-exports-" + ui.item.id.pais + "/" + ui.item.id.uri + "/" + ui.item.id.trib + "-" + ui.item.id.ruc);*@
+                    $("#slug").val("/@culture/" +
+                        ui.item.id.pais.replace(" ", "-") + // Ruben 202306
+                        "/imports-and-exports-" +
+                        ui.item.id.uri +
+                        "/" +
+                        ui.item.id.trib +
+                        "-" +
+                        ui.item.id.ruc);
+                    var botonbuscar = document.getElementById('search')
+                    console.log(99);
+                    botonbuscar.click();
+                }
+            }
+        });
+        $('#txtEmpresa').blur(function () {
+            if ($('#txtEmpresa').val().trim() === '') {
+               $('#search').prop("disabled", true);
+            }
+        })
+
+
+        $("#search").click(function() {
+
+            // Ruben 202304
+            var txtEmpresa1 = $("#txtEmpresa").val().trim();
+            sessionStorage.setItem("busca_empresa", txtEmpresa1);
+            console.log(txtEmpresa1);
+            dataLayer.push({
+                'event': 'buscador', //valor estático
+                'tipo': 'empresa', // valor dinámico
+                'palabra': txtEmpresa1 // valor dinámico
+            });
+
+            if ($("#slug").val().trim() !== "") {
+                window.location.replace($("#slug").val());
+            }
+        });
+    });
+    </script>
+
+    <script type="text/javascript">
+      $(function () {
+
+
+          $("#txtProducto").autocomplete({
+              appendTo: "#autocompleteProducto",
+              source: function (request, response) {
+                  console.log(request);
+                  $.ajax({
+                      url: "@Url.Action("BuscarProductoCP", "ProductoPerfil")",
+                      type: "POST",
+                      dataType: "json",
+                      data: {
+                          description: request.term,
+                          idioma: '@culture',
+                          codPais: '@ViewBag.PaisCorto'
+                      },
+                      beforeSend: function () {
+
+
+                          var x = document.getElementById("loadingPageAdmin");
+                          x.style.display = "block";
+                      },
+                      success: function (data) {
+                          //console.log(data);
+                          var x = document.getElementById("loadingPageAdmin");
+                          x.style.display = "none";
+                          response($.map(data,
+                              function (item) {
+                                 
+                                  return {
+                                      id: item.id,
+                                      label: item.value,
+                                      value: item.value,
+                                      pais: item.pais,
+                                      tipoOpe: item.tipoOpe,
+                                      uri: item.uri,
+                                      codPartida: item.codPartida
+                                  };
+                              }));
+                      }
+                  });
+              },
+              minLength: 2,
+              open: function (event, ui) {
+                  $('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
+              },
+              select: function (event, ui) {
+                  //console.log(ui);
+                  $('#searchP').prop("disabled", false);
+                  if ('@culture' == "es") {
+                      $("#slug").val("/@culture/" +
+                          ui.item.pais +
+                          "/importaciones-y-exportaciones/" +
+                          ui.item.uri +
+                          "/" +
+                          ui.item.codPartida);
+                      var botonbuscar = document.getElementById('searchP')
+                      
+                      botonbuscar.click();
+                  } else {
+                      $("#slug").val("/@culture/" +
+                          ui.item.pais +
+                          "/imports-and-exports/" +
+                          ui.item.uri +
+                          "/" +
+                          ui.item.codPartida);
+                      var botonbuscar = document.getElementById('searchP')
+                      
+                      botonbuscar.click();
+                  }
+              }
+          });
+          $('#txtProducto').blur(function () {
+              if ($('#txtProducto').val().trim() === '') {
+                  $('#searchP').prop("disabled", true);
+              }
+
+          });
+          $("#searchP").click(function () {
+
+                  if ($("#slug").val().trim() !== "") {
+                      if ('@culture' == "es") {
+                          window.location.replace($("#slug").val());
+                      } else {
+                          window.location.replace($("#slug").val());
+                      }
+                  }
+              });
+
+
+
+      });
+    </script>
+}
+
+<style>
+    .h1 {
+        padding-top: 20px;
+    }
+
+
+
+
+    .loader .objectLoading {
+        width: 6px;
+        height: 17px;
+        background: rgba(100,186,234,1);
+        position: relative;
+        animation: objectLoading-animation 1s ease-in-out infinite;
+        animation-delay: 0.4s;
+        top: 35%;
+        margin: -28px auto 0;
+        right: 100px;
+    }
+
+        .loader .objectLoading::after, .loader .objectLoading::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 17px;
+            background: rgba(100,186,234,1);
+            animation: objectLoading-animation 1s ease-in-out infinite;
+        }
+
+        .loader .objectLoading::before {
+            right: 10px;
+            animation-delay: 0.2s;
+        }
+
+        .loader .objectLoading::after {
+            left: 10px;
+            animation-delay: 0.2s;
+        }
+
+    .h1 {
+        padding-top: 20px;
+    }
+
+
+    button[type="buttoncp2"] {
+        text-indent: -999px;
+        overflow: hidden;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        margin: 0;
+        border: 1px solid transparent;
+        border-radius: inherit;
+        background: transparent url("../content/images/icons/icon_search.svg") no-repeat center;
+        cursor: pointer;
+        opacity: 0.7;
+        background-color: #f8f8f8;
+    }
+
+    #autocompleteEmpresa {
+        width: 300px;
+    }
+
+    input[type="search2"] {
+        border: none;
+        background: #f8f8f8;
+    }
+
+    #txtEmpresa {
+        width: 100%;
+        
+    }
+
+
+    .loader {
+        position: absolute;
+        left: 100% !important;
+        width: auto;
+        right: 43px;
+        top: 35% !important;
+    }
+
+    
+    input[type="search"] {
+        border: none;
+        background: #f8f8f8;
+        margin: 0;
+        padding: 10px 140px 10px 20px;
+        font-size: 14px;
+        color: inherit;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        width: 88% ;
+    }
+
+    .nav-tabs > li {
+        width: 17%;
+    }
+
+    #li-solo {
+        width: 24%;
+    }
+
+
+    .custom-input {
+        width: 100%;
+        padding: 10px;
+        border: none;
+        border-color:#0B5E7D;
+        border-radius: 5px;
+        background-color: #f8f8f8;
+        padding-right: 15%;
+        color: #0B5E7D;
+        /* background-image: url('../../Content/Images/icons/icon_search.png');*/
+      /*  background-image: url('https://i.ibb.co/dKxHhhK/icon-search.png');*/
+        
+        box-sizing: border-box; /* asegura que el padding no aumente el tamaño total */
+    }
+
+    .EnterpriseBox h5 {
+        font-weight: 900;
+        color: #00BAEF;
+        font-size: 28px;
+        font-weight: bold;
+    }
+
+    .EnterpriseBox h3 {
+        font-size: 31px;
+        font-weight: 900;
+        color: #0B5E7D;
+        margin-top: 10px !important;
+    }
+
+    .EnterpriseBox img {
+        width: 9%;
+    }
+
+
+    .with-bg {
+        background-image: url('https://i.ibb.co/dKxHhhK/icon-search.png');
+        background-repeat: no-repeat;
+        background-size: 3.8% !important;
+        background-repeat: no-repeat;
+        background-position: right;
+        background-position-x: calc(100% - 9px) !important;
+        background-size: cover; /* o 'contain' según prefieras */
+    }
+
+        .with-bg:focus {
+            background-image: none;
+        }
+
+    #home-tab-s {
+        width: 28%;
+    }
+
+    .LinksNav2 {
+        width: 58% ;
+        margin: auto;
+    }
+
+
+</style>
+
+
+<div>
+    <!-- Start Layout Country Profile -->
+    <header style="height: 165px;">
+        <div class="inner-header">
+           
+            <h1  id="ly2-titulo"  style="padding-top:25px;">
+
+                @Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisCabeceraDescubre", culture)  @ViewBag.PaisCap
+
+                <img  id="ly2-img" src="@Url.Content(ViewBag.FlagPaisActual)" alt="" />
+            </h1>
+            <div class="line-bottom"> </div>
+            <div class="downtext"  id="ly2-downtext">
+                @if (ViewBag.TotalEmpresasHeader == "0")
+                {
+                    <h3  id="ly3-h3">
+                        @Html.Raw(ViewBag.NoCompanyTitle)
+
+                    </h3>
+                        }
+                        else
+                        {
+
+                        <h3  id="ly3-h3">
+                            @Html.Raw(@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisCabeceraEncontrarasParte1", culture))
+                            <b>@ViewBag.TotalEmpresasHeader</b>
+                            @Html.Raw(@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisCabeceraEncontrarasParte2", culture))
+                            @ViewBag.Pais   @Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisCabeceraEncontrarasParte3", culture) <b> @ViewBag.TotalProductosHeader </b>
+                            @Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisProductos", culture).ToLower()
+                        </h3>
+
+                        }
+
+                </div>
+        </div>
+    </header>
+    <!-- Start Layout Country Profile -->
+
+
+    <section class="TabsExportImport " id="ly2-TabsExportImport">
+        @if (ViewBag.TotalEmpresasHeader == "0")
+        {
+            <section class="LinksNav2e" id="LinkNav2e">
+                @if (culture == "en")
+                {
+
+                    ruta1 = String.Format("/en/countries/{0}/exports", @ViewBag.FriendlyNameES);
+                    ruta2 = String.Format("/en/countries/");
+                }
+                else
+                {
+
+                    ruta1 = String.Format("/es/paises/{0}/exportaciones", @ViewBag.FriendlyNameES);
+                    ruta2 = String.Format("/es/paises/");
+                }
+
+                <ol class="breadcrumb breadl2">
+                    <li><a href="@ruta2" style="color: #0B5E7D;">@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PD-inicio", culture).ToString()</a>
+                    <li><a href="@ruta2" style="color: #0B5E7D;">@breadNameShort</a></li>
+                    <li class="active" style="color: #0B5E7D;"><b>@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisExportaciones", culture).ToString()</b> </li>
+                 
+                </ol>
+            </section>
+        }
+        else
+        {
+            <section class="LinksNav2" id="LinkNav2e">
+                @if (culture == "en")
+                {
+
+                    ruta1 = String.Format("/en/countries/{0}/exports", @ViewBag.FriendlyNameES);
+                    ruta2 = String.Format("/en/countries/");
+                }
+                else
+                {
+
+                    ruta1 = String.Format("/es/paises/{0}/exportaciones", @ViewBag.FriendlyNameES);
+                    ruta2 = String.Format("/es/paises/");
+                }
+
+                <ol class="breadcrumb breadl2">
+                    <li><a href="@ruta2" style="color: #0B5E7D;">@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PD-inicio", culture).ToString()</a>
+                    <li><a href="@ruta1" style="color: #0B5E7D;">@breadNameShort</a></li>
+                    <li class="active" style="color: #0B5E7D;"><b>@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisExportaciones", culture).ToString()</b> </li>
+                    
+                </ol>
+            </section>
+        }
+        @if (ViewBag.TotalEmpresasHeader == "0")
+        {
+            <div class="PanelCentral condition-zero-panel " id="ly2-PanelCentral">
+
+                <ul class="nav nav-tabs " id="myTab" role="tablist">
+                    <li class="nav-item " id="home-tab-s">
+                        <a class="nav-link active " id="home-tab" data-toggle="tab" href="#expor" role="tab"
+                           aria-controls="home" aria-selected="true">
+                            <i class="fa fa-arrow-up"></i>
+                            <b style="font-size:15px">@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisExportaciones", culture)</b>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="home-tab-s">
+                        <a class="nav-link " id="profile-tab" data-toggle="tab" role="tab" onclick="navegarImportacion()" style="cursor:pointer"
+                           aria-controls="profile" aria-selected="false">
+                            <i class="fa fa-arrow-down"></i>
+                            <b style="font-size:15px"> @Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisImportaciones", culture)</b>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        }
+        else
+        {
+
+            <div class="PanelCentral" id="ly2-PanelCentral">
+
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" id="ly2-home-tab">
+                        <a class="nav-link active" id="home-tab" data-toggle="tab" href="#expor" role="tab"
+                           aria-controls="home" aria-selected="true">
+                            <i class="fa fa-arrow-up"></i>
+                            <b style="font-size:15px">@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisExportaciones", culture)</b>
+                        </a>
+                    </li>
+                    <li class="nav-item" id="ly2-home-tab">
+                        <a class="nav-link" id="profile-tab" data-toggle="tab" role="tab" onclick="navegarImportacion()" style="cursor:pointer"
+                           aria-controls="profile" aria-selected="false">
+                            <i class="fa fa-arrow-down"></i>
+                            <b style="font-size:15px"> @Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisImportaciones", culture)</b>
+                        </a>
+                    </li>
+                </ul>
+
+            </div>
+        }
+
+
+
+    <div>
+        <input type="hidden" id="idPaisValor" value="@ViewBag.Idpais" />
+        <input type="hidden" id="idPaisCapValor" value="@ViewBag.PaisCap" />
+        <input type="hidden" id="cultureValue" value="@ViewBag.CultureValue" />
+
+        <input type="hidden" id="LayoutCP" value="@ViewBag.LayoutCP" />
+        <input type="hidden" id="RutaCP_ES" value="@ViewBag.RutaCP_ES" />
+        <input type="hidden" id="RutaCP_EN" value="@ViewBag.RutaCP_EN" />
+
+        @*<input type="hidden" id="valorExportacionEmpresaItem" value="0" />
+        <input type="hidden" id="valorExportacionProductoItem" value="0" />*@
+        @if (culture == "es")
+        {
+            rutaE = String.Format("/es/paises/{0}/importaciones", @ViewBag.FriendlyNameES);
+
+            @*@Html.ActionLink("Enlace", "Index", "DescubreComercioExteriorImport", new { culture = culture, paisNombre = ViewBag.FriendlyNameES }, new { id = "hiddenButtonImport", style = "display:none;" })*@
+        }
+        else
+        {
+            rutaE = String.Format("/en/countries/{0}/imports", @ViewBag.FriendlyNameES);
+            @*@Html.ActionLink("Enlace", "Index", "DescubreComercioExteriorImportUS", new { culture = culture, paisNombre = ViewBag.FriendlyNameES }, new { id = "hiddenButtonImport", style = "display:none;" })*@
+
+        }
+
+        <a href="@rutaE"  id = "hiddenButtonImport"></a>
+    </div>
+        @if (ViewBag.TotalEmpresasHeader == "0")
+        {
+
+
+            <div class="tab-content  ly2-noempresas" id="tab-content-zero" style="width: 568px;">
+
+                <!-- Box Exportaciones-->
+                <div class="tab-pane active" id="expor" role="tabpanel" aria-labelledby="home-tab">
+                    @if (culture == "en")
+                    {
+
+                        rutaE = String.Format("/en/countries/{0}/exports/companies", @ViewBag.FriendlyNameES);
+                    }
+                    else
+                    {
+
+                        rutaE = String.Format("/es/paises/{0}/exportaciones/empresas", @ViewBag.FriendlyNameES);
+                    }
+
+
+
+
+                    <div class="col-md-6 " style="width:100%">
+                        <div class="flexbox">
+                            <div class="EnterpriseBox">
+
+
+                                @if (culture == "en")
+                                {
+
+                                    rutaE = String.Format("/en/countries/{0}/exports/products", @ViewBag.FriendlyNameES);
+                                }
+                                else
+                                {
+
+                                    rutaE = String.Format("/es/paises/{0}/exportaciones/productos", @ViewBag.FriendlyNameES);
+                                }
+
+
+
+                                @*<a href='@Url.Action("Index", "PaisExportacionesProductos",new { culture = @ViewBag.CultureValue, paisNombre = @ViewBag.FriendlyNameES }, null)'>*@
+                                <a href="@rutaE">
+                                    <div class="DetailsBox">
+                                        <img src="~/Content/Images/icons/icon_product.svg" alt="" style="padding-left: 0px; margin-left: 11%;">
+                                        <h3 style="margin-left: 0px;padding-left: 11%;">
+                                            @ViewBag.ExportacionProductosCount
+                                        </h3>
+                                        <h5> @Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisProductos", culture)</h5>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="">
+
+                            <div class="t_buscar" style="width: 99%; padding-top: 3px; padding-left: 0%;">
+
+                                @Html.Hidden("slug")
+                                @*<input type="search" id="txtProducto" style=" border-radius: 8px;"
+            placeholder="@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisBuscarProductos", culture)">*@
+                                <input type="text" id="txtProducto" class="custom-input with-bg" placeholder="@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisBuscarProductos", culture)">
+                                <div id="autocompleteProducto"
+                                     class="autocomplete_content"></div>
+                                <div id="loadingPageAdmin" class="loader"
+                                     style="position: absolute; left: auto; width: auto; right: 30px; top: 100%; display: none; ">
+                                    <div class="objectLoading"></div>
+                                </div>
+
+                                <button id="searchP" type="buttoncp2"
+                                        onclick="ga('send', 'event', 'boton', 'click', 'buscar')" hidden>
+                                    @Resources.Search_Button
+                                </button>
+                            </div>
+
+                        </div>
+
+                        <div class="HeaderColumn">
+                            <h5> @Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisCategoriaTabla", culture) </h5>
+                            <h5>@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisNumeroProductosTabla", culture) </h5>
+
+                        </div>
+
+                        <div class="TableCat">
+                            <ul id="lista-exportacion-producto">
+                                @foreach (var item in ListadoExportacionesProducto)
+                                {
+
+                                    if (culture == "en")
+                                    {
+
+
+                                        rutaI = String.Format("/en/countries/{0}/exports/products/{1}", @ViewBag.FriendlyNameES, @item.CategoriaSlugES);
+                                    }
+                                    else
+                                    {
+
+
+                                        rutaI = String.Format("/es/paises/{0}/exportaciones/productos/{1}", @ViewBag.FriendlyNameES, @item.CategoriaSlugES);
+                                    }
+
+
+                                    <li>
+                                        @*<a href="@Url.Action( "Index", "PaisExportacionesProductosItem", new { culture = ViewBag.CultureValue, paisNombre = ViewBag.FriendlyNameES, nombreitem = @item.CategoriaSlugES })">*@
+                                        <a href="@rutaI">
+                                            <div class="Column">
+                                                <h5> @item.ShortNombreES   </h5>
+                                                <div><h5 class="number">@item.NumeroEmpresa</h5></div>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                }
+
+                            </ul>
+                        </div>
+
+
+                        @if (culture == "en")
+                        {
+
+                            rutaE = String.Format("/en/countries/{0}/exports/products", @ViewBag.FriendlyNameES);
+                        }
+                        else
+                        {
+
+                            rutaE = String.Format("/es/paises/{0}/exportaciones/productos", @ViewBag.FriendlyNameES);
+                        }
+                        <div class="ButtonCat">
+                            <a class="btn  btn-cat" role="button" href="@rutaE">
+                                @Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisVerCategorias", culture) <i class="fa fa-chevron-right"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        }
+        else
+        {
+
+
+            <div class="tab-content  ly2-tab-content">
+
+                <!-- Box Exportaciones-->
+                <div class="tab-pane active" id="expor" role="tabpanel" aria-labelledby="home-tab">
+                    @if (culture == "en")
+                    {
+
+                        rutaE = String.Format("/en/countries/{0}/exports/companies", @ViewBag.FriendlyNameES);
+                    }
+                    else
+                    {
+
+                        rutaE = String.Format("/es/paises/{0}/exportaciones/empresas", @ViewBag.FriendlyNameES);
+                    }
+
+                    <div class="col-md-6">
+                        <div class="flexbox">
+                            <div class="EnterpriseBox">
+                                @*<a href='@Url.Action("Index", "PaisExportacionesEmpresas",new { culture = @ViewBag.CultureValue, paisNombre = ViewBag.FriendlyNameES }, null)'>*@
+                                <a href='@rutaE'>
+                                    <div class="DetailsBox">
+                                        <img src="~/Content/Images/icons/icon_business.svg" alt="" style="padding-left: 0px; margin-left: 11%;">
+                                        <h3 style="margin-left: 0px;padding-left: 11%;">
+                                            @ViewBag.ExportacionEmpresasCount
+                                        </h3>
+                                        <h5>@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisEmpresas", culture)</h5>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <!--Empresa Exportacion-->
+                        <div class="">
+                            <div class="HeaderColumn">
+                                <!-- Busqueda empresa -->
+                                <div class="t_buscar" style="width: 99%; padding-top: 3px; padding-left: 0%;">
+
+                                    @Html.Hidden("slug")
+                                    @*<input type="search" id="txtEmpresa" style=" border-radius: 8px;"
+                                    placeholder="@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisBuscarEmpresas", culture)">*@
+                                    <input type="text" id="txtEmpresa" class="custom-input with-bg" placeholder="@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisBuscarEmpresas", culture)">
+                                    <button id="search" type="buttoncp2" onclick="ga('send', 'event', 'boton', 'click', 'buscar')" hidden>@Resources.Search_Button</button>
+                                    <div id="autocompleteEmpresa" class="autocomplete_content"></div>
+                                    <div id="loadingPageAdminE" class="loader"
+                                         style="position: absolute; left: auto; width: auto; right: 30px; top: 100%; display: none; ">
+                                        <div class="objectLoading"></div>
+                                    </div>
+                                </div>
+                                <!-- Fin Busqueda empresa -->
+
+                            </div>
+                            <!-- Fin Busqueda empresa -->
+
+                        </div>
+
+
+
+
+                        <div class="HeaderColumn">
+                            <h5>@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisCategoriaTabla", culture)</h5>
+                            <h5>@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisNumeroDeEmpresas", culture)</h5>
+
+                        </div>
+
+                        <div class="TableCat">
+                            <ul id="lista-exportacion-empresa">
+                                @foreach (var item in ListadoExportacionesEmpresa)
+                                {
+                                    if (culture == "en")
+                                    {
+
+                                        rutaI = String.Format("/en/countries/{0}/exports/companies/{1}", @ViewBag.FriendlyNameES, @item.CategoriaSlugES);
+                                    }
+                                    else
+                                    {
+
+
+                                        rutaI = String.Format("/es/paises/{0}/exportaciones/empresas/{1}", @ViewBag.FriendlyNameES, @item.CategoriaSlugES);
+                                    }
+                                    <li>
+                                        @*<a href="@Url.Action( "Index", "PaisExportacionesEmpresasItem", new { culture = ViewBag.CultureValue, paisNombre = ViewBag.FriendlyNameES, nombreitem = @item.CategoriaSlugES })">*@
+                                        <a href="@rutaI">
+                                            <div class="Column">
+                                                <h5>@item.ShortNombreES </h5>
+                                                <h5 class="number">@item.NumeroEmpresa</h5>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                }
+
+                            </ul>
+                        </div>
+                        @if (culture == "en")
+                        {
+
+                            rutaE = String.Format("/en/countries/{0}/exports/companies", @ViewBag.FriendlyNameES);
+                        }
+                        else
+                        {
+
+                            rutaE = String.Format("/es/paises/{0}/exportaciones/empresas", @ViewBag.FriendlyNameES);
+                        }
+                        <div class="ButtonCat">
+                            <a class="btn  btn-cat" role="button" href="@rutaE">
+                                @Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisVerCategorias", culture) <i class="fa fa-chevron-right"></i>
+                            </a>
+                        </div>
+
+
+                    </div>
+
+
+                    <div class="col-md-6 ">
+                        <div class="flexbox">
+                            <div class="EnterpriseBox">
+
+
+                                @if (culture == "en")
+                                {
+
+                                    rutaE = String.Format("/en/countries/{0}/exports/products", @ViewBag.FriendlyNameES);
+                                }
+                                else
+                                {
+
+                                    rutaE = String.Format("/es/paises/{0}/exportaciones/productos", @ViewBag.FriendlyNameES);
+                                }
+
+
+
+                                @*<a href='@Url.Action("Index", "PaisExportacionesProductos",new { culture = @ViewBag.CultureValue, paisNombre = @ViewBag.FriendlyNameES }, null)'>*@
+                                <a href="@rutaE">
+                                    <div class="DetailsBox">
+                                        <img src="~/Content/Images/icons/icon_product.svg" alt="" style="padding-left: 0px; margin-left: 11%;">
+                                        <h3 style="margin-left: 0px;padding-left: 11%;">
+                                            @ViewBag.ExportacionProductosCount
+                                        </h3>
+                                        <h5> @Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisProductos", culture)</h5>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="">
+
+                            <div class="t_buscar" style="width: 99%; padding-top: 3px; padding-left: 0%;">
+
+
+                                @Html.Hidden("slug")
+                                @*<input type="search" id="txtProducto" style=" border-radius: 8px;"
+                                placeholder="@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisBuscarProductos", culture)">*@
+                                <input type="text" id="txtProducto" class="custom-input with-bg" placeholder="@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisBuscarProductos", culture)">
+                                <div id="autocompleteProducto"
+                                     class="autocomplete_content"></div>
+                                <div id="loadingPageAdmin" class="loader"
+                                     style="position: absolute; left: auto; width: auto; right: 30px; top: 100%; display: none; ">
+                                    <div class="objectLoading"></div>
+                                </div>
+
+                                <button id="searchP" type="buttoncp2"
+                                        onclick="ga('send', 'event', 'boton', 'click', 'buscar')" hidden>
+                                    @Resources.Search_Button
+                                </button>
+
+
+                            </div>
+
+                        </div>
+
+                        <div class="HeaderColumn">
+                            <h5> @Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisCategoriaTabla", culture) </h5>
+                            <h5>@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisNumeroProductosTabla", culture) </h5>
+
+                        </div>
+
+                        <div class="TableCat">
+                            <ul id="lista-exportacion-producto">
+                                @foreach (var item in ListadoExportacionesProducto)
+                                {
+                                    <li>
+                                        @if (culture == "en")
+                                        {
+
+                                            rutaI = String.Format("/en/countries/{0}/exports/products/{1}", @ViewBag.FriendlyNameES, @item.CategoriaSlugES);
+                                        }
+                                        else
+                                        {
+
+                                            rutaI = String.Format("/es/paises/{0}/exportaciones/productos/{1}", @ViewBag.FriendlyNameES, @item.CategoriaSlugES);
+                                        }
+                                        @*<a href="@Url.Action( "Index", "PaisExportacionesProductosItem", new { culture = ViewBag.CultureValue, paisNombre = ViewBag.FriendlyNameES, nombreitem = @item.CategoriaSlugES })">*@
+                                        <a href="@rutaI">
+                                            <div class="Column">
+                                                <h5> @item.ShortNombreES </h5>
+                                                <div><h5 class="number">@item.NumeroEmpresa</h5></div>
+                                            </div>
+                                        </a>
+                                    </li>
+
+                                }
+
+                            </ul>
+                        </div>
+
+
+                        @if (culture == "en")
+                        {
+
+                            rutaE = String.Format("/en/countries/{0}/exports/products", @ViewBag.FriendlyNameES);
+                        }
+                        else
+                        {
+
+                            rutaE = String.Format("/es/paises/{0}/exportaciones/productos", @ViewBag.FriendlyNameES);
+                        }
+                        <div class="ButtonCat">
+                            <a class="btn  btn-cat" role="button" href="@rutaE">
+                                @Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisVerCategorias", culture) <i class="fa fa-chevron-right"></i>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        }
+
+
+
+        <script>
+            $(function () {
+                $('#myTab li:first-child a').tab('show')
+            })
+        </script>
+
+
+    </section>
+        <section class="IntroSection">
+
+            <h3>
+
+                @Html.Raw(@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisPotenciaDatosAduaneros1", culture)) @ViewBag.Pais
+                @Html.Raw(@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisPotenciaDatosAduaneros2", culture)) @ViewBag.AnioAviso
+
+
+            </h3>
+        </section>
+
+       
+           
+            
+       
+       
+        <section class="Muestra">
+            <div class="ContainerBox">
+                <div class="row">
+                    <div class="col-md-5" style="padding-left: 1px;">
+                        <div class="TittleTest">
+                            <h4 class="info-aduanas">
+                                @Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisInfoCabeceraParte1", culture)
+                                @ViewBag.Pais
+                                @Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisInfoCabeceraParte2", culture)
+                            </h4>
+                            @if (@ViewBag.InfoCo == 0)
+                            {
+                                <ul id="" style="padding-left: 15px;">
+                                    <li>
+                                        <div class="row">
+                                            <div class="col" style="width: 7%;float: left;"><img src="~/Content/Images/icons/icon_arrow.svg"></div>
+                                            <div class="col" style="width: 80%;float: left;"> @Html.Raw(@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisPotenciaTuEstrategiaParte1", culture))</div>
+
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="row">
+                                            <div class="col" style="width: 7%;float: left;"><img src="~/Content/Images/icons/icon_arrow.svg"></div>
+                                            <div class="col" style="width: 80%;float: left;">@Html.Raw(@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisPotenciaTuEstrategiaParte2", culture))</div>
+
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="row">
+                                            <div class="col" style="width: 7%;float: left;"><img src="~/Content/Images/icons/icon_arrow.svg"></div>
+                                            <div class="col" style="width: 80%;float: left;">@Html.Raw(@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisPotenciaTuEstrategiaParte3", culture))</div>
+
+                                        </div>
+                                    </li>
+                                </ul>
+                            }
+
+
+
+                            @if (@ViewBag.InfoCo == 1)
+                            {
+                                <ul id="" style="padding-left: 15px;">
+                                    <li>
+                                        <div class="row">
+                                            <div class="col" style="width: 7%;float: left;"><img src="~/Content/Images/icons/icon_arrow.svg"></div>
+                                            <div class="col" style="width: 80%;float: left;">@Html.Raw( @ViewBag.InfoCo1)</div>
+
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="row">
+                                            <div class="col" style="width: 7%;float: left;"><img src="~/Content/Images/icons/icon_arrow.svg"></div>
+                                            <div class="col" style="width: 80%;float: left;">@Html.Raw(@ViewBag.InfoCo2) </div>
+
+                                        </div>
+                                    </li>
+
+                                    <li>
+                                        <div class="row">
+                                            <div class="col" style="width: 7%;float: left;"><img src="~/Content/Images/icons/icon_arrow.svg"></div>
+                                            <div class="col" style="width: 80%;float: left;">@Html.Raw( @ViewBag.InfoCo3)</div>
+
+                                        </div>
+                                    </li>
+                                </ul>
+                            }
+
+                        </div>
+
+                        <div class="TittleTestButton">
+                            <img src="~/Content/Images/icons/icon_excel.svg" alt="">
+                            <a href="@ruta3">  @Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisDescargaEjemplo", culture)</a>
+                        </div>
+
+                    </div>
+                    <div class="col-md-7">
+                        <script src="https://code.highcharts.com/highcharts.js"></script>
+                        <script src="https://code.highcharts.com/modules/series-label.js"></script>
+                        <script src="https://code.highcharts.com/modules/exporting.js"></script>
+                        <script src="https://code.highcharts.com/modules/export-data.js"></script>
+                        <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+                        <figure class="highcharts-figure">
+                            <div id="container"></div>
+
+                        </figure>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+
+        <section class="Marquee">
+            <div class="TittleMarquee">
+                @if (@ViewBag.ExportacionEmpresasCount != "0")
+                {
+                    <h4>
+                        @Html.Raw(@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisScrollCabecera", culture)) @ViewBag.PaisCap
+                        <img src="@Url.Content(ViewBag.FlagPaisActual)" alt="" />
+                    </h4>
+
+                }
+                else
+                {
+                    <h4>
+                        @Html.Raw(@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisScrollCabecera2", culture)) @ViewBag.PaisCap
+                        <img src="@Url.Content(ViewBag.FlagPaisActual)" alt="" />
+                    </h4>
+
+                }
+                <div class="LineTitle" style="margin-top: 5px;"></div>
+                @if (@ViewBag.ExportacionEmpresasCount != "0")
+                {
+                    <marquee id="MarqEnter" scrolldelay="100" scrollamount="3" loop="infinite" onmouseover="this.stop();" onmouseout="this.start();">
+                        @foreach (var item in ListaEmpresaBanner)
+                        {
+                            <a href="@item.Uri">@item.ShortNombreES</a>
+                        }
+                    </marquee>
+                }
+
+                <marquee id="MarqProduc" direction="right" scrolldelay="100" scrollamount="3" loop="infinite" onmouseover="this.stop();" onmouseout="this.start();">
+                    @foreach (var item in ListaProductoBanner)
+                    {
+                        <a href="@item.Uri">@item.ShortNombreES</a>
+                    }
+                </marquee>
+            </div>
+        </section>
+
+        <!-- End Layout Country Profile -->
+
+
+
+
+    </div>
+
+
+
+<script src="/Scripts/jquery.min.js"></script>
+<script src="/Scripts/transition.js"></script>
+<script src="/Scripts/collapse.js"></script>
+
+<script src="/Scripts/custom.js"></script>
+<script src="/Scripts/tab.js"></script>
+<script src="/Scripts/bootstrap.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+<script type="text/javascript">
+    var valorExportacionEmpresaItem = "";
+    var valorExportacionProductoItem = "";
+    //var enlaceCategoriaEmpresa;
+    $(document).on('keyup keypress', 'form input[type="search"]', function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+    var paisnombre = document.getElementById("idPaisCapValor").value; 
+    var titulo = "Comercio Exterior de " + paisnombre;
+    console.log("t" + titulo); //
+
+    var jsonImportData = @Html.Raw(@ViewData["GetImportDataChart"]);
+    var jsonExportData = @Html.Raw(@ViewData["GetExportDataChart"]);
+
+    var cultureValueG = document.getElementById("cultureValue").value ;
+
+    var nExport = "Exportaciones";
+    var nImport = "Importaciones";
+    var msgEjeX = "*valores representados en miles de millones"
+
+
+    if (cultureValueG != "es") {
+        var nExport = "Exports";
+        var nImport = "Imports";
+        titulo = "Foreign Trade of " + paisnombre;
+        msgEjeX = "values ​​represented in billions";
+    };
+
+    console.log("t" + titulo); // Output: 30
+    Highcharts.setOptions({ lang: { numericSymbols: ['MM', 'MM', 'MM', 'MM', 'MM', 'MM'] } });
+
+    Highcharts.chart('container', {
+        credits: {
+            enabled: false
+        },
+
+        yAxis: {
+            title: false
+        },
+
+        xAxis: {
+            tickInterval: 1,
+            zoomEnabled: false,
+            type: 'string',
+            title: {
+                text: msgEjeX
+            }
+        },
+
+
+
+        series: [{
+            name: nExport,
+            color: '#7CD9F5',
+            data: jsonImportData.map(function (item) {
+            return [item.Year, item.Value];
+            })
+        },
+
+            {
+                name: nImport,
+                color: '#001E2D',
+                data: jsonExportData.map(function (item) {
+                    return [item.Year, item.Value];
+                })
+            }],
+
+        responsive: {
+            rules: [{
+                condition: {
+                    maxWidth: 500
+                },
+                chartOptions: {
+                    legend: {
+                        layout: 'horizontal',
+                        align: 'center',
+                        verticalAlign: 'bottom'
+
+                    }
+                }
+            }]
+        },
+        exporting: {
+            enabled: false
+        },
+        title: {
+            text: titulo
+        }
+
+    });
+
+
+
+
+
+    function navegarImportacion() {
+
+        document.getElementById('hiddenButtonImport').click();
+    }
+
+
+    @*function buscarProductos() {
+        event.preventDefault();
+        const nombreEmpresa = document.getElementById("txtEmpresaExportacion").value;
+        const idPaisValor = document.getElementById("idPaisValor").value;
+        alert(`Buscando productos para la empresa: ${nombreEmpresa}`);
+        alert(`Buscando productos para el pais: ${idPaisValor}`);
+       // getExportacionesEmpresa(nombreEmpresa);
+
+    }
+
+    function getExportacionesEmpresa() {
+        event.preventDefault();
+        const nombreEmpresa = document.getElementById("txtEmpresaExportacion").value;
+        if (nombreEmpresa.trim() != '') {
+            const idPaisValor = document.getElementById("idPaisValor").value;
+            const cultureValue = document.getElementById("cultureValue").value;
+            const urlValue = `/${cultureValue}/DescubreComercioExterior/GetListadoExportacionEmpresa`;
+            // Elimina la lista actual
+            $("#lista-exportacion-empresa").empty();
+
+            $.ajax({
+                url: urlValue,
+                type: "GET",
+                data: { nombre: nombreEmpresa, idPais: idPaisValor, culture: cultureValue },
+                success: function (data) {
+                    // Recorre la lista de objetos
+                    for (let i = 0; i < data.length; i++) {
+                        let item = data[i];
+
+                        // Crea un nuevo elemento 'li'
+                        let nuevoItem = $(`<li>
+                            <a href="${item.UriName}">
+                            <div class="Column">
+                            <h5>${item.NombreES}</h5>
+                            <h5>${item.NumeroEmpresa}</h5>
+                            </div>
+                            </a>
+                            </li>`);
+                        // Elimina la lista actual
+                        // $("#lista-exportacion-empresa").empty();
+                        // Agrega el nuevo elemento a la lista
+                        $("#lista-exportacion-empresa").append(nuevoItem);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error al obtener la lista de exportaciones de empresa: ", error);
+                },
+            });
+        }
+    }
+
+    function getExportacionesProducto() {
+        event.preventDefault();
+        const nombreProducto = document.getElementById("txtProductoExportacion").value;
+        if (nombreProducto.trim() != '') {
+            const idPaisValor = document.getElementById("idPaisValor").value;
+            const cultureValue = document.getElementById("cultureValue").value;
+            const urlValue = `/${cultureValue}/DescubreComercioExterior/GetListadoExportacionProducto`;
+            // Elimina la lista actual
+            $("#lista-exportacion-producto").empty();
+
+            $.ajax({
+                url: urlValue,
+                type: "GET",
+                data: { nombre: nombreProducto, idPais: idPaisValor, culture: cultureValue },
+                success: function (data) {
+                    // Recorre la lista de objetos
+                    for (let i = 0; i < data.length; i++) {
+                        let item = data[i];
+
+                        // Crea un nuevo elemento 'li'
+                        let nuevoItem = $(`<li>
+                         <a href="${item.UriName}">
+                         <div class="Column">
+                         <h5>${item.NombreES}</h5>
+                         <h5>${item.NumeroEmpresa}</h5>
+                         </div>
+                         </a>
+                         </li>`);
+                        // Elimina la lista actual
+                        //$("#lista-exportacion-producto").empty();
+                        // Agrega el nuevo elemento a la lista
+                        $("#lista-exportacion-producto").append(nuevoItem);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error al obtener la lista de exportaciones de producto: ", error);
+                },
+            });
+        }
+    }
+
+    function getImportacionesProducto() {
+        event.preventDefault();
+        const urlValue2 = @Url.Action("GetListadoExportacionEmpresa", "CountryProfileData");
+        //alert (urlValue2);
+        const nombreProducto = document.getElementById("txtProductoImportacion").value;
+        if (nombreProducto.trim() != '') {
+            const idPaisValor = document.getElementById("idPaisValor").value;
+            const cultureValue = document.getElementById("cultureValue").value;
+
+          //const urlValue = `/${cultureValue}/DescubreComercioExterior/GetListadoImportacionProducto`;
+            const urlValue = `/${cultureValue}/CountryProfileData/GetListadoExportacionEmpresa`;
+
+            // Elimina la lista actual
+            $("#lista-importacion-producto").empty();
+            $.ajax({
+                url: urlValue,
+                type: "GET",
+                data: { nombre: nombreProducto, idPais: idPaisValor, culture: cultureValue },
+                success: function (data) {
+                    // Recorre la lista de objetos
+                    for (let i = 0; i < data.length; i++) {
+                        let item = data[i];
+
+                        // Crea un nuevo elemento 'li'
+                        let nuevoItem = $(`<li>
+                      <a href="${item.UriName}">
+                      <div class="Column">
+                      <h5>${item.NombreES}</h5>
+                      <h5>${item.NumeroEmpresa}</h5>
+                      </div>
+                      </a>
+                      </li>`);
+                        // Elimina la lista actual
+                        //$("#lista-importacion-producto").empty();
+                        // Agrega el nuevo elemento a la lista
+                        $("#lista-importacion-producto").append(nuevoItem);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error al obtener la lista de importacion de producto: ", error);
+                },
+            });
+        }
+    }
+
+    function getImportacionesEmpresa() {
+        event.preventDefault();
+        const nombreEmpresa = document.getElementById("txtEmpresaImportacion").value;
+        if (nombreEmpresa.trim() != '') {
+            const idPaisValor = document.getElementById("idPaisValor").value;
+            const cultureValue = document.getElementById("cultureValue").value;
+            const urlValue = `/${cultureValue}/DescubreComercioExterior/GetListadoImportacionEmpresa`;
+
+            // Elimina la lista actual
+            $("#lista-importacion-empresa").empty();
+            $.ajax({
+                url: urlValue,
+                type: "GET",
+                data: { nombre: nombreEmpresa, idPais: idPaisValor },
+                success: function (data) {
+                    // Recorre la lista de objetos
+                    for (let i = 0; i < data.length; i++) {
+                        let item = data[i];
+
+                        // Crea un nuevo elemento 'li'
+                        let nuevoItem = $(`<li>
+                    <a href="${item.UriName}">
+                    <div class="Column">
+                    <h5>${item.NombreES}</h5>
+                    <h5>${item.NumeroEmpresa}</h5>
+                    </div>
+                    </a>
+                    </li>`);
+                        // Elimina la lista actual
+                        //$("#lista-importacion-producto").empty();
+                        // Agrega el nuevo elemento a la lista
+                        $("#lista-importacion-empresa").append(nuevoItem);
+                    }
+                },
+                error: function (error) {
+                    console.log("Error al obtener la lista de importacion de Empresa: ", error);
+                },
+            });
+        }
+    }*@
+
+
+
+
+
+
+</script>

@@ -1,0 +1,473 @@
+﻿@media all and (min-width: 768px) and (max-width: 991px) {
+    .navbar-brand {
+        margin: 0 auto;
+        padding: 0;
+    }
+
+    img.separator {
+        height: 10px;
+        width: 10px;
+    }
+
+    .link_cabecera_02 img {
+        float: left;
+        width: 10px;
+    }
+
+    .navbar-brand .cabecera_logo {
+        height: 50PX;
+        margin: 10px auto;
+        padding: 5px;
+        width: 75px;
+        background-color: transparent;
+    }
+
+    .navbar.barra_navegacion_fixed .navbar-brand .cabecera_logo {
+        margin: 0;
+    }
+
+    /* Barra de Navegacion */
+    .menu-content {
+        height: 70px !important;
+    }
+
+    .barra_navegacion div#navbar ul.nav {
+        margin: 0;
+        padding-bottom: 0;
+        padding-top: 0;
+    }
+
+    .barra_navegacion_fixed a.navbar-brand {
+        padding-top: 0;
+    }
+
+    .barra_navegacion_fixed div#navbar ul.nav {
+        padding-bottom: 0;
+        padding-top: 0;
+    }
+
+    .navbar.barra_navegacion > .container {
+        padding: 0;
+    }
+
+    .navbar.barra_navegacion li a.link_menu, .navbar.barra_navegacion li a.link_menu:visited {
+        font-size: 12px;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .navbar.barra_navegacion li a.access_content {
+        font-size: 12px;
+        line-height: 30px;
+        margin-top: 10px;
+        padding: 0 10px;
+    }
+
+    .link_log {
+        padding-top: 10px;
+    }
+
+    .nav-list .submenu-right li a, .nav-list .submenu-left li a {
+        font-size: 12px;
+        line-height: 45px;
+        padding: 0 10px;
+    }
+
+    .submenu-left {
+        left: -80px !important;
+        width: 600px;
+    }
+
+        .submenu-left:before {
+            border-width: 10px 15px 10px 15px;
+            right: 80%;
+            top: -20px;
+        }
+
+    .submenu-right {
+        right: -280px !important;
+        width: 750px;
+    }
+
+        .submenu-right:before {
+            border-width: 10px 15px 10px 15px;
+            right: 38%;
+            top: -20px;
+        }
+
+    /* Home */
+    .banner .banner_section .banner_content {
+        padding: 25px 22px;
+        position: relative;
+    }
+
+        .banner .banner_section .banner_content h3 {
+            font-size: 22px;
+            line-height: 28px;
+            padding: 0 !important;
+        }
+
+    .banner .banner_section .underline-image {
+        width: 120px;
+    }
+
+    .banner .banner_section .banner_content .video_banner {
+        height: 153px;
+        width: 252px;
+    }
+
+    .banner_section .banner_link {
+        font-size: 10px !important;
+    }
+
+    .banner_section p {
+        margin: 4px auto !important;
+    }
+
+    .home_content h2 {
+        font-size: 20px !important;
+    }
+
+    .home_content .blog_item .blog_title {
+        font-size: 12px !important;
+        line-height: 14px;
+    }
+
+    .home_content .blog_item .blog_description {
+        font-size: 10px !important;
+        margin-top: 10px;
+        min-height: 60px !important;
+    }
+
+    .home_content .list_data_content {
+        padding: 15px 25px !important;
+    }
+
+        .home_content .list_data_content .home_list_data {
+            font-size: 12px !important;
+            line-height: 36px !important;
+        }
+
+    .home_content .home_content_left {
+        padding: 10px 0 !important;
+    }
+
+    .home_content {
+        padding-bottom: 20px !important;
+        padding-top: 20px !important;
+    }
+
+    .home_link {
+        font-size: 11px !important;
+        line-height: 30px !important;
+        padding: 8px 10px;
+    }
+
+    .home_content .blog_item {
+        padding: 8px 25px !important;
+    }
+
+    .footer {
+        font-size: 12px;
+    }
+
+        .footer h4 {
+            font-size: 14px;
+        }
+
+    /* Servicios */
+    div.vertical-tab {
+        width: 88% !important;
+    }
+
+    div.bhoechie-tab-content {
+        padding: 50px !important;
+    }
+
+    .servicios_section .servicios_content img.content {
+        height: 250px;
+        padding: 12px 0 !important;
+        width: 320px;
+    }
+
+    .servicios_section .servicios_content .servicio {
+        padding: 10px !important;
+    }
+
+    .servicios_section .servicios_content p.servicios_description {
+        font-size: 11px !important;
+        line-height: 16px !important;
+    }
+
+    /* Consulta */
+    .consulta_section .consulta_content {
+        padding: 5px !important;
+    }
+
+    .consulta_section .title h2, .servicios_section .title h2 {
+        font-size: 18px !important;
+    }
+
+    .consulta_section .consulta_content label {
+        font-size: 13px !important;
+    }
+
+    .consulta_section .consulta_content form {
+        font-size: 11px;
+    }
+
+    .col-sm-2, .col-sm-3, .col-sm-4 {
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .dxeRadioButtonList_MetropolisBlue .dxichTextCellSys label {
+        font-size: 10px !important;
+    }
+
+    .dxeRadioButtonList_MetropolisBlue .dxe {
+        padding: 0 !important;
+    }
+
+    .dxeEditArea_MetropolisBlue.dxeEditAreaSys {
+        font-family: ProximaNova-Light;
+        font-size: 12px !important;
+        height: 20px;
+    }
+
+    .dxeBase_MetropolisBlue .dxichCellSys, .dxeBase_MetropolisBlue.dxichCellSys {
+        padding: 0;
+    }
+
+    /* Ayuda */
+    .ayuda_section .ayuda_content .video_content {
+        padding: 0 !important;
+    }
+
+    .ayuda_section .ayuda_content .video_ayuda {
+        height: 132px !important;
+        width: 229px !important;
+    }
+
+    .ayuda_section .ayuda_content .video_content .video_item {
+        margin: auto 10px !important;
+    }
+
+    /* Pais */
+    .paises_section .paises_content img.content {
+        padding: 15px 0 !important;
+        width: 100%;
+    }
+
+    .paises_section .paises_content label.servicios_title {
+        font-size: 24px !important;
+        padding-bottom: 8px !important;
+    }
+
+    .paises_section .paises_content p.titulo_detalle {
+        font-size: 15px !important;
+    }
+
+    .paises_section .paises_content li {
+        font-size: 12px !important;
+    }
+
+    .paises_section .paises_content p.nota {
+        font-size: 12px !important;
+    }
+
+    .paises_section .paises_content .button-content {
+        padding-left: 5% !important;
+    }
+
+    /* Planes y Precios */
+    hr.plan-separator {
+        margin-bottom: 20px !important;
+        margin-top: 20px !important;
+    }
+
+    .table {
+        border-spacing: 10px 0 !important;
+    }
+
+    .plan-descripcion.titulo-plan p, .plan-descripcion.detalle-titulo p {
+        font-size: 12px !important;
+    }
+
+    .border-content .titulo-plan p, .border-content .descripcion p, .border-content .precio p {
+        font-size: 14px !important;
+        line-height: 16px !important;
+    }
+
+    .btn-comprar {
+        width: 110px !important;
+        height: 30px !important;
+        font-size: 12px !important;
+        line-height: 30px !important;
+    }
+
+    .title-fixed {
+        max-width: 690px !important;
+    }
+
+    .descripcion p {
+        font-size: 12px !important;
+        line-height: 16px !important;
+    }
+
+    .descripcion span {
+        font-size: 12px !important;
+        line-height: 16px !important;
+    }
+
+    .detalle-descripcion {
+        padding: 20px !important;
+    }
+
+        .detalle-descripcion p {
+            font-size: 12px !important;
+            line-height: 16px !important;
+        }
+
+        .detalle-descripcion span {
+            font-size: 12px !important;
+            line-height: 16px !important;
+        }
+
+        .detalle-descripcion li {
+            font-size: 12px !important;
+            line-height: 16px !important;
+        }
+
+    .plan-item .precio-content .precio_periodo {
+        font-size: 12px !important;
+        line-height: 16px !important;
+    }
+
+    .plan-item .precio-content .precio_total {
+        font-size: 30px !important;
+        line-height: 26px !important;
+    }
+
+        .plan-item .precio-content .precio_total span {
+            font-size: 14px !important;
+        }
+
+    .titulo-plan {
+        min-height: 40px !important;
+    }
+
+    /* Prueba Gratis */
+    .prueba_banner .title {
+        padding: 30px 40px !important;
+    }
+
+        .prueba_banner .title h2 {
+            font-size: 22px !important;
+            line-height: 24px !important;
+        }
+
+    .prueba_section {
+        padding-left: 55px !important;
+        padding-right: 30px !important;
+    }
+
+        .prueba_section .title h2 {
+            font-size: 20px !important;
+            line-height: 22px !important;
+        }
+
+    .edit_form .label {
+        font-size: 14px !important;
+    }
+
+    .contenedor_galeria {
+        padding-bottom: 200px !important;
+    }
+
+    /* Blog */
+    .noticias-blog .blog_content_left .post-section .post-item {
+        min-height: 400px !important;
+    }
+
+    .noticia-destacada .noticia-destacada-content .noticia-body {
+        min-height: 300px !important;
+        padding: 10px 10px !important;
+        width: 80% !important;
+    }
+
+    .noticia-destacada .noticia-destacada-imagen {
+        min-height: 300px !important;
+    }
+
+    .noticia-destacada .noticia-destacada-content h2 {
+        font-size: 20px !important;
+    }
+
+    .noticia-destacada .noticia-destacada-content {
+        font-size: 12px !important;
+        width: 40% !important;
+    }
+
+    .noticia-destacada .noticia-destacada-imagen {
+        width: 60% !important;
+    }
+
+        .noticia-destacada .noticia-destacada-imagen img {
+            min-height: 250px !important;
+            padding-top: 40px !important;
+        }
+
+    .noticias-blog .blog_content_left .post-section .post-item {
+        margin: 10px 5px !important;
+    }
+
+        .noticias-blog .blog_content_left .post-section .post-item img {
+            height: 90px !important;
+        }
+
+        .noticias-blog .blog_content_left .post-section .post-item .titulo {
+            font-size: 12px !important;
+        }
+
+        .noticias-blog .blog_content_left .post-section .post-item .publicacion {
+            font-size: 10px !important;
+            line-height: 12px !important;
+        }
+
+        .noticias-blog .blog_content_left .post-section .post-item .detalle {
+            font-size: 12px !important;
+            line-height: 14px !important;
+            min-height: 115px !important;
+        }
+
+        .noticias-blog .blog_content_left .post-section .post-item .ver-detalle {
+            font-size: 12px !important;
+            padding: 8px 10px !important;
+        }
+
+    .noticias-blog .blog_content_right .date-item .anio {
+        font-size: 25px !important;
+    }
+
+    .noticias-blog .blog_content_right .date-item .meses a.active, .noticias-blog .blog_content_right .date-item .meses a {
+        font-size: 13px !important;
+        line-height: 22px !important;
+    }
+
+    .noticias-blog .blog_content_right .date-item .imagen-item img {
+        height: 50px !important;
+    }
+
+    .noticias-blog .blog_content_right .date-item .data-detail .titulo {
+        font-size: 12px !important;
+    }
+
+    .noticias-blog .blog_content_right .date-item .data-detail .publicacion {
+        font-size: 11px !important;
+    }
+
+    .noticias-blog .blog_content_right .date-item .data-detail .ver-mas {
+        font-size: 11px !important;
+    }
+}

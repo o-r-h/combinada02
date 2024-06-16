@@ -1,0 +1,40 @@
+﻿@{
+    var urlVideo = (string) Model;
+}
+
+<div class="modal fade ventana_fondo" tabindex="-1" role="dialog" id="ModalVentanaVideo">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" >
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="icon-close-modal" aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">                    
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="text-center title-ventana-video">
+                            <p>
+                                @Resources.AdminResources.Modal_VentanaVideo_Title
+                            </p>                  
+                            <img src="@Url.Content("/Content/Images/flecha_old.png")" width="53" height="20" />
+                        </div>
+
+                        <div class="text-center texto-venta-video">
+                            <p>
+                                @Resources.AdminResources.Modal_VentanaVideo_Message
+                            </p>                            
+                        </div>
+
+                        <div class="text-center iframe-video" >
+                            <iframe id="iframeVideo" src="@urlVideo" class="video_parte04 youtube-frame" frameborder="0" allowfullscreen="allowfullscreen"></iframe>
+                        </div>                        
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

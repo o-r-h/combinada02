@@ -1,0 +1,49 @@
+﻿.blink-button {
+    -webkit-animation: blink_move 1.5s linear 3 alternate;
+    -moz-animation: blink_move 1.5s linear 3 alternate;
+    -o-animation: blink_move 1.5s linear 3 alternate;
+    -ms-animation: blink_move 1.5s linear 3 alternate;
+    animation: blink_move 1.5s linear 3 alternate;
+}
+
+/* Safari 4.0 - 8.0 */
+
+@-webkit-keyframes blink_move {
+    0% {
+        background-color: $color-white;
+        border: solid 1px $color-primary;
+        color: $color-primary;
+    }
+
+    50% {
+        background-color: primary;
+        color: $color-white;
+    }
+
+    100% {
+        background-color: $color-white;
+        border: solid 1px $color-primary;
+        color: $color-primary;
+    }
+}
+
+/* Standard syntax */
+
+@keyframes blink_move {
+    0% {
+        background-color: $color-white;
+        border: solid 1px $color-primary;
+        color: $color-primary;
+    }
+
+    50% {
+        background-color: $color-primary;
+        color: $color-white;
+    }
+
+    100% {
+        background-color: $color-white;
+        border: solid 1px $color-primary;
+        color: $color-primary;
+    }
+}

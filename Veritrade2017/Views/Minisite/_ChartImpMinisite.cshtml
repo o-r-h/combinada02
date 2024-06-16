@@ -1,0 +1,155 @@
+@using System.Drawing
+@using Veritrade2017.Models.Minisite
+@model List<Resumen>
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    UICulture = culture.Equals("es") ? "es-PE" : culture;
+    Culture = culture.Equals("es") ? "es-PE" : culture;
+    string theme = ViewData["theme"].ToString();
+
+}
+<!--jh:ChartImp
+@Html.Raw(DateTime.Now)-->
+
+
+@if (Model.Count > 0)
+{
+    @*@Html.DevExpress().Chart(settings =>
+        {
+            settings.Name = "Chart2";
+            settings.Titles.Add(new ChartTitle()
+            {
+                Font = new Font("ProximaNova-Semibold", 12),
+                Text = MinisiteResources.Chart02_Title,
+                Alignment = StringAlignment.Center,
+                TextColor = ColorTranslator.FromHtml("#7a8090"),
+                Dock = ChartTitleDockStyle.Top
+            });
+            settings.AutoLayout = true;
+            settings.PaletteName = theme;
+            settings.PaletteBaseColorNumber = theme == "Origin" ? 4 : 1;
+            settings.Titles.Add(new ChartTitle()
+            {
+                Font = new Font("ProximaNova-Semibold", 10),
+                Text = @"www.veritrade.info",
+                Alignment = StringAlignment.Far,
+                TextColor = ColorTranslator.FromHtml("#4a6a8a"),
+                Dock = ChartTitleDockStyle.Bottom
+            });
+            settings.Width = 600;
+            settings.Height = 310;
+            settings.Series.Add(s =>
+            {
+                ((SideBySideBarSeriesView)s.View).ColorEach = false;
+                s.SetDataMembers("Periodo", "Valor");
+                s.CrosshairLabelPattern = "{A} : ${V:N0}";
+            });
+            settings.XYDiagram(d => { d.AxisY.Label.TextPattern = "$ {A:N0}"; });
+        }).Bind(Model).GetHtml()*@
+
+    var _x = Model.Select(i => i.Periodo).ToArray();
+    var _y = Model.Select(i => i.Valor).ToArray();
+
+    <script type="text/javascript">
+        $(function () {
+            var perShapeGradient = {
+                x1: 0,
+                y1: 0,
+                x2: 1,
+                y2: 0
+            };
+            var colors = [
+                {
+                    linearGradient: perShapeGradient,
+                    stops: [
+                        [0, 'rgb(55, 95, 144)'],
+                        [1, 'rgb(74, 122, 180)']
+                    ]
+                }
+            ];
+            
+            Highcharts.chart("Chart2",
+                {
+                    //chart: {
+                    //    plotBorderWidth: 1,
+                    //    width: 600,
+                    //    height: 310,
+                    //},
+                    title: {
+                        text: "@MinisiteResources.Chart02_Title",
+                        widthAdjust: -200,
+                        style: { "color": "#969eb9", "fontSize": "16px" }
+                    },
+                    legend: {
+                        enabled: false,
+                    },
+                    
+                    xAxis: {
+                        categories: @Html.Raw(Json.Encode(_x)),  //["2016", "2017", "2018"],
+                        crosshair: true,
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: ''
+                        },
+                        labels: {
+                            formatter: function () {
+                                return '$' + this.value.toLocaleString('en');
+                            }
+                        },
+                    },
+                    tooltip: {
+                        formatter: function () {
+                            var yVal = this.y;
+                            return "<b>" + this.x + '</b>: $' + Highcharts.numberFormat(this.point.y, 0, '.', ','); //  yVal.toLocaleString('en');
+                        },
+                        crosshairs	: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0,
+                            borderWidth: 0
+                        },
+                    },
+                    series: [
+                        {
+                            type: 'column',
+                            data:  @Html.Raw(Json.Encode(_y)),
+                            color: colors[0]
+                        }
+                    ],
+                    responsive: {
+                        rules: [
+                            {
+                                condition: {
+                                    maxWidth: 500
+                                },
+                                chartOptions: {
+                                    legend: {
+                                        layout: 'horizontal',
+                                        align: 'center',
+                                        verticalAlign: 'bottom'
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                });
+        });
+    </script>
+    
+    <div id="Chart2" style="border: 1px solid #999; margin-top: 11px;" >
+    </div>
+
+}
+else
+{
+    <div style="background-image: url('/Content/Images/Minisite/banner_gris-2x.png'); height: 310px">
+        <div class="box">
+            <p>
+                @MinisiteResources.Chart02_Empty
+            </p>
+        </div>
+    </div>
+}

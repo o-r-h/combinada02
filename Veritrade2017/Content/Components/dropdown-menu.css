@@ -1,0 +1,98 @@
+﻿.dropdown-submenu {
+    position: relative;
+}
+
+    .dropdown-submenu > .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -6px;
+        margin-left: -1px;
+        -webkit-border-radius: 0 6px 6px 6px;
+        -moz-border-radius: 0 6px 6px 6px;
+        border-radius: 0 6px 6px 6px;
+    }
+
+    .dropdown-submenu > a:after {
+        border-color: transparent transparent transparent #333;
+        border-style: solid;
+        border-width: 5px 0 5px 5px;
+        content: " ";
+        display: block;
+        float: right;
+        height: 0;
+        margin-right: -10px;
+        margin-top: 5px;
+        width: 0;
+    }
+
+    .dropdown-submenu:hover > a:after {
+        border-left-color: #555;
+    }
+
+.dropdown-menu > li > a:hover, .dropdown-menu > .active > a:hover {
+    text-decoration: underline;
+}
+
+@media screen and (max-width: 767px) {
+    .nav-menu-movil {
+        width: 100%;
+    }
+    .nav-list {
+        display: block !important;
+    }
+
+        .nav-list li {
+            width: 100%;
+        }
+
+    .nav-dropdown {
+        background-color: #212836;
+        position: static;
+    }
+
+    .nav-list li a {
+        color: #9d9d9d;
+        line-height: 40px;
+        padding: 0 10px;
+    }
+
+    .navbar.barra_navegacion li a.access_content {
+        -ms-border-radius: 0;
+        border: none;
+        border-radius: 0;
+        font-size: 13px;
+        margin-top: 0;
+        padding: 10px;
+    }
+
+    .navbar.barra_navegacion li.link_prueba a.access_content {
+        font-size: 13px;
+        margin-top: 0;
+        padding: 10px;
+    }
+
+    .navbar.barra_navegacion li a.link_menu, .navbar.barra_navegacion li a.link_menu:visited {
+        color: #FFFFFF;
+        font-size: 13px;
+    }
+
+    .navbar.barra_navegacion > .container {
+        padding-bottom: 0;
+        padding-top: 0;
+    }
+
+    .navbar-fixed-top .navbar-collapse, .navbar-fixed-bottom .navbar-collapse {
+        max-height: 77vh;
+    }
+
+    .submenu-left {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    ul.nav li:hover > ul.dropdown-menu {
+        display: block;
+        text-align: center;
+    }
+}

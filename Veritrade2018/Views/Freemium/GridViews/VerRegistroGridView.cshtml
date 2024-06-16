@@ -1,0 +1,198 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    var objVerRegistroTable = (VerRegistroTable) Model;
+
+    var objVerRegistroTableHead = objVerRegistroTable.VerRegistroTableHead;
+    var listaVerRegistroTableRows = objVerRegistroTable.VerRegistroTableRows;
+}
+
+<table class="table table-bordered">
+<thead>
+<tr class="table-title">
+    <th class="column-text-center">
+        @objVerRegistroTableHead.Numero
+    </th>
+    <th class="column-text-center">
+        @objVerRegistroTableHead.Fecha
+    </th>
+    <th class="column-text-center">
+        @objVerRegistroTableHead.Nandina
+    </th>
+
+    @if (objVerRegistroTable.TipoOpe == "I")
+    {
+        if (objVerRegistroTableHead.IsVisibleImportador)
+        {
+            <th class="column-text-center">
+                @objVerRegistroTableHead.Importador
+            </th>
+        }
+
+        
+    }
+    else
+    {
+        if (objVerRegistroTableHead.IsVisibleExportador)
+        {
+            <th class="column-text-center">
+                @objVerRegistroTableHead.Exportador
+            </th>
+        }
+
+        
+    }
+
+    @if (objVerRegistroTableHead.IsVisibleCampoPeso)
+    {
+        <th class="column-text-center">
+            @objVerRegistroTableHead.CampoPeso
+        </th>
+    }
+
+    <th class="column-text-center">
+        @objVerRegistroTableHead.Cantidad
+    </th>
+
+    <th class="column-text-center">
+        @objVerRegistroTableHead.Unidad
+    </th>
+
+    @if (objVerRegistroTableHead.IsVisibleFobOFasUnit)
+    {
+        <th class="column-text-center">
+            @objVerRegistroTableHead.FobOFasUnit
+        </th>
+    }
+
+    @if (objVerRegistroTableHead.IsVisibleCifOFobUnit)
+    {
+        <th class="column-text-center">
+            @objVerRegistroTableHead.CifOFobUnit
+        </th>
+    }
+
+    @if (objVerRegistroTableHead.IsVisibleCifImptoUnit)
+    {
+        <th class="column-text-center">
+            @objVerRegistroTableHead.CifImptoUnit
+        </th>
+    }
+
+    @if (objVerRegistroTableHead.IsVisiblePaisOrigenODestino)
+    {
+        <th class="column-text-center">
+            @objVerRegistroTableHead.PaisOrigenODestino
+        </th>
+    }
+
+    @if (objVerRegistroTableHead.IsVisibleDesComercial)
+    {
+        <th class="column-text-center">
+            @objVerRegistroTableHead.DesComercial
+
+        </th>
+    }
+
+   
+</tr>
+</thead>
+
+<tbody id="tbodyVerRegistros">
+@foreach (var item in listaVerRegistroTableRows)
+{
+    <tr>
+        <td class="column-text-right">
+            @item.Numero
+        </td>
+        <td class="column-text-center">
+            @item.Fecha
+        </td>
+        <td class="column-text-center">
+            @item.Nandina
+        </td>
+
+        @if (objVerRegistroTable.TipoOpe == "I")
+        {
+            if (objVerRegistroTableHead.IsVisibleImportador)
+            {
+                <td>
+                    @item.Importador
+                </td>
+            }
+        }
+        else
+        {
+            if (objVerRegistroTableHead.IsVisibleExportador)
+            {
+                <td>
+                    @item.Exportador
+                </td>
+            }
+        }
+
+        @if (objVerRegistroTableHead.IsVisibleCampoPeso)
+        {
+            <td class="column-text-right">
+                @item.CampoPeso
+            </td>
+        }
+
+        <td class="column-text-right">
+            @item.Cantidad
+        </td>
+
+        <td class="column-text-center">
+            @item.Unidad
+        </td>
+
+        @if (objVerRegistroTableHead.IsVisibleFobOFasUnit)
+        {
+            <td class="column-text-right" >
+                @item.FobOFasUnit
+            </td>
+        }
+
+        @if (objVerRegistroTableHead.IsVisibleCifOFobUnit)
+        {
+            <td class="column-text-right">
+                @item.CifOFobUnit
+            </td>
+        }
+
+        @if (objVerRegistroTableHead.IsVisibleCifImptoUnit)
+        {
+            <td class="column-text-right">
+                @item.CifImptoUnit
+            </td>
+        }
+
+        @if (objVerRegistroTableHead.IsVisiblePaisOrigenODestino)
+        {
+            <td class="column-text-right">
+                @item.PaisOrigenODestino
+            </td>
+        }
+        @if (objVerRegistroTableHead.IsVisibleDesComercial)
+        {
+            <td>
+                @item.DesComercial
+            </td>
+        }
+
+    </tr>
+}
+</tbody>
+
+</table>
+
+@if (objVerRegistroTable.TotalPaginas > 1)
+{
+    <div class="text-center" id="divPagingVerRegistros">
+        <nav aria-label="Page navigation">
+            <ul id="pagingVerRegistros"
+                class="pagination pagination-sm">
+            </ul>
+        </nav>
+    </div>
+}
+

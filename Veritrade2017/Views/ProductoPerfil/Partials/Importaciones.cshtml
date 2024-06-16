@@ -1,0 +1,198 @@
+﻿@using System.Web.Optimization
+@using Veritrade2017.Helpers
+@using Veritrade2017.Models
+@using Veritrade2017.Models.Admin
+
+@{
+    Layout = null;
+    var objProducto= (MisProductos)Model;
+    var tipoOperacion = "I";
+    var culture = CultureHelper.GetCurrentCulture();
+    var idiomaText = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+    ViewData["FlagPais"] = Session["FlagPais"];
+    ViewData["Pais"] = Session["Pais"];
+}
+<style>
+    #flagPais2 {
+        font-family: 'ProximaNova-Regular';
+        font-size: 18px;
+        color: #4a6a8a;
+        text-align: left;
+        line-height: 24px;
+    }
+</style>
+<div class="margin-container">
+    <h4 class="product-h4">@ProductProfileResources.Imports.ToUpper() @objProducto.CodProducto:  @objProducto.Descripcion</h4>
+    <img src="/Content/Images/@ViewData["FlagPais"]" alt="" style="vertical-align: unset">
+    <h4 id="flagPais2" style="display: inline; padding-right: 10px;"> @ViewData["Pais"].ToString().ToUpper()</h4>
+    <div class="col-sm-12 null-padding-h">
+        <div class="col-sm-6 padding-height-sm chart-left">
+            <p class="chart-tittle">@ProductProfileResources.Summary_Period</p>
+            <div class="col-sm-12 data-content resumen-content">
+                <div class="table-view">
+                    <div class="col-sm-4 col-xs-4 null-padding table-cell">
+                        <div class="media-space">
+                            <div class="media">
+                                <div class="space-resum-1">
+                                    <img class="media-img" src="~/Content/Images/Busqueda/ico_dash_01.png" alt="...">
+                                </div>
+                                <div class="media-body">
+                                    <span>
+                                        Total <br />
+                                        @ProductProfileResources.Imported
+                                    </span>
+                                </div>
+                            </div>
+                            <p id="totalImport" class="resum-subtext">
+                                @string.Format(idiomaText, "{0:N0}", objProducto.ValorTotal)<br />
+                                <span>US$</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4  null-padding table-cell">
+                        <div class="media-space border-media">
+                            <div class="media">
+                                <div class="space-resum-1">
+                                    <img class="media-img" src="~/Content/Images/Busqueda/ico_dash_02.png" alt="...">
+                                </div>
+                                <div class="media-body">
+                                    <span>
+                                        @ProductProfileResources.Imported_Quantity_01 <br />
+                                        @ProductProfileResources.Imported_Quantity_02
+                                    </span>
+                                </div>
+                            </div>
+                            @if (objProducto.CantTotal != 0)
+                            {
+                                <p id="cantTotalImpor" class="resum-subtext">
+                                    @string.Format(idiomaText, "{0:N0}", objProducto.CantTotal) <br /> <span>@ProductProfileResources.Kg.ToUpper()</span>
+                                </p>
+                            }
+                            else
+                            {
+                                <p id="cantTotalImpor" class="resum-subtext">
+                                    @ProductProfileResources.Not_Specified <br /> @*<span>@ProductProfileResources.Kg.ToUpper()</span>*@
+                                </p>
+                            }
+                        </div>
+                    </div>
+                    <div class="col-xs-4 col-sm-4  null-padding table-cell ">
+                        <div class="media-space">
+                            <div class="media">
+                                <div class="space-resum-1">
+                                    <img class="media-img" src="~/Content/Images/Busqueda/ico_dash_03.png" style="width: 40px;" alt="...">
+                                </div>
+                                <div class="media-body">
+                                    <span>
+                                        @ProductProfileResources.Unit_Price_01 <br />
+                                        @ProductProfileResources.Unit_Price_02
+                                    </span>
+                                </div>
+                            </div>
+                            @if (objProducto.PreUnitTotal != 0)
+                            {
+                                <p id="precioTotalImpor" class="resum-subtext">
+                                    @string.Format(idiomaText, "{0:N3}", objProducto.PreUnitTotal)<br /> <span>US$/@ProductProfileResources.Kg.ToUpper()</span>
+                                </p>
+                            }
+                            else
+                            {
+                                <p id="precioTotalImpor" class="resum-subtext">
+                                    @ProductProfileResources.Not_Specified <br /> @*<span>US$/@ProductProfileResources.Kg.ToUpper()</span>*@
+                                </p>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6 padding-height-sm chart-right modal-producto" data-togle="modal" data-target="#ModalFavoritos">
+            <p class="chart-tittle">@ProductProfileResources.CIF_Imported</p>
+            <div class="col-sm-12 data-content">
+                <div id="container" class="chat-container">
+                    <div style="background-image: url('/Content/Images/Minisite/banner_gris-2x.png'); height: 255px">
+                        <div class="caja">
+                            <p>
+                                @ProductProfileResources.Chart_Empty
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 null-padding-h">
+        <div class="row null-margin-h">
+            <div class="col-sm-6 padding-height-sm chart-left">
+                <p class="chart-tittle">@ProductProfileResources.CIF_FOB_Comparative</p>
+                <div class="col-sm-12 data-content">
+                    <div id="container3" class="chat-container">
+                        <div style="background-image: url('/Content/Images/Minisite/banner_gris-2x.png'); height: 255px">
+                            <div class="caja">
+                                <p>
+                                    @ProductProfileResources.Chart_Empty
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tableComparative">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 padding-height-sm chart-right modal-producto">
+                <p class="chart-tittle">@ProductProfileResources.Ranking_Country_Imp</p>
+                <div class="col-sm-12 data-content">
+                    @*<div id="piecontainer2" class="graphic-content"></div>*@
+                    <div id="RankPais">
+                        @*<div style="background-image: url('/Content/Images/Minisite/banner_gris-2x.png'); height: 492px">
+                                <div class="caja">
+                                    <p>
+                                        @MinisiteResources.Chart01_Empty
+                                    </p>
+                                </div>
+                            </div>*@
+                        @Html.Partial("Partials/RankingPais")
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-12 null-padding-h">
+        <div class="row null-margin-h">
+            <div class="col-sm-6 padding-height-sm chart-left" id="PrecioUnit">
+                <p class="chart-tittle">@ProductProfileResources.Average_Price</p>
+                <div class="col-sm-12 data-content">
+                    <div id="container2" class="chat-container">
+                        <div style="background-image: url('/Content/Images/Minisite/banner_gris-2x.png'); height: 255px">
+                            <div class="caja">
+                                <p>
+                                    @ProductProfileResources.Chart_Empty
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="tablePrecProm">
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 padding-height-sm chart-right modal-producto" id="TopImpExp">
+                <p class="chart-tittle">@ProductProfileResources.Ranking_Importers</p>
+                <div class="col-sm-12 data-content">
+                    <div id="RankImp">
+                        @*<div style="background-image: url('/Content/Images/Minisite/banner_gris-2x.png'); height: 492px">
+                                <div class="caja">
+                                    <p>
+                                        @MinisiteResources.Chart01_Empty
+                                    </p>
+                                </div>
+                            </div>*@
+                        @Html.Partial("Partials/RankingImport")
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

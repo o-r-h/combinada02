@@ -1,0 +1,207 @@
+﻿@model List<Productos>
+@using Veritrade2018.Models.Minisite
+@using Veritrade2018.Helpers
+@using System.Globalization
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var idiomaText = culture.Equals("es") ? CultureInfo.CreateSpecificCulture("es-pe") : CultureInfo.CreateSpecificCulture("en-us");
+    var codCampania = ViewData["CodCampaña"];
+}
+
+@if (Model.Count > 0)
+{
+    <div class="table-responsive content-table-responsive">
+        <table class="table table-bordered elementhover table2" data-toggle="modal" data-target="#ModalPartida">
+            <thead>
+                <tr>
+                    <th class="impair-column">
+                        @Resources.MinisiteResources.Products_Text
+                    </th>
+                    <th class="pair-column" style="width: 60px">
+                        Reg. <span class="glyphicon" aria-hidden="true">
+                            <img src="~/Content/Images/Minisite/order_arrows.png" alt="" />
+                        </span>
+                    </th>
+                    <th class="impair-column" style="width: 90px">
+                        US$ <span class="glyphicon" aria-hidden="true">
+                            <img src="~/Content/Images/Minisite/order_arrows.png" alt="" />
+                        </span>
+                    </th>
+                    <th class="pair-column" style="width: 45px">
+                        <span class="glyphicon" aria-hidden="true">
+                            <label style="font-size: 14px">&#37;</label>
+                        </span>
+                    </th>
+                    <th class="impair-column" style="width: 30px"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var data in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (data.Partida.Length > 90)
+                            {
+                                @(data.Partida.Substring(0, 90) + "...")
+                            }
+                            else
+                            {
+                                @(data.Partida)
+                            }
+                        </td>
+                        <td class="text-center">@data.Registros</td>
+                        <td class="text-center">@string.Format(idiomaText, "{0:N0}", data.Valor)</td>
+                        <td class="text-center">@string.Format(idiomaText, "{0:P0}", data.Porcentaje)</td>
+                        <td class="text-center">
+                            <input type="radio" name="producto" />
+                        </td>
+                    </tr>
+                }
+                @if (Model.Count == 4 || Model.Count == 5)
+                {
+                    <tr>
+                        <td>
+                            @if (Model.First().Partida.Length > 90)
+                            {
+                                @(Model.First().Partida.Substring(0, 90) + "...")
+                            }
+                            else
+                            {
+                                @(Model.First().Partida)
+                            }
+                        </td>
+                        <td class="text-center">@Model.FirstOrDefault().Registros</td>
+                        <td class="text-center">@string.Format(idiomaText, "{0:N0}", Model.FirstOrDefault().Valor)</td>
+                        <td class="text-center">@string.Format(idiomaText, "{0:P0}", Model.FirstOrDefault().Porcentaje)</td>
+                        <td class="text-center"><input type="radio" name="paises" /></td>
+                    </tr>
+                    if (Model.Count == 4)
+                    {
+                        <tr>
+                            <td>
+                                @if (Model.Last().Partida.Length > 90)
+                                {
+                                    @(Model.Last().Partida.Substring(0, 90) + "...")
+                                }
+                                else
+                                {
+                                    @(Model.Last().Partida)
+                                }
+                            </td>
+                            <td class="text-center">@Model.Last().Registros</td>
+                            <td class="text-center">@string.Format(idiomaText, "{0:N0}", Model.Last().Valor)</td>
+                            <td class="text-center">@string.Format(idiomaText, "{0:P0}", Model.Last().Porcentaje)</td>
+                            <td class="text-center"><input type="radio" name="paises" /></td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
+        @if (Model.Count <= 3)
+        {
+            <div class="box-trial" style="position:relative;">
+                <div class="box box-sm">
+                    <p>
+                        @Resources.MinisiteResources.BlockImage_Text01 <a href="@Url.Action("Index", "PruebaGratis", new { culture, campania = codCampania })">@Resources.MinisiteResources.BlockImage_Text02</a>
+                    </p>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="box-trial">
+                <div class="box box-sm">
+                    <p>
+                        @Resources.MinisiteResources.BlockImage_Text01 <a href="@Url.Action("Index", "PruebaGratis", new { culture, campania = codCampania })">@Resources.MinisiteResources.BlockImage_Text02</a>
+                    </p>
+                </div>
+            </div>
+        }
+
+
+    </div>
+}
+else
+{
+    <div class="table-responsive" style="position: relative">
+        <img class="img-block" src="~/Content/Images/Minisite/banner_gris-2x.png" alt="">
+        <table class="table table-bordered elementhover table2" data-toggle="modal" data-target="#ModalPartida">
+            <thead>
+                <tr>
+                    <th class="impair-column-disabled">
+                        <label>@Resources.MinisiteResources.Products_Text</label>
+                    </th>
+                    <th class="pair-column-disabled">
+                        <label>Reg.</label>
+                        <span class="glyphicon" aria-hidden="true">
+                            <img src="~/Content/Images/Minisite/order_arrows.png" alt="" />
+                        </span>
+                    </th>
+                    <th class="impair-column-disabled">
+                        <label>US$</label>
+                        <span class="glyphicon" aria-hidden="true">
+                            <img src="~/Content/Images/Minisite/order_arrows.png" alt="" />
+                        </span>
+                    </th>
+                    <th class="pair-column-disabled">
+                        <span class="glyphicon" aria-hidden="true">
+                            <label style="font-size: 14px">&#37;</label>
+                        </span>
+                    </th>
+                    <th class="impair-column-disabled">
+                        <input type="radio" name="pais" />
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (var i = 0; i < 7; i++)
+                {
+                    <tr>
+                        <td>&nbsp;</td>
+                        <td class="text-center">&nbsp;</td>
+                        <td class="text-center">&nbsp;</td>
+                        <td class="text-center">&nbsp;</td>
+                        <td class="text-center">
+                            <input type="radio" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <div class="box">
+            <p>
+                @Resources.MinisiteResources.Table_Empty
+            </p>
+        </div>
+    </div>
+}
+
+<div class="clearfix"></div>
+<ul class="pagination pull-right">
+    <li class="disabled">
+        <a href="javascript:void(0)" data-toggle="modal" data-target="#ModalPartida">
+            <span class="glyphicon">
+                <img src="~/Content/Images/Minisite/arrow_left.png" />
+            </span>
+        </a>
+    </li>
+    <li class="active">
+        <a href="javascript:void(0)" data-toggle="modal" data-target="#ModalPartida">1</a>
+    </li>
+    <li>
+        <a href="javascript:void(0)" data-toggle="modal" data-target="#ModalPartida">2</a>
+    </li>
+    <li>
+        <a href="javascript:void(0)" data-toggle="modal" data-target="#ModalPartida">3</a>
+    </li>
+    <li>
+        <a href="javascript:void(0)" data-toggle="modal" data-target="#ModalPartida">4</a>
+    </li>
+    <li>
+        <a href="javascript:void(0)" data-toggle="modal" data-target="#ModalPartida">
+            <span class="glyphicon">
+                <img src="~/Content/Images/Minisite/arrow_right.png" />
+            </span>
+        </a>
+    </li>
+</ul>

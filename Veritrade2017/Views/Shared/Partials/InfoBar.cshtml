@@ -1,0 +1,229 @@
+﻿@using Veritrade2017.Helpers
+@using Veritrade2017.Models
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    //var codCampania = ViewData["CodCampaña"];
+    //if (Session["c"] != null && Session["c"].ToString() != "")
+    //{
+    //    codCampania = Session["c"].ToString();
+    //}
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string[] OrganicEmpCods = { "20100", "20100m", "20100I", "20100mI" };
+    string[] OrganicProdCods = { "20200", "20200I", "20200m", "20200mI" };
+    //var objCamp = ViewData["oc"] as Campania;
+    var sty = ((Campania.TYPE_CAMPANIA)((int?)Session["TypeCampania"] ?? 0));
+    var CodesCampanias = Campania.CodFormateds3((ViewData["CodesCampanias"] as Dictionary<Campania.CONTROL, string>), culture, Request.Browser.IsMobileDevice, sty);
+    //var CodesCampanias = ViewData["CodesCampanias"] as Dictionary<Campania.CONTROL, string>;
+
+    bool useMobile = Request.Browser.IsMobileDevice;
+    string codPais = Session["CodPaisIP"].ToString();
+
+    var values = RouteDataContext.RouteValuesFromUri(Request.UrlReferrer);
+    var campania = "";
+    if (values != null && sty == Campania.TYPE_CAMPANIA.ORGANIC)
+    {
+        var contr = values["controller"].ToString();
+        if (values["campania"] != null)
+        {
+            campania = values["campania"].ToString();
+        }
+        if (new[] { "Empresas", "Minisite" }.Contains(/*values["controller"]*/controller) || (OrganicEmpCods.Contains(campania) && contr == "PruebaGratis" && controller.Equals("PruebaGratis"))
+            || (new[] { "Empresas", "Minisite" }.Contains(values["controller"]) && controller.Equals("PruebaGratis")))
+        {
+            if (culture != "es")
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_EMPRESAS_EN];
+            }
+            else
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_EMPRESAS];
+            }
+            CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] += Request.Browser.IsMobileDevice ? "m" : "";
+        }
+        if (new[] { "Productos", "ProductoPerfil" }.Contains(/*values["controller"]*/controller) || (OrganicProdCods.Contains(campania) && contr == "PruebaGratis" && controller.Equals("PruebaGratis"))
+            || (new[] { "Productos", "ProductoPerfil" }.Contains(values["controller"]) && controller.Equals("PruebaGratis")))
+        {
+            if (culture != "es")
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_PRODUCTOS_EN];
+            }
+            else
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_PRODUCTOS];
+            }
+
+        }
+    }
+    var codCompaniaAux = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS];
+    bool prueba = true;
+    if (controller.ToLower() == "consulta" && prueba && campania == "" && codCompaniaAux == "")
+    {
+        if (culture == "es")
+        {
+            codCompaniaAux = "12101";
+        }
+        else
+        {
+            codCompaniaAux = "12102";
+        }
+    }
+
+}
+
+@helper Selected(string c, string culture)
+{
+    if (c == culture)
+    {
+        @:selected="selected"
+    }
+}
+@if (controller == "Contactanos")
+{
+    <style>
+        .display-contact {
+            display: none;
+        }
+    </style>
+}
+
+<link rel="stylesheet" href="~/Content/Assets/telefonos.css" />
+<link rel="stylesheet" href="~/Content/bootstrap-select.css" />
+<div class="cabecera_fija like-table hidden-xs display-contact" style="background-color: #272727; z-index: 9999">
+    <div class="cab_linea01 container null-padding like-table-row">
+        <div class="text_cabecera like-table-cell text-left lista_telefonos">
+            <span class="img_tel">
+                @*<i class="fas fa-phone-alt fa-lg"></i>*@
+                <img src="@Url.Content("~/Content/Images/ico_telefono.jpg")" width="15" height="15" alt="" />
+            </span>
+            <select id="selectTelefonoPais" title="Seleccione el país" class="selectTelefonoPais selectpicker" data-style="btn_telefono_paises" data-width="fit"></select>
+            <span style="margin-right:5%;">
+                <a class="hrefTelefonoPais" href="#"><span class="telefonoPais"></span></a>
+            </span>
+            <span>
+                <a href="https://web.whatsapp.com/send?phone=51932512040" target="_blank" rel="noopener noreferrer">
+                    <img src="@Url.Content("~/Content/Images/ico_whatsapp.png")" width="25" height="25" alt="" />
+                </a>
+                <a href="https://web.whatsapp.com/send?phone=51932512040" target="_blank" rel="noopener noreferrer">@Resources.Wsp_msg</a>
+            </span>
+        </div>
+        <div class="info-cabecera like-table-cell">
+            <div class="col-md-12">
+                <div class="col-md-5"></div>
+                <div class="col-md-7" style="padding-right:5%;">
+                    @using (Html.BeginForm("SetCulture", controller, routeValues: new { }, method: FormMethod.Post, htmlAttributes: new { }))
+                    {
+                        @Html.RouteLink(Resources.TrialText, "PruebaGratis" + (culture == "es" ? "" : "US"), new { culture, campania = codCompaniaAux }, new { @class = "link_cabecera" })
+
+                        <select name="culture" class="bot_cabecera_01">
+                            <option value="en-us" @Selected("en", culture)>English</option>
+                            <option value="es" @Selected("es", culture)>Español</option>
+                        </select>
+
+                        if (controller == "Minisite")
+                        {
+                            var values_minites = Request.RequestContext.RouteData.Values;
+                            <input type="hidden" name="slug_pais_ruc_trib" value="@values_minites["slug"].ToString()|@values_minites["pais"].ToString()|@values_minites["ruc"].ToString()|@values_minites["trib"].ToString()" />
+                        }                        
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="~/Scripts/bootstrap-select.js"></script>
+<script>
+    const URL_TELEFONO_PAIS = "/api/TelefonoPais";
+
+    function obtenerTelefonoIdPaisActual() {
+         $.ajax({
+            url: '/api/TelefonoPais/ObtenerTelefonoPorPais?codPais=' + '@codPais'+'&&culture=' + '@culture',
+            type: 'POST',
+            async: false,
+            success: function (respuesta) {
+                obtenerListaTelefonos(respuesta.TelefonoId);
+                asignarValoresTelefono(respuesta);
+            },
+            error: function (dataError) {
+                console.log(dataError);
+            }
+         });
+    }
+
+    function obtenerListaTelefonos(telefonoId) {
+        $.ajax({
+            url: URL_TELEFONO_PAIS + '/ObtenerTelefonosPaises?culture=' + '@culture',
+            async: false,
+            type: "POST",
+            success: function (respuesta) {
+                var banderaPais = "";
+                for (var i = 0; i < respuesta.length; i++) {
+                    banderaPais = "/Content/Images/" + respuesta[i].IconoBandera;
+                    $('.selectTelefonoPais').append('<option data-content="<img src='+banderaPais+'></img> '+respuesta[i].CodBandera+'" value=' + respuesta[i].TelefonoId + '></option>');
+                    $('.selectTelefonoPaisMobile').append('<option data-content="<img src='+banderaPais+'></img> '+respuesta[i].CodBandera+'" value=' + respuesta[i].TelefonoId + '></option>');
+                }
+                //Asigna valores del país según la IP del cliente
+                 $(".selectTelefonoPais").val(telefonoId);
+                 $(".selectTelefonoPaisMobile").val(telefonoId);
+            },
+            error: function (dataError) {
+                console.log(dataError);
+            }
+        });
+    }
+
+    function asignarValoresTelefono(respuesta) {
+        //Asigna un link indicando el teléfono para llamar por skype o por celular
+        //Asigna datos de teléfono país en footer
+        var useMobile = '@useMobile';
+        useMobile = useMobile.toLowerCase();
+        var stringValue = useMobile.toLowerCase();
+        useMobile = JSON.parse(stringValue);
+        console.log("respuesta");
+        console.log(respuesta);
+        if (useMobile) {
+            var medio = "tel";
+        } else {
+            var medio = "skype";
+        }
+        $(".nombrePais").text(respuesta.NombrePais);
+        $(".iconoBandera").attr("src", "/Content/Images/" + respuesta.IconoBandera);
+
+        if ((respuesta.CodPais == "PE") && (useMobile)) {
+            $(".hrefTelefonoPais").attr("href", medio + ":(+" + respuesta.CodTelefono + ")" + "1" + respuesta.Telefono + "");
+            $(".telefonoPais").text("(+" + respuesta.CodTelefono + ") " + "1" + respuesta.Telefono + "");
+        }else{
+            $(".hrefTelefonoPais").attr("href", medio + ":(+" + respuesta.CodTelefono + ")" + respuesta.Telefono + "");
+            $(".telefonoPais").text("(+" + respuesta.CodTelefono + ") " + respuesta.Telefono + "");
+        }
+
+    }
+
+    $(document).ready(function () {
+
+        obtenerTelefonoIdPaisActual();
+
+        $(".selectTelefonoPais, .selectTelefonoPaisMobile").change(function () {
+            var opcionSeleccionada = $(this).children("option:selected").val();
+            $('.selectTelefonoPais').selectpicker('val', opcionSeleccionada);
+            $('.selectTelefonoPaisMobile').selectpicker('val', opcionSeleccionada);
+            $.ajax({
+                url: URL_TELEFONO_PAIS + '/ObtenerTelefonosPorId?culture=' + '@culture' + '&TelefonoId=' + opcionSeleccionada,
+                async: false,
+                @*data: {
+                    telefonoId: opcionSeleccionada,
+                    culture: '@culture',
+                },*@
+                type: "POST",
+                success: function (respuesta) {
+                    asignarValoresTelefono(respuesta);
+                },
+                error: function (dataError) {
+                    console.log(dataError);
+                }
+            });
+        });
+    });
+
+
+</script>

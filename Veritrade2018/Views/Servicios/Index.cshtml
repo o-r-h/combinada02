@@ -1,0 +1,74 @@
+﻿@using Veritrade2018.Models
+@using Veritrade2018.Helpers
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var uri = HttpContext.Current.Request.Url.AbsolutePath;
+    var seoConf = ConfiguracionesSeo.GetConfig(culture, uri);
+
+    ViewBag.Title = seoConf.Title;
+    ViewBag.Description = seoConf.Description;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+    <link href="@Url.Content("~/Content/Assets/servicios.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Components/vertical-tabs.css")" rel="stylesheet" type="text/css" />
+}
+
+@helper Select(string active, string slug)
+    {
+        if (active == slug)
+        {
+            @:active
+        }
+}
+
+<div class="container">
+    <div class="servicios_section null-margin-v">
+        <div class="servicios_content null-margin-v">
+            <div class="row like-table">
+                <div class="col-lg-12 bhoechie-tab-container like-table-row">
+                    <div class="vertical-tab-menu like-table-cell">
+                        <div class="tab-menu-list-group">
+                            @foreach (var servicios in (List<Servicios>)ViewData["serviciosMenu"])
+                            {
+                                <a href="@Url.Action("Index", "Servicios", new {culture, slug = servicios.Slug})" class="list-group-item @Select(ViewData["slug"].ToString(), servicios.Slug) @servicios.ImgClass">
+                                    <span>@servicios.Titulo</span>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                    <div class="bhoechie-tab like-table-cell">
+                        @foreach (var servicios in (List<Servicios>)ViewData["serviciosMenu"])
+                        {
+                            <div class="bhoechie-tab-content @Select(ViewData["slug"].ToString(), servicios.Slug)">
+                                <div class="row">
+                                    <div class="col-xs-12 col-lg-12">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                <label class="servicios_title_content">
+                                                    @Resources.Resources.Service_Text_Title_For @servicios.Titulo
+                                                </label>
+                                                <p class="servicios_contenido">@Html.Raw(servicios.Contenido)</p>
+                                            </div>
+                                            <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                                                <img class="content" src="~/Content/Images/@servicios.Imagen" alt="" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                        <a href="@Url.Action("Index", "Consulta", new {culture})" class="button-search">@Html.Raw(Resources.Resources.MenuItem03)</a>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

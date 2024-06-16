@@ -1,0 +1,137 @@
+﻿@model Veritrade2018.Models.FreeTrial
+@using System.Drawing
+@{
+    //ViewBag.Title = Resources.Resources.TrialText;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.EnableClientValidation();
+}
+
+@section Styles
+{
+    <link href="@Url.Content("~/Content/Assets/prueba_gratis.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Scripts/Plugins/OwlCarousel/assets/owl.carousel.min.css")" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/Plugins/OwlCarousel/owl.carousel.min.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var owlOptions = {
+                items: 1,
+                loop: true,
+                center: true,
+                autoplay: true,
+                autoplayTimeout: 3000
+            };
+
+            $('#imageSliderPri').owlCarousel(owlOptions);
+            $('#imageSliderSec').owlCarousel(owlOptions);
+
+            $("#FtEmail").change(function () {
+                if ($("#mailExist").html().length > 0) {
+                    $("#mailExist").html("");
+                }
+            });
+            var button = document.getElementById('btnContinuarPrueba');
+            button.addEventListener(
+                'click',
+                function () {
+                    fbq('track', 'Lead');
+                },
+                false
+            );
+            $("#validationForm").submit(function (event) {
+                ga('send', 'event', 'boton', 'click', 'pruebagratis');
+
+                if ($("#validationForm").valid()) {
+                     event.preventDefault();
+                    event.stopImmediatePropagation();
+                    var action = $("#validationForm").attr("action");
+                    var dataString = new FormData($("#validationForm").get(0));
+
+                    $.ajax({
+                        type: "POST",
+                        url: action,
+                        data: dataString,
+                        dataType: "json",
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function () {
+                            $("#mailExist").html("");
+                        },
+                        success: function (result) {
+                            if (result.respuesta === "EXISTE") {
+                                $("#mailExist").html("@Resources.ValidationResource.Error_Email_Exist");
+                            } else {
+                                var txtCodUsuario = document.getElementById("txtCodUsuario");
+                                var txtPassword = document.getElementById("txtPassword");
+                                var form = document.getElementById('loginForm');
+                                var hiddenInput = document.createElement('input');
+
+                                txtCodUsuario.value = result.email;
+                                txtPassword.value = result.respuesta;
+                                hiddenInput.setAttribute('type', 'hidden');
+                                hiddenInput.setAttribute('name', 'inicio');
+                                hiddenInput.setAttribute('value', 'preview');
+                                form.appendChild(hiddenInput);
+                                form.action = "@Url.Action("Preview","PruebaGratis")";
+                                form.submit();
+                            }
+                        },
+                        error: function () {
+                            alert("ocurrio un error al enviar el correo");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}
+<div class="container">
+    <div class="col-xs-12 col-sm-6">
+        <div class="prueba_banner">
+            <div class="title">
+                <h2>@Resources.Resources.FreeTrial_Title01</h2>
+            </div>
+            <div class="contenedor_galeria hidden-xs">
+                <div class="owl-carousel" id="imageSliderPri">
+                    <div>
+                        <a href="#" data-toggle="modal" data-target="#ModalSlider">
+                            <img src="@Url.Content("~/Content/Images/SliderTrial/captura01.jpg")" alt="" />
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#" data-toggle="modal" data-target="#ModalSlider">
+                            <img src="@Url.Content("~/Content/Images/SliderTrial/captura02.jpg")" alt="" />
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#" data-toggle="modal" data-target="#ModalSlider">
+                            <img src="@Url.Content("~/Content/Images/SliderTrial/captura03.jpg")" alt="" />
+                        </a>
+                    </div>
+                    <div>
+                        <a href="#" data-toggle="modal" data-target="#ModalSlider">
+                            <img src="@Url.Content("~/Content/Images/SliderTrial/captura04.jpg")" alt="" />
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-6">
+        <div class="prueba_section">
+            <div class="title">
+                <h2>@Resources.Resources.FreeTrial_Title02</h2>
+            </div>
+            @using (Ajax.BeginForm("AjaxForm", "PruebaGratis", null, new AjaxOptions { HttpMethod = "POST" }, new { id = "validationForm", @class = "edit_form", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Partial("AjaxFormFreeTrial", Model)
+            }
+        </div>
+    </div>
+</div>
+
+@Html.Partial("Modal_Slider")

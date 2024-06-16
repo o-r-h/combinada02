@@ -1,0 +1,135 @@
+﻿@using Veritrade2018.Helpers
+@using Veritrade2018.Models.Admin
+@using Veritrade2018.Util
+@{
+    var objTabData = (TabData)Model;
+
+    var idsSeleccionados = objTabData.IdsSeleccionados;
+
+    bool verificarCheckBox = (idsSeleccionados != null && idsSeleccionados.Count > 0);
+
+    var vFlag = objTabData.FlagVarVisibles;
+
+}
+
+@if (objTabData.DropDownDescarga != null)
+{
+    <div class="row">
+        <div class="col-sm-12 divTabMessageExcel form-inline">
+            @Resources.Resources.Demo_ExcelDonwloadMessage_Part1
+            <span class="spanTabMessageExcel">@Resources.Resources.Demo_DetailExcel_Tab</span>
+            @Resources.Resources.Demo_ExcelDonwloadMessage_Part2&nbsp;
+
+             @Html.DropDownList("DropDownDescarga", null, new { @class = "form-control" })
+            
+
+            @*<select>
+            <option value="0">[TODOS LOS CAMPOS]</option>
+            <option value="18901">Plantilla 01</option>
+        </select>*@
+            &nbsp;
+            <a id="downloadFileVerRegistro2" href="javascript:void(0)">
+                <img src="/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" />
+            </a>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="table-title">
+                        @foreach(var i in objTabData.HeadTitles)
+                        {
+                            if (i.visible)
+                            {
+                                <th @(i.className.Length>0 ? "class="+ i.className : "")  >@Html.Raw(i.label)</th>
+                            }
+                        }                       
+                    </tr>
+                </thead>
+                <tbody id="@("tbody"+Enums.TipoFiltro.Tab + objTabData.Filtro)">
+                    @foreach (var item in objTabData.ListRowsTab)
+                    {
+                        <tr>
+                            <td class="text-right" >@item.Nro</td>
+                            <td class="text-center">
+                                @item.Fecha
+                                <br />
+                                <a href="javascript:void(0)" data-id="@item.Id" class="lnkVerDetalleById">
+                                    <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                @item.ImportadorOrExportador <br />
+                                <a href="@item.LnkGoogle"  target="_blank" >
+                                    <img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" class="cursor-action" />
+                                </a>   
+                            </td>
+                            @if (vFlag.ExisteNotificado)
+                            {
+                                <td class="text-center">
+                                    @item.Notificado
+                                </td>
+                            }
+                            @*Ruben 202210*@
+                            @if ((vFlag.TipoOpe == "I" && vFlag.ExisteProveedor) || (vFlag.TipoOpe == "E" && vFlag.ExisteImportadorExp))
+                            {
+                                <td class="text-center">
+                                    @item.ExportadorOrImportador <br />
+                                    <a href="@item.LnkGoogle2" target="_blank">
+                                        <img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" class="cursor-action" />
+                                    </a>
+                                </td>
+                            }
+                            <td class="text-center">
+                                @item.PaisEmbarqueOrPaisDest
+                            </td>
+                            <td class="text-center">
+                                @item.Puerto
+                            </td>
+                            <td class="text-center">
+                                @item.PesoBruto
+                            </td>
+                            <td class="text-center">
+                                @item.CantidadOrBultos
+                            </td>
+                            @if (vFlag.CodPais == "USI" || vFlag.CodPais =="USE" )
+                            {
+                                <td class="text-center">
+                                    @item.UndMedida
+                                </td>
+                            }
+                            @if (vFlag.ExisteDesComercial)
+                            {
+                                <td class="text-justify"><p class="wspace-normal">
+                                    @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                                </p></td>
+                            }
+                            @if (vFlag.ExisteDesAdicional)
+                            {
+                                <td class="text-justify"><p class="wspace-normal">
+                                    @Html.Raw(string.Concat(item.DesAdicional, item.Descripcion.AppendMoreLess()))
+                                </p></td>
+                            }
+                        </tr>
+                    }
+                </tbody>
+
+            </table>
+
+            @if (objTabData.TotalPaginasTab > 1)
+            {
+                <div class="text-center">
+                    <nav aria-label="Page navigation">
+                        <ul id="@("paging" +Enums.TipoFiltro.Tab+ objTabData.Filtro)"
+                            data-id-tabla="@(Enums.TipoFiltro.Tab+ objTabData.Filtro)"
+                            class="pagination pagination-sm"></ul>
+                    </nav>
+                </div>
+            }
+        </div>
+    </div>
+</div>

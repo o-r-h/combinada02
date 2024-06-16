@@ -1,0 +1,84 @@
+﻿@model Veritrade2017.Models.Solicitud
+<script type="text/javascript">
+
+</script>
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalSolicitud">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="padding: 20px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    @Resources.Close_Text <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title"></h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal_popup">
+                    @using (Ajax.BeginForm("", "", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessSolicitud", OnFailure = "OnFailureSolicitud", LoadingElementId = "loading", OnBegin = "onValidateBeginSol", OnComplete = "onValidateCompleteSol" }, new { id = "solicitudForm", @class = "form-horizontal", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                       @Html.HiddenFor(model => model.CodSolicitud)
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <label>@Resources.Field_Fullname_Text</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <img src="~/Content/Images/ico_form_contacto_01.jpg" alt="" width="34" height="27" />
+                                    </span>
+                                    @Html.TextBoxFor(model => model.NombreCompleto, new { @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.NombreCompleto, "", new { @class = "text-danger " })
+                            </div>
+                            <div class="col-sm-6">
+                                <label>@Resources.Field_Phone_Text</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <img src="~/Content/Images/ico_form_contacto_03.jpg" alt="" width="34" height="27" />
+                                    </span>
+                                    @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <label>@Resources.Field_Company_Text</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <img src="~/Content/Images/ico_form_contacto_02.jpg" alt="" width="34" height="27" />
+                                    </span>
+                                    @Html.TextBoxFor(model => model.Empresa, new { @class = "form-control" })
+                                </div> n 
+                                @Html.ValidationMessageFor(model => model.Empresa, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-sm-6">
+                                <label>@Resources.Field_Email_Text</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <img src="~/Content/Images/ico_form_contacto_04.jpg" alt="" width="34" height="27" />
+                                    </span>
+                                    @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                                </div>
+                                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-6">
+                                <label>@Resources.Field_Message_Text</label>
+                                @Html.TextAreaFor(model => model.Mensaje, new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.Mensaje, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group" style="display: inline;">
+                            <div class="col-sm-12 text-center">
+                                <button type="submit" class="home_link" id="send_button" style="background-color: #ffffff" onclick="ga('send', 'event', 'boton', 'click', 'contacto');">@Resources.Send_Button</button>
+                                <div id="loading">
+                                    <img src="~/Content/Images/ajax-loader-min.gif" width="23" height="23" alt="" />
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

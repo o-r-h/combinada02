@@ -1,0 +1,48 @@
+﻿@using System.Globalization
+@using Veritrade2018.Helpers
+@{
+    ViewBag.Title = "Veritrade - Error";
+    Layout = "~/Views/Shared/_ErrorLayout.cshtml";
+
+}
+
+<div class="container-fluid">
+    <div class="row padding-left-righ-error">
+        <div class="col-xs-12">
+
+            <div class="saludo-cliente">
+                @Resources.Resources.Access_Title
+            </div>
+
+            <div class="mensaje-error">
+                @Html.Raw(ViewData["MensajeError"].ToString())
+                <a class="lnkContactenos lnkContactenosMensaje">@Resources.Resources.MenuItem07</a>
+            </div>
+
+            <div>
+                <a href="@Url.Action("Index", "Home")" class="btn btnVeritrade">@Resources.Resources.back_veritrade</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@Html.Partial("..//MisBusquedas/Modals/Modal_VentanaContactenos");
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+
+            //$(".lnkContactenos").click(function() {
+            //    $('#ModalVentanaContactenos').modal({
+            //        show: true,
+            //        backdrop: 'static',
+            //        keyboard: false
+            //    });
+            //});
+
+
+        });
+    </script>
+   
+}

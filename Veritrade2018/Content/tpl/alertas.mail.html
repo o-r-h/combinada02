@@ -1,0 +1,484 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Email</title>
+    <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+
+    <style>
+        body{
+            font-family: 'Montserrat', sans-serif;
+        }
+        .left{
+            text-align: left;
+        }
+        .center{
+            text-align: center;
+        }
+        .right{
+            text-align: right;
+        }
+        .fondo_azul_oscuro{
+            background-color: #20293A ;
+        }
+        .color_blanco{
+            color: white;
+        }
+        .color_azul_oscuro{
+            color: #20293A ;
+        }
+        .fondo_verde{
+            background-color:#00D723;
+        }
+        .fondo_celeste{
+            background-color:#30A7E4;
+        }
+        .tabla_1{
+
+        }
+        .tabla_1 td {
+            padding: 15px;
+        }
+        .float_middle{
+            display:block;
+            margin: auto;
+            text-align: center;
+        }
+        .padding_general{
+            padding-left: 50px;
+            padding-right: 50px;
+        }
+        .subrayado{
+            text-decoration: underline;
+        }
+        p.subrayado a {
+            color: #333;
+        }
+        .tabla_fila{
+            border-color: #F1F1F1;
+            border-width: 1px;
+            border-style: solid;
+            padding-top: 0px !important;
+            padding-bottom: 0px !important;
+        }
+        .tabla_subtitulo {
+            border-color: #F1F1F1;
+            border-width: 1px;
+            border-style: solid;
+            background-color: #E8F5FE;
+            padding: 5px 10px 5px 60px !important;
+        }
+        p{
+            margin-top: 5px;
+            margin-bottom: 5px;
+        }
+        .color_gris, .color_gris a {
+            color: #333;
+        }
+        .color_gris a { text-decoration:none; }
+        .flechita{
+            position: absolute;
+            left: -87px;
+            top: -10px;
+        }
+        .fondo_celeste.color_blanco td {
+            padding: 10px !important;
+        }
+
+        .left-child {
+            padding-left: 60px !important;
+        }
+        /**/
+        .float_right {
+            float: right;
+            margin-top: 25px;
+            margin-right: 30px;
+        }
+
+        .float-right > font {
+            display: block;
+        }
+
+        .float_right font {
+            font-size: 16px !important;
+            color: #ddd;
+            padding: 0 10px;
+            font-weight: normal;
+        }
+
+        .truncate{
+            max-width: 700px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .single-line {
+            width: 100%;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: pre;
+        }
+
+        .modal-body .truncate {
+            max-width: 300px;
+        }
+
+        @media screen and (max-width:880px) {
+            .truncate {
+                max-width: 200px;
+            }
+
+            img.head_logo {
+                clear: both;
+                float: none;
+                text-align: center !important;
+                display: block;
+                margin: 0 auto !important;
+                margin-top: 10px !important;
+            }
+
+            .color_gris {
+                text-align: center !important;
+                float: none;
+                margin: 14px 0;
+            }
+
+        }
+
+        @media screen /*and (min-width:1024px) */and (max-width:1360px) {
+            .truncate {
+                max-width: 300px;
+            }
+        }
+
+        @media screen and (min-width:768px) and (max-width:991px) {
+            .modal-body .truncate {
+                max-width: 100px;
+            }
+        }
+
+
+    </style>
+</head>
+<body style="margin: 0px;">
+<table style="width: 100%">
+    <tr >
+        <td style="background-color: #F1F1F1">
+            <img class="head_logo" align="left" src="https://res.cloudinary.com/jhenrygv/image/upload/v1539121009/veritrade_logo.png" style="margin-bottom: 10px;margin-top: 10px;width: 80px;margin-left: 30px;">
+            <p class="color_gris float_right">
+                <a target="_blank" href="http://www.veritradecorp.com"> www.veritradecorp.com</a>
+            </p>
+            <!--p class="color_gris float_middle">@2018 Veritrade</p-->
+        </td>
+    </tr>
+    <tr class="padding_general" style="margin: 20px 40px; background-color: #FFFFFF">
+        <td class="tabla_1 padding_general">
+            <h3 class="color_azul_oscuro" style="margin-top: 50px; text-transform: uppercase;  ">{{objLang.LabelSaludo}} {{FullName}} - {{Empresa}}</h3>
+            <p>{{objLang.LabelMensajeInformativo}} <b class="color_azul_oscuro">{{Pais}} {{MesAnio}}.</b></p>
+            {{#each Alertas}}
+            {{#if HasAlerta}}
+            <h3 class="color_azul_oscuro">{{Regimen}}</h3>
+            <!-- productos -->
+            {{#with AMP}}
+            {{#if Productos}}
+            <table style="width: 100%">
+                <tr class="fondo_celeste color_blanco" style="">
+                    <td style="width:49%" class="left">
+                        {{objLang.LabelProduct}}
+                    </td>
+                    <td style="width:17%; text-align: center;" class="right">
+                        US$ {{LabelCif}} <br /> {{fechaVerialertas}}
+                    </td>
+                    <td style="width:17%; text-align: center;" class="right">
+                        US$ {{LabelCif}} <br /> {{fechasVerialertasAnioActual}}
+                    </td>
+                    <td class="right" style="min-width:120px; text-align: center;">
+                        {{objLang.LabelVariacion}} % {{objLang.LabelVariacion2}} {{fechasVerialertasAnioAnterior}}
+                    </td>
+                </tr>
+                {{#each Productos}}
+                <tr class=" padding_general tabla_fila" style="">
+                    <td class="left tabla_fila">
+                        {{#if MostrarLink}}
+                        <p class="subrayado truncate" title="{{Descripcion}}"><a target="_blank" href="{{Link}}">{{Descripcion}}</a></p>
+                        {{/if}}
+                        {{#if OcultarLink}}
+                        <p class="truncate" title="{{Descripcion}}">{{Descripcion}}</p>
+                        {{/if}}
+                    </td>
+                    <td class="right tabla_fila">
+                        {{Total:N0}}
+                    </td>
+                    <td class="right tabla_fila">
+                        {{TotalAnio:N0}}
+                    </td>
+                    <td class="right tabla_fila" style="">
+                        {{Variacion:N2}} %
+                        <div style="position: relative;display: inline-block;"><img class="flechita" src="https://res.cloudinary.com/jhenrygv/image/upload/v1539121009/{{IconVariacion}}"></div>
+                    </td>
+                </tr>
+                {{/each}} <!-- each AMP.Productos -->
+            </table>
+            {{/if}}
+            {{/with}}
+            <!-- importadores -->
+            {{#with AMC}}
+            {{#if Companias}}
+            <table style="width: 100%; margin-top: 10px;">
+                <tr class="fondo_celeste color_blanco" style="">
+                    <td style="width:49%" class="left">
+                        {{LabelCompanias}}
+                    </td>
+                    <td style="width:17%; text-align: center;" class="right">
+                        US$ {{LabelCif}} <br /> {{fechaVerialertas}}
+                    </td>
+                    <td style="width:17%; text-align: center;" class="right">
+                        US$ {{LabelCif}} <br /> {{fechasVerialertasAnioActual}}
+                    </td>
+                    <td class="right" style="min-width:120px; text-align: center;">
+                        {{objLang.LabelVariacion}} % {{objLang.LabelVariacion2}} {{fechasVerialertasAnioAnterior}}
+                    </td>
+                </tr>
+                {{#each Companias}}
+                <tr class=" padding_general tabla_fila" style="">
+                    <td class="left tabla_fila">
+                        {{#if MostrarLink}}
+                        <p class="subrayado truncate" title="{{Descripcion}}"><a target="_blank" href="{{Link}}">{{Descripcion}}</a></p>
+                        {{/if}}
+                        {{#if OcultarLink}}
+                        <p class="truncate" title="{{Descripcion}}">{{Descripcion}}</p>
+                        {{/if}}
+                    </td>
+                    <td class="right tabla_fila">
+                        {{Total:N0}}
+                    </td>
+                    <td class="right tabla_fila">
+                        {{TotalAnio:N0}}
+                    </td>
+                    <td class="right tabla_fila" style="">
+                        {{Variacion:N2}} %
+                        <div style="position: relative;display: inline-block;"><img class="flechita" src="https://res.cloudinary.com/jhenrygv/image/upload/v1539121009/{{IconVariacion}}"></div>
+                    </td>
+                </tr>
+                {{/each}}
+            </table>
+            {{/if}}
+            {{/with}}
+
+            <!-- producto e importadores -->
+            {{#with APC}}
+            {{#if Productos}}
+            <table style="width: 100%; margin-top: 10px;" class="APC">
+                <tr class="fondo_celeste color_blanco" style="">
+                    <td style="width:49%" class="left">
+                        {{objLang.LabelProduct}} / {{LabelCompanias}}
+                    </td>
+                    <td style="width:17%; text-align: center;" class="right">
+                        US$ {{LabelCif}} <br /> {{fechaVerialertas}}
+                    </td>
+                    <td style="width:17%; text-align: center;" class="right">
+                        US$ {{LabelCif}} <br /> {{fechasVerialertasAnioActual}}
+                    </td>
+                    <td class="right" style="min-width:120px; text-align: center;">
+                        {{objLang.LabelVariacion}} % {{objLang.LabelVariacion2}} {{fechasVerialertasAnioAnterior}}
+                    </td>
+                </tr>
+                {{#each Productos}}
+                <tr class=" padding_general tabla_fila" style="">
+                    <td class="left tabla_fila">
+                        {{#if MostrarLink}}
+                        <p class="subrayado truncate" title="{{Descripcion}}"><a target="_blank" href="{{Link}}">{{Descripcion}}</a></p>
+                        {{/if}}
+                        {{#if OcultarLink}}
+                        <p class="truncate" title="{{Descripcion}}">{{Descripcion}}</p>
+                        {{/if}}
+                    </td>
+                    <td class="right tabla_fila">
+                        {{Total:N0}}
+                    </td>
+                    <td class="right tabla_fila">
+                        {{TotalAnio:N0}}
+                    </td>
+                    <td class="right tabla_fila" style="">
+                        {{Variacion:N2}} %
+                        <div style="position: relative;display: inline-block;"><img class="flechita" src="https://res.cloudinary.com/jhenrygv/image/upload/v1539121009/{{IconVariacion}}"></div>
+                    </td>
+                </tr>
+                <tr class="" style="">
+                    <td colspan="4" class="tabla_subtitulo" style="">
+                        <b>{{TipoOperacion}}</b><b style="float:right">{{objLang.LabelVariacion}}</b>
+                    </td>
+                </tr>
+                {{#each FavoritosDetails}}
+                <tr class="padding_general tabla_fila" style="">
+                    <td class="left tabla_fila left-child">
+                        {{#if MostrarLink}}
+                        <p class="subrayado truncate" title="{{Descripcion}}"><a target="_blank" href="{{Link}}">{{Descripcion}}</a></p>
+                        {{/if}}
+                        {{#if OcultarLink}}
+                        <p class="truncate" title="{{Descripcion}}">{{Descripcion}}</p>
+                        {{/if}}
+                    </td>
+                    <td class="right tabla_fila">
+                        {{Total:N0}}
+                    </td>
+                    <td class="right tabla_fila">
+                        {{TotalAnio:N0}}
+                    </td>
+                    <td class="right tabla_fila" style="">
+                        {{Variacion:N2}} %
+                        <div style="position: relative;display: inline-block;">  <img class="flechita" src="https://res.cloudinary.com/jhenrygv/image/upload/v1539121009/{{IconVariacion}}"></div>
+                    </td>
+                </tr>
+
+                {{/each}}
+                <tr>
+                    <td></td>
+                </tr>
+                {{/each}}
+                <!--<tr class="" style="">
+        <td colspan="3" class="tabla_subtitulo" style="">
+            <b>{{objLang.LabelImportadores}}</b><b style="float:right">{{objLang.LabelVariacion}}</b>
+        </td>
+    </tr>
+    {{#each Companias}}
+    <tr class=" padding_general tabla_fila" style="">
+        <td class="left tabla_fila left-child">
+            <p class="subrayado"><a target="_blank" href="{{Link}}">{{Descripcion}}</a></p>
+        </td>
+        <td class="right tabla_fila">
+            {{Total:N0}}
+        </td>
+        <td class="right tabla_fila" style="">
+            {{Variacion:N2}} %
+            <div style="position: relative;display: inline-block;">  <img class="flechita" src="https://res.cloudinary.com/jhenrygv/image/upload/v1539121009/{{IconVariacion}}"></div>
+        </td>
+    </tr>
+    {{/each}}-->
+            </table>
+            {{/if}}
+            {{/with}}
+
+            <!-- importador y productos -->
+            {{#with ACP}}
+            {{#if Companias}}
+            <table style="width: 100%; margin-top: 10px;" class="ACP">
+                <tr class="fondo_celeste color_blanco" style="">
+                    <td style="width:49%" class="left">
+                        {{LabelCompanias}} / {{objLang.LabelProduct}}
+                    </td>
+                    <td style="width:17%; text-align: center;" class="right">
+                        US$ {{LabelCif}} <br /> {{fechaVerialertas}}
+                    </td>
+                    <td style="width:17%; text-align: center;" class="right">
+                        US$ {{LabelCif}} <br /> {{fechasVerialertasAnioActual}}
+                    </td>
+                    <td class="right" style="min-width:120px; text-align: center;">
+                        {{objLang.LabelVariacion}} % {{objLang.LabelVariacion2}} {{fechasVerialertasAnioAnterior}}
+                    </td>
+                </tr>
+                {{#each Companias}}
+                <tr class=" padding_general tabla_fila" style="">
+                    <td class="left tabla_fila">
+                        {{#if MostrarLink}}
+                        <p class="subrayado truncate" title="{{Descripcion}}"><a target="_blank" href="{{Link}}">{{Descripcion}}</a></p>
+                        {{/if}}
+                        {{#if OcultarLink}}
+                        <p class="truncate" title="{{Descripcion}}">{{Descripcion}}</p>
+                        {{/if}}
+                    </td>
+                    <td class="right tabla_fila">
+                        {{Total:N0}}
+                    </td>
+                    <td class="right tabla_fila">
+                        {{TotalAnio:N0}}
+                    </td>
+                    <td class="right tabla_fila" style="">
+                        {{Variacion:N2}} %
+                        <div style="position: relative;display: inline-block;"><img class="flechita" src="https://res.cloudinary.com/jhenrygv/image/upload/v1539121009/{{IconVariacion}}"></div>
+                    </td>
+                </tr>
+                <tr class="" style="">
+                    <td colspan="4" class="tabla_subtitulo" style="">
+                        <b>{{objLang.LabelProduct}}</b>
+                    </td>
+                </tr>
+                {{#each FavoritosDetails}}
+                <tr class=" padding_general tabla_fila" style="">
+                    <td class="left tabla_fila left-child" ">
+
+                        {{#if MostrarLink}}
+                        <p class="subrayado truncate" title="{{Descripcion}}"><a target="_blank" href="{{Link}}">{{Descripcion}}</a></p>
+                        {{/if}}
+                        {{#if OcultarLink}}
+                        <p class="truncate" title="{{Descripcion}}">{{Descripcion}}</p>
+                        {{/if}}
+                    </td>
+                    <td class="right tabla_fila">
+                        {{Total:N0}}
+                    </td>
+                    <td class="right tabla_fila">
+                        {{TotalAnio:N0}}
+                    </td>
+                    <td class="right tabla_fila" style="">
+                        {{Variacion:N2}} %
+                        <div style="position: relative;display: inline-block;">  <img class="flechita" src="https://res.cloudinary.com/jhenrygv/image/upload/v1539121009/{{IconVariacion}}"></div>
+                    </td>
+                </tr>
+                {{/each}}
+                <tr>
+                    <td></td>
+                </tr>
+                {{/each}}
+                <!--<tr class="" style="">
+                <td colspan="3" class="tabla_subtitulo" style="">
+            <b>{{objLang.LabelProduct}}</b>
+        </td>
+    </tr>
+    {{#each Productos}}
+    <tr class=" padding_general tabla_fila" style="">
+        <td class="left tabla_fila left-child" ">
+            <p class="subrayado"><a target="_blank" href="{{Link}}">{{Descripcion}}</a></p>
+        </td>
+        <td class="right tabla_fila">
+            {{Total:N0}}
+        </td>
+        <td class="right tabla_fila" style="">
+            {{Variacion:N2}} %
+            <div style="position: relative;display: inline-block;">  <img class="flechita" src="https://res.cloudinary.com/jhenrygv/image/upload/v1539121009/{{IconVariacion}}"></div>
+        </td>
+    </tr>
+    {{/each}}-->
+
+
+            </table>
+            {{/if}}
+            {{/with}}
+            {{/if}}
+            {{/each}} <!-- each Alertas -->
+        </td>
+    </tr>
+    <tr class="rem" >
+        <td style="text-align:center;padding: 20px 0 20px;">
+            <div>
+                <!--[if mso]>
+          <v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="http://google.com" style="height:36px;v-text-anchor:middle;width:200px;" arcsize="50%" strokecolor="#e6e6e8" fillcolor="#30A7E4">
+            <w:anchorlock/>
+            <center style="color:#fff;font-family:sans-serif;font-size:13px;font-weight:bold;">Configura tus Alertas</center>
+          </v:roundrect>
+        <![endif]-->
+                <a href="{{LinkGoAlertas}}" target="_blank"
+                   style="background-color:#30A7E4;border:1px solid #e6e6e8;border-radius:18px;color:#fff;display:inline-block;font-family:sans-serif;font-size:13px;font-weight:bold;line-height:36px;text-align:center;text-decoration:none;width:200px;-webkit-text-size-adjust:none;">{{objLang.LabelConfig}}</a>
+            </div>
+        </td>
+    </tr>
+    <tr>
+        <td style="background-color: #F1F1F1">
+            <img src="https://res.cloudinary.com/jhenrygv/image/upload/v1539121009/veritrade_logo.png" class="float_middle" style="margin-bottom: 10px;margin-top: 10px;width: 70px;">
+        </td>
+        
+    </tr>
+</table>
+</body>
+</html>

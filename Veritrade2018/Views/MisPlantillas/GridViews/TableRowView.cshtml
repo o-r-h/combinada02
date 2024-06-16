@@ -1,0 +1,35 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    AdminMyTemplate objAdminMyTemplate = (AdminMyTemplate) Model;
+}
+@foreach (var field in objAdminMyTemplate.MyTemplates)
+{
+    <tr>
+        <td>
+            @field.Index
+        </td>
+        <td class="valueField" data-field="@field.Campo">
+            @field.CampoFavorito
+        </td>
+        <td class="checkField">
+            <div class="text-center">
+                <label>
+                    @if (field.IsChecked)
+                    {
+                        <input type="checkbox" class="c_template_checkbox"  value="@field.Campo" checked="checked" aria-label="...">
+                    }
+                    else
+                    {
+                        <input type="checkbox" class="c_template_checkbox"  value="@field.Campo" aria-label="...">
+                    }
+
+                </label>
+            </div>
+        </td>
+        
+        <td class="textFavorite">
+            <input type="text" name="@("txt" + field.Campo)" value="@field.CampoPersonalizado" class="form-control txt-formfield" data-fieldfavorite="@field.CampoFavorito"/>
+        </td>
+        
+    </tr>
+}

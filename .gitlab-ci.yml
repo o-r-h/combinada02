@@ -1,0 +1,16 @@
+variables:
+ SONAR_URL: https://historico.zeke.cl
+ SONAR_PROJECT_NAME: VERITRADE.WEB
+
+stages:
+ - build-and-inspection
+
+build:
+ stage: build-and-inspection
+ script:
+   - 'nuget.exe restore'
+   - 'SonarScanner.MSBuild.exe begin /k:%SONAR_PROJECT_NAME% /d:sonar.host.url=%SONAR_URL% /d:sonar.login=%HISTORICO_TOKEN%'
+   - 'msbuild.exe -verbosity:normal Veritrade2017.sln /p:DeployOnBuild=true'
+   - 'SonarScanner.MSBuild.exe end /d:sonar.login=%HISTORICO_TOKEN%'  
+ tags:
+    - win

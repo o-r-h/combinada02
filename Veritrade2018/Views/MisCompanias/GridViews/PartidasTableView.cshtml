@@ -1,0 +1,104 @@
+﻿@using Veritrade2018.Helpers
+@using Veritrade2018.Models.Admin
+@{
+    var objDataTable = (TabDataTabMy) Model;
+    if ((objDataTable.Filtro == "Partida") && (objDataTable.CodPais == "PE"))
+    {
+        foreach (var item in objDataTable.ListRows)
+        {
+            item.IsVisibleLupaPartida = true;
+        }
+    }
+
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered">
+        <thead>
+        <tr class="table-title">
+            <th class="column-text-center">
+                @objDataTable.GridHead.CodPartida
+            </th>
+            <th class="column-text-center">
+                @objDataTable.GridHead.Descripcion
+            </th>
+            <th class="column-text-center" style="min-width:80px;">
+                @objDataTable.GridHead.CiFoFobTot
+            </th>
+            <th class="column-text-center">
+                @objDataTable.GridHead.CiFoFobPor
+            </th>
+        </tr>
+        </thead>
+        <tbody id="@("tbody" + objDataTable.Filtro)">
+        @foreach (var item in objDataTable.ListRows)
+        {
+            <tr>
+                <td class="columnUnderline" style="white-space: nowrap;">
+                    @if (item.IsVisibleLupaPartida)
+                    {
+                    <span>
+                        <a class="verDetallePartidas" onclick="TabMisCompanias.ClickArancelesPartida('@item.CodPartida');">
+                            <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                        </a>
+                    </span>
+                    <span>
+                        <a class="lnkVerRegistros"
+                            title="@objDataTable.GridHead.TitleColumnTotalReg"
+                            data-filtro="@objDataTable.Filtro"
+                            data-idregistro="@item.Id">
+                            @item.CodPartida
+                        </a>
+                    </span>
+                    }
+                    else
+                    {
+                        <a class="lnkVerRegistros"
+                           title="@objDataTable.GridHead.TitleColumnTotalReg"
+                           data-filtro="@objDataTable.Filtro"
+                           data-idregistro="@item.Id">
+
+                            @item.CodPartida
+                        </a>
+                    }
+
+                </td>
+
+                <td class="wspace-normal">
+                    @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                </td>
+                <td class="column-text-right cell-vertical-align-middle">
+                    @item.CiFoFobTot
+                </td>
+                <td class="column-text-right cell-vertical-align-middle">
+                    @item.CiFoFobPor
+                </td>
+            </tr>
+        }
+        </tbody>
+        <tfoot>
+        <tr class="table-footer">
+            <th class="cell-vertical-align-middle">
+                @Resources.Resources.TotalsText
+            </th>
+            <th>
+
+            </th>
+            <th class="column-text-right cell-vertical-align-middle">
+                @objDataTable.CiFoFobTotal
+            </th>
+            <th class="column-text-right cell-vertical-align-middle">
+                100.00%
+            </th>
+        </tr>
+        </tfoot>
+    </table>
+
+    @if (objDataTable.TotalPaginasTab > 1)
+    {
+        <nav aria-label="Page navigation">
+            <ul id="@("paging" + objDataTable.Filtro)" class="pagination pagination-sm pagination-tab-my"></ul>
+        </nav>
+    }
+</div>
+

@@ -1,0 +1,172 @@
+﻿@using Veritrade2017.Helpers
+@using Veritrade2017.Models
+@using Veritrade2017.Models.Admin
+@using Veritrade2017.Models.ProductProfile
+@{
+    var culture = CultureHelper.GetCurrentCulture();
+    var idiomaText = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+    var objDetalle = (List<Detalle>) Model;
+    var count = 1;
+    ViewData["CodesCampanias"] = Session["CodsCamp"];
+    var sty = ((Campania.TYPE_CAMPANIA)((int?)Session["TypeCampania"] ?? 0));
+
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    var CodesCampanias = Campania.CodFormateds3((ViewData["CodesCampanias"] as Dictionary<Campania.CONTROL, string>), culture, Request.Browser.IsMobileDevice, sty );
+
+    //var CodesCampanias = ViewData["CodesCampanias"] as Dictionary<Campania.CONTROL, string>;
+
+
+    var values = RouteDataContext.RouteValuesFromUri(Request.UrlReferrer);
+    if (values != null && sty == Campania.TYPE_CAMPANIA.ORGANIC )
+    {
+        if (new[] {/*"Productos",*/ "ProductoPerfil"}.Contains(/*values["controller"]*/controller))
+        {
+            if (culture != "es")
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_PRODUCTOS_EN];
+            }
+            else
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_PRODUCTOS];
+            }
+
+        }
+
+    }
+}
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalFavoritos">
+    <div class="modal-dialog modal-special" role="document">
+        <div class="modal-content" style="padding: 20px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    @Resources.Close_Text <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    <span>@Session["DescProducto"].ToString().ToUpper()</span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal_popup minisite" style="max-height: 300px; overflow-y: auto; overflow-x: hidden;">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="column-impair">Nº</th>
+                                            <th class="column-pair">@MinisiteResources.Table03_Header01</th>
+                                            <th class="column-impair">@MinisiteResources.Table03_Header02</th>
+                                            @if (Session["Regimen"].ToString().Substring(0, Session["Regimen"].ToString().Length - 2) == "Importacion")
+                                            {
+                                                <th class="column-pair">@ProductProfileResources.Importer</th>
+                                            }
+                                            else
+                                            {
+                                                <th class="column-pair">@ProductProfileResources.Exporter</th>
+                                            }
+                                            <th class="column-impair">@MinisiteResources.Table03_Header05</th>
+                                            <th class="column-pair">@MinisiteResources.Table03_Header06</th>
+                                            <th class="column-impair">@MinisiteResources.Table03_Header07</th>
+                                            <th class="column-pair">US$ FOB unit</th>
+                                            <th class="column-impair">US$ CIF unit</th>
+                                            <th class="column-pair">US$ CIF Unit + Taxes</th>
+                                            <th class="column-impair">@MinisiteResources.Table03_Header10</th>
+                                            <th class="column-pair">@MinisiteResources.Table03_Header11</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            int counter = 1;
+                                        }
+                                        @foreach (var data in objDetalle)
+                                        {
+
+                                            <tr>
+                                                <td>@counter</td>
+                                                <td>@string.Format(idiomaText, "{0:d}", data.Fecha)</td>
+                                                <td>@data.Partida</td>
+                                                 @if (data.Regimen == "Importacion")
+                                                 {
+                                                    <td class="text-left">@data.Importador</td>
+                                                 }
+                                                 else
+                                                 {
+                                                    <td class="text-left">@data.Exportador</td>
+                                                 }
+                                                <td>@string.Format(idiomaText, "{0:N0}", data.PesoNeto)</td>
+                                                <td>@string.Format(idiomaText, "{0:N0}", data.Cantidad)</td>
+                                                <td>@data.Unidad</td>
+                                                <td>@string.Format(idiomaText, "{0:N3}", data.FobUnit)</td>
+                                                <td>@string.Format(idiomaText, "{0:N3}", data.CifUnit)</td>
+                                                <td>@string.Format(idiomaText, "{0:N3}", data.CIFImptoUnit)</td>
+                                                <td>@data.PaisOrigen</td>
+                                                <td class="text-left">@data.DesComercial</td>
+                                            </tr>
+                                            counter++;
+                                        }
+                                    </tbody>
+                                </table>
+                                <div class="box-trial-modal" id="BoxModalChart"></div>                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="col-sm-5 text-right hidden-xs">
+                            <img src="~/Content/Images/Minisite/logo.png" />
+                        </div>
+                        <div class="col-sm-5 text-left">
+                            <div class="footer-right" style="">
+                                <p class="footer-title-info">@MinisiteResources.Modal_Footer_Title</p>
+                                <p>@MinisiteResources.Modal_Footer_Description</p>
+                                <p>
+                                    @if (culture == "es")
+                                    {
+                                    <a href="@Url.RouteUrl("PruebaGratis", new {culture, campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS]})" onclick="dataLayerProducto2();" class="solicitud">@MinisiteResources.FreeTrial_Text</a>
+                                    }
+                                    else
+                                    {
+                                    <a href="@Url.RouteUrl("PruebaGratisUS", new {culture, campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS]})" onclick="dataLayerProducto2();" class="solicitud">@MinisiteResources.FreeTrial_Text</a>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@*<script>
+    $('#ModalFavoritos').on('shown.bs.modal', function (e) {
+        var heightTable = $('#ModalFavoritos table thead').height();
+        var heightRow = 0;
+        var nFilas = $("#ModalFavoritos table tbody tr").length;
+        if (nfilas >= 3) {
+            for (var i = 0; i < 3; i++) {
+                heightRow += $('#ModalFavoritos table tbody tr').eq(i).height();
+            }
+        }
+        $('#ModalFavoritos .box-trial-modal').css('top', (heightRow + heightTable)+'px');
+    })
+</script>*@
+<script>
+    var tableRows = $('#ModalFavoritos table tbody tr').length;
+    var heightCell = 31;
+    var topBox = heightCell * (tableRows + 1);
+    var heightBox = (6 - tableRows) * heightCell;
+    var heightTable = heightBox;
+
+    if (tableRows > 3) {
+        topBox = 124;
+        heightBox = heightCell*3;
+        heightTable = 23 + heightCell * (5 - tableRows);
+    }
+
+    $('#BoxModalChart').css('top', topBox);
+    $('#BoxModalChart').css('height', heightBox);
+    $('#ModalFavoritos .tab-detalle .detalle .table-responsive').css('margin-bottom', heightTable);
+</script>

@@ -1,0 +1,362 @@
+@using System.Web.Optimization
+@using Veritrade2017.Models
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var uri = "";
+    if (culture == "es")
+    {
+        uri = HttpContext.Current.Request.Url.AbsolutePath.Substring(0, 1);
+    }
+    else
+    {
+        uri = HttpContext.Current.Request.Url.AbsolutePath.Substring(0, 3);
+    }
+    var seoConf = ConfiguracionesSeo.GetConfig(culture, uri);
+
+    //ViewBag.Title = seoConf.Title;
+    //ViewBag.Description = seoConf.Description;
+
+    string url = (string)ViewData["url"];
+    bool tokenUsado = ViewData["tokenUsado"] != null ? true : false;
+    string codUsuario = ViewData["codUsuario"] != null ? ViewData["codUsuario"].ToString() : null;
+    string password = ViewData["password"] != null ? ViewData["password"].ToString() : null;
+}
+
+@section Styles
+{
+    @Styles.Render("~/Content/home")
+    <link href="@Url.Content("~/Content/Assets/loadingProductProfile.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Plugins/OwlCarousel2-2.2.1/assets/owl.carousel.min.css")" rel="stylesheet" type="text/css" />
+}
+<style>
+    .is-active-loadingP {
+        background-color: transparent;
+    }
+
+    .loaderP .objectLoadingP {
+        width: 6px;
+        height: 17px;
+        background: rgba(100,186,234,1);
+        position: relative;
+        animation: objectLoading-animation 1s ease-in-out infinite;
+        animation-delay: 0.4s;
+        top: 50%;
+        margin: -28px auto 0;
+    }
+
+        .loaderP .objectLoadingP::after, .loaderP .objectLoadingP::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 17px;
+            background: rgba(100,186,234,1);
+            animation: objectLoading-animation 1s ease-in-out infinite;
+        }
+
+        .loaderP .objectLoadingP::before {
+            right: 10px;
+            animation-delay: 0.2s;
+        }
+
+        .loaderP .objectLoadingP::after {
+            left: 10px;
+            animation-delay: 0.2s;
+        }
+
+    .modal_popup .bot_cabecera:hover {
+        color: #2980b9;
+        border: thin solid #2980b9;
+    }
+
+    .modal_popup .bot_cabecera {
+        border: thin solid #369EE8;
+        color: #5cb3e8;
+        cursor: pointer;
+        background-color: #E8E8E6;
+        font-family: ProximaNova-Bold;
+        font-size: 15px;
+        height: 35px;
+        line-height: 20px;
+        padding: 8px 9px;
+        display: inline-block;
+    }
+
+    .modal_popup .login_text {
+        color: #787671;
+        font-family: ProximaNova-Regular;
+        font-size: 12px;
+        text-decoration: none;
+    }
+
+</style>
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/Admin/admin.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.11.4.min.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Plugins/OwlCarousel2-2.2.1/owl.carousel.min.js")" defer type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            LoadingAdminPage.showOrHideLoadingPageProduct(false);
+            var owl = $('#imageSlider');
+            owl.owlCarousel({
+                items: 1,
+                loop: true,
+                margin: 10,
+                autoplay: true,
+                autoplayTimeout: 3000,
+                autoplayHoverPause: true
+            });
+
+            var owlVideo = $('#videosCarousel');
+            owlVideo.owlCarousel({
+                items: 1,
+                loop: true,
+                margin: 10,
+                video: true,
+                lazyLoad: true,
+                center: true,
+                autoplay: true,
+                autoplayTimeout: 3000,
+                autoHeight: true,
+                videoHeight: 250,
+                autoplayHoverPause: true
+            });
+
+            $("#txtEmpresa").autocomplete({
+                appendTo: "#autocompleteEmpresa",
+                source: function(request, response) {
+                    $.ajax({
+                        url: "@Url.Action("BuscarEmpresa", "Minisite")",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            nandina: request.term
+                        },
+                        success: function(data) {
+                            response($.map(data,
+                                function(item) {
+                                    return { id: item.id, label: item.value, value: item.value };
+                                }));
+                        }
+                    });
+                },
+                minLength: 2,
+                open: function (event, ui) {
+                    $('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
+                },
+                select: function (event, ui) {
+                    $('#search').prop("disabled", false);
+                    if ('@culture' == "es") {
+                        /* Ruben 202211*/
+                        /* https://www.veritradecorp.com/es/importaciones-exportaciones-peru/alicorp/ruc-20100055237*/
+                        @*$("#slug").val("/@culture" +
+                            "/importaciones-exportaciones-" + ui.item.id.pais + "/" + ui.item.id.uri + "/" + ui.item.id.trib + "-" + ui.item.id.ruc);*@
+                        $("#slug").val("/@culture/" +
+                            ui.item.id.pais.replace(" ", "-") + // Ruben 202306
+                            "/importaciones-y-exportaciones-" +
+                            ui.item.id.uri +
+                            "/" +
+                            ui.item.id.trib +
+                            "-" +
+                            ui.item.id.ruc);
+                    } else {
+                        @*$("#slug").val("/@culture" +
+                            "/imports-exports-" + ui.item.id.pais + "/" + ui.item.id.uri + "/" + ui.item.id.trib + "-" + ui.item.id.ruc);*@
+                        $("#slug").val("/@culture/" +
+                            ui.item.id.pais.replace(" ", "-") + // Ruben 202306
+                            "/imports-and-exports-" +
+                            ui.item.id.uri +
+                            "/" +
+                            ui.item.id.trib +
+                            "-" +
+                            ui.item.id.ruc);
+                    }
+                }
+            });
+
+            $("#search").click(function () {
+
+                // Ruben 202304
+                var txtEmpresa1 = $("#txtEmpresa").val().trim();
+                console.log(txtEmpresa1);
+                dataLayer.push({
+                    'event': 'buscador', //valor estático
+                    'tipo': 'empresa', // valor dinámico
+                    'palabra': txtEmpresa1 // valor dinámico
+                });
+
+                if ($("#slug").val().trim() !== "") {
+                    window.location.replace($("#slug").val());
+                }
+            });
+
+            $("#txtProducto").autocomplete({
+                appendTo: "#autocompleteProducto",
+                source: function(request, response) {
+                    $.ajax({
+                        url: "@Url.Action("BuscarProducto", "ProductoPerfil")",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            description: request.term,
+                            idioma: '@culture'
+                        },
+                        beforeSend: function () {
+                            LoadingAdminPage.showOrHideLoadingPageProduct(true);
+                        },
+                        success: function (data) {
+                            LoadingAdminPage.showOrHideLoadingPageProduct(false);
+                            response($.map(data,
+                                function (item) {
+                                    return {
+                                        id: item.id, label: item.value, value: item.value,
+                                        pais: item.pais, tipoOpe: item.tipoOpe, uri: item.uri,
+                                        codPartida: item.codPartida
+                                    };
+                                }));
+                        }
+                    });
+                },
+                minLength: 2,
+                open: function (event, ui) {
+                    $('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
+                },
+                select: function (event, ui) {
+                   //console.log(ui);
+                    $('#searchProduct').prop("disabled", false);
+                   if ('@culture' == "es") {
+                        $("#slugP").val("/@culture/" +
+                        ui.item.pais.replace(" ", "-") + // Ruben 202306
+                        "/importaciones-y-exportaciones/" +
+                        ui.item.uri + "/" +
+                        ui.item.codPartida);
+                    } else {
+                        $("#slugP").val("/@culture/" +
+                        ui.item.pais.replace(" ", "-") + // Ruben 202306
+                        "/imports-and-exports/" +
+                        ui.item.uri + "/" +
+                        ui.item.codPartida);
+                        }
+                    }
+            });
+
+            $('#txtProducto').blur(function () {
+                if ($("#txtProducto").val().trim() === "") {
+                    $('#searchProduct').prop("disabled", true);
+                }
+            })
+
+            $('#txtEmpresa').blur(function () {
+                if ($("#txtEmpresa").val().trim() === "") {
+                    $('#search').prop("disabled", true);
+                }
+            })
+
+            $("#searchProduct").click(function() {
+                if ($("#slugP").val().trim() !== "") {
+                    window.location.replace($("#slugP").val());
+
+                    // Ruben 202304
+                    var txtProducto1 = $("#txtProducto").val().trim();
+                    console.log(txtProducto1);
+                    dataLayer.push({
+                        'event': 'buscador', //valor estático
+                        'tipo': 'producto', // valor dinámico
+                        'palabra': txtProducto1 // valor dinámico
+                    });
+
+                }
+            });
+
+            $("#cboOpcion").change(function() {
+                var select = $(this).find("option:selected").val();
+                if (select === "PAR") {
+                    $("#txtDesComercialB").autocomplete({
+                        appendTo: "#autocompleteFilter",
+                        source: function(request, response) {
+                            $.ajax({
+                                url: "@Url.Action("BuscarPartida", "Consulta")",
+                                type: "POST",
+                                dataType: "json",
+                                data: {
+                                    codPais: $("#cboPais").find("option:selected").val(),
+                                    opcion: $("#cboOpcion").find("option:selected").val(),
+                                    nandina: request.term
+                                },
+                                success: function(data) {
+                                    response($.map(data,
+                                        function(item) {
+                                            return { id: item.id, label: item.value, value: item.value };
+                                        }));
+                                }
+                            });
+                        },
+                        minLength: 2,
+                        select: function(event, ui) {
+                            $("#idAutocompletado").val(ui.item.id);
+                        }
+                    });
+                } else {
+                    $("#txtDesComercialB").autocomplete("destroy");
+                }
+            });
+
+            $("#cboPais").change(function() {
+                var select = $(this).find("option:selected").val();
+                if (select === "BR" || select === "CA" || select === "CN" || select === "MX" || select === "US" || select === "GT" || select === "HN" || select === "SV" || select === "VE") {
+                    $("#cboOpcion option[value='DES']").remove();
+                } else {
+                    if ($("#cboOpcion option[value='DES']").length === 0) {
+                        $("#cboOpcion").append($("<option></option>")
+                            .attr("value", "DES")
+                            .text("@Html.Raw(Resources.Home_Search_Cbo_Item02)"));
+                    }
+                }
+            });
+
+             @if (!string.IsNullOrEmpty(url))
+            {
+                <text>
+                    $("#ModalLogin").modal("show");
+                </text>
+            }
+
+            //Se asignan credenciales al login
+            @if (tokenUsado)
+            {
+                if ((!string.IsNullOrEmpty(codUsuario)) && (!string.IsNullOrEmpty(password)))
+                {
+                <text>
+                    $("#li_login").addClass("open");
+                    $("#login").attr("aria-expanded", "true");
+                    document.getElementById("txtCodUsuario").value = '@codUsuario';
+                    document.getElementById("txtPassword").value = '@password';
+                </text>
+                }
+                @*else
+                {
+                    <text>
+                        console.log("Token erroneo");
+                    </text>
+                }*@
+            }
+
+        });
+    </script>
+}
+
+<!-- Banner Section -->
+@Html.Partial("Partials/_Banner")
+
+<!-- Consulta Section -->
+@Html.Partial("Partials/_Consulta")
+
+<!-- Servicios Section -->
+@Html.Partial("Partials/_Servicios")
+
+<!-- Blog Section -->
+@Html.Partial("Partials/_Content")
+
+@Html.Partial("Modals/Modal_Clientes")
+@Html.Partial("Modals/Modal_Paises")
+@Html.Partial("Modals/Modal_Login")

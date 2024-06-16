@@ -1,0 +1,35 @@
+﻿@using Veritrade2018.Models
+@using Veritrade2018.Helpers
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+}
+
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalPaises">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal_popup">
+                    <div class="title">
+                        <h2>@Resources.Resources.Home_Modal_Pais_Title</h2>
+                    </div>
+                    <div class="modal_paises_content">
+                        @foreach (var pais in (List<Paises>)ViewData["paises_popup"])
+                        {
+                            <div>
+                                <a href="@Url.Action("Index", "Paises", new { culture, slug = new Paises().GetCod3(pais.CodPais.Substring(0,2)) })" class="home_list_data">
+                                    <img src="~/Content/Images/@pais.Bandera" width="27" height="16" alt=""> @pais.PaisRegimen <span class="pull-right">@pais.FechaFin</span>
+                                </a>
+                            </div>
+                            <hr />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

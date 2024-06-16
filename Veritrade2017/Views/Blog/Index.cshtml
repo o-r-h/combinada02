@@ -1,0 +1,108 @@
+﻿@using Veritrade2017.Models
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var uri = HttpContext.Current.Request.Url.AbsolutePath.Substring(0,8);
+    var seoConf = ConfiguracionesSeo.GetConfig(culture, uri);
+    var idiomafecha = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+    var lastPost = (PostLanguage) ViewData["ultimo_post"];
+    var sty = ((Campania.TYPE_CAMPANIA)((int?)Session["TypeCampania"] ?? 0));
+    var CodesCampanias = Campania.CodFormateds3((ViewData["CodesCampanias"] as Dictionary<Campania.CONTROL, string>), culture, Request.Browser.IsMobileDevice, sty );
+
+    ViewBag.Title = seoConf.Title;
+    ViewBag.Description = seoConf.Description;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@functions
+{
+    string CutText(string title, int limite)
+    {
+        string newText=String.Empty;
+        if (title.Length > limite)
+        {
+            newText = title.Substring(0, limite) + "...";
+        }
+        else
+        {
+            newText = title;
+        }
+        return newText;
+    }
+
+}
+
+@section Styles
+{
+    <link href="@Url.Content("~/Content/Assets/blog.css")" rel="stylesheet" type="text/css"/>
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function toggleTable(id) {
+            var lTable = document.getElementById(id);
+            lTable.style.display = (lTable.style.display === "block") ? "none" : "block";
+        }
+    </script>
+}
+<div class="noticia-destacada">
+    <div class="noticia-destacada-content">
+        <div class="noticia-body">
+            <h2>@CutText(lastPost.Post.Titulo, 110)</h2>
+            <hr/>
+            <p>
+                @lastPost.Post.Descripcion
+            </p>
+            @Html.ActionLink(Resources.Home_Service_Button, "Post", "Blog", new {id = lastPost.Id, culture, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )}, new {@class = "ver-post"})
+        </div>
+    </div>
+    <div class="noticia-destacada-imagen hidden-xs">
+        <img src="~/Content/Images/Blog/@lastPost.ImagenPortada" style="width: 100%"/>
+    </div>
+</div>
+
+<div class="container" style="margin-top: -2px;">
+    <div class="noticias-blog">
+        <div class="col-xs-12 col-sm-8 blog_content_left">
+            <div class="title">
+                <h2>@Resources.LatestNews</h2>
+            </div>
+
+            <div class="post-section">
+                @foreach (var post in (List<PostLanguage>) ViewData["post_language"])
+                {
+                    <div class="post-item">
+                        <a href="@Url.Action("Post", "Blog", new {id = post.Id, culture})">
+                            <img src="~/Content/Images/Blog/@post.ImagenPortada" alt=""/>
+                        </a>
+
+                        <div class="divisor"></div>
+                        <div class="title-post-container">
+                            <a class="titulo" href="@Url.Action("Post", "Blog", new {id = post.Id, culture, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )})">
+                                @if (post.Post.Titulo.Length > 115)
+                                {
+                                    <span class="post-title">@CutText(post.Post.Titulo, 104) </span>
+                                }
+                                else
+                                {
+                                    <span class="post-title">@post.Post.Titulo </span>
+                                }
+                            </a>
+                            <span class="publicacion">@post.FechaPublicacion.ToString("dd MMMM, yyyy", idiomafecha)</span>
+                        </div>
+
+                       
+
+                        <div class="divisor"></div>
+                        <p class="detalle">@post.Post.Descripcion</p>
+
+                        <div class="divisor"></div>
+                        @Html.ActionLink(Resources.Home_Service_Button, "Post", "Blog", new {id = post.Id, culture, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )}, new {@class = "ver-detalle"})
+                    </div>
+                }
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-4 blog_content_right">
+            @Html.Partial("Partials/Navegacion")
+        </div>
+    </div>
+</div>

@@ -1,0 +1,499 @@
+﻿@using System.Globalization
+@using Veritrade2018.Models.Minisite
+@using Veritrade2018.Helpers
+@{
+    var slug = ViewData["slug"].ToString();
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var hasImpots = Convert.ToDouble(ViewData["impTotalEmbarques"]);
+    var hasExpots = Convert.ToDouble(ViewData["expTotalEmbarques"]);
+    var idiomaText = culture.Equals("es") ? CultureInfo.CreateSpecificCulture("es-pe") : CultureInfo.CreateSpecificCulture("en-us");
+    var totalEmbarques = Convert.ToInt32(ViewData["totalEmbarques"]);
+
+    
+    ViewBag.Title = ViewData["nombreEmpresa"] + " con " + ViewData["registriTrib"] + ": " + ViewData["rucEmpresa"] +
+                    " de " + ViewData["paisEmpresa"] + " - Exportaciones e Importaciones";
+    
+
+    ViewBag.Description = ViewData["nombreEmpresa"] + " " + Resources.MinisiteResources.Block02_Text01 + " " +
+                          ViewData["rucEmpresa"] + ", " + Resources.MinisiteResources.Block02_Text02 + " " +
+                          string.Format(idiomaText, "{0:N0}", totalEmbarques) + " " + Resources.MinisiteResources.Block02_Text03;
+
+    var cifTotal = Convert.ToInt32(ViewData["CifTotal"]);
+    var fobTotal = Convert.ToInt32(ViewData["FobTotal"]);
+
+    var modelImp = (List<Resumen>)ViewData["modelImp"];
+    var totalImp = modelImp.Count;
+    var serie1 = "";
+    var serie1_data = "";
+
+    if (modelImp.Count > 0)
+    {
+        foreach (var x in (List<Resumen>)modelImp)
+        {
+            serie1 += x.Periodo + ",";
+            serie1_data += x.Valor.ToString("F2", new CultureInfo("en-us")) + ",";
+        }
+    }
+
+    var modelExp = (List<Resumen>)ViewData["modelExp"];
+    var totalExp = modelExp.Count;
+    var serie2 = "";
+    var serie2_data = "";
+
+    if (modelExp.Count > 0)
+    {
+        foreach (var x in (List<Resumen>)modelExp)
+        {
+            serie2 += x.Periodo + ",";
+            serie2_data += x.Valor.ToString("F2", new CultureInfo("en-us")) + ",";
+        }
+    }
+
+    var codCampania = ViewData["CodCampaña"];
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles
+{
+    @Styles.Render("~/Content/minisite")
+}
+
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/Plugins/Highcharts/highcharts.js")" defer type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/canvg/1.4.0/rgbcolor.js" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")" defer type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $("#companyName").autocomplete({
+                appendTo: "#autocompleteFilter",
+                source: function(request, response) {
+                    $.ajax({
+                        url: "@Url.Action("BuscarEmpresa", "Minisite")",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            nandina: request.term
+                        },
+                        success: function(data) {
+                            response($.map(data,
+                                function(item) {
+                                    return { id: item.id, label: item.value, value: item.value };
+                                }));
+                        }
+                    });
+                },
+                minLength: 2,
+                open: function(event, ui) {
+                    $('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
+                },
+                select: function (event, ui) {
+                    if ('@culture' == "es") {
+                        $("#slug").val("/@culture/" +
+                            ui.item.id.pais +
+                            "/importaciones-y-exportaciones-" +
+                            ui.item.id.uri +
+                            "/" +
+                            ui.item.id.trib +
+                            "-" +
+                            ui.item.id.ruc);
+                    } else {
+                        $("#slug").val("/@culture/" +
+                            ui.item.id.pais +
+                            "/imports-and-exports-" +
+                            ui.item.id.uri +
+                            "/" +
+                            ui.item.id.trib +
+                            "-" +
+                            ui.item.id.ruc);
+                    }
+                }
+            });
+
+            $("#search").click(function() {
+                if ($("#slug").val().trim() !== "") {
+                    window.location.replace($("#slug").val());
+                }
+            });
+        });
+    </script>
+
+    <script type="text/javascript">
+        $(function () {
+            Highcharts.Color.prototype.parsers.push({
+                regex: /^[a-z]+$/,
+                parse: function (result) {
+                    var rgb = new RGBColor(result[0]);
+                    if (rgb.ok) {
+                        return [rgb.r, rgb.g, rgb.b, 1]; // returns rgba to Highcharts
+                    }
+                }
+            });
+
+            if (@totalExp > 0) {
+                Highcharts.chart('exporChart', {
+                    title: {
+                        text: '@Resources.MinisiteResources.Chart01_Title'
+                    },
+                    colors: ['#FADA7A'],
+                    xAxis: {
+                        categories: [@serie2],
+                        crosshair: true
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: ''
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        type: 'column',
+                        data: [@serie2_data]
+                    }]
+                });
+            }
+
+            if (@totalImp > 0) {
+                Highcharts.chart('imporChart', {
+                    title: {
+                        text: '@Resources.MinisiteResources.Chart02_Title'
+                    },
+                    colors: ['#4F81BD'],
+                    xAxis: {
+                        categories: [@serie1],
+                        crosshair: true
+                    },
+                    yAxis: {
+                        min: 0,
+                        title: {
+                            text: ''
+                        }
+                    },
+                    legend: {
+                        enabled: false
+                    },
+                    tooltip: {
+                        headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                        pointFormat: '<tr><td style="padding:0"><b>{point.y:.2f}</b></td></tr>',
+                        footerFormat: '</table>',
+                        shared: true,
+                        useHTML: true
+                    },
+                    plotOptions: {
+                        column: {
+                            pointPadding: 0,
+                            borderWidth: 0
+                        }
+                    },
+                    series: [{
+                        type: 'column',
+                        data: [@serie1_data]
+                    }]
+                });
+            }
+        });
+    </script>
+}
+
+<div class="row null-margin-h">
+    <div class="minisite-info">
+        <div class="col-xs-12 col-sm-12" style="margin-top: 20px; margin-bottom: 20px;">
+            <input type="hidden" name="slug" id="slug" value="" />
+            <div class="col-xs-12 col-sm-6 slogan">
+                <div class="form-group">
+                    <label style="font-family: ProximaNova-Bold; font-size: 16px;">@Resources.MinisiteResources.Slogan_Text</label>
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="row">
+                    <div class="col-xs-4 col-sm-4 text-right">
+                        <label class="search-label" for="companyName">@Resources.MinisiteResources.Search_Company</label>
+                    </div>
+                    <div class="col-xs-8 col-sm-5">
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="companyName" name="companyName">
+                            <div id="autocompleteFilter" class="autocomplete_content"></div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-3">
+                        <input id="search" class="btn-search" type="submit" value="@Resources.Resources.Search_Button" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row null-margin-h">
+    <div class="minisite-info">
+        <div class="col-xs-12 col-sm-4 null-margin-h like-table-cell info-left">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="info-title">
+                        <h2>
+                            @ViewData["nombreEmpresa"]
+                        </h2>
+                        <h3>
+                            @ViewData["registriTrib"]: @ViewData["rucEmpresa"]
+                        </h3>
+                        <h4>@Resources.MinisiteResources.Block01_Text01 &#124; <img src="~/Content/Images/@ViewData["paisImagen"]" alt="" /> @ViewData["paisEmpresa"]</h4>
+                        <div class="span-content" style="border: 1px solid #54ace6;">
+                            <img src="~/Content/Images/Minisite/box.png" alt="" /> <label>@string.Format(idiomaText, "{0:N0}", totalEmbarques)</label> @Resources.MinisiteResources.Shipments_Text
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-8 null-margin-h like-table-cell info-right">
+            <div class="row">
+                <div class="col-xs-12 col-sm-6 null-margin-h like-table-cell">
+                    <p class="info-description">
+                        <span>@ViewData["nombreEmpresa"]</span> @Resources.MinisiteResources.Block02_Text01 <span>@ViewData["rucEmpresa"]</span>, @Resources.MinisiteResources.Block02_Text02 <span>@string.Format(idiomaText, "{0:N0}", totalEmbarques)</span> @Resources.MinisiteResources.Block02_Text03.
+                    </p>
+                </div>
+                <div class="col-xs-12 col-sm-6 null-margin-h like-table-cell" style="border-left: 2px solid #cfdee5;">
+                    <p class="info-description">
+                        @Resources.MinisiteResources.Block03_Text01:
+                        <ul class="lista-descripcion">
+                            @if (Convert.ToInt32(ViewData["impEmbarques"]) > 0)
+                            {
+                                <li>
+                                    @Resources.MinisiteResources.Imports_Text:
+                                    <ul>
+                                        <li>
+                                            <div class="line-description">
+                                                <div class="subtitle">@Resources.MinisiteResources.Shipments_Text: </div>
+                                                <div class="data-info">@string.Format(idiomaText, "{0:N0}", ViewData["impEmbarques"])</div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="line-description">
+                                                <div class="subtitle">US$: </div>
+                                                <div class="data-info">@string.Format(idiomaText, "{0:N0}", ViewData["impTotalEmbarques"])</div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                if (ViewData["paisEmpresa"].ToString().Equals("COLOMBIA"))
+                                {
+                                    if (cifTotal > 0)
+                                    {
+                                        <li>
+                                            CIF:
+                                            <ul>
+                                                <li>
+                                                    <div class="line-description">
+                                                        <div class="subtitle">US$:</div>
+                                                        <div class="data-info">@string.Format(idiomaText, "{0:N0}", cifTotal)</div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <div class="line-description">
+                                                <div class="subtitle">@Resources.MinisiteResources.Imports_Text: </div>
+                                                <div class="data-info" style="width: auto; padding-left: 8px;">
+                                                    @Resources.MinisiteResources.Block03_Text02 @Resources.MinisiteResources.Shipments_Text.ToLower().
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                }
+                                else
+                                {
+                                    <li>
+                                        <div class="line-description">
+                                            <div class="subtitle">@Resources.MinisiteResources.Imports_Text: </div>
+                                            <div class="data-info" style="width: auto; padding-left: 8px;">
+                                                @Resources.MinisiteResources.Block03_Text02 @Resources.MinisiteResources.Shipments_Text.ToLower().
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            }
+
+                            @if (Convert.ToInt32(ViewData["expEmbarques"]) > 0)
+                            {
+                                <li>
+                                    @Resources.MinisiteResources.Exports_Text:
+                                    <ul>
+                                        <li>
+                                            <div class="line-description">
+                                                <div class="subtitle">@Resources.MinisiteResources.Shipments_Text: </div>
+                                                <div class="data-info">@string.Format(idiomaText, "{0:N0}", ViewData["expEmbarques"])</div>
+                                            </div>
+                                        </li>
+                                        <li>
+                                            <div class="line-description">
+                                                <div class="subtitle">US$:</div>
+                                                <div class="data-info">@string.Format(idiomaText, "{0:N0}", ViewData["expTotalEmbarques"])</div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                if (ViewData["paisEmpresa"].ToString().Equals("COLOMBIA"))
+                                {
+                                    if (fobTotal > 0)
+                                    {
+                                        <li>
+                                            FOB:
+                                            <ul>
+                                                <li>
+                                                    <div class="line-description">
+                                                        <div class="subtitle">US$:</div>
+                                                        <div class="data-info">@string.Format(idiomaText, "{0:N0}", fobTotal)</div>
+                                                    </div>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    }
+                                    else
+                                    {
+                                        <li>
+                                            <div class="line-description">
+                                                <div class="subtitle">@Resources.MinisiteResources.Exports_Text: </div>
+                                                <div class="data-info" style="width: auto; padding-left: 8px;">
+                                                    @Resources.MinisiteResources.Block03_Text02 @Resources.MinisiteResources.Shipments_Text.ToLower().
+                                                </div>
+                                            </div>
+                                        </li>
+                                    }
+                                }
+                                else
+                                {
+                                    <li>
+                                        <div class="line-description">
+                                            <div class="subtitle">@Resources.MinisiteResources.Exports_Text: </div>
+                                            <div class="data-info" style="width: auto; padding-left: 8px;">
+                                                @Resources.MinisiteResources.Block03_Text02 @Resources.MinisiteResources.Shipments_Text.ToLower().
+                                            </div>
+                                        </div>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row null-margin-h">
+    <div class="minisite-info">
+        <div class="graficos">
+            @if (hasImpots > hasExpots)
+            {
+                <div class="col-xs-12 col-sm-6 text-center left-column elementhover" data-toggle="modal" data-target="#ModalPartida">
+                    @{Html.RenderPartial("_ChartImpMinisite", new { total = totalImp });}
+                </div>
+
+                <div class="col-xs-12 col-sm-6 text-center right-column elementhover" data-toggle="modal" data-target="#ModalPartida">
+                    @{Html.RenderPartial("_ChartExpMinisite", new { total = totalExp });}
+                </div>
+            }
+            else
+            {
+                <div class="col-xs-12 col-sm-6 text-center right-column elementhover" data-toggle="modal" data-target="#ModalPartida">
+                    @{Html.RenderPartial("_ChartExpMinisite", new { total = totalExp });}
+                </div>
+
+                <div class="col-xs-12 col-sm-6 text-center left-column elementhover" data-toggle="modal" data-target="#ModalPartida">
+                    @{Html.RenderPartial("_ChartImpMinisite", new { total = totalImp });}
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row null-margin-h">
+    <div class="minisite-info">
+        <div class="datos">
+            @if (hasImpots > hasExpots)
+            {
+                <div class="col-xs-12 col-sm-6">
+                    <h2>@Resources.MinisiteResources.Table01_Import_Title</h2>
+                    @Html.Action("GridView1Partial", new { slug })
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <h2>@Resources.MinisiteResources.Table02_Import_Title</h2>
+                    @Html.Action("GridView2Partial", new { slug })
+                </div>
+            }
+            else
+            {
+                <div class="col-xs-12 col-sm-6">
+                    <h2>@Resources.MinisiteResources.Table01_Export_Title</h2>
+                    @Html.Action("GridView1Partial", new { slug })
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <h2>@Resources.MinisiteResources.Table02_Export_Title</h2>
+                    @Html.Action("GridView2Partial", new { slug })
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row null-margin-h">
+    <div class="minisite-info">
+        <div class="detalle">
+            <div class="col-xs-12 null-margin-h ">
+                <h2>@Resources.MinisiteResources.Table03_Title</h2>
+                <p class="text-center">
+                    <img src="~/Content/Images/flecha_old.png" alt="" />
+                </p>
+                <p>@Resources.MinisiteResources.Table03_Description.</p>
+                <div class="span-content">
+                    <img src="~/Content/Images/Minisite/box.png" alt="" /> <label>@string.Format(idiomaText, "{0:N0}", totalEmbarques)</label> @Resources.MinisiteResources.Shipments_Text
+                </div>
+                @Html.Action("GridView3Partial", new { slug })
+            </div>
+            <div class="col-xs-12">
+                <hr />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row null-margin-h">
+    <div class="minisite-info">
+        <div class="anuncio">
+            <div class="col-xs-12 null-margin-h ">
+                <h2>@Resources.MinisiteResources.Publish_Title</h2>
+            </div>
+            <div class="col-xs-12" style="padding: 16px 0;">
+                <a href="@Url.Action("Index", "PruebaGratis", new {culture, campania = codCampania})" class="solicitud">@Resources.MinisiteResources.Publish_Button</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Action("ModalPartial", new { slug })
+@Html.Action("ModalEmbarque", new { slug })

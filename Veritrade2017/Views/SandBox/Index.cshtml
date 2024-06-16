@@ -1,0 +1,474 @@
+﻿@using System.Web.Optimization
+@using Veritrade2017.Models
+@using Veritrade2017.Models.CountryProfile
+@using Veritrade2017.Models
+@using Veritrade2017.Models.Minisite
+
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var idiomaMoneda = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+    var uri = "";
+    if (culture == "es")
+    {
+        uri = HttpContext.Current.Request.Url.AbsolutePath.Substring(0, 10);
+    }
+    else
+    {
+        uri = HttpContext.Current.Request.Url.AbsolutePath.Substring(0, 9);
+    }
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@{
+    List<BannerGeneral> ListaEmpresaBanner = ViewBag.BannerEmpresa;
+    List<BannerGeneral> ListaProductoBanner = ViewBag.BannerProducto;
+    List<ExportacionCardInfoD> ListadoExportacionesEmpresa = ViewBag.ListadoExportacionesEmpresa;
+    List<ExportacionCardInfoD> ListadoExportacionesProducto = ViewBag.ListadoExportacionesProducto;
+    List<ExportacionCardInfoD> ListadoImportacionesEmpresa = ViewBag.ListadoImportacionesProducto;
+    List<ExportacionCardInfoD> ListadoImportacionesProducto = ViewBag.ListadoImportacionesProducto;
+
+}
+
+
+
+@section Styles{
+
+
+    <link href="@Url.Content("~/Content/Assets/loadingProductProfile.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Plugins/OwlCarousel2-2.2.1/assets/owl.carousel.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap-theme.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/fontawesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/CustomCountryProfile.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/Responsive.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/Assets/prueba_gratis.css")" rel="stylesheet" type="text/css" />
+    <!-- Icon font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    @Styles.Render("~/Content/home")
+
+
+    <style>
+
+        input[type="search"] {
+            border: none;
+            background: #f8f8f8;
+            margin: 0;
+            padding: 10px 140px 10px 20px;
+            font-size: 14px;
+            color: inherit;
+            border: 1px solid transparent;
+            border-radius: 8px;
+            width: 88%;
+            background-image: url("../content/images/icons/icon_search.svg" );
+            background-size: 80%;
+            background-repeat: no-repeat;
+            background-position: right;
+        }
+
+
+        .custom-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #f8f8f8;
+            background-image: url('https://areas.geofisica.unam.mx/sismologia/app/webroot/img/icons/Zoom%20Out/Zoom%20Out_48x48.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: right;
+            box-sizing: border-box; /* asegura que el padding no aumente el tamaño total */
+        }
+
+    </style>
+
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.11.4.min.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Admin/admin.js")"></script>
+    <script src="@Url.Content("~/Scripts/misproductos.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            //getExportacionesEmpresa2();
+            //GetDataChart();
+            var flag = true;
+            //var cont = 10;
+            //setTimeout(console.log("HASDASDASDSS"), 3000);
+            function timeout(flag) {
+                if (flag) {
+                    setTimeout(function () {
+                            @*if (cont >= @count_last_searches ) {
+                                cont = 0;
+                            }*@
+                            Refresh('@Url.Action("LastSearches", "Empresas")', '@culture');
+                            flag = false;
+                            timeout(flag);
+                            //cont += 10;
+                    },
+                    5000);
+                }
+            }
+            timeout(flag);
+            var x = document.getElementById("loadingPageAdmin");
+            x.style.display = "none";
+           
+        });
+
+
+
+
+
+
+
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $("#txtEmpresa").autocomplete({
+                appendTo: "#autocompleteEmpresa",
+                source: function(request, response) {
+                    $.ajax({
+                        url: "@Url.Action("BuscarEmpresa", "Minisite")",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            nandina: request.term
+                        },
+                        success: function(data) {
+                            response($.map(data,
+                                function(item) {
+                                    return { id: item.id, label: item.value, value: item.value };
+
+                                }));
+                        }
+                    });
+                },
+                minLength: 2,
+                open: function (event, ui) {
+                    $('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
+                },
+                select: function (event, ui) {
+                    //console.log(ui);
+                    $('#search').prop("disabled", false);
+                    if ('@culture' == "es") {
+                        /* Ruben 202211*/
+                        /* https://www.veritradecorp.com/es/importaciones-exportaciones-peru/alicorp/ruc-20100055237*/
+                        @*$("#slug").val("/@culture" +
+                            "/importaciones-exportaciones-" + ui.item.id.pais + "/" + ui.item.id.uri + "/" + ui.item.id.trib + "-" + ui.item.id.ruc);*@
+                        $("#slug").val("/@culture/" +
+                            ui.item.id.pais.replace(" ", "-") + // Ruben 202306
+                            "/importaciones-y-exportaciones-" +
+                            ui.item.id.uri +
+                            "/" +
+                            ui.item.id.trib +
+                            "-" +
+                            ui.item.id.ruc);
+                        var botonbuscar = document.getElementById('search')
+                        botonbuscar.click();
+                        
+                    } else {
+                        @*$("#slug").val("/@culture" +
+                            "/imports-exports-" + ui.item.id.pais + "/" + ui.item.id.uri + "/" + ui.item.id.trib + "-" + ui.item.id.ruc);*@
+                        $("#slug").val("/@culture/" +
+                            ui.item.id.pais.replace(" ", "-") + // Ruben 202306
+                            "/imports-and-exports-" +
+                            ui.item.id.uri +
+                            "/" +
+                            ui.item.id.trib +
+                            "-" +
+                            ui.item.id.ruc);
+                        console.log(1);
+                    }
+                }
+            });
+            $('#txtEmpresa').blur(function () {
+                if ($('#txtEmpresa').val().trim() === '') {
+                    console.log(2);
+                    $('#search').prop("disabled", true);
+                   
+                }
+            })
+
+
+            $("#search").click(function() {
+
+                // Ruben 202304
+                var txtEmpresa1 = $("#txtEmpresa").val().trim();
+                sessionStorage.setItem("busca_empresa", txtEmpresa1);
+                console.log(txtEmpresa1);
+                dataLayer.push({
+                    'event': 'buscador', //valor estático
+                    'tipo': 'empresa', // valor dinámico
+                    'palabra': txtEmpresa1 // valor dinámico
+                });
+
+                if ($("#slug").val().trim() !== "") {
+                    window.location.replace($("#slug").val());
+                }
+            });
+        });
+    </script>
+
+
+    <script type="text/javascript">
+        $(function () {
+
+           
+            $("#txtProducto").autocomplete({
+                appendTo: "#autocompleteProducto",
+                source: function (request, response) {
+                    $.ajax({
+                        url: "@Url.Action("BuscarProducto", "ProductoPerfil")",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            description: request.term,
+                            idioma: '@culture'
+                        },
+                        beforeSend: function () {
+                          
+                          
+                            var x = document.getElementById("loadingPageAdmin");
+                            x.style.display = "block";
+                        },
+                        success: function (data) {
+                            //console.log(data);
+                            var x = document.getElementById("loadingPageAdmin");
+                            x.style.display = "none";
+                            response($.map(data,
+                                function (item) {
+                                    return {
+                                        id: item.id,
+                                        label: item.value,
+                                        value: item.value,
+                                        pais: item.pais,
+                                        tipoOpe: item.tipoOpe,
+                                        uri: item.uri,
+                                        codPartida: item.codPartida
+                                    };
+                                }));
+                        }
+                    });
+                },
+                minLength: 2,
+                open: function (event, ui) {
+                    $('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
+                },
+                select: function (event, ui) {
+                    //console.log(ui);
+                    $('#search').prop("disabled", false);
+                    if ('@culture' == "es") {
+                        $("#slug").val("/@culture/" +
+                            ui.item.pais +
+                            "/importaciones-y-exportaciones/" +
+                            ui.item.uri +
+                            "/" +
+                            ui.item.codPartida);
+                    } else {
+                        $("#slug").val("/@culture/" +
+                            ui.item.pais +
+                            "/imports-and-exports/" +
+                            ui.item.uri +
+                            "/" +
+                            ui.item.codPartida);
+                    }
+                }
+            });
+            $('#txtProducto').blur(function () {
+                if ($('#txtProducto').val().trim() === '') {
+                    $('#search').prop("disabled", true);
+                }
+
+            });
+            $("#search").click(function () {
+
+                    if ($("#slug").val().trim() !== "") {
+                        if ('@culture' == "es") {
+                            window.location.replace($("#slug").val());
+                        } else {
+                            window.location.replace($("#slug").val());
+                        }
+                    }
+                });
+
+
+
+        });
+    </script>
+
+
+}
+
+<style>
+    .is-active-loading {
+        background-color: transparent;
+    }
+
+    .loader .objectLoading {
+        width: 6px;
+        height: 17px;
+        background: rgba(100,186,234,1);
+        position: relative;
+        animation: objectLoading-animation 1s ease-in-out infinite;
+        animation-delay: 0.4s;
+        top: 50%;
+        margin: -28px auto 0;
+    }
+
+        .loader .objectLoading::after, .loader .objectLoading::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 17px;
+            background: rgba(100,186,234,1);
+            animation: objectLoading-animation 1s ease-in-out infinite;
+        }
+
+        .loader .objectLoading::before {
+            right: 10px;
+            animation-delay: 0.2s;
+        }
+
+        .loader .objectLoading::after {
+            left: 10px;
+            animation-delay: 0.2s;
+        }
+
+    .h1 {
+        padding-top: 20px;
+    }
+
+
+
+    button[type="buttoncp2"] {
+        text-indent: -999px;
+        overflow: hidden;
+        width: 40px;
+        height: 40px;
+        padding: 0;
+        margin: 0;
+        border: 1px solid transparent;
+        border-radius: inherit;
+        background: transparent url("../content/images/icons/icon_search.svg") no-repeat center;
+        cursor: pointer;
+        opacity: 0.7;
+        background-color: #f8f8f8;
+    }
+
+    #autocompleteEmpresa {
+        width: 300px;
+    }
+
+    .loader {
+        position: absolute;
+        left: auto;
+        width: auto;
+        right: 59%!important;
+        top: 62%!important;
+        display: block;
+    }
+</style>
+
+<div class="row">
+    <p>Test</p>
+    <input type="text" class="custom-input" placeholder="Ingresa tu texto aquí">
+
+</div>
+<div class="row">
+    <div class="t_fondo_celeste-w">
+        <div class="t_fondo_celeste-l">
+            <div class="t_fondo_celeste-r">
+                <div class="t_fondo_celeste">
+                    <div class="row">
+                        <div class="container t_container_b">
+
+
+                            <!-- Busqueda empresa -->
+                            <div class="t_buscar">
+                                <div class="row">
+
+                                    @Html.Hidden("slug")
+                                    <input type="search" id="txtEmpresa" style=" border-radius: 8px;"
+                                           placeholder="@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisBuscarEmpresas", culture)">
+                                    <button id="search" type="buttoncp2" onclick="ga('send', 'event', 'boton', 'click', 'buscar')">@Resources.Search_Button</button>
+
+                                    <div id="autocompleteEmpresa" class="autocomplete_content"></div>
+
+
+                                    <div class="col-md-4">
+
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Fin Busqueda empresa -->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="t_fondo_celeste-w">
+        <div class="t_fondo_celeste-l">
+            <div class="t_fondo_celeste-r">
+                <div class="t_fondo_celeste">
+                    <div class="container t_container_b">
+                        
+                        <!-- Busqueda producto -->
+                        <div class="t_buscar">
+                           
+                               
+                                    @Html.Hidden("slug")
+                                    <input type="search" id="txtProducto" tyle=" border-radius: 8px;"
+                                        placeholder="@Veritrade2017.Helpers.ResourceHelper.GetResourceString("PaisBuscarProductos", culture)">
+                                    <div id="autocompleteProducto" class="autocomplete_content"></div>
+                                    <div id="loadingPageAdmin" class="loader" style="position: absolute; left: auto; width: auto; right: 30px; top: 100%; display: none; ">
+                                        <div class="objectLoading"></div>
+                                    </div>
+                                   <button id="search" type="buttoncp2" onclick="ga('send', 'event', 'boton', 'click', 'buscar')">@Resources.Search_Button</button>
+                       
+                           
+                        </div>
+                        <!-- Fin Busqueda empresa -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/Scripts/jquery.min.js"></script>
+<script src="/Scripts/transition.js"></script>
+<script src="/Scripts/collapse.js"></script>
+
+<script src="/Scripts/custom.js"></script>
+<script src="/Scripts/tab.js"></script>
+<script src="/Scripts/bootstrap.js"></script>
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+<script type="text/javascript">
+    //var enlaceCategoriaEmpresa;
+    $(document).on('keyup keypress', 'form input[type="search"]', function (e) {
+        if (e.keyCode == 13) {
+            e.preventDefault();
+            return false;
+        }
+    });
+
+
+
+
+
+
+
+
+
+
+
+</script>

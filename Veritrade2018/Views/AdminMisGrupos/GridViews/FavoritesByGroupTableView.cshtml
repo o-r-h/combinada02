@@ -1,0 +1,101 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    var objFavoriteByGroup = (FavoriteByGroup) Model;
+
+    var idsSeleccionados = objFavoriteByGroup.IdsSeleccionados;
+    bool verificarCheckBox = (idsSeleccionados != null && idsSeleccionados.Count > 0);
+}
+<table class="table table-bordered">
+    <thead>
+        <tr class="table-title">
+            <th class="column-text-center">
+                No.
+            </th>
+            
+            @if (objFavoriteByGroup.FavoriteHead.IsVisibleNandina)
+            {
+                <th class="column-text-center">
+                    @Resources.AdminResources.Nandina2_FilterText
+                </th>
+            }
+            
+            <th class="column-text-center">
+                @Resources.AdminResources.Favorite_Text
+            </th>
+            @if (objFavoriteByGroup.FavoriteHead.IsVisibleRuc)
+            {
+                <th class="column-text-center">
+                    @Resources.MiPerfil.TaxID_Text
+                </th>
+            }
+            <th class="text-center column-width-min">
+                @Resources.MiPerfil.Select_Text
+            </th>
+           
+        </tr>
+    </thead>
+
+    <tbody id="tbodyFavorites">
+        @foreach (var favorite in objFavoriteByGroup.Favorites)
+        {
+            <tr>
+                <td>
+                    @favorite.Index
+                </td>
+                @if (objFavoriteByGroup.FavoriteHead.IsVisibleNandina)
+                {
+                    <td>
+                        @favorite.Nandina
+                    </td>
+                }
+                <td data-field="nomGrupo">
+                        @favorite.Favorito
+                </td>
+                @if (objFavoriteByGroup.FavoriteHead.IsVisibleRuc)
+                {
+                    <td>
+                        @favorite.RUC 
+                    </td>
+                }
+                    <td class="text-center">
+                        @if (verificarCheckBox)
+                        {
+                            if (idsSeleccionados.Contains(favorite.IdFavorito))
+                            {
+                                <input type="checkbox" name="name" value="@favorite.IdFavorito" checked="checked" />
+                            }
+                            else
+                            {
+                                <input type="checkbox" name="name" value="@favorite.IdFavorito" />
+                            }
+                        }
+                        else
+                        {
+                            <input type="checkbox" name="name" value="@favorite.IdFavorito" />
+                        }
+                    </td>
+            </tr>
+        }
+    </tbody>
+
+</table>
+
+@if (objFavoriteByGroup.TotalPaginas > 1)
+{
+    <div class="text-center" id="divPagingFavorites">
+        <nav aria-label="Page navigation">
+            <ul id="pagingFavorites"
+                class="pagination pagination-sm"></ul>
+        </nav>
+    </div>
+}
+
+
+@if (objFavoriteByGroup.IsVisibleDelete)
+{
+    <div class="pull-right">
+        <button id="btnDeleteFavorite" class="btn boton-opcion margin-height-sm ">
+            @Resources.MiPerfil.Delete_Text
+        </button>
+    </div>
+}

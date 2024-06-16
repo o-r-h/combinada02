@@ -1,0 +1,138 @@
+﻿@import "_colores.scss";
+@import "_fonts.scss";
+@import "_menu.scss";
+@import "_components.scss";
+@import "_forms.scss";
+@import "_tables.scss";
+@import "_helpers.scss";
+@import "_buttons.scss";
+
+body {
+    font-family: 'ProximaNova-Regular';
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.navbar-brand {
+    font-size: 16px;
+    line-height: 18px;
+    height: auto;
+}
+
+.highcharts-title {
+    font-size: 14px !important;
+}
+
+.radio-inline {
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+.form-horizontal .checkbox, .form-horizontal .checkbox-inline, .form-horizontal .radio, .form-horizontal .radio-inline {
+    padding-top: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.tittle-opcion {
+    font-size: 16px;
+    color: $color-blue;
+}
+
+.description-opcion {
+    font-size: 14px;
+    color: $color-black;
+    min-height: 25px;
+    margin-bottom: 24px;
+}
+
+.tittle-info {
+    font-size: 12px;
+    color: $color-info;
+    font-style: italic;
+}
+
+.no-display{
+    display:none;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ui-state-active {
+    background: #30A7E5 !important;
+}
+
+
+.no-padding-left{
+    padding-left:0 !important;
+    
+}
+
+.width-auto{
+    width:auto !important;
+    }
+.text-justify {
+    text-align: justify;
+}
+
+a.lnkVerRegistros {
+    cursor: pointer !important;
+}
+
+.cboDescargas {
+    margin-right: 5px !important;
+    width: 180px !important;
+    height: 30px !important;
+}
+
+.pagination-tab-my {
+    margin: 0 0 10px;
+}
+
+.lnkDownloadExcel{
+    margin-left: 9px;
+}
+/*
+    Estilo para opción de seleccionar temas para gráficos
+*/
+.dropdown.dropdown-colorselector {
+    display: inline-block !important;
+
+}
+
+.dropdown-colorselector > .dropdown-menu {
+    left: -107px !important;
+}
+.dropdown-menu.dropdown-caret:after{
+    left:109px !important;
+}
+.dropdown-menu.dropdown-caret:before{
+    border-bottom:none !important;
+}
+.mt_m8{
+    margin-top: -2px !important; 
+}
+.c_center{
+    text-align:center;
+}
+.c_d_inline{
+    display:inline-block;
+}
+#rangoInfoEnLinea {
+    display: inline-block;
+    top: 10px;
+    position: relative;
+}
+@import "mis-busquedas.scss";
+@import "mis-productos.scss";
+
+@import "mis-grupos.scss";
+hr {
+    margin-bottom: 0px;
+    margin-top: 0px;
+}
+

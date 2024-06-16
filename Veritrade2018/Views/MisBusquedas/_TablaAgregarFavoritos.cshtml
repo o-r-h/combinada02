@@ -1,0 +1,53 @@
+﻿@using Veritrade2018.Models.Admin;
+@{
+    var objAgregarFavoritoTable = (AgregarFavoritoTable) Model;
+}
+<table class="table table-bordered">
+    <thead>
+    <tr class="table-title">
+        @if (objAgregarFavoritoTable.ObjTableHead.IsVisibleNandina)
+        {
+            <th>
+                @objAgregarFavoritoTable.ObjTableHead.Nandina
+            </th>
+        }
+        <th class="column-text-center">
+            @objAgregarFavoritoTable.ObjTableHead.Favorito
+        </th>
+        @if (objAgregarFavoritoTable.ObjTableHead.IsVisbleNombreFavorito)
+        {
+            <th>
+                @objAgregarFavoritoTable.ObjTableHead.NombreFavorito
+            </th>
+        }
+        <th></th>
+    </tr>
+    </thead>
+
+    <tbody id="tbodyAgregarFavoritos">
+    @foreach (var item in objAgregarFavoritoTable.ListaFavoritos)
+    {
+        <tr>
+            @if (objAgregarFavoritoTable.ObjTableHead.IsVisibleNandina)
+            {
+                <td>
+                   @item.Nandina
+                </td>
+            }
+           
+            <td>
+                @item.Favorito
+            </td>
+            @if (objAgregarFavoritoTable.ObjTableHead.IsVisbleNombreFavorito)
+            {
+                <td>
+                    <input type="text" id="@("txtPartidaFav"+item.IdFavorito)" class="form-control" value=""/>
+                </td>
+            }
+            <td  class="column-text-center cell-vertical-align-middle">
+                <input type="checkbox" checked="checked" value="@item.IdFavorito"/>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

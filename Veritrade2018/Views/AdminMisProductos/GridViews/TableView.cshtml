@@ -1,0 +1,138 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    var objAdminMyProduct = (AdminMyProduct) Model;
+    var idsSeleccionados = objAdminMyProduct.IdsSeleccionados;
+
+    bool verificarCheckBox = (idsSeleccionados != null && idsSeleccionados.Count > 0);
+}
+<div class="table-responsive">
+    <table class="table table-condensed table-bordered">
+        <thead>
+            <tr class="table-title">
+                <th class="text-center column-width-min">No.</th>
+                <th class="text-center column-width-sm">
+                    @Resources.AdminResources.Nandina2_FilterText<br />
+                    <form class="form-inline" role="form">
+                        @Html.TextBox("txtNandinaF", "", new { @class = "form-control txt-formfield column-width-xs" })
+                        <div class="c_d_inline">
+                            <a id="lnkSearchByNandina" href="javascript:void(0)">
+                                <img src="~/Content/Images/Minisite/search-2x.png" alt="search" width="20" height="20" />
+                            </a>
+                            <a id="lnkResetByNandina" href="javascript:void(0)">
+                                <img src="~/Content/Images/Minisite/refresh-2x.png" alt="reset" width="20" height="20" />
+                            </a>
+                        </div>
+                    </form>
+                </th>
+                <th colspan="2" class="text-center">
+                    @Resources.AdminResources.HTS_Description_Text<br />
+                    <form class="form-inline" role="form">
+                        @Html.TextBox("txtPartidaF", "", new { @class = "form-control txt-formfield column-width-sm" })
+                        <div class="c_d_inline">
+                            <a id="lnkSearchByPartida" href="javascript:void(0)">
+                                <img src="~/Content/Images/Minisite/search-2x.png" alt="search" width="20" height="20" />
+                            </a>
+                            <a id="lnkResetByPartida" href="javascript:void(0)">
+                                <img src="~/Content/Images/Minisite/refresh-2x.png" alt="reset" width="20" height="20" />
+                            </a>
+                        </div>
+                    </form>
+                </th>
+                <th class="column-width-sm">
+                    @Resources.MiPerfil.MyGroups_Text
+                    <br />
+                    <form class="form-inline" role="form">
+
+                        @Html.DropDownList("cboGruposF", new SelectList(objAdminMyProduct.GruposFavoritos.ToList(), "Value", "Text"), new { @class = "form-control select-formfield column-width-xs" })
+
+                    </form>
+                </th>
+                <th class="text-center column-width-min">
+                    <div class="checkbox">
+                        <label>
+                            <input id="chkAllAdminMyProducts" type="checkbox" name="name"  
+                                   onclick="AdminTable.SelectAllChecksCurrentPage('tbodyAdminMyProducts', this);" />
+                        </label>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+
+        <tbody id="tbodyAdminMyProducts">
+            
+            @foreach (var product in objAdminMyProduct.ProductosFavoritos)
+            {
+                <tr>
+                    <td class="text-center">@product.Index</td>
+
+                    <td>
+                        <p>@product.Nandina</p>
+                    </td>
+
+                    <td class="column-width-md">
+                        <p class="wspace-normal" data-field="nomGrupo">
+                            @product.Partida
+                        </p>
+                    </td>
+
+                    <td class="column-width-md">
+                        @if (product.IsVisibleActualizar)
+                        {
+                            <input type="text" id="@("TxtPartidaFav"+@product.IdPartida)" class="form-control txt-formfield" value="@product.PartidaFav"/>
+                            <br/>
+                            <a class="lnkActualizarPartidaFav"  data-idpartida="@product.IdPartida" data-id-txtpartidafav="@("TxtPartidaFav"+@product.IdPartida)">
+                                @Resources.MiPerfil.Update_Text
+                            </a>
+                        }
+                    </td>
+
+                    <td>
+                        @foreach (var grupo in product.GrupoFavoritos)
+                        {
+                            <p class="wspace-normal">@grupo.Grupo</p>
+                        }
+                    </td>
+
+                    <td class="text-center">
+                        @foreach (var item in product.GrupoFavoritos)
+                        {
+                            var idCheck = item.IdFavorito + "-" + item.IdGrupo;
+
+                            @*<div class="checkbox">
+                                <label>*@
+                                <p class="wspace-normal">
+                                        @if (verificarCheckBox)
+                                        {
+                                            if (idsSeleccionados.Contains(idCheck))
+                                            {
+                                                <input class="mt_m8" type="checkbox" name="name" value="@idCheck" checked="checked" />
+                                            }
+                                            else
+                                            {
+                                                <input class="mt_m8" type="checkbox" name="name" value="@idCheck" />
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <input class="mt_m8" type="checkbox" name="name" value="@idCheck" />
+                                        }
+                                </p>
+                                @*</label>
+                            </div>*@
+                        }
+                    </td>
+
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (objAdminMyProduct.TotalPaginas > 1)
+    {
+        <div id="divPagingAdminMyProducts">
+            <nav aria-label="Page navigation" class="text-center" >
+                <ul id="pagingAdminMyProducts" class="pagination pagination-sm pagination-tab-my"></ul>
+            </nav>
+        </div>
+    }
+</div>

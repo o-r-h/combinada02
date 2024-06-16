@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="AFPrivado" xmlns:wsdlns="AFPrivado" name="SentinelWS02" targetNamespace="AFPrivado" xmlns="http://schemas.xmlsoap.org/wsdl/">
+  <types>
+    <xsd:schema xmlns="http://www.w3.org/2001/XMLSchema" xmlns:SOAP-ENC="http://schemas.xmlsoap.org/soap/encoding/" elementFormDefault="qualified" targetNamespace="AFPrivado">
+      <xsd:complexType name="CNSDTConRapWS">
+        <xsd:sequence>
+          <xsd:element name="Documento" type="xsd:string" />
+          <xsd:element name="RazonSocial" type="xsd:string" />
+          <xsd:element name="FechaProceso" nillable="true" type="xsd:date" />
+          <xsd:element name="Semaforos" type="xsd:string" />
+          <xsd:element name="Score" type="xsd:string" />
+          <xsd:element name="NroBancos" type="xsd:string" />
+          <xsd:element name="DeudaTotal" type="xsd:string" />
+          <xsd:element name="VencidoBanco" type="xsd:string" />
+          <xsd:element name="Calificativo" type="xsd:string" />
+          <xsd:element name="Veces24m" type="xsd:string" />
+          <xsd:element name="ScorePromedio" type="xsd:double" />
+          <xsd:element name="SemaActual" type="xsd:string" />
+          <xsd:element name="SemaPrevio" type="xsd:string" />
+          <xsd:element name="SemaPeorMejor" type="xsd:string" />
+          <xsd:element name="Documento2" type="xsd:string" />
+          <xsd:element name="EstDomic" type="xsd:string" />
+          <xsd:element name="CondDomic" type="xsd:string" />
+          <xsd:element name="DeudaTributaria" type="xsd:string" />
+          <xsd:element name="DeudaLaboral" type="xsd:string" />
+          <xsd:element name="DeudaImpaga" type="xsd:string" />
+          <xsd:element name="DeudaProtestos" type="xsd:string" />
+          <xsd:element name="DeudaSBS" type="xsd:string" />
+          <xsd:element name="TarCtas" type="xsd:string" />
+          <xsd:element name="RepNeg" type="xsd:string" />
+          <xsd:element name="TipoActv" type="xsd:string" />
+          <xsd:element name="FechIniActv" type="xsd:string" />
+          <xsd:element name="CodigoWS" type="xsd:string" />
+        </xsd:sequence>
+      </xsd:complexType>
+      <xsd:element name="SentinelWS02.Execute">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="Usuario" type="xsd:string" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="Password" type="xsd:string" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="Servicio" type="xsd:long" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="Tipodoc" type="xsd:string" />
+            <xsd:element minOccurs="1" maxOccurs="1" name="Nrodoc" type="xsd:string" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+      <xsd:element name="SentinelWS02.ExecuteResponse">
+        <xsd:complexType>
+          <xsd:sequence>
+            <xsd:element minOccurs="1" maxOccurs="1" name="Cnsdtconrapsms" type="wsdlns:CNSDTConRapWS" />
+          </xsd:sequence>
+        </xsd:complexType>
+      </xsd:element>
+    </xsd:schema>
+  </types>
+  <message name="SentinelWS02.ExecuteSoapIn">
+    <part name="parameters" element="wsdlns:SentinelWS02.Execute" />
+  </message>
+  <message name="SentinelWS02.ExecuteSoapOut">
+    <part name="parameters" element="wsdlns:SentinelWS02.ExecuteResponse" />
+  </message>
+  <portType name="SentinelWS02SoapPort">
+    <operation name="Execute">
+      <input message="wsdlns:SentinelWS02.ExecuteSoapIn" />
+      <output message="wsdlns:SentinelWS02.ExecuteSoapOut" />
+    </operation>
+  </portType>
+  <binding name="SentinelWS02SoapBinding" type="wsdlns:SentinelWS02SoapPort">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <operation name="Execute">
+      <soap:operation soapAction="AFPrivadoaction/ASENTINELWS02.Execute" />
+      <input>
+        <soap:body use="literal" />
+      </input>
+      <output>
+        <soap:body use="literal" />
+      </output>
+    </operation>
+  </binding>
+  <service name="SentinelWS02">
+    <port name="SentinelWS02SoapPort" binding="wsdlns:SentinelWS02SoapBinding">
+      <soap:address location="https://www2.sentinelperu.com/ws/asentinelws02.aspx" />
+    </port>
+  </service>
+</definitions>

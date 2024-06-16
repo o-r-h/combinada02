@@ -1,0 +1,34 @@
+﻿@using Veritrade2017.Helpers
+
+@{
+    var resultadoTransaccion = ViewData["resultado"];
+    var url = ViewData["url"];
+    var mensaje = ViewData["message"];
+    var token = ViewData["token"];
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+}
+<script src="/Scripts/jquery-1.11.3.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function () {
+            if (@resultadoTransaccion === 1) {
+                alert("@mensaje");
+            } else {
+                console.log('response url @url');
+                console.log('token @token');
+                form = $('<form />', {
+                    action: '@url',
+                    method: 'POST',
+                    style: 'display: none;'
+                });
+                $('<input />', {
+                    type: 'hidden',
+                    name: 'token_ws',
+                    value: '@token'
+                }).appendTo(form);
+                $(document.body).append(form);
+                form.submit();
+            }
+
+        });
+
+</script>

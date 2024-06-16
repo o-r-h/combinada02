@@ -1,0 +1,468 @@
+﻿@using System.Web.Optimization
+@using Veritrade2017.Helpers
+@using Veritrade2017.Models
+@{
+    var slug = ViewData["slug"].ToString();
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var hasImpots = Convert.ToDouble(ViewData["impTotalEmbarques"]);
+    var hasExpots = Convert.ToDouble(ViewData["expTotalEmbarques"]);
+    var idiomaText = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+    var totalEmbarques = Convert.ToInt32(ViewData["totalEmbarques"]);
+
+    // Ruben 202205
+    string Empresa = ViewData["nombreEmpresa"].ToString().ToUpperInvariant();
+
+
+    /*ViewBag.Title = ViewData["nombreEmpresa"] + " con " + ViewData["registriTrib"] + ": " + ViewData["rucEmpresa"] +
+                    " de " + ViewData["paisEmpresa"] + " - Exportaciones e Importaciones";*/
+
+    /*ViewBag.Description = ViewData["nombreEmpresa"] + " " + MinisiteResources.Block02_Text01 + " " +
+                          ViewData["rucEmpresa"] + ", " + MinisiteResources.Block02_Text02 + " " +
+                          string.Format(idiomaText, "{0:N0}", totalEmbarques) + " " + MinisiteResources.Block02_Text03;*/
+
+
+    var cifTotal = Convert.ToInt32(ViewData["CifTotal"]);
+    var fobTotal = Convert.ToInt32(ViewData["FobTotal"]);
+
+    var sty = ((Campania.TYPE_CAMPANIA)((int?)Session["TypeCampania"] ?? 0));
+
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    var CodesCampanias = Campania.CodFormateds3((ViewData["CodesCampanias"] as Dictionary<Campania.CONTROL, string>), culture, Request.Browser.IsMobileDevice, sty);
+
+
+    var values = RouteDataContext.RouteValuesFromUri(Request.UrlReferrer);
+    if (values != null && sty == Campania.TYPE_CAMPANIA.ORGANIC)
+    {
+        if (new[] {/* "Empresas",*/ "Minisite" }.Contains(/*values["controller"]*/controller))
+        {
+            if (culture != "es")
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_EMPRESAS_EN];
+            }
+            else
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_EMPRESAS];
+            }
+
+            CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] += Request.Browser.IsMobileDevice ? "m" : "";
+
+        }
+
+    }
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+    <!-- Custom -->
+    @Styles.Render("~/Content/minisite")
+    @*<link href="@Url.Content("~/Content/Assets/productprofile.css")" rel="stylesheet" type="text/css" />*@
+    <link href="@Url.Content("~/Content/Assets/loading.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Assets/loadingProductProfile.css")" rel="stylesheet" type="text/css" />
+}
+
+<style>
+    .is-active-loadingP {
+        background-color: transparent;
+    }
+
+    .loaderP .objectLoadingP {
+        width: 6px;
+        height: 17px;
+        background: rgba(100,186,234,1);
+        position: relative;
+        animation: objectLoading-animation 1s ease-in-out infinite;
+        animation-delay: 0.4s;
+        top: 50%;
+        margin: -28px auto 0;
+    }
+
+        .loaderP .objectLoadingP::after, .loaderP .objectLoadingP::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 17px;
+            background: rgba(100,186,234,1);
+            animation: objectLoading-animation 1s ease-in-out infinite;
+        }
+
+        .loaderP .objectLoadingP::before {
+            right: 10px;
+            animation-delay: 0.2s;
+        }
+
+        .loaderP .objectLoadingP::after {
+            left: 10px;
+            animation-delay: 0.2s;
+        }
+</style>
+
+@section Scripts
+{
+    @*<script src="@Url.Content("~/Scripts/Admin/admin.js")" defer type="text/javascript"></script>*@
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.11.4.min.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Plugins/Highcharts/highcharts.js")" defer type="text/javascript"></script>
+    <script type="text/javascript">
+
+        function dataLayerEmpresa() {
+            // Ruben 202304
+            var busca_empresa = '@ViewData["nombreEmpresa"]';
+            console.log(busca_empresa);
+            dataLayer.push({
+                'event': 'prueba_gratis', //valor estático
+                'categoria': 'busca_empresa', // valor estático
+                'palabra': busca_empresa // valor dinámico
+            });
+        }
+
+        function dataLayerEmpresa2() {
+            // Ruben 202305
+            var busca_empresa = '@ViewData["nombreEmpresa"]';
+            console.log(busca_empresa);
+            dataLayer.push({
+                'event': 'prueba_gratis', //valor estático
+                'categoria': 'busca_empresa_popup', // valor estático
+                'palabra': busca_empresa // valor dinámico
+            });
+        }
+
+        $(document).ready(function () {
+
+            function ShowOrHideLoadingPageCompany(pEstado) {
+                if (pEstado) {
+                    $("#loadingPageCompany").addClass("is-active-loadingP");
+                } else {
+                    $("#loadingPageCompany").removeClass("is-active-loadingP");
+                }
+            }
+
+            ShowOrHideLoadingPageCompany(false);
+            $("#companyName").autocomplete({
+                appendTo: "#autocompleteFilter",
+                source: function(request, response) {
+                    $.ajax({
+                        url: "@Url.Action("BuscarEmpresa", "Minisite")",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            nandina: request.term
+                        },
+                        beforeSend: function () {
+                            ShowOrHideLoadingPageCompany(true);
+                        },
+                        success: function (data) {
+                            ShowOrHideLoadingPageCompany(false);
+                            response($.map(data,
+                                function(item) {
+                                    return { id: item.id, label: item.value, value: item.value };
+                                }));
+                        }
+                    });
+                },
+                minLength: 2,
+                open: function(event, ui) {
+                    $('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
+                },
+                select: function (event, ui) {
+                    $('#search').prop("disabled", false);
+                    if ('@culture' == "es") {
+                        /* Ruben 202211*/
+                        /* https://www.veritradecorp.com/es/importaciones-exportaciones-peru/alicorp/ruc-20100055237*/
+                        @*$("#slug").val("/@culture" +
+                            "/importaciones-exportaciones-" + ui.item.id.pais + "/" + ui.item.id.uri + "/" + ui.item.id.trib + "-" + ui.item.id.ruc);*@
+                        $("#slug").val("/@culture/" +
+                            ui.item.id.pais.replace(" ", "-") + // Ruben 202306
+                            "/importaciones-y-exportaciones-" +
+                            ui.item.id.uri +
+                            "/" +
+                            ui.item.id.trib +
+                            "-" +
+                            ui.item.id.ruc);
+                    } else {
+                        @*$("#slug").val("/@culture" +
+                            "/imports-exports-" + ui.item.id.pais + "/" + ui.item.id.uri + "/" + ui.item.id.trib + "-" + ui.item.id.ruc);*@
+                        $("#slug").val("/@culture/" +
+                            ui.item.id.pais.replace(" ", "-") + // Ruben 202306
+                            "/imports-and-exports-" +
+                            ui.item.id.uri +
+                            "/" +
+                            ui.item.id.trib +
+                            "-" +
+                            ui.item.id.ruc);
+                    }
+                }
+            });
+
+            $("#search").click(function() {
+                if ($("#slug").val().trim() !== "") {
+                    window.location.replace($("#slug").val());
+                }
+            });
+
+            $('#companyName').blur(function () {
+                if ($("#companyName").val().trim() === "") {
+                    $('#search').prop("disabled", true);
+                }
+            });
+        });
+    </script>
+}
+<div id="my-chart"></div>
+<div class="row null-margin-h">
+    <div class="minisite-info">
+        <div class="col-xs-12 col-sm-12" style="margin-top: 20px; margin-bottom: -5px;">
+            <input type="hidden" name="slug" id="slug" value="" />
+            <div class="row">
+                <div class="col-xs-12 col-sm-2 text-right">
+                    <label class="search-label" for="companyName">@MinisiteResources.Search_Company</label>
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <div class="form-group" style="margin-bottom: 0;">
+                        <input type="text" class="form-control" id="companyName" name="companyName" placeholder="@MinisiteResources.Empresas_Buscar_Content_SubTitle">
+                        <div id="autocompleteFilter" class="autocomplete_content"></div>
+                        <div id="loadingPageCompany" class="loaderP is-active-loadingP" style="position: absolute;left: auto;width: auto;right: 30px;top: 50%;">
+                            <div class="objectLoadingP"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4">
+                    <input disabled id="search" class="btn-search btn btn-primary" type="submit" value="@Resources.Search_Button" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row null-margin-h">
+    <div class="col-sm-12 col-xs-12">
+        <div class="row">
+            <div class="minisite-info" style="margin-top: 15px;">
+                <div class="col-xs-12 col-sm-4 null-margin-h like-table-cell info-left">
+                    <div class="row">
+                        <div class="info-title">
+                            <h1>
+                                @MinisiteResources.Empresas_Msg_Export_Import @ViewData["nombreEmpresa"]
+                            </h1>
+                            <h4>
+                                @ViewData["registriTrib"]: @ViewData["rucEmpresa"]
+                            </h4>
+                            <h4><img src="~/Content/Images/@ViewData["paisImagen"]" alt="" style="vertical-align: unset" /> @ViewData["paisEmpresa"] | @MinisiteResources.Block01_Text01</h4>
+                            <div class="span-content" style="border: 1px solid #54ace6;">
+                                <img src="~/Content/Images/Minisite/box.png" alt="" /> <label>@string.Format(idiomaText, "{0:N0}", totalEmbarques)</label> @MinisiteResources.Shipments_Text
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 null-margin-h like-table-cell info-left">
+                    <div class="info-title-msg">
+                        <h2 class="info-description-black">
+                            @Html.Raw(MinisiteResources.Block02_Text01) <strong>@ViewData["nombreEmpresa"]</strong>, @Html.Raw(MinisiteResources.Block02_Text02).
+                        </h2>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-4 table-cell info-right">
+                    <div class="row static-margin-bottom">
+                        <p class="info-description-title" style="text-align: center">
+                            <span>@MinisiteResources.Block03_Text01.ToUpper():</span><br />
+                            <span><strong>@ViewData["nombreEmpresa"]</strong><img src="/Content/Images/@ViewData["paisImagen"]" style="margin-left: 10px;"></span>
+                        </p>
+                        <div class="margin-info ui-info">
+                            <div class="col-xs-12 col-sm-6  table-cell">
+                                <p class="info-description">
+                                    @if (Convert.ToInt32(ViewData["impEmbarques"]) > 0)
+                                    {
+                                        <h3 class="import">@MinisiteResources.Imports_Text.ToUpper()</h3>
+                                        <ul class="lista-descripcion">
+                                            <li style="display: inline">- @MinisiteResources.Shipments_Text:</li>
+                                            <li style="display: inline"><strong>@string.Format(idiomaText, "{0:N0}", ViewData["impEmbarques"])</strong></li>
+                                            <br />
+                                            <li style="display: inline">- US$:</li>
+                                            <li style="display: inline"><strong>@string.Format(idiomaText, "{0:N0}", ViewData["impTotalEmbarques"])</strong></li>
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        if (ViewData["paisEmpresa"].ToString().Equals("COLOMBIA"))
+                                        {
+                                            if (cifTotal > 0)
+                                            {
+                                                <h3 class="import">CIF:</h3>
+                                                <ul class="lista-descripcion">
+                                                    <li style="display: inline">- US$:</li>
+                                                    <li style="display: inline"><strong>@string.Format(idiomaText, "{0:N0}", cifTotal)</strong></li>
+                                                </ul>
+                                            }
+                                            else
+                                            {
+                                                <h3 class="import">@MinisiteResources.Imports_Text.ToUpper()</h3>
+                                                <ul class="lista-descripcion">
+                                                    @*<li style="display: inline">- @MinisiteResources.Imports_Text:</li>*@
+                                                    <li style="display: inline"><strong>@MinisiteResources.Block03_Text02 @MinisiteResources.Shipments_Text.ToLower().</strong></li>
+                                                </ul>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <h3 class="import">@MinisiteResources.Imports_Text.ToUpper()</h3>
+                                            <ul class="lista-descripcion">
+                                               @* <li style="display: inline">- @MinisiteResources.Imports_Text:</li>*@
+                                                <li style="display: inline"><strong>@MinisiteResources.Block03_Text02 @MinisiteResources.Shipments_Text.ToLower().</strong></li>
+                                            </ul>
+                                        }
+                                    }
+                                </p>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 table-cell borde-info des-border">
+                                <p class="info-description">
+                                    @if (Convert.ToInt32(ViewData["expEmbarques"]) > 0)
+                                    {
+                                        <h4 class="export">@MinisiteResources.Exports_Text.ToUpper()</h4>
+                                        <ul class="lista-descripcion">
+                                            <li style="display: inline">- @MinisiteResources.Shipments_Text:</li>
+                                            <li id="valorExpor" style="display: inline"><strong>@string.Format(idiomaText, "{0:N0}", ViewData["expEmbarques"])</strong></li>
+                                            <br />
+                                            <li style="display: inline">- US$:</li>
+                                            <li id="regImpor" style="display: inline"><strong>@string.Format(idiomaText, "{0:N0}", ViewData["expTotalEmbarques"])</strong></li>
+                                        </ul>
+                                    }
+                                    else
+                                    {
+                                        if (ViewData["paisEmpresa"].ToString().Equals("COLOMBIA"))
+                                        {
+                                            if (fobTotal > 0)
+                                            {
+                                                <h4 class="export">FOB:</h4>
+                                                <ul class="lista-descripcion">
+                                                    <li style="display: inline">- US$:</li>
+                                                    <li id="valorExpor" style="display: inline"><strong>@string.Format(idiomaText, "{0:N0}", fobTotal)</strong></li>
+                                                </ul>
+                                            }
+                                            else
+                                            {
+                                                <h4 class="export">@MinisiteResources.Exports_Text.ToUpper()</h4>
+                                                <ul class="lista-descripcion">
+                                                    @* <li style="display: inline">- @MinisiteResources.Exports_Text:</li>*@
+                                                    <li id="valorExpor" style="display: inline"><strong>@MinisiteResources.Block03_Text02 @MinisiteResources.Shipments_Text.ToLower().</strong></li>
+                                                </ul>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <h4 class="export">@MinisiteResources.Exports_Text.ToUpper()</h4>
+                                            <ul class="lista-descripcion">
+                                                @*<li style="display: inline">- @MinisiteResources.Exports_Text:</li>*@
+                                                <li id="valorExpor" style="display: inline"><strong>@MinisiteResources.Block03_Text02 @MinisiteResources.Shipments_Text.ToLower().</strong></li>
+                                            </ul>
+                                        }
+                                    }
+                                </p>
+                            </div>
+                            <div style="margin: 25px 0"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row null-margin-h">
+    <div class="minisite-info">
+        <div class="graficos">
+            @if (hasImpots > hasExpots)
+            {
+                <div class="chart-null-padding-h col-sm-6 text-center  elementhover" data-toggle="modal" data-target="#ModalPartida">
+                    @Html.Action("ChartImpMinisite", new { slug })
+                </div>
+
+                <div class="chart-null-padding-h col-sm-6 text-center  elementhover" data-toggle="modal" data-target="#ModalPartida">
+                    @Html.Action("ChartExpMinisite", new { slug })
+                </div>
+            }
+            else
+            {
+                <div class="chart-null-padding-h col-sm-6 text-center elementhover" data-toggle="modal" data-target="#ModalPartida">
+                    @Html.Action("ChartExpMinisite", new { slug })
+                </div>
+
+                <div class="chart-null-padding-h col-sm-6 text-center elementhover" data-toggle="modal" data-target="#ModalPartida">
+                    @Html.Action("ChartImpMinisite", new { slug })
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row null-margin-h">
+    <div class="minisite-info">
+        <div class="datos">
+            @if (hasImpots > hasExpots)
+            {
+                <div class="col-xs-12 col-sm-6">
+                    <h2>@MinisiteResources.Table01_Import_Title</h2>
+                    @Html.Action("GridView1Partial", new { slug, my_campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] })
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <h2>@MinisiteResources.Table02_Import_Title</h2>
+                    @Html.Action("GridView2Partial", new { slug, my_campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] })
+                </div>
+            }
+            else
+            {
+                <div class="col-xs-12 col-sm-6">
+                    <h2>@MinisiteResources.Table01_Export_Title</h2>
+                    @Html.Action("GridView1Partial", new { slug, my_campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] })
+                </div>
+                <div class="col-xs-12 col-sm-6">
+                    <h2>@MinisiteResources.Table02_Export_Title</h2>
+                    @Html.Action("GridView2Partial", new { slug, my_campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] })
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="row null-margin-h">
+    <div class="minisite-info tab-detalle">
+        <div class="detalle">
+            <div class="col-xs-12 null-margin-h ">
+                <h2>@MinisiteResources.Table03_Title</h2>
+                <p class="text-center">
+                    <img src="~/Content/Images/flecha_old.png" alt="" />
+                </p>
+                <p>@MinisiteResources.Table03_Description.</p>
+                <div class="span-content">
+                    <img src="~/Content/Images/Minisite/box.png" alt="" /> <label>@string.Format(idiomaText, "{0:N0}", totalEmbarques)</label> @MinisiteResources.Shipments_Text
+                </div>
+                @Html.Action("GridView3Partial", new { slug, my_campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] })
+            </div>
+            <div class="col-xs-12">
+                <hr />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row null-margin-h">
+    <div class="minisite-info">
+        <div class="anuncio">
+            <div class="col-xs-12 null-margin-h ">
+                <h2>@MinisiteResources.Publish_Title</h2>
+            </div>
+            <div class="col-xs-12" style="padding: 16px 0;">
+                @if (culture == "es")
+                {
+                    <a href="@Url.RouteUrl("PruebaGratis", new {culture, campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS]})" onclick="dataLayerEmpresa();" class="solicitud">@MinisiteResources.Publish_Button</a>
+                }
+                else
+                {
+                    <a href="@Url.RouteUrl("PruebaGratisUS", new {culture, campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS]})" onclick="dataLayerEmpresa();" class="solicitud">@MinisiteResources.Publish_Button</a>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Action("ModalPartial", new { slug, my_campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] })
+@Html.Action("ModalEmbarque", new { slug, my_campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] })

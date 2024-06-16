@@ -1,0 +1,11 @@
+﻿<div class="form-group">
+    <label class="col-sm-2 label_content">@Resources.Search_Form_Item07</label>
+    <div class="col-sm-7">
+        @Html.ListBox("lstFiltros", new List<SelectListItem>(), new { @class = "form-control txt-formfield selectMultiple-formfieldFilterDemo" })
+    </div>
+    <div class="col-sm-3">
+        <button id="btnDeleteFiltros" class="btn btn-reset  margin-vsm">
+            @Resources.Filters_DeleteButton
+        </button>
+    </div>
+</div>

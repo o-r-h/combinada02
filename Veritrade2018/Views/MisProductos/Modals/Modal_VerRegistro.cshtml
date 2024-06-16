@@ -1,0 +1,42 @@
+﻿
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalVerRegistro">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="padding: 20px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="icon-close-modal" aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="titulo-verRegistro"></h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-sm-12 divRecordsFoundVerRegistro">
+                        <label class="descRecordsFound">
+                            @Resources.AdminResources.DownloadResultsToExcel_Text
+                        </label>
+
+                        <select class="form-control filter-selectField-vt"
+                                id="cboDescargasVerRegistro"></select>
+
+                        <a id="downloadFileVerRegistro">
+                            <img src="~/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" />
+                        </a>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div id="tableVerRegistros" class="table-responsive">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+

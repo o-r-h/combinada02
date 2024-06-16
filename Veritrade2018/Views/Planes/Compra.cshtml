@@ -1,0 +1,364 @@
+﻿@using Veritrade2018.Helpers
+@using Veritrade2018.Models
+@using System.Globalization
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var idiomaMoneda = culture.Equals("es") ? CultureInfo.CreateSpecificCulture("es-pe") : CultureInfo.CreateSpecificCulture("en-us");
+    var idiomafecha = CultureInfo.CreateSpecificCulture(culture);
+
+    var modelo = (Planes)ViewData["plan"];
+    var detalleModelo = PlanesPrecio.GetPrecioPlan(modelo.Id);
+    var campania = ViewData["cod_campaña"];
+    var igv_vista = Math.Round(Convert.ToDecimal(ViewData["igv"]) * detalleModelo.Precio, 2);
+    var enviroment = SettingUtility.GetAlignetEnviroment();
+    var total = Math.Round(detalleModelo.Precio + igv_vista, 2);
+
+    ViewBag.Title = Resources.Resources.Compra_Text;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+    <link href="@Url.Content("~/Content/Assets/planes.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Assets/modals.css")" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function onValidateBegin() {
+            $('#loading').show();
+            $('.button-continuar').prop("disabled", true);
+        }
+
+        function onValidateComplete() {
+            $('#loading').hide();
+            $('.button-continuar').prop("disabled", false);
+        }
+    </script>
+
+    @if (ViewData["metodo"].Equals("stripe"))
+    {
+        <script type="text/javascript" src="https://js.stripe.com/v3/"></script>
+        <script type="text/javascript">
+            function OnSuccessPerfil(response) {
+                if (response.ErrorType === 1) {
+                    console.log(response.ErrorType);
+                    $("#ModalError").modal("show");
+                } else {
+                    $("#compra_section").html(response).slideDown("slow");
+                }
+            }
+
+            function OnFailurePerfil(response) {
+                console.log(response.ErrorTitle, response.ErrorMsg);
+            }
+
+            $(document).on("submit",
+                "#payment-form",
+                function () {
+                    $('.button-pagar').prop("disabled", true);
+                    $("#loading-compra").show();
+                });
+        </script>
+    }
+    else
+    {
+        if (enviroment == "TEST")
+        {
+            <script type="text/javascript" src="https://integracion.alignetsac.com/VPOS2/js/modalcomercio.js"></script>
+        }
+        else
+        {
+            <script type="text/javascript" src="https://vpayment.verifika.com/VPOS2/js/modalcomercio.js"></script>
+        }
+
+        <script type="text/javascript">
+            function OnSuccessPerfil(response) {
+                if (response.ErrorType === 1) {
+                    $("#ModalError").modal("show");
+                } else {
+                    $("#compra_section").html(response);
+                    $("#compra_section").find("input:button").trigger("click");
+                }
+            }
+
+            function OnFailurePerfil(response) {
+                console.log(response.ErrorTitle, response.ErrorMsg);
+            }
+        </script>
+    }
+    <script type="text/javascript">
+            $(document).ready(function () {
+                var factura = -1;
+                var fixmeTop = $('.fixme').offset().top;
+                var width = window.innerWidth;
+
+                $(window).scroll(function() {
+                    var currentScroll = $(window).scrollTop();
+                    if (currentScroll >= fixmeTop) {
+                        if (width < 768) {
+                            $('.fixme').css({
+                                position: 'static'
+                            });
+                        } else if (width >= 768 && width <= 992) {
+                            $('.fixme').css({
+                                position: 'fixed',
+                                top: '20px',
+                                left: 'auto',
+                                right: 'auto',
+                                width: '240px'
+                            });
+                        } else if (width > 992 && width <= 1200) {
+                            $('.fixme').css({
+                                position: 'fixed',
+                                top: '20px',
+                                left: 'auto',
+                                right: 'auto',
+                                width: '293px'
+                            });
+                        } else if (width > 1200 && width <= 1366) {
+                            $('.fixme').css({
+                                position: 'fixed',
+                                top: '20px',
+                                left: 'auto',
+                                right: 'auto',
+                                width: '360px'
+                            });
+                        } else {
+                            $('.fixme').css({
+                                position: 'fixed',
+                                top: '20px',
+                                left: 'auto',
+                                right: 'auto',
+                                width: '360px'
+                            });
+                        }
+                    } else {
+                        $('.fixme').css({
+                            position: 'static',
+                            width: '100%'
+                        });
+                    }
+                });
+
+                $(document).on('click', "#IsFactura", function() {
+                    $("#content-factura").toggleClass("hidden");
+                    factura = factura * -1;
+                    if (factura == 1) {
+                        $("#Ruc").rules("add", {
+                            required: true,
+                            minlength: 1,
+                            messages: {
+                                required: $('#Ruc').attr('placeholder')+" @Resources.Resources.Required_Text"
+                            }
+                        })
+                        $("#RazonSocial").rules("add", {
+                            required: true,
+                            minlength: 1,
+                            messages: {
+                                required: $('#RazonSocial').attr('placeholder')+" @Resources.Resources.Required_Text"
+                            }
+                        })
+                        $("#Direccion").rules("add", {
+                            required: true,
+                            minlength: 1,
+                            messages: {
+                                required: $('#Direccion').attr('placeholder')+" @Resources.Resources.Required_Text"
+                            }
+                        })
+                    }
+                    else {
+                        $("#Ruc").rules("remove", "required");
+                        $("#RazonSocial").rules("remove", "required");
+                        $("#Direccion").rules("remove", "required");
+                    }
+                });
+            });
+    </script>
+}
+
+<div class="container compra-container">
+    <div class="row">
+        <div class="col-xs-12 col-sm-8">
+            <div class="content_pedido">
+                <h2 class="titulo">
+                    <span>1.</span> @Resources.Resources.Compra_Titulo01
+                </h2>
+                <div class="row like-table" style="width: 100%; margin-top: 30px">
+                    <div class="null-margin-h like-table-row">
+                        <div class="col-xs-5 col-sm-5 null-padding-h like-table-cell">
+                            <label class="titulo-pedido back-title-01">@Resources.Resources.Compra_Pedido_Titulo01</label>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 null-padding-h text-center like-table-cell">
+                            <label class="titulo-pedido back-title-02">@Resources.Resources.Compra_Pedido_Titulo03</label>
+                        </div>
+                    </div>
+                    <div class="null-margin-h like-table-row">
+                        <div class="col-xs-5 col-sm-5 null-padding-h borders like-table-cell">
+                            <div class="detalle">
+                                <div class="col-xs-9 col-sm-11">
+                                    <label class="text-pedido">@modelo.Nombre</label>
+                                    <p>@DateTime.Now.ToString("MMMM dd, yyyy", idiomafecha) - @DateTime.Now.AddDays(364).ToString("MMMM dd, yyyy", idiomafecha) </p>
+                                </div>
+                                <div class="col-xs-3 col-sm-1">
+                                    <a href="@Url.Action("Index", "Planes", new {culture})">
+                                        <img src="@Url.Content("~/Content/Images/trash.png")" alt="" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 null-padding-h borders text-center like-table-cell">
+                            <div class="detalle">
+                                <div class="col-xs-12 col-sm-12">
+                                    <p>
+                                        <label class="text-pedido">$ @toDecimalAutocompleta(detalleModelo.Precio.ToString("N2", idiomaMoneda))</label>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row like-table" style="width: 100%; margin-top: 30px">
+                    @if (ViewData["pais"].ToString() == "PE")
+                    {
+                        <div class="null-margin-h like-table-row">
+                            <div class="col-xs-5 col-sm-5 null-padding-h text-right like-table-cell">
+                                <div class="col-xs-12 col-sm-offset-8 col-sm-4">
+                                    <label class="text-pago">@Resources.Resources.Compra_Pedido_Igv</label>
+                                </div>
+                            </div>
+                            <div class="col-xs-2 col-sm-2 null-padding-h text-center like-table-cell">
+                                <div class="col-xs-12 col-sm-12">
+                                    <label class="text-pedido">$ @toDecimalAutocompleta(igv_vista.ToString("N2", idiomaMoneda))</label>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="null-margin-h like-table-row">
+                        <div class="col-xs-5 col-sm-5 null-padding-h text-right like-table-cell">
+                            <div class="col-xs-12 col-sm-offset-8 col-sm-4">
+                                <label class="text-pago">@Resources.Resources.Compra_Pedido_Total</label>
+                            </div>
+                        </div>
+                        <div class="col-xs-2 col-sm-2 null-padding-h text-center like-table-cell">
+                            <div class="col-xs-12 col-sm-12">
+                                <hr style="border-top: 1px solid #7b8191;" />
+                                <label class="text-pedido">$ @toDecimalAutocompleta(total.ToString("N2", idiomaMoneda))</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr class="compra-separator" />
+            @if (ViewData["metodo"].Equals("stripe"))
+            {
+                using (Ajax.BeginForm("ValidarPerfil", "Planes", new { }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessPerfil", OnFailure = "OnFailurePerfil", LoadingElementId = "loading", OnBegin = "onValidateBegin", OnComplete = "onValidateComplete" }, new { id = "perfil-form", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("planId", modelo.Id)
+                    @Html.Hidden("culture", culture)
+                    @Html.Hidden("campania", campania)
+                    <div class="content_info_cuenta">
+                        <h2 class="titulo">
+                            <span>2.</span> @Resources.Resources.Compra_Titulo02
+                        </h2>
+                        <div id="perfil_section">
+                            @Html.Partial("Compra/Perfil_Section", new CompraPerfil())
+                            <div class="row">
+                                <div class="col-xs-12 form-group">
+                                    <button class="btn button-continuar">@Resources.Resources.Button_Continue</button>
+                                    <div id="loading">
+                                        <img src="~/Content/Images/ajax-loader.gif" style="width: 23px;" alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="compra-separator" />
+                }
+                <div id="compra_section"></div>
+            }
+            else
+            {
+                using (Ajax.BeginForm("ValidarPerfil", "Planes", new { }, new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessPerfil", OnFailure = "OnFailurePerfil", LoadingElementId = "loading", OnBegin = "onValidateBegin", OnComplete = "onValidateComplete" }, new { id = "perfil-form", role = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.Hidden("planId", modelo.Id)
+                    @Html.Hidden("culture", culture)
+                    @Html.Hidden("campania", campania)
+                    <div class="content_info_cuenta">
+                        <h2 class="titulo">
+                            <span>2.</span> @Resources.Resources.Compra_Titulo02
+                        </h2>
+                        <div id="perfil_section">
+                            @Html.Partial("Compra/Perfil_Section", new CompraPerfil())
+                            @Html.Partial("Compra/Compra_Factura")
+                            <div class="row">
+                                <div class="col-xs-12 form-group">
+                                    <button class="btn button-continuar">@Resources.Resources.Button_Continue</button>
+                                    <div id="loading">
+                                        <img src="~/Content/Images/ajax-loader.gif" alt="" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <hr class="compra-separator" />
+                }
+                <div id="compra_section" style="display: none"></div>
+            }
+        </div>
+        <div class="col-xs-12 col-sm-4 hidden-xs">
+            <div class="content_pedido">
+                <h2 class="titulo">&nbsp;</h2>
+                <div class="row fixme" style="width: 100%; margin-top: 30px">
+                    <div class="col-xs-12 col-sm-12 null-padding-h">
+                        <label class="titulo-pedido back-title-02">@Resources.Resources.Compra_Pedido_Titulo02</label>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 borders" style="vertical-align: middle">
+                        <div class="detalle">
+                            <p>
+                                <ul>
+                                    <li>@Html.Raw(detalleModelo.Paises)</li>
+                                    <li>@Html.Raw(detalleModelo.InfoComex)</li>
+                                    <li>@Html.Raw(detalleModelo.Modulos)</li>
+                                    <li>@Html.Raw(detalleModelo.Usuarios)</li>
+                                    <li>@Html.Raw(detalleModelo.IngresosDescargas)</li>
+                                    <li>@Html.Raw(detalleModelo.Paises)</li>
+                                    <li>@Html.Raw(detalleModelo.FavoritosGrupos)</li>
+                                    <li>@Html.Raw(detalleModelo.Plantillas)</li>
+                                </ul>
+                            </p>
+                            <p>
+                                @Html.ActionLink(Resources.Resources.ViewFeatures_Text, "", null, new { href = "#ModalPlanes", @class = "funciones_link", data_toggle = "modal" })
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@Html.Partial("Partials/Modal_Planes", PlanesPrecioDetalle.GetPlanDetalle(detalleModelo.Id))
+@Html.Partial("Partials/Modal_Terminos_Venta", PlanesPrecioDetalle.GetPlanDetalle(detalleModelo.Id))
+@Html.Partial("Partials/Modal_Error")
+
+@functions {
+    //  this method.
+    string toDecimalAutocompleta(string value)
+    {
+        string value_ = value;
+        string[] arrayValue = value.Split('.');
+        var nuevoValue = "";
+        if (arrayValue.Length > 1)
+        {
+            nuevoValue = arrayValue[1].Length > 1 ? value_ : value_ + "0";
+        }
+        else
+        {
+            nuevoValue = value_ + ".00";
+        }
+        return nuevoValue;
+    }
+}

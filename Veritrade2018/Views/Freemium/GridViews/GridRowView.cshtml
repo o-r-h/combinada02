@@ -1,0 +1,87 @@
+﻿@using Veritrade2018.Models.Admin
+@using Veritrade2018.Util;
+@using Veritrade2018.Helpers
+@{
+    var objTabData = (TabData)Model;
+
+    var idsSeleccionados = objTabData.IdsSeleccionados;
+
+    bool verificarCheckBox = (idsSeleccionados != null && idsSeleccionados.Count > 0);
+}
+
+@foreach (var item in objTabData.ListRows)
+{
+    <tr>
+        <td>
+            <p class="wspace-normal">
+                @if (item.IsVisibleSentinel)
+                {
+                    if (item.IsPlanPermiteSentinel)
+                    {
+                        <a data-idruc="@item.Ruc" class="lnkSentinel" title="SENTINEL, Alertas y Reportes de Deudas">
+                            <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" />
+                        </a>
+                    }
+                    else
+                    {
+                        <a title="SENTINEL, Alertas y Reportes de Deudas" onclick="TablaDeDatos.VerMensajePlanNoSentinel('@Resources.AdminResources.SentinelValidation_Text');">
+                            <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" />
+                        </a>
+                    }
+                    @*@Html.Raw("&nbsp;" + Funciones.TruncateText(objTabData.Filtro, item))*@
+                    @Html.Raw("&nbsp;" + string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                }
+                
+                else
+                {
+                    @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                }
+            </p>
+        </td>
+        <td class="columnUnderline column-text-right cell-vertical-align-middle">
+            @if (item.IsEnabledTotalReg)
+            {
+                <a class="lnkVerRegistros"
+                   title="@objTabData.GridHead.TitleColumnTotalReg"
+                   data-filtro="@objTabData.Filtro"
+                   data-idregistro="@item.Id">
+                    @item.TotalReg
+                </a>
+            }
+            else
+            {
+                @item.TotalReg
+            }
+
+        </td>
+        <td class="column-text-right cell-vertical-align-middle">
+            @item.CiFoFobTot
+        </td>
+        <td class="column-text-right cell-vertical-align-middle">
+            @item.CiFoFobPor
+        </td>
+        <td class="cell-vertical-align-middle">
+            @if (verificarCheckBox)
+            {
+                if (idsSeleccionados.Contains(item.Id.ToString()))
+                {
+
+                    <input type="checkbox" value="@item.Id" id="@("chk"+item.Id.ToString())" checked="checked"
+                           onclick="ValidarSeleccionCheck('@("chk"+item.Id.ToString())','@(Enums.TipoFiltro.Resumen+ objTabData.Filtro)')" />
+                }
+                else
+                {
+
+                    <input type="checkbox" value="@item.Id" id="@("chk"+item.Id.ToString())"
+                           onclick="ValidarSeleccionCheck('@("chk"+item.Id.ToString())','@(Enums.TipoFiltro.Resumen+ objTabData.Filtro)')" />
+                }
+            }
+            else
+            {
+
+                <input type="checkbox" value="@item.Id" id="@("chk"+item.Id.ToString())"
+                       onclick="ValidarSeleccionCheck('@("chk"+item.Id.ToString())','@(Enums.TipoFiltro.Resumen+ objTabData.Filtro)')" />
+            }
+        </td>
+    </tr>
+}

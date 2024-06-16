@@ -1,0 +1,147 @@
+﻿.container {
+    width: 95%;
+}
+
+.navbar-admin {
+    background-color: $color-header;
+}
+
+.navbar-menu {
+    background-color: $color-menu;
+
+    ul.pills {
+        display: block;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+
+        li.child-pill {
+            float: left;
+
+            a {
+                font-family: "ProximaNova-Regular";
+                text-decoration: none;
+                display: block;
+                padding: 12px 16px;
+                font-size: 14px;
+                font-weight: 600;
+                min-width: 130px;
+                text-align: center;
+            }
+
+            &.active > a {
+                background-color: $color-item-nav;
+                color: #ffffff;
+            }
+
+            & > a {
+                background-color: $color-menu;
+                color: #7b8191;
+            }
+        }
+    }
+
+    & > li {
+        position: relative;
+        display: block;
+    }
+}
+
+.navbar {
+    font-family: 'ProximaNova-Regular';
+    border-radius: 0;
+    margin-bottom: 0;
+
+    & .navbar-brand {
+
+        & > img {
+            width: 42px;
+            height: 26px;
+        }
+    }
+
+    ul .dropdown-menu {
+        background-color: lighten($color-header,10%);
+
+        li > a {
+            color: $color-white;
+
+            &:hover {
+                background-color: lighten($color-header,25%);
+            }
+        }
+    }
+
+    li {
+        label {
+            padding-top: 15px;
+            padding-bottom: 15px;
+            padding-left: 15px;
+            padding-right: 15px;
+            color: $color-white;
+
+            & > span {
+                font-style: italic;
+                color: $color-alternative;
+            }
+        }
+
+        ul {
+            display: none;
+            position: absolute;
+            top: 100%;
+        }
+
+        &:hover ul {
+            display: block;
+            width: 100%;
+        }
+
+        a {
+            span {
+                font-size: 16px;
+            }
+        }
+    }
+
+    .btn-buy-header {
+        cursor: pointer;
+        background-color: $color-button-seconday;
+        color: $color-white;
+        font-weight: 600;
+        border-radius: 0;
+        margin: 8px;
+    }
+
+    .btn-language {
+        background-color: $color-header;
+        color: $color-button-seconday;
+        cursor: pointer;
+        border: thin solid $color-button-seconday;
+        border-radius: 0;
+        margin: 8px;
+
+        &:hover {
+            color: $color-tropical;
+            border-color: $color-tropical;
+        }
+    }
+}
+
+@media only screen and ( max-width: 767px ) {
+    .navbar {
+
+        li {
+            text-align: center;
+
+            ul {
+                position: static;
+            }
+
+            & > ul > li {
+                width: 100%;
+                float: none;
+            }
+        }
+    }
+}

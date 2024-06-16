@@ -1,0 +1,42 @@
+﻿@using Veritrade2017.Models
+
+@{
+    var listaPais = (List<ListProductByPaises>)Model;
+}
+
+<div class="col-sm-2 col-xs-12">
+
+    @foreach (var i in listaPais)
+    {
+        var flag = "flag_" + @i.PaisAduana.ToLower() + ".png";
+        <div class="row null-margin-h">
+            <div class="col-xs-12">
+                
+                <div>
+                    <h4><img src="~/Content/Images/@flag" alt="" />@i.PaisAduana</h4>
+                    <p class="product-profile-info-description">
+                        <span>IMPORTACIONES:</span>
+                        <ul class="product-profile-list-description">
+                            <li style="display: inline">- US$: </li>
+                            <li style="display: inline">@i.Importaciones</li>
+                            <br />
+                            <li style="display: inline">- Importadores: </li>
+                            <li style="display: inline">@i.Importadores</li>
+                        </ul>
+                    </p>
+                    <p class="product-profile-info-description">
+                        <span>EXPORTACIONES:</span>
+                        <ul class="product-profile-list-description">
+                            <li style="display: inline">- US$: </li>
+                            <li style="display: inline">@i.Exportaciones</li>
+                            <br />
+                            <li style="display: inline">- Importadores: </li>
+                            <li style="display: inline">@i.Exportadores</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

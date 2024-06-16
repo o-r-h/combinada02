@@ -1,0 +1,120 @@
+﻿@using Veritrade2017.Helpers
+@using Veritrade2017.Models
+@using Veritrade2017.Models.Admin
+
+@{
+    ListProductByPaises objProductByPaises = (ListProductByPaises)Model;
+    var culture = CultureHelper.GetCurrentCulture();
+    var idiomaText = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+    ViewData["FlagPais"] = Session["FlagPais"];
+    string DescProducto = Session["DescProducto"].ToString();
+
+}
+<p class="info-description-title" style="text-align: center">
+    <span>@MinisiteResources.Block03_Text01.ToUpper()</span><br />
+    <span>@DescProducto</span>
+    <img src="/Content/Images/@ViewData["FlagPais"]" style="margin-left: 10px;">
+</p>
+@{
+    if (Session["Regimen"].ToString() == "Importaciones")
+    {
+        <div class="margin-info ui-info">
+            <div class="col-xs-12 col-sm-6  table-cell">
+                <p class="info-description">
+                    <span>@ProductProfileResources.Imports.ToUpper()</span>
+                    <ul class="lista-descripcion">
+                        <li style="display: inline">- US$:</li>
+                        <li id="valorImpor" style="display: inline"><strong>@string.Format(idiomaText, "{0:N0}", objProductByPaises.Importaciones)</strong></li>
+                        <br />
+                        <li style="display: inline">- @ProductProfileResources.Block02_Subtitle01:</li>
+                        @if (@objProductByPaises.Importadores != 0)
+                        {
+                            <li id="cantEmpImpor" style="display: inline"><strong>@objProductByPaises.Importadores</strong></li>
+                        }
+                        else
+                        {
+                            <li id="cantEmpImpor" style="display: inline"><strong>@ProductProfileResources.Not_Specified</strong></li>
+                        }
+                        <br />
+                        <li style="display: inline">- @ProductProfileResources.Records: </li>
+                        <li id="regImpor" style="display: inline"><strong>@string.Format(idiomaText, "{0:N0}", objProductByPaises.RegistrosI)</strong></li>
+                    </ul>
+                </p>
+            </div>
+            <div class="col-xs-12 col-sm-6 table-cell borde-info des-border">
+                <p class="info-description">
+                    <span>@ProductProfileResources.Exports.ToUpper()</span>
+                    <ul class="lista-descripcion">
+                        <li style="display: inline">- US$: </li>
+                        <li id="valorExpor" style="display: inline"><strong>@string.Format(idiomaText, "{0:N0}", objProductByPaises.Exportaciones)</strong></li>
+                        <br />
+                        <li style="display: inline">- @ProductProfileResources.Block02_Subtitle02:</li>
+                        @if (@objProductByPaises.Exportadores != 0)
+                        {
+                            <li id="cantEmpExpor" style="display: inline"><strong>@objProductByPaises.Exportadores</strong></li>
+                        }
+                        else
+                        {
+                            <li id="cantEmpExpor" style="display: inline"><strong>@ProductProfileResources.Not_Specified</strong></li>
+                        }
+                        <br />
+                        <li style="display: inline">- @ProductProfileResources.Records: </li>
+                        <li id="regImpor" style="display: inline"><strong>@string.Format(idiomaText, "{0:N0}", objProductByPaises.RegistrosE)</strong></li>
+                    </ul>
+                </p>
+            </div>
+            <div style="margin: 25px 0"></div>
+        </div>
+    }
+    else
+    {
+        <div class="margin-info ui-info">
+            <div class="col-xs-12 col-sm-6 table-cell">
+                <p class="info-description">
+                    <span>@ProductProfileResources.Exports.ToUpper()</span>
+                    <ul class="lista-descripcion">
+                        <li style="display: inline">- US$: </li>
+                        <li id="valorExpor" style="display: inline"><strong>@string.Format(idiomaText, "{0:N0}", objProductByPaises.Exportaciones)</strong></li>
+                        <br />
+                        <li style="display: inline">- @ProductProfileResources.Block02_Subtitle02:</li>
+                        @if (@objProductByPaises.Exportadores != 0)
+                        {
+                            <li id="cantEmpExpor" style="display: inline"><strong>@objProductByPaises.Exportadores</strong></li>
+                        }
+                        else
+                        {
+                            <li id="cantEmpExpor" style="display: inline"><strong>@ProductProfileResources.Not_Specified</strong></li>
+                        }
+                        <br />
+                        <li style="display: inline">- @ProductProfileResources.Records: </li>
+                        <li id="regImpor" style="display: inline"><strong>@string.Format(idiomaText, "{0:N0}", objProductByPaises.RegistrosE)</strong></li>
+                    </ul>
+                </p>
+            </div>
+            <div class="col-xs-12 col-sm-6  table-cell borde-info des-border">
+                <p class="info-description">
+                    <span>@ProductProfileResources.Imports.ToUpper()</span>
+                    <ul class="lista-descripcion">
+                        <li style="display: inline">- US$:</li>
+                        <li id="valorImpor" style="display: inline"><strong>@string.Format(idiomaText, "{0:N0}", objProductByPaises.Importaciones)</strong></li>
+                        <br />
+                        <li style="display: inline">- @ProductProfileResources.Block02_Subtitle01:</li>
+                        @if (@objProductByPaises.Importadores != 0)
+                        {
+                            <li id="cantEmpImpor" style="display: inline"><strong>@objProductByPaises.Importadores</strong></li>
+                        }
+                        else
+                        {
+                            <li id="cantEmpImpor" style="display: inline"><strong>@ProductProfileResources.Not_Specified</strong></li>
+                        }
+                        <br />
+                        <li style="display: inline">- @ProductProfileResources.Records: </li>
+                        <li id="regImpor" style="display: inline"><strong>@string.Format(idiomaText, "{0:N0}", objProductByPaises.RegistrosI)</strong></li>
+                    </ul>
+                </p>
+            </div>
+
+            <div style="margin: 25px 0"></div>
+        </div>
+    }
+}

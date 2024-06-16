@@ -1,0 +1,115 @@
+﻿
+
+/*Links de opciones dentro de columna de tabla*/
+@mixin linkDecoration {
+    text-decoration:underline;
+}
+
+.info-grupo-tabla p {
+    display: inline;
+    float: left;
+    width: 10%;
+}
+
+.lnkOperacionesColumnaTabla {
+    @include linkDecoration;
+}
+
+
+.lnkShowfavorites:active,
+.lnkShowfavorites:visited {
+    color: #337ab7;
+}
+
+.lnkEditGroup,
+.labelTitleEditGroup {
+    margin-left: 4px;    
+}
+
+.labelTitleEditGroup {
+    color: #555555;
+}
+
+.no-display{
+    display:none;
+}
+
+.tableMyFavorites{
+    /*overflow-x:inherit !important;*/
+    clear:both;
+    margin-right:25%;
+}
+.tableMyFavorites table{
+    margin-bottom:5px !important;
+}
+
+.center-vertical{
+    vertical-align:middle !important;
+}
+
+.operacionMisFavoritos{
+    margin-bottom:5px;
+}
+
+.div-informacion-a-editar {
+    clear: both;
+
+    & input {
+        width: 560px;
+    }
+
+    & a {
+        margin-left:5px;
+        text-decoration: underline;
+    }
+}
+
+.div-mis-favoritos{
+    margin-top:5px;
+}
+
+
+@media all and (max-width: 991px) {
+    .div-informacion-a-editar input {
+        width: 200px;
+    }
+}
+
+
+@media all and (max-width: 767px) {
+    .tableMyFavorites{
+        margin-right:5%;
+    }
+}
+
+
+@media all and (max-width:479px) {
+    .operaciones-mis-grupos {
+        display: block;
+        float: left;
+        margin-top: 5px;
+        margin-bottom: 8px;
+    }
+
+    .div-informacion-a-editar input {
+        width: 100%;
+    }
+
+    .info-grupo-tabla p{
+        width:100% !important;
+    }
+
+
+    .lnkOperacionesColumnaTabla,
+    .labelTitleEditGroup {
+        float: left;
+        margin-bottom: 8px;
+    }
+}
+
+
+@media all and (max-width:374px) {
+    .lnkEditGroup{
+        margin-left:4px;
+    }
+}

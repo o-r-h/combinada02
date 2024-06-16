@@ -1,0 +1,141 @@
+﻿.servicios_section {
+    font-family: ProximaNova-Regular;
+    margin: 20px auto;
+    position: relative;
+    width: 100%;
+}
+
+.servicios_section .title h2 {
+    color: #3e4d5c;
+    font-family: ProximaNova-Bold;
+    font-size: 24px;
+    line-height: 26px;
+    margin: 0 auto;
+    padding-bottom: 6px;
+    padding-top: 0;
+    text-decoration: none;
+}
+
+.servicios_section .servicios_content .servicio { padding: 30px; }
+
+.servicios_section .servicios_content .servicios_item {
+    background-color: #FFFFFF;
+    border: thin solid #bfbfbf;
+    padding: 20px;
+    position: relative;
+}
+
+.servicios_section .servicios_content .servicios_item > img {
+    height: auto;
+    position: relative;
+    width: 100%;
+}
+
+.servicios_section .servicios_content img.content { padding: 15px; }
+
+.servicios_section .servicios_content label.servicios_title {
+    color: #65A5E2;
+    font-family: ProximaNova-Bold;
+    font-size: 21px;
+    padding-bottom: 12px;
+    padding-top: 20px;
+    position: relative;
+    text-decoration: none;
+}
+
+.servicios_section .servicios_content label.servicios_title_content {
+    font-family: ProximaNova-Bold;
+    font-size: 30px;
+    color: #65A5E2;
+    text-decoration: none;
+    padding-bottom: 12px;
+    text-decoration: none;
+}
+
+.servicios_section .servicios_content p.servicios_contenido {
+    color: #878581;
+    font-family: ProximaNova-Regular;
+    font-size: 15px;
+    line-height: 22px;
+}
+
+.servicios_section .servicios_content li {
+    color: #878581;
+    font-family: ProximaNova-Regular;
+    font-size: 15px;
+    line-height: 22px;
+}
+
+.servicios_section .servicios_content p.servicios_description {
+    color: #A7A8AA;
+    font-family: ProximaNova-Regular;
+    font-size: 13px;
+    line-height: 18px;
+    min-height: 60px;
+    position: relative;
+    text-decoration: none;
+}
+
+.servicios_section .servicios_content .button-search {
+    background-color: #30a7e5;
+    border: thin solid #598497;
+    color: #FFFFFF;
+    display: inline-block;
+    font-family: ProximaNova-Light;
+    font-size: 14px;
+    letter-spacing: 0.2pt;
+    line-height: 20px;
+    padding: 6px 14px;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.bot_ayuda01 {
+    background-image: url(/Content/Images/bot_ayuda01_off.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+
+.bot_ayuda01.active, .bot_ayuda01:hover { background-image: url(/Content/Images/bot_ayuda01_sel.jpg); }
+
+.bot_ayuda02 {
+    background-image: url(/Content/Images/bot_ayuda02_off.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bot_ayuda02.active, .bot_ayuda02:hover { background-image: url(/Content/Images/bot_ayuda02_sel.jpg); }
+
+.bot_ayuda03 {
+    background-image: url(/Content/Images/bot_ayuda03_off.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bot_ayuda03.active, .bot_ayuda03:hover { background-image: url(/Content/Images/bot_ayuda03_sel.jpg); }
+
+.bot_ayuda04 {
+    background-image: url(/Content/Images/bot_ayuda04_off.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bot_ayuda04.active, .bot_ayuda04:hover { background-image: url(/Content/Images/bot_ayuda04_sel.jpg); }
+
+.bot_ayuda05 {
+    background-image: url(/Content/Images/bot_ayuda05_off.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bot_ayuda05.active, .bot_ayuda05:hover { background-image: url(/Content/Images/bot_ayuda05_sel.jpg); }
+
+.bot_ayuda06 {
+    background-image: url(/Content/Images/bot_ayuda06_off.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.bot_ayuda06.active, .bot_ayuda06:hover { background-image: url(/Content/Images/bot_ayuda06_sel.jpg); }

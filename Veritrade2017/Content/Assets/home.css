@@ -1,0 +1,342 @@
+﻿.home_link, .home_link:focus {
+    border: thin solid #5cb3e8;
+    color: #5cb3e8;
+    display: inline-block;
+    font-family: ProximaNova-Bold;
+    font-size: 15px;
+    line-height: 32px;
+    padding: 0 10px;
+    position: relative;
+    text-decoration: none;
+    text-transform: uppercase;
+}
+
+    .home_link:hover {
+        background: #E8E8E6;
+        color: #2980b9;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+.btn-search {
+    height: 40px;
+    width: 100%;
+    background-color: #7dd614;
+    font-family: 'ProximaNova-Regular';
+    font-size: 14px;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+    line-height: 24px;
+    border: none;
+    text-transform: uppercase;
+}
+
+    .btn-search:hover {
+        height: 40px;
+        width: 100%;
+        background-color: #69B011;
+        font-family: 'ProximaNova-Regular';
+        font-size: 14px;
+        font-weight: 600;
+        color: #ffffff;
+        text-align: center;
+        line-height: 24px;
+        border: none;
+        text-transform: uppercase;
+    }
+
+    .btn-search[disabled] {
+        height: 40px;
+        width: 100%;
+        background-color: #6ba1c7;
+        font-family: 'ProximaNova-Regular';
+        font-size: 14px;
+        font-weight: 600;
+        color: #ffffff;
+        text-align: center;
+        line-height: 24px;
+        border: none;
+        text-transform: uppercase;
+    }
+    
+.content-tabs-search {
+    position: relative;
+    display: inline-block;
+    width: 100%;
+}
+
+.nav > li > a {
+    padding: 10px 11px;
+}
+
+.nav-tabs > li > a.tabs {
+    font-family: 'ProximaNova-Regular';
+    font-size: 14px;
+    font-weight: 600;
+    color: #adb4c7;
+    text-align: center;
+    line-height: 24px;
+}
+
+.nav-tabs > li.active > a.tabs {
+    font-family: 'ProximaNova-Regular';
+    font-size: 14px;
+    font-weight: 600;
+    color: #2d3b61;
+    text-align: center;
+    line-height: 24px;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:hover,
+.nav-tabs > li.active > a:focus {
+    border: none;
+    border-bottom: 3px solid #54ace6;
+}
+
+.border-search {
+    border: 1px solid #e2eff5;
+}
+
+.form-control-search {
+    border: 1px solid #e7e7e7;
+    height: 40px;
+}
+
+    .form-control-search.input-validation-error {
+        border: 1px solid red;
+    }
+
+.banner {
+    -ms-background-position: center center;
+    -ms-background-repeat: no-repeat;
+    -ms-background-size: cover;
+    background-image: url(/Content/Images/fondo_banner.jpg);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    margin-bottom: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.banner_section {
+    font-family: ProximaNova-Regular;
+    position: relative;
+}
+
+    .banner_section .banner_content {
+        padding: 25px 20px;
+        position: relative;
+    }
+
+        .banner_section .banner_content h1 {
+            color: #404d5b;
+            font-family: ProximaNova-Regular;
+            font-size: 40px;
+            line-height: 36px;
+            margin-bottom: 0;
+            padding-bottom: 0;
+            padding-top: 20px;
+            text-decoration: none;
+        }
+
+        .banner_section .banner_content .video_banner {
+            border: 10px solid white;
+            display: block;
+            height: 200px;
+            width: 342px;
+        }
+
+    .banner_section .underline-image {
+        background-color: #65A5E2;
+        height: 5px;
+        width: 175px;
+    }
+
+    .banner_section p {
+        margin: 18px auto;
+    }
+
+    .banner_section .banner_link .banner_link2 {
+        background-color: #7bd512;
+        color: #FFFFFF;
+        font-family: ProximaNova-Bold;
+        font-size: 13px;
+        line-height: 20px;
+        padding: 12px 10px;
+        text-transform: uppercase;
+    }
+
+    .banner_section .banner_link:hover, .banner_section .banner_link:active {
+        background-color: #69B011;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .banner_link {
+        background-color: #7bd512;
+        color: #000000;
+        font-family: ProximaNova-Bold;
+        font-size: 13px;
+        line-height: 20px;
+        padding: 12px 10px;
+        text-transform: uppercase;
+    }
+
+    .banner_link2 {
+        background-color: #F5C224;
+        color: #000000;
+        font-family: ProximaNova-Bold;
+        font-size: 13px;
+        line-height: 20px;
+        padding: 12px 10px;
+        text-transform: uppercase;
+    }
+
+    .banner_link2:hover, .banner_link2:active {
+        background-color: #C19920;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .home_content {
+        background-color: #E2EFF6;
+        height: auto;
+        padding-bottom: 40px;
+        padding-top: 40px;
+        position: relative;
+        width: 100%;
+    }
+
+    .home_content h2 {
+        color: #3e4d5c;
+        font-family: ProximaNova-Bold;
+        font-size: 24px;
+        line-height: 26px;
+        margin: 0;
+        padding-bottom: 12px;
+        padding-top: 20px;
+        text-decoration: none;
+    }
+
+    .home_content hr {
+        margin: 10px auto;
+    }
+
+    .home_content .home_content_right, .home_content .home_content_left {
+        background-color: #FFFFFF;
+        padding: 10px 0;
+        text-align: center;
+    }
+
+    .home_content .blog_item {
+        background-color: #FFFFFF;
+        padding: 0 24px;
+    }
+
+        .home_content .blog_item img {
+            height: auto;
+            padding: 10px 0;
+            width: 100%;
+        }
+
+        .home_content .blog_item .blog_title {
+            color: #65A5E2;
+            display: inline-block;
+            font-family: ProximaNova-Regular;
+            font-size: 16px;
+            line-height: 16px;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            text-decoration: none;
+            max-width: 100%;
+            word-wrap: break-word;
+        }
+
+        .home_content .blog_item .blog_description {
+            color: #A7A8AA;
+            font-family: ProximaNova-Regular;
+            font-size: 14px;
+            line-height: 16px;
+            margin-top: 10px;
+            min-height: 92px;
+            text-align: center;
+            text-decoration: none;
+        }
+
+    .home_content .list_data_content {
+        background-color: #3A64A0;
+        padding: 15px 50px;
+    }
+
+        .home_content .list_data_content hr {
+            border-top: thin solid #eee;
+        }
+
+        .home_content .list_data_content .home_list_data {
+            color: #FFFFFF;
+            cursor: pointer;
+            display: block;
+            font-family: ProximaNova-Regular;
+            font-size: 15px;
+            line-height: 40px;
+            text-align: left;
+            text-decoration: none;
+        }
+
+            .home_content .list_data_content .home_list_data img {
+                margin-right: 8px;
+            }
+
+        .home_content .list_data_content .list_data_item:hover {
+            background-color: #2F5082;
+        }
+
+    .home_content .owl-carousel {
+        margin: 18px auto;
+    }
+
+.owl-carousel .item-video {
+    height: 250px;
+}
+.contact_landing_image {
+    background-position: 37% 50%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    max-height: 300px;
+    min-height: 300px;
+    width: 100%;
+    margin-bottom: 10px;
+    margin-top: 50px;
+}
+
+.contact_landing_title {
+    color: #65A5E2;
+    font-family: ProximaNova-Bold;
+    font-size: 30px;
+    padding-bottom: 12px;
+    text-decoration: none;
+    text-align: center;
+    margin-top: 0px;
+}
+
+.contact_landing_subtitle {
+    color: #878581;
+    font-family: ProximaNova-Regular;
+    font-size: 15px;
+    line-height: 21px;
+    text-align: center;
+}
+
+.contact_landing_subtitle2 {
+    color: #54ace6;
+    font-family: 'ProximaNova-Regular';
+    font-size: 20px;
+    line-height: 24px;
+    text-align: left;
+}
+
+.contact_landing_subtitle2_box {
+}

@@ -1,0 +1,17 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    OptionFavoriteTable optionFavoriteTable = (OptionFavoriteTable) Model;
+}
+<div class="col-xs-12 col-sm-12 text-center hidden-xs">
+
+    @Html.ActionLink(optionFavoriteTable.AddFavoriteBtnLabel, "Index", "MisBusquedas", new{}, new { @class = "btn boton-opcion margin-height-sm" })
+    
+    <button class="btn boton-opcion margin-height-sm btnAddToGroup">
+        @optionFavoriteTable.AddToGroupBtnLabel
+    </button>
+    <button class="btn boton-delete margin-height-sm btnDeleteSelection">
+        @optionFavoriteTable.DeleteFavoriteBtnLabel
+    </button>
+
+    @Html.ActionLink(optionFavoriteTable.BackBtnLabel,"Index","MisFavoritos", new { }, new {@class= "btn boton-volver margin-height-sm" })
+</div>

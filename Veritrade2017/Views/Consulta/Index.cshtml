@@ -1,0 +1,3768 @@
+﻿@using Veritrade2017.Models
+@using Veritrade2017.Helpers
+@using System.Globalization
+@{
+
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var idiomaMoneda = culture.Equals("es") ? CultureInfo.CreateSpecificCulture("es-pe") : CultureInfo.CreateSpecificCulture("en-us");
+    var uri = HttpContext.Current.Request.Url.AbsolutePath;
+    var seoConf = ConfiguracionesSeo.GetConfig(culture, uri);
+
+    ViewBag.Title = culture == "es" ?  "Consulta Gratis": "Free Search";
+    ViewBag.Description = seoConf.Description;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+
+    var tipoOpe = !string.IsNullOrEmpty(ViewData["TipoOpe"].ToString()) ? ViewData["TipoOpe"].ToString() : "I";
+
+    var paisSeleccionado = ViewData["codigoPais"].ToString();
+
+    var modelo = (Consulta)Model;
+
+    var modelConsultaForm = (ConsultaForm)ViewData["consultaForm"];
+}
+
+@section Styles{
+    <link href="~/Content/themes/base/jquery-ui.min.css" rel="stylesheet" />
+    <link href="~/Content/themes/base/tabs.css" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/Components/ui-autocomplete.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Scripts/Plugins/DataTables/css/datatables.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Scripts/Plugins/BootstrapDatepicker/css/bootstrap-datepicker.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Assets/loading.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Assets/consulta.css")" rel="stylesheet" type="text/css" />
+}
+
+@functions
+{
+    public bool CheckedResult(string value, string check)
+    {
+        return value == check;
+    }
+}
+
+<div id="loadingPageDemo" class="loader is-active-loading">
+    <div class="objectLoading"></div>
+</div>
+
+
+<div class="container">
+    <div class="consulta_section">
+        <div class="consulta_content">
+            @Html.Partial("Consulta/AjaxFormConsulta", modelConsultaForm)
+            <div class="row">
+                <div class="col-md-12">
+                    <div id="divRegisterNotFound">
+
+                    </div>
+                    <div id="divRegisterFound" class="hideRegisterFound">
+                        @Resources.RecordsFound_Text_Part1
+                        <label id="totalRegisterFound" class="">
+                        </label>
+                        @Resources.RecordsFound_Text_Part2
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div id="content_tabs" class="col-md-12">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@Html.Partial("Modals/Modal_Informacion_Filtros")
+@Html.Partial("Modals/Modal_Solicita_PruebaGratis")
+
+@section Scripts{
+    <script src="~/Scripts/jquery-ui-1.12.1.js"></script>
+    <script src="@Url.Content("~/Scripts/Plugins/DataTables/js/datatables.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Plugins/DataTablesCheckBoxes/js/datatables.checkboxes.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Plugins/Highcharts/highcharts.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Plugins/BootstrapDatepicker/js/bootstrap-datepicker.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Plugins/BootstrapDatepicker/locales/bootstrap-datepicker.es.min.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/moment.min.js")"></script>
+
+    <script type="text/javascript">
+        function scrollToHere() {
+            $('html,body').animate({
+                scrollTop: $("#filtros").offset().top
+            }, 800);
+        }
+        $(document).ready(function () {
+            $("input:radio[name=rdbtnTipoOpe]").change(function () {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("rdbtnTipoOpeChange", "Consulta")',
+                    data: {
+                        selectedTipoOpe: $('input:radio[name=rdbtnTipoOpe]:checked').val(),
+                        codPais: $("#cboPais").find("option:selected").val(),
+                        idiomaCulture : '@idiomaMoneda'
+                    },
+                    beforeSend: function () {
+                        LoadingDemoPage.showOrHideLoadingPage(true);
+                    },
+                    success: function (response) {
+                        $("#container_form").html(response.htmlFormSection);
+
+                        $("select[name='cboPais']").html("");
+                        $.each(response.listCountries,
+                            function (index, val) {
+                                $("select[name='cboPais']").append("<option value=" + val.Value + ">" + val.Text + "</option>");
+                            });
+
+                        $("select[name='cboPais']").val(response.selectedIndex);
+
+                        Filtros.initAutocomplete();
+                        $("#filtros").empty();
+                        Filtros.clearClientControls();
+                        Filtros.loadDataFechas(response.filtroRangoFechas);
+                    }
+                });
+            });
+            //Cargar Combos
+            loadDataComboBox = function (optionList, idComboBox) {
+                $("select#" + idComboBox).html("");
+                $.each(optionList,
+                    function (index, val) {
+                        $("select#" + idComboBox).append("<option value=" + val.Value + ">" + val.Text + "</option>");
+                    });
+            }
+
+            $("#cboPais2").change(function () {
+                var selectedCountry = $("#cboPais2").find("option:selected").val();
+                if (selectedCountry == "PEB") {
+                    $("input[id^=rdbExp]:radio").attr('disabled', true);
+                } else {
+                    $("input[id^=rdbExp]:radio").attr('disabled', false);
+                }
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("cboPais2SelectedIndexChanged", "Consulta")',
+                    data: {
+                        tipoOpe: $('input:radio[name=rdbtnTipoOpe]:checked').val(),
+                        codPais2: selectedCountry,
+                        idiomaCulture: '@idiomaMoneda'
+                    },
+                    beforeSend: function () {
+                        LoadingDemoPage.showOrHideLoadingPage(true);
+                    },
+                    success: function (response) {
+                        loadDataComboBox(response.listaPaises, "cboPais");
+                        $("#container_form").html(response.htmlFormSection);
+                        if (response.codPaisSeleccionar == "0") {
+                            $("#cboPais").prop('selectedIndex', 0);
+                        } else {
+                            $("#cboPais2").val(response.codPais2Seleccionar);
+                            $("#cboPais").val(response.codPaisSeleccionar);
+                        }
+                        //Filtros.initAutocomplete();
+                        //$("#filtros").empty();
+                        //Filtros.clearClientControls();
+                        Filtros.loadDataFechas(response.filtroRangoFechas);
+                    }
+                });
+            });
+
+            $("#cboPais").change(function () {
+                var selectedCountry = $("#cboPais").find("option:selected").val();
+                if (selectedCountry == "PEB") {
+                    $("input[id^=rdbExp]:radio").attr('disabled', true);
+                } else {
+                    $("input[id^=rdbExp]:radio").attr('disabled', false);
+                }
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("cboPaisSelectedIndexChanged", "Consulta")',
+                    data: {
+                        tipoOpe: $('input:radio[name=rdbtnTipoOpe]:checked').val(),
+                        codPais: selectedCountry,
+                        idiomaCulture: '@idiomaMoneda'
+                    },
+                    beforeSend: function () {
+                        LoadingDemoPage.showOrHideLoadingPage(true);
+                    },
+                    success: function (response) {
+                        $("#container_form").html(response.htmlFormSection);
+                        Filtros.initAutocomplete();
+                        $("#filtros").empty();
+                        Filtros.clearClientControls();
+                        Filtros.loadDataFechas(response.filtroRangoFechas);
+                    }
+                });
+            });
+            //Pais Origen
+            $(document).on("change", "select#cboPaisB", function (event, ui) {
+                changeCboPaisB('@Url.Action("CboPaisBChange", "Consulta")');
+            });
+            //
+            $(document).on("click", "#btnAddFiltro", function () {
+                if ($("#txtDesComercialB").val().trim() !== "") {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("AgregarDesComercial", "Consulta")',
+                        data: {
+                            filtro: $("#txtDesComercialB").val(),
+                            CodPais: $("#cboPais").find("option:selected").val()
+                        },
+                        beforeSend: function () {
+                            LoadingDemoPage.showOrHideLoadingFiltersForm(true);
+                        },
+                        success: function (data) {
+                            if (data.response) {
+                                if ($("#lstFiltros option").length <= 0) {
+
+                                    $("#filtros").load('@Url.Action("FiltersContent", "Consulta")', function () {
+                                        $.each(data.listaPalabras,
+                                            function (index, val) {
+                                                $("select[name='lstFiltros']").append("<option value=" + val.value + ">" + val.text + "</option>");
+                                            });
+                                        Filtros.adjustSizeHeightFilters();
+                                        LoadingDemoPage.showOrHideLoadingFiltersForm(false);
+                                    });
+
+                                } else {
+                                    $.each(data.listaPalabras,
+                                        function (index, val) {
+                                            $("select[name='lstFiltros']").append("<option value=" + val.value + ">" + val.text + "</option>");
+                                        });
+
+                                    Filtros.adjustSizeHeightFilters();
+                                    LoadingDemoPage.showOrHideLoadingFiltersForm(false);
+                                }
+                                $("#txtDesComercialB").val("");
+
+                            } else {
+                                console.info(data.mensaje);
+                                LoadingDemoPage.showOrHideLoadingFiltersForm(false);
+                                $("#filtros").empty();
+                            }
+                        },
+                        error: function (error) {
+                        }
+                    });
+                }
+            });
+
+            $(document).on("click", "#btnDeleteFiltros",
+                function () {
+                    if ($("#lstFiltros option:selected").length > 0) {
+
+                        $.ajax({
+                            type: "POST",
+                            traditional: true,
+                            url: '@Url.Action("DeleteFilters", "Consulta")',
+                            data: {
+                                valueOptionsSelected: $("#lstFiltros").val()
+                            },
+                            beforeSend: function () {
+                                LoadingDemoPage.showOrHideLoadingPage(true);
+                            },
+                            success: function (response) {
+                                var numFiltrosEliminar = $("#lstFiltros > option:selected").length;
+                                var numOptionPrevioEliminar = $("#lstFiltros option").length;
+
+                                if ((numOptionPrevioEliminar - numFiltrosEliminar) <= 0) {
+                                    $("#divRegisterNotFound").html("");
+                                    Filtros.disabledTextBoxFilters(false);
+                                    Filtros.restablecerControles();
+                                } else {
+                                    if ($("#totalRegisterFound").text() > 0) {
+                                        ConsultaController.searchDataByFilters('@Url.Action("SearchByFilterPostFilterUpdate", "Consulta")');
+                                        $("#lstFiltros > option:selected").each(function () {
+                                            $(this).remove();
+                                        });
+                                        Filtros.adjustSizeHeightFilters();
+                                    } else {
+                                        $("#lstFiltros > option:selected").each(function () {
+                                            $(this).remove();
+                                        });
+                                        Filtros.adjustSizeHeightFilters();
+                                        LoadingDemoPage.showOrHideLoadingPage(false);
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        ModalInformacionFiltro.show("@Resources.Filters_Message_Modal");
+                    }
+                });
+
+            // -- Clean fields
+            $(document).on("click",
+                        "#txtDesComercialB, #txtPartida, #txtImportadorB, #txtProveedorB, #txtExportadorB, #txtImportadorExpB ",
+                function () {
+                    var inputFocus = $(this).attr("name");
+
+                    if (inputFocus !== "txtDesComercialB" && $("#txtDesComercialB").length) {
+                        $("#txtDesComercialB").val("");
+                    }
+
+                    if (inputFocus !== "txtPartida" && $("#txtPartida").length) {
+                        $("#txtPartida").val("");
+                    }
+
+                    if (inputFocus !== "txtImportadorB" && $("#txtImportadorB").length) {
+                        $("#txtImportadorB").val("");
+                    }
+
+                    if (inputFocus !== "txtProveedorB" && $("#txtProveedorB").length) {
+                        $("#txtProveedorB").val("");
+                    }
+
+                    if (inputFocus !== "txtExportadorB" && $("#txtExportadorB").length) {
+                        $("#txtExportadorB").val("");
+                    }
+
+                    if (inputFocus !== "txtImportadorExpB" && $("#txtImportadorExpB").length) {
+                        $("#txtImportadorExpB").val("");
+                    }
+            });
+
+            $(document).on("blur",
+                "#txtPartida, #txtImportadorB, #txtProveedorB, #txtExportadorB, #txtImportadorExpB",
+                function () {
+                $(this).val("");
+            });
+
+
+            Filtros.initAutocomplete();
+            Filtros.loadFecha($('input:radio[name=rdbtnTipoOpe]:checked').val(), $("#cboPais").find("option:selected").val());
+           
+
+            $(document).on('click', '#btnSearch', function () {
+                if ($("#lstFiltros option").length <= 0) {
+                    $("#ModalInformacionFiltros h4.modal-title").text("@Html.Raw(Resources.Search_Title_Modal)");
+                    ModalInformacionFiltro.show("@Html.Raw(Resources.Search_Message_Modal)");
+                } else {
+                    Filtros.disabledTextBoxFilters(true);
+                    ConsultaController.searchDataByFilters('@Url.Action("Buscar", "Consulta")');
+                }
+            });
+
+            $(document).on('click', "#btnReset", function () {
+                $("#divRegisterNotFound").html("");
+                Filtros.disabledTextBoxFilters(false);
+                Filtros.restablecerControles();
+            });
+
+        });
+
+        // Objects
+        // ======================
+        function DemoPage() {
+        }
+        DemoPage.hideTable = function (classColumn) {
+            $("." + classColumn).css("visibility", "hidden");
+        }
+        DemoPage.hideTab = function (idLiTab) {
+            $("#" + idLiTab).css("display", "none");
+        }
+        DemoPage.bindClickEventForTabDetalle = function () {
+            $(".tabsViewDemo").on('click', "#tabDetalleExcel", function () {
+                var vIdiomaCulture = '@idiomaMoneda';
+                if (vIdiomaCulture == "es-pe" || vIdiomaCulture == "es-PE" ) {
+                    var tableDetalleTipoImporter = new TablaDetalleTipoImporter();
+                    tableDetalleTipoImporter.getDataTablaDetalleExcel("");
+                } else {
+                    $("#tab-DetalleExcel").html("");
+                    TableDemoPage.prototype.showModalRequestFreeTrial();
+                }
+            });
+        }
+
+
+        function LoadingDemoPage() {
+        }
+
+        LoadingDemoPage.showOrHideLoadingPage = function (pEstado) {
+            if (pEstado) {
+                $("#loadingPageDemo").addClass("is-active-loading");
+            } else {
+                $("#loadingPageDemo").removeClass("is-active-loading");
+            }
+        }
+
+        LoadingDemoPage.showOrHideLoadingTab = function (pEstado) {
+            if (pEstado) {
+                $("#loadingPageDemo").addClass("is-active-loading");
+                //$(".preloaderTabs").css("display", "");
+            } else {
+                //$(".preloaderTabs").css("display", "none");
+                $("#loadingPageDemo").removeClass("is-active-loading");
+            }
+        }
+        LoadingDemoPage.showOrHideLoadingFiltersForm = function (estado) {
+            if (estado) {
+                //$(".preloaderFilters").css("display", "");
+                $("#loadingPageDemo").addClass("is-active-loading");
+            } else {
+                //$(".preloaderFilters").css("display", "none");
+                $("#loadingPageDemo").removeClass("is-active-loading");
+            }
+        }
+
+
+        function ConsultaController() {
+        }
+
+        ConsultaController.searchDataByFilters = function (urlPost) {
+            LoadingDemoPage.showOrHideLoadingPage(true);
+            var vTipoOpe = $('input:radio[name=rdbtnTipoOpe]:checked').val();
+            var vCodPais = $("#cboPais").find("option:selected").val();
+            $.ajax({
+                type: "POST",
+                url: urlPost,
+                data: {
+                    fechaDesde: Fecha.getYearAndMonth($('#cboDesde').datepicker('getDate')),
+                    fechasHasta: Fecha.getYearAndMonth($('#cboHasta').datepicker('getDate')),
+                    TipoOpe: vTipoOpe,
+                    CodPais: vCodPais,
+                    indexCboPaisB: $("#cboPaisB").prop('selectedIndex'),
+                    codPaisB: $("#cboPaisB").find("option:selected").val(),
+                    idioma: '@culture'
+                },
+                success: function (data) {
+                    if (data.error) {
+                        $("#divRegisterNotFound").html(data.mensaje);
+                        $("#content_tabs").html("");
+                        $("#divRegisterFound").removeClass("showRegisterFound");
+                        $("#divRegisterFound").addClass("hideRegisterFound");
+
+                        LoadingDemoPage.showOrHideLoadingPage(false);
+                    } else {
+                        $("#content_tabs").load('@Url.Action("GetTabsView", "Consulta")', { TipoOpe: vTipoOpe, CodPais: vCodPais },
+                            function () {
+
+                                $("#tabsPageDemo").tabs();
+
+                                $("#divRegisterFound").removeClass("hideRegisterFound");
+                                $("#divRegisterFound").addClass("showRegisterFound");
+                                $("#totalRegisterFound").html(data.footerGridData.RegisterCount);
+                                console.log(data.gridData)
+                                $.each(data.gridData, function (i, item) {
+                                    console.log(item)
+                                    switch (item.tabDataName) {
+                                        case "partidas":
+                                            if (item.tabDataNumRows > 0) {
+                                                var tablePartidasTabResumen = new TablaPartidas();
+
+                                                tablePartidasTabResumen.loadDataTabla(item.tabDataList, data.footerGridData);
+                                                tablePartidasTabResumen.loadDataFilterSelectField('cboPartidas', item.tabDataList, 'IdPartida', 'Partida');
+                                                tablePartidasTabResumen.bindClickTagColumnSeeRecords("table-tabResumenProductos");
+
+                                                var tableProductosTab = new TablaTabProductos();
+                                                tableProductosTab.loadDataTabla(item.tabDataList, data.footerGridData)
+                                                tableProductosTab.loadDataFilterSelectField('cboProductos', item.tabDataList, 'IdPartida', 'Partida');
+                                                tableProductosTab.bindClickTagColumnSeeRecords("table-tabProductos");
+
+                                                tableProductosTab.loadDataPieChartTabs('pieChartProducts', '@Resources.Demo_Products_Tab', item.tabDataPie);
+                                            } else {
+                                                DemoPage.hideTable("columntabResumenProductos");
+                                                DemoPage.hideTab("liTabPartidas");
+                                            }
+                                            
+                                            break;
+                                        case "importadores":
+                                            if (item.tabDataNumRows > 0) {
+                                                var tableImportadorTabResumen = new TablaImportadores();
+                                                tableImportadorTabResumen.loadDataTabla(item.tabDataList, data.footerGridData);
+                                                tableImportadorTabResumen.loadDataFilterSelectField('cboImportadoresImportOrExport', item.tabDataList, 'IdImportador', 'Importador');
+                                                tableImportadorTabResumen.bindClickTagColumnSeeRecords("table-tabResumenImportadores");
+                                                tableImportadorTabResumen.bindClickTagColumnWithClass("table-tabResumenImportadores", "columnImporterTag");
+
+                                                var tableTabImporters = new TablaTabImportadores();
+                                                tableTabImporters.loadDataTabla(item.tabDataList, data.footerGridData);
+                                                tableTabImporters.loadDataFilterSelectField('cboTabImportadoresImportOrExport', item.tabDataList, "IdImportador", "Importador");
+                                                tableTabImporters.bindClickTagColumnSeeRecords("table-tabImportadores");
+                                                tableTabImporters.bindClickTagColumnWithClass("table-tabImportadores", "columnImporterTag");
+
+                                                tableTabImporters.loadDataPieChartTabs('pieChartImporters', '@Resources.Demo_Importers_Tab', item.tabDataPie);
+                                            } else {
+                                                DemoPage.hideTable("columntabResumenImportadores");
+                                                DemoPage.hideTab("liTabImportadores");
+                                            }
+                                            break;
+                                        case "proveedores":
+                                            if (item.tabDataNumRows > 0) {
+                                                var tableProveedorTabResumen = new TablaProveedores();
+                                                tableProveedorTabResumen.loadDataTabla(item.tabDataList, data.footerGridData);
+                                                tableProveedorTabResumen.loadDataFilterSelectField('cboExportadoresImportOrExport', item.tabDataList, 'IdProveedor', 'Proveedor');
+                                                tableProveedorTabResumen.bindClickTagColumnSeeRecords("table-tabResumenExportadores");
+
+                                                var tableTabExporters = new TablaTabExporters();
+                                                tableTabExporters.loadDataTabla(item.tabDataList, data.footerGridData);
+                                                tableTabExporters.loadDataFilterSelectField('cboTabExportadoresImportOrExport', item.tabDataList, "IdProveedor", "Proveedor");
+                                                tableTabExporters.bindClickTagColumnSeeRecords("table-tabExportadores");
+
+                                                var vTitleChart = "";
+                                                if (vCodPais != "CL") {
+                                                    vTitleChart = '@Resources.Demo_Exporters_Tab';
+                                                } else {
+                                                    vTitleChart = '@Resources.Demo_Brands_Tab';
+                                                }
+
+                                                tableTabExporters.loadDataPieChartTabs('pieChartExporters', vTitleChart, item.tabDataPie);
+                                            } else {
+                                                DemoPage.hideTable("columntabResumenExportadores");
+                                                DemoPage.hideTab("liTabExportadores");
+                                            }
+                                            break;
+                                        case "paisesOrigen":
+                                            if (item.tabDataNumRows > 0) {
+
+                                                var tablePaisesOrigenTabResumen = new TablaPaisesOrigen();
+                                                tablePaisesOrigenTabResumen.loadDataTabla(item.tabDataList, data.footerGridData);
+                                                tablePaisesOrigenTabResumen.loadDataFilterSelectField('cboPaisesOrigenOrDestino', item.tabDataList, 'IdPaisOrigen', 'PaisOrigen');
+                                                tablePaisesOrigenTabResumen.bindClickTagColumnSeeRecords("table-tabResumenPaisesOrigen");
+
+                                                var tableTabPaisesOrigen = new TablaTabPaisesOrigen();
+
+                                                tableTabPaisesOrigen.loadDataTabla(item.tabDataList, data.footerGridData);
+                                                tableTabPaisesOrigen.loadDataFilterSelectField("cboTabPaisesOrigenOrDestino", item.tabDataList, "IdPaisOrigen", "PaisOrigen");
+                                                tableTabPaisesOrigen.bindClickTagColumnSeeRecords('table-tabPaisesOrigen');
+
+                                                tableTabPaisesOrigen.loadDataPieChartTabs('pieChartOriginCountries',  '@Html.Raw(Resources.Demo_OriginCountries_Tab)', item.tabDataPie);
+                                            } else {
+                                                DemoPage.hideTable("columntabResumenPaisesOrigenOrDestino");
+                                                DemoPage.hideTab("liTabPaises");
+                                            }
+                                            break;
+                                        case "viasTransporte":
+                                            if (item.tabDataNumRows > 0) {
+                                                var tableViasTransporteTabResumen = new TablaViasTransporte();
+                                                tableViasTransporteTabResumen.loadDataTabla(item.tabDataList, data.footerGridData);
+                                                tableViasTransporteTabResumen.loadDataFilterSelectField('cboViasTranspImportOrExport', item.tabDataList, 'IdViaTransp', 'ViaTransp');
+                                                tableViasTransporteTabResumen.bindClickTagColumnSeeRecords("table-tabResumenViasTransp");
+
+                                                var tableTabViasTransporte = new TablaTabViasTransporte();
+                                                tableTabViasTransporte.loadDataTabla(item.tabDataList, data.footerGridData);
+                                                tableTabViasTransporte.loadDataFilterSelectField("cboTabViasTransp", item.tabDataList, "IdViaTransp", "ViaTransp");
+                                                tableTabViasTransporte.bindClickTagColumnSeeRecords('table-tabViasTransp');
+
+                                                tableTabViasTransporte.loadDataPieChartTabs('pieChartVias', '@Html.Raw(Resources.Demo_Vias_Tab)', item.tabDataPie);
+                                            } else {
+                                                DemoPage.hideTable("columntabResumenViasTransp");
+                                                DemoPage.hideTab("liTabViasTransporte");
+                                            }
+                                            break;
+                                        case "AduanaDUAs":
+                                            if (item.tabDataNumRows > 0) {
+                                                var tableTabAduanaDUAs = new TablaTabAduanaDUAs();
+                                                tableTabAduanaDUAs.loadDataTabla(item.tabDataList, data.footerGridData, item.tabDataExisteDUA);
+                                                tableTabAduanaDUAs.loadDataFilterSelectField("cbotabAduanaDUAs", item.tabDataCbo, "IdAduana", "Aduana");
+                                                tableTabAduanaDUAs.bindClickTagColumnSeeRecords('table-tabAduanaDUAs');
+
+                                                var vTitlePieChart = "";
+                                                if (vCodPais != "BR" && vCodPais != "CO" && vCodPais != "MX" && vCodPais != "UY") {
+                                                    vTitlePieChart = '@Resources.Demo_CustomsDuas_Tab';
+                                                } else {
+                                                    vTitlePieChart = '@Resources.Demo_Aduanas_Tab';
+                                                }
+
+                                                tableTabAduanaDUAs.loadDataPieChartTabs('pieChartAduanaDUAs', vTitlePieChart , item.tabDataPie);
+                                            } else {
+                                                DemoPage.hideTab("liTabAduanaDUAs");
+                                            }
+                                            break;
+                                        case "exportadores":
+                                            if (item.tabDataNumRows > 0) {
+                                                var tableResumExportadoresExp = new TablaResumExportadoresExp();
+                                                tableResumExportadoresExp.loadDataTabla(item.tabDataList, data.footerGridData);
+                                                tableResumExportadoresExp.loadDataFilterSelectField("cboExportadoresImportOrExport", item.tabDataList, "IdExportador", "Exportador");
+                                                tableResumExportadoresExp.bindClickTagColumnSeeRecords('table-tabResumenExportadoresExp');
+                                                tableResumExportadoresExp.bindClickTagColumnWithClass('table-tabResumenExportadoresExp', 'columExporterExpTag');
+
+                                                var tableTabExportersExp = new TablaTabExportersExp();
+                                                tableTabExportersExp.loadDataTabla(item.tabDataList, data.footerGridData);
+                                                tableTabExportersExp.loadDataFilterSelectField("cboTabExportadoresImportOrExport", item.tabDataList, "IdExportador", "Exportador");
+                                                tableTabExportersExp.bindClickTagColumnSeeRecords('table-tabExportadores');
+                                                tableTabExportersExp.bindClickTagColumnWithClass('table-tabExportadores', 'columExporterExpTag');
+
+                                                tableTabExportersExp.loadDataPieChartTabs('pieChartExporters', '@Resources.Demo_Exporters_Tab', item.tabDataPie);
+                                            } else {
+                                                DemoPage.hideTable("columntabResumenExportadoresExp");
+                                                DemoPage.hideTab("liTabExportadores");
+                                            }
+                                            break;
+                                        case "paisesDestino":
+                                            if (item.tabDataNumRows > 0) {
+                                                var tableResumPaisesDestino = new TablaResumPaisesDestino();
+                                                tableResumPaisesDestino.loadDataTabla(item.tabDataList, data.footerGridData);
+                                                tableResumPaisesDestino.loadDataFilterSelectField("cboPaisesOrigenOrDestino", item.tabDataList, "IdPaisDestino", "PaisDestino");
+                                                tableResumPaisesDestino.bindClickTagColumnSeeRecords('table-tabResumenPaisesDestino');
+
+                                                var tableTabPaisesDestino = new TablaTabPaisesDestino();
+                                                tableTabPaisesDestino.loadDataTabla(item.tabDataList, data.footerGridData);
+                                                tableTabPaisesDestino.loadDataFilterSelectField("cboTabPaisesOrigenOrDestino", item.tabDataList, "IdPaisDestino", "PaisDestino");
+                                                tableTabPaisesDestino.bindClickTagColumnSeeRecords('table-tabPaisesOrigen');
+
+                                                tableTabPaisesDestino.loadDataPieChartTabs('pieChartOriginCountries', '@Html.Raw(Resources.Demo_DestinationCountries_Tab)', item.tabDataPie);
+                                            } else {
+                                                DemoPage.hideTable("columntabResumenPaisesOrigenOrDestino");
+                                                DemoPage.hideTab("liTabPaises");
+                                            }
+                                            break;
+                                        case "impotadoresExp":
+                                            if (item.tabDataNumRows > 0) {
+                                                var tableResumImportadoresExp = new TablaResumImportadoresExp();
+                                                tableResumImportadoresExp.loadDataTabla(item.tabDataList, data.footerGridData);
+                                                tableResumImportadoresExp.loadDataFilterSelectField("cboImportadoresImportOrExport", item.tabDataList, "IdImportadorExp", "ImportadorExp");
+                                                tableResumImportadoresExp.bindClickTagColumnSeeRecords('table-tabResumenImportadoresExp');
+
+                                                var tableTabImportadoresExp = new TablaTabImportadoresExp();
+                                                tableTabImportadoresExp.loadDataTabla(item.tabDataList, data.footerGridData);
+                                                tableTabImportadoresExp.loadDataFilterSelectField("cboTabImportadoresImportOrExport", item.tabDataList, "IdImportadorExp", "ImportadorExp");
+                                                tableTabImportadoresExp.bindClickTagColumnSeeRecords('table-tabImportadores');
+
+                                                tableTabImportadoresExp.loadDataPieChartTabs('pieChartImporters', '@Resources.Demo_Importers_Tab', item.tabDataPie);
+                                            } else {
+                                                DemoPage.hideTable("columntabResumenImportadoresExp");
+                                                DemoPage.hideTab("liTabImportadores");
+                                            }
+                                            break;
+                                        case "Distritos":
+                                            var tableDistritoTabResumen = new TablaDistrito();
+                                            tableDistritoTabResumen.loadDataTabla(item.tabDataList, data.footerGridData);
+                                            tableDistritoTabResumen.loadDataFilterSelectField('cboDistricts', item.tabDataList, 'IdDistrito', 'Distrito');
+                                            tableDistritoTabResumen.bindClickTagColumnSeeRecords("table-tabResumenDistricts");
+
+                                            var tableTabDistrito = new TablaTabDistrito();
+                                            tableTabDistrito.loadDataTabla(item.tabDataList, data.footerGridData);
+                                            tableTabDistrito.loadDataFilterSelectField('cboTabDistricts', item.tabDataList, 'IdDistrito', 'Distrito');
+                                            tableTabDistrito.bindClickTagColumnSeeRecords("table-tabDistricts");
+
+                                            tableTabDistrito.loadDataPieChartTabs('pieChartDistricts', '@Resources.Demo_Districts_Tab', item.tabDataPie);
+                                            break;
+                                        case "marcas":
+                                            var tableResumenMarca = new TableResumenMarca();
+                                            tableResumenMarca.loadDataTabla(item.tabDataList, data.footerGridData);
+                                            tableResumenMarca.loadDataFilterSelectField('cboResumMarcas', item.tabDataList, 'IdMarca', 'Marca');
+                                            tableResumenMarca.bindClickTagColumnSeeRecords('table-tabResumenMarcas');
+
+                                            var tableMarca = new TableMarca();
+                                            tableMarca.loadDataTabla(item.tabDataList, data.footerGridData);
+                                            tableMarca.loadDataFilterSelectField('cboTabMarcas', item.tabDataList, 'IdMarca', 'Marca');
+                                            tableMarca.bindClickTagColumnSeeRecords('table-tabMarcas');
+
+                                            tableMarca.loadDataPieChartTabs('pieChartMarcas', '@Resources.Demo_Brands_Tab', item.tabDataPie);
+
+                                            break;
+                                        case "modelos":
+                                            var tableModelo = new TableModelo();
+                                            tableModelo.loadDataTabla(item.tabDataList, data.footerGridData);
+                                            tableModelo.loadDataFilterSelectField('cboTabModelos', item.tabDataList, 'IdModelo', 'Modelo');
+                                            tableModelo.bindClickTagColumnSeeRecords('table-tabModelos');
+                                            tableModelo.loadDataPieChartTabs('pieChartModelos', '@Resources.Demo_Models_Tab', item.tabDataPie);
+                                            break;
+                                    };
+                                })
+                                scrollToHere();
+                                $("#btnSearch").blur();
+                                TableDemoPage.prototype.bindChangeEventForSelectField();
+                                $("#content_tabs").on("click", "a.downloadExcel", function () {
+                                    TableDemoPage.prototype.showModalRequestFreeTrial();
+                                });
+
+                                DemoPage.bindClickEventForTabDetalle();
+
+                                LoadingDemoPage.showOrHideLoadingPage(false);
+                            });
+                    }
+                }
+            });
+        }
+        //function changepaisb
+        changeCboPaisB = function (urlPost) {
+            $.ajax({
+                type: "POST",
+                url: urlPost,
+                data: {
+                    tipoOpe: $('input:radio[name=rdbtnTipoOpe]:checked').val(),
+                    textoCboPaisB: $("#cboPaisB").find("option:selected").text(),
+                    valorCboPaisB: $("#cboPaisB").find("option:selected").val(),
+                    indexCboPaisB: $("#cboPaisB").prop('selectedIndex')
+                },
+                beforeSend: function () {
+                    LoadingDemoPage.showOrHideLoadingPage(true);
+                },
+                success: function (data) {
+                    console.log(data.listaPalabras.length);
+                    if (data.response) {
+                        if (data.listaPalabras.length > 0) {
+                            if ($("#lstFiltros option").length <= 0) {
+
+                                $("#filtros").load('@Url.Action("FiltersContent", "Consulta")', function () {
+                                    $.each(data.listaPalabras,
+                                        function (index, val) {
+                                            $("select[name='lstFiltros']").append("<option value=" + val.value + ">" + val.text + "</option>");
+                                        });
+                                    Filtros.adjustSizeHeightFilters();
+                                    LoadingDemoPage.showOrHideLoadingFiltersForm(false);
+                                });
+                            } else {
+                                $("select[name='lstFiltros']").html("");
+                                $.each(data.listaPalabras,
+                                    function (index, val) {
+                                        $("select[name='lstFiltros']").append("<option value=" + val.value + ">" + val.text + "</option>");
+                                    });
+
+                                Filtros.adjustSizeHeightFilters();
+                                LoadingDemoPage.showOrHideLoadingFiltersForm(false);
+                            }
+                        }
+                        else {
+                            Filtros.restablecerControles();
+                            LoadingDemoPage.showOrHideLoadingFiltersForm(false);
+                        }
+
+                    }
+                },
+                error: function (dataError) {
+                    console.info(dataError);
+                }
+            });
+        }
+        function Filtros() {
+        }
+
+        Filtros.initAutocomplete = function () {
+            $("#txtPartida").autocomplete({
+                appendTo: "#autocompletePartida",
+                source: function (request, response) {
+                    $.ajax({
+                        url: "@Url.Action("BuscarPartida", "Consulta")",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            codPais: $("#cboPais").find("option:selected").val(),
+                            nandina: request.term
+                        },
+                        success: function (data) {
+                            response(
+                                $.map(data,
+                                    function (item) {
+                                        return { id: item.id, label: item.value, value: item.value };
+                                    }));
+                        }
+                    });
+                },
+                minLength: 2,
+                select: function (event, ui) {
+                    Filtros.addFilterSelected("txtPartida", ui.item.id, '@Url.Action("AgregaPartida", "Consulta")');
+
+                    $(this).val("");
+                    $(this).blur();
+                    return false;
+                }
+            });
+
+            $("#txtImportadorB").autocomplete({
+                appendTo: '#autocompleteImportadorB',
+                source: function (request, response) {
+                    $.ajax({
+                        url: "@Url.Action("BuscarEmpresas", "Consulta")",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            codPais: $("#cboPais").find("option:selected").val(),
+                            importadorB: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data,
+                                function (item) {
+                                    return {
+                                        id: item.id,
+                                        label: item.value,
+                                        value: item.value,
+                                        texto: item.texto
+                                    };
+                                }));
+                        }
+                    });
+                },
+                minLength: 2,
+                select: function (event, ui) {
+                    @*addFilterSelected(ui.item.texto, ui.item.id, '@Url.Action("AgregaImportador", "Consulta")');*@
+                    Filtros.addFilterSelected(ui.item.texto, ui.item.id, '@Url.Action("AgregaImportador", "Consulta")');
+                    $(this).val("");
+                    $(this).blur();
+                    return false;
+                }
+            });
+
+            $("#txtProveedorB").autocomplete({
+                appendTo: '#autocompleteProveedorB',
+                source: function (request, response) {
+                    $.ajax({
+                        url: "@Url.Action("BuscarProveedores", "Consulta")",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            proveedorB: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data,
+                                function (item) {
+                                    return { id: item.id, label: item.value, value: item.value, texto: item.texto };
+                                }));
+                        }
+                    });
+                },
+                minLength: 2,
+                select: function (event, ui) {
+                    @*addFilterSelected(ui.item.texto, ui.item.id, '@Url.Action("AgregaProveedor", "Consulta")');*@
+                    Filtros.addFilterSelected(ui.item.texto, ui.item.id, '@Url.Action("AgregaProveedor", "Consulta")');
+                    $(this).val("");
+                    $(this).blur();
+                    return false;
+                }
+            });
+
+            $("#txtExportadorB").autocomplete({
+                appendTo: 'autocompleteExportadorB',
+                source: function (request, response) {
+                    $.ajax({
+                        url: "@Url.Action("BuscarEmpresas", "Consulta")",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            codPais: $("#cboPais").find("option:selected").val(),
+                            importadorB: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data,
+                                function (item) {
+                                    return { id: item.id, label: item.value, value: item.value };
+                                }));
+                        }
+                    });
+                },
+                minLength: 2,
+                select: function (event, ui) {
+                    @*addFilterSelected("txtExportadorB", ui.item.id, '@Url.Action("AgregaExportador", "Consulta")');*@
+                    Filtros.addFilterSelected("txtExportadorB", ui.item.id, '@Url.Action("AgregaExportador", "Consulta")');
+                    $(this).val("");
+                    $(this).blur();
+                    return false;
+                }
+            });
+
+            $("#txtImportadorExpB").autocomplete({
+                appendTo: '#autocompleteImportadorExpB',
+                source: function (request, response) {
+                    $.ajax({
+                        url: "@Url.Action("BuscarProveedores", "Consulta")",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            proveedorB: request.term
+                        },
+                        success: function (data) {
+                            response($.map(data,
+                                function (item) {
+                                    return { id: item.id, label: item.value, value: item.value };
+                                }));
+                        }
+                    });
+                },
+                minLength: 2,
+                select: function (event, ui) {
+                    @*addFilterSelected("txtImportadorExpB", ui.item.id, '@Url.Action("AgregaImportadorExp", "Consulta")');*@
+                    Filtros.addFilterSelected(/*"txtImportadorExpB"*/ui.item.value, ui.item.id, '@Url.Action("AgregaImportadorExp", "Consulta")');
+                    $(this).val("");
+                    $(this).blur();
+                    return false;
+                }
+            });
+        }
+
+        Filtros.addFilterSelected = function (dato, autocomplete, url) {
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: {
+                    filtro: dato,
+                    seleccionado: autocomplete,
+                    codPais: $("#cboPais").find("option:selected").val()
+                },
+                beforeSend: function () {
+                    LoadingDemoPage.showOrHideLoadingPage(true);
+                },
+                success: function (response) {
+                    if (!$("select[name='lstFiltros']").length) {
+                        $("#filtros").load('@Url.Action("FiltersContent", "Consulta")', function () {
+                            $.each(response,
+                                function (index, val) {
+                                    $("select[name='lstFiltros']")
+                                        .append("<option value=" + val.value + ">" + val.text + "</option>");
+                                });
+                            Filtros.adjustSizeHeightFilters();
+                            LoadingDemoPage.showOrHideLoadingPage(false);
+                        });
+                    } else {
+                        $.each(response,
+                            function (index, val) {
+                                $("select[name='lstFiltros']")
+                                    .append("<option value=" + val.value + ">" + val.text + "</option>");
+                            });
+                        Filtros.adjustSizeHeightFilters();
+                        LoadingDemoPage.showOrHideLoadingPage(false);
+                    }
+                }
+            });
+        }
+
+        Filtros.loadFecha = function (operacion, pais) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("GetRangoFechas", "Consulta")',
+                data: {
+                    tipoOpe: operacion,
+                    codPais: pais,
+                    idiomaCulture: '@idiomaMoneda'
+                },
+                success: function (data) {
+                    //console.log(data);
+                    //var re = /-?\d+/;
+
+                    //var vFechaInfoIni = re.exec(data.rangoFechas.mesesInicio);
+                    //vFechaInfoIni = new Date(parseInt(vFechaInfoIni[0]));
+
+                    var vFechaInfoIni = moment(data.rangoFechas.mesesInicio);
+
+                    //var vFechaInfoFin = re.exec(data.rangoFechas.mesesFin);
+                    //vFechaInfoFin = new Date(parseInt(vFechaInfoFin[0]));
+
+                    var vFechaInfoFin = moment(data.rangoFechas.mesesFin);
+
+                    $("#cboDesde").datepicker({
+                            format: 'M yyyy',
+                            minViewMode: "months",
+                            startDate: vFechaInfoIni.toDate(),
+                            endDate: vFechaInfoFin.toDate(),
+                            language : '@culture',
+                            enableOnReadonly: true,
+                            keyboardNavigation:false
+                        }).on('changeMonth', function(e) {
+                            var fechaPrev = $('#cboDesde').datepicker('getDate');
+                            var fechaPost = e.date;
+                            if (fechaPrev != fechaPost) {
+                                Filtros.changeFechaDesde(fechaPost);
+                                $(this).datepicker('hide');
+                            }
+                        })
+                        .keydown(function (e) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            return false;
+                        });
+
+                  
+                    $("#cboDesde").datepicker("setDate", vFechaInfoFin.toDate());
+
+                    $("#cboHasta").datepicker({
+                        format:'M yyyy',
+                        minViewMode: "months",
+                        startDate: vFechaInfoFin.toDate(),
+                        endDate: vFechaInfoFin.toDate(),
+                        language: '@culture',
+                        enableOnReadonly: true,
+                        keyboardNavigation:false
+                    }).on('changeMonth', function() {
+                            $(this).datepicker('hide');
+                        })
+                        .keypress(function (e) {
+                        e.preventDefault();
+                        return false;
+                    }).keydown(function(e) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
+                     });
+                   
+                    $("#cboHasta").datepicker("setDate", vFechaInfoFin.toDate());
+
+                    $("#RangoFechas").html(data.periodo);
+                    LoadingDemoPage.showOrHideLoadingPage(false);
+                }
+            });
+        }
+
+        Filtros.changeFechaDesde = function(pDateDesde) {
+            var currentDateTo = $('#cboHasta').datepicker('getDate');
+            if (pDateDesde.getTime() > currentDateTo.getTime()) {
+                $('#cboHasta').datepicker('setStartDate', pDateDesde);
+                $("#cboHasta").datepicker("setDate", pDateDesde);
+            } else {
+                $('#cboHasta').datepicker('setStartDate', pDateDesde);
+                $("#cboHasta").datepicker("setDate", currentDateTo);
+            }
+        }
+
+        Filtros.loadDataFechas = function (data) {
+
+            $("input[name='cboDesde']").removeAttr("disabled");
+            $("input[name='cboDcboHastaesde']").removeAttr("disabled");
+
+            var re = /-?\d+/;
+            var vFechaInfoIni = re.exec(data.rangoFechas.mesesInicio);
+            vFechaInfoIni = new Date(parseInt(vFechaInfoIni[0]));
+
+            var vFechaInfoFin = re.exec(data.rangoFechas.mesesFin);
+            vFechaInfoFin = new Date(parseInt(vFechaInfoFin[0]));
+
+            $('#cboDesde').datepicker('setStartDate', vFechaInfoIni);
+            $('#cboDesde').datepicker('setEndDate', vFechaInfoFin);
+            $("#cboDesde").datepicker("setDate", vFechaInfoFin);
+
+
+            $('#cboHasta').datepicker('setStartDate', vFechaInfoFin);
+            $('#cboHasta').datepicker('setEndDate', vFechaInfoFin);
+            $('#cboHasta').datepicker('setDate', vFechaInfoFin);
+
+            $("#RangoFechas").html(data.periodo);
+            LoadingDemoPage.showOrHideLoadingPage(false);
+        }
+
+
+        Filtros.adjustSizeHeightFilters = function () {
+            $('select#lstFiltros').each(function () {
+                $(this).attr('size', $(this).find('option').length);
+            })
+        }
+
+        Filtros.disabledTextBoxFilters = function (pEstado) {
+            if (pEstado) {
+                $("#txtPartida").attr("disabled", "disabled");
+                $("#txtImportadorB").attr("disabled", "disabled");
+                $("#txtProveedorB").attr("disabled", "disabled");
+                $("#txtExportadorB").attr("disabled", "disabled");
+                $("#txtImportadorExpB").attr("disabled", "disabled");
+            } else {
+                $("#txtPartida").removeAttr("disabled");
+                $("#txtImportadorB").removeAttr("disabled");
+                $("#txtProveedorB").removeAttr("disabled");
+                $("#txtExportadorB").removeAttr("disabled");
+                $("#txtImportadorExpB").removeAttr("disabled");
+            }
+        }
+
+        Filtros.addFilterCheckBoxSelected = function (valuesSelected, filtro) {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("AgregarCheckBoxFiltro", "Consulta")',
+                traditional: true,
+                data: {
+                    checkSeleccionados: valuesSelected,
+                    filtro: filtro,
+                    CodPais: $("#cboPais").find("option:selected").val(),
+                    TipoOpe: $('input:radio[name=rdbtnTipoOpe]:checked').val()
+                },
+                beforeSend: function () {
+                    LoadingDemoPage.showOrHideLoadingTab(true);
+                },
+                success: function (response) {
+                    if (response.estado) {
+                        if (response.nuevosFiltros) {
+                            $.each(response.listNuevosFiltros, function (index, val) {
+                                $("select[name='lstFiltros']").append("<option value=" + val.valueOption + ">" + val.labelOption + "</option>");
+                            });
+                            Filtros.adjustSizeHeightFilters();
+                            @*ConsultaController.searchDataByFilters('@Url.Action("SearchByFilterPostFilterUpdate", "Consulta")');*@
+                        } else {
+                            //LoadingDemoPage.showOrHideLoadingTab(false);
+                            //showLoadingTabs(false);
+                        }
+                        ConsultaController.searchDataByFilters('@Url.Action("SearchByFilterPostFilterUpdate", "Consulta")');
+                        //LoadingDemoPage.showOrHideLoadingTab(false);
+                    }
+                }
+            });
+        }
+
+        Filtros.restablecerControles = function () {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("Restablecer", "Consulta")',
+                data: {},
+                beforeSend: function () {
+                    LoadingDemoPage.showOrHideLoadingPage(true);
+                },
+                success: function (data) {
+                    if (data.estado) {
+                        $("#divRegisterFound").removeClass("showRegisterFound");
+                        $("#divRegisterFound").addClass("hideRegisterFound");
+                        $("#filtros").html("");
+                        $("#content_tabs").html("");
+                    }
+                    LoadingDemoPage.showOrHideLoadingPage(false);
+                },
+                error: function (error) {
+                }
+            });
+        }
+
+        Filtros.clearClientControls = function () {
+            $("#divRegisterFound").removeClass("showRegisterFound");
+            $("#divRegisterFound").addClass("hideRegisterFound");
+            $("#filtros").html("");
+            $("#content_tabs").html("");
+        }
+
+
+        /**
+         *
+         *
+         * */
+
+        function Fecha() {
+        }
+
+        /**
+         * 
+         * {any} pDate : Fecha que será convertida en formato YYYYMM
+         */
+        Fecha.getYearAndMonth = function (pDate) {
+
+            var yearDate = pDate.getFullYear();
+            var monthDate = pDate.getMonth() + 1;
+            var valueDate = yearDate.toString() + (monthDate.toString().length == 1 ? "0" + monthDate : monthDate);
+
+            return valueDate;
+        }
+
+
+        /**
+         * Objecto y metodos para gestionar llamadas a modals
+         */
+        function ModalInformacionFiltro() {
+        }
+        ModalInformacionFiltro.show = function (messageModal) {
+            $("#ModalInformacionFiltros div.informacion-mensaje").text(messageModal);
+
+            $('#ModalInformacionFiltros').modal({
+                show: true,
+                backdrop: 'static',
+                keyboard: false
+            });
+        }
+
+        function TableDemoPage() {
+        }
+
+        TableDemoPage.prototype.loadDataFilterSelectField = function (idSelectField, data, valueOption, textOption) {
+            var valueOptionText = "val." + valueOption;
+            var textOptionText = "val." + textOption;
+
+            $.each(data, function (index, val) {
+                $("#" + idSelectField)
+                    .append("<option value=" + eval(valueOptionText) + ">" + eval(textOptionText) + "</option>");
+            });
+        }
+
+        TableDemoPage.prototype.showModalRequestFreeTrial = function () {
+            $('#ModalRequestFreeTrial').modal({
+                show: true,
+                backdrop: 'static',
+                keyboard: false
+            });
+        }
+
+        TableDemoPage.prototype.bindChangeEventForSelectField = function () {
+            $(".cboFiltoDataTable").change(function () {
+                var idCbo = $(this).attr("data-filtro-cbo");
+                var valor = $(this).val();
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("AgregarCboFiltro", "Consulta")',
+                    data: {
+                        filtro: idCbo,
+                        valorFiltro: valor,
+                        codPais: $("#cboPais").find("option:selected").val()
+                    },
+                    beforeSend: function () {
+                        LoadingDemoPage.showOrHideLoadingTab(true)
+                    },
+                    success: function (response) {
+                        if (response.estado) {
+                            if (response.nuevoFiltro) {
+                                $("select[name='lstFiltros']")
+                                    .append("<option value=" + response.valueOption + ">" + response.labelOption + "</option>");
+
+                                Filtros.adjustSizeHeightFilters();
+                            } else {
+                                //showLoadingTabs(false);
+                            }
+                            ConsultaController.searchDataByFilters('@Url.Action("SearchByFilterPostFilterUpdate", "Consulta")');
+                        }
+                    }
+                });
+            });
+        }
+
+        TableDemoPage.prototype.bindClickTagColumnSeeRecords = function (idTable) {
+            $('#' + idTable + ' tbody')
+                .on('click', 'tr > td.columnUnderline > a', function () {
+                    TableDemoPage.prototype.showModalRequestFreeTrial.call(this)
+                });
+        }
+
+        TableDemoPage.prototype.bindClickTagColumnWithClass = function (idTable, className) {
+            $('#' + idTable + ' tbody')
+                .on('click', 'tr > td > a.' + className, function () {
+                    TableDemoPage.prototype.showModalRequestFreeTrial.call(this)
+                });
+        }
+
+        TableDemoPage.prototype.bindClickEventForAddAndSearchButton = function (classContextBtn, idBtn, objDataTable) {
+
+            $("#" + idBtn).click(function () {
+                var dataFiltro = $(this).attr("data-filtro-chk");
+                var rows_selected = objDataTable.column(4).checkboxes.selected();
+                if (rows_selected.length > 0) {
+                    Filtros.addFilterCheckBoxSelected(rows_selected.join(","), dataFiltro);
+                } else {
+                    ModalInformacionFiltro.show("@Resources.SelectFilter_Message_Modal");
+                }
+            });
+        }
+
+        TableDemoPage.prototype.loadDataPieChartTabs = function (idChart, titlePie, dataPie) {
+            Highcharts.chart(idChart, {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: titlePie
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    series: {
+                        enableMouseTracking: false
+                    },
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    //name: 'Brands',
+                    colorByPoint: true,
+                    data: dataPie
+                }]
+            });
+        }
+
+        TableDemoPage.prototype.bindPreDrawAndOrderDtEvents = function (objDataTable) {
+            //objDataTable
+            //    .on('preDraw', function () {
+            //        LoadingDemoPage.showOrHideLoadingPage(true);
+            //        console.info("ppree")
+            //        startTime = new Date().getTime();
+            //    })
+            //    .on('order.dt', function () {
+            //        console.log('Redraw took at: ' + (new Date().getTime() - startTime) + 'mS');
+            //        LoadingDemoPage.showOrHideLoadingPage(false);
+            //    });
+        }
+
+
+        function TablaPartidas() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTableResumProducts = 5;
+                var originalPageTableResumProducts = 0;
+                var originalPageLenTableResumProducts = pageLenTableResumProducts;
+                console.log(data)
+                var bPaging = true;
+                if (data.length <= pageLenTableResumProducts) {
+                    bPaging = false;
+                }
+                var tableTabResumenProductos = $('#table-tabResumenProductos').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableResumProducts,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { width: "5%", className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "Partida",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdPartida",
+                            "orderable": false
+                        }
+                    ],
+                    "paging": bPaging,
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function ( settings) {
+                        if (tableTabResumenProductos) {
+                            if (settings._iDisplayStart >= pageLenTableResumProducts) {
+                                settings._iDisplayStart = originalPageTableResumProducts;
+                                settings._iDisplayLength = originalPageLenTableResumProducts;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+                                return false;
+                            } else {
+                                originalPageTableResumProducts = settings._iDisplayStart;
+                                originalPageLenTableResumProducts = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnResumAddPartidas', tableTabResumenProductos);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabResumenProductos);
+            }
+        }
+        TablaPartidas.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaPaisesOrigen() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTableResumPaisesOrigen = 5;
+                var originalPageResumPaisesOrigen = 0;
+                var originalPageLenResumPaisesOrigen = pageLenTableResumPaisesOrigen;
+
+                var bPaging = true;
+                if (data.length <= pageLenTableResumPaisesOrigen) {
+                    bPaging = false;
+                }
+                var tableTabResumenPaisesOrigen = $('#table-tabResumenPaisesOrigen').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableResumPaisesOrigen,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "PaisOrigen",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdPaisOrigen",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabResumenPaisesOrigen) {
+                            if (settings._iDisplayStart >= pageLenTableResumPaisesOrigen) {
+                                settings._iDisplayStart = originalPageResumPaisesOrigen;
+                                settings._iDisplayLength = originalPageLenResumPaisesOrigen;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageResumPaisesOrigen = settings._iDisplayStart;
+                                originalPageLenResumPaisesOrigen = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnResumAddPaisesOrigenOrDestino', tableTabResumenPaisesOrigen);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabResumenPaisesOrigen);
+            }
+        }
+        TablaPaisesOrigen.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaImportadores() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var vCodPais = $("#cboPais").find("option:selected").val();
+                var pageLenTableResumenImporters = 5;
+                var originalPageTableResumenImporters = 0;
+                var originalPageLenTableResumenImporters = pageLenTableResumenImporters;
+                var bPaging = true;
+                if (data.length <= pageLenTableResumenImporters) {
+                    bPaging = false;
+                }
+                var tableTabResumenImporters = $('#table-tabResumenImportadores').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableResumenImporters,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "Importador",
+                            "render": function (data, type, row, meta) {
+                                if (vCodPais == "PE" || vCodPais == "PEB") {
+                                    return '<a  class="columnImporterTag" title="SENTINEL, Alertas y Reportes de Deudas" ><img src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" /></a>_' + data;
+                                } else {
+                                    return data;
+                                }
+                            },
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdImportador",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabResumenImporters) {
+                            if (settings._iDisplayStart >= pageLenTableResumenImporters) {
+                                settings._iDisplayStart = originalPageTableResumenImporters;
+                                settings._iDisplayLength = originalPageLenTableResumenImporters;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageTableResumenImporters = settings._iDisplayStart;
+                                originalPageLenTableResumenImporters = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnResumAddImportadoresImportOrExport', tableTabResumenImporters);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabResumenImporters);
+            }
+        }
+        TablaImportadores.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaProveedores() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTableResumenExporters = 5;
+                var originalPageTableResumenExporters = 0;
+                var originalPageLenTableResumenExporters = pageLenTableResumenExporters;
+                var bPaging = true;
+                if (data.length <= pageLenTableResumenExporters) {
+                    bPaging = false;
+                }
+                var tableTabResumenExporters = $('#table-tabResumenExportadores').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableResumenExporters,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "Proveedor",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdProveedor",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabResumenExporters) {
+                            if (settings._iDisplayStart >= pageLenTableResumenExporters) {
+
+                                settings._iDisplayStart = originalPageTableResumenExporters;
+                                settings._iDisplayLength = originalPageLenTableResumenExporters;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageTableResumenExporters = settings._iDisplayStart;
+                                originalPageLenTableResumenExporters = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnResumAddExportadoresImportOrExport', tableTabResumenExporters);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabResumenExporters);
+            }
+        }
+        TablaProveedores.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaViasTransporte() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTableResumenViasTransporte = 5;
+                var originalPageTableResumenViasTransporte = 0;
+                var originalPageLenTableResumenViasTransporte = pageLenTableResumenViasTransporte;
+                var bPaging = true;
+                if (data.length <= pageLenTableResumenViasTransporte) {
+                    bPaging = false;
+                }
+                var tableTabResumenViasTransp = $('#table-tabResumenViasTransp').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableResumenViasTransporte,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "ViaTransp",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdViaTransp",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabResumenViasTransp) {
+                            if (settings._iDisplayStart >= pageLenTableResumenViasTransporte) {
+
+                                settings._iDisplayStart = originalPageTableResumenViasTransporte;
+                                settings._iDisplayLength = originalPageLenTableResumenViasTransporte;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageTableResumenViasTransporte = settings._iDisplayStart;
+                                originalPageLenTableResumenViasTransporte = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnResumAddViasTranspImportOrExport', tableTabResumenViasTransp);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabResumenViasTransp);
+            }
+        }
+        TablaViasTransporte.prototype = Object.create(TableDemoPage.prototype);
+
+        //Object Tab Productos
+        function TablaTabProductos() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTableProducts = 10;
+                var originalPageTableProducts = 0;
+                var originalPageLenTableProducts = pageLenTableProducts;
+                var bPaging = true;
+                if (data.length <= pageLenTableProducts) {
+                    bPaging = false;
+                }
+                var tableTabProducts = $('#table-tabProductos').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableProducts,
+                    "pagingType": "numbers",
+                    "paging": bPaging,
+                    "destroy": true,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "Partida",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdPartida",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabProducts) {
+
+                            if (settings._iDisplayStart >= pageLenTableProducts) {
+                                settings._iDisplayStart = originalPageTableProducts;
+                                settings._iDisplayLength = originalPageLenTableProducts;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageTableProducts = settings._iDisplayStart;
+                                originalPageLenTableProducts = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnTabAddProductos', tableTabProducts);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabProducts);
+            }
+        }
+        TablaTabProductos.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaTabImportadores() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var vCodPais = $("#cboPais").find("option:selected").val();
+                var pageLenTableImporters = 10;
+                var originalPageTableImporters = 0;
+                var originalPageLenTableImporters = pageLenTableImporters;
+                var bPaging = true;
+                if (data.length <= pageLenTableImporters) {
+                    bPaging = false;
+                }
+                var tableTabImporters = $('#table-tabImportadores').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableImporters,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns":
+                    [
+                        {
+                            "data": "Importador",
+                            "render": function (data, type, row, meta) {
+                                if (vCodPais == "PE" || vCodPais == "PEB") {
+                                    return '<a  class="columnImporterTag" title="SENTINEL, Alertas y Reportes de Deudas" ><img src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" /></a>_' + data;
+                                } else {
+                                    return data;
+                                }
+                            },
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdImportador",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabImporters) {
+                            if (settings._iDisplayStart >= pageLenTableImporters) {
+                                settings._iDisplayStart = originalPageTableImporters;
+                                settings._iDisplayLength = originalPageLenTableImporters;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageTableImporters = settings._iDisplayStart;
+                                originalPageLenTableImporters = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnTabAddImportadoresImportOrExport', tableTabImporters);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabImporters);
+            }
+        }
+        TablaTabImportadores.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaTabExporters() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTableExporters = 10;
+                var originalPageTableExporters = 0;
+                var originalPageLenTableExporters = pageLenTableExporters;
+                var bPaging = true;
+                if (data.length <= pageLenTableExporters) {
+                    bPaging = false;
+                }
+                var tableTabExporters = $('#table-tabExportadores').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableExporters,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "Proveedor",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdProveedor",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabExporters) {
+                            if (settings._iDisplayStart >= pageLenTableExporters) {
+                                settings._iDisplayStart = originalPageTableExporters;
+                                settings._iDisplayLength = originalPageLenTableExporters;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageTableExporters = settings._iDisplayStart;
+                                originalPageLenTableExporters = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnTabAddExportadoresImportOrExport', tableTabExporters);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabExporters);
+            }
+        }
+        TablaTabExporters.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaTabPaisesOrigen() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTablePaisesOrigen = 10;
+                var originalPagePaisesOrigen = 0;
+                var originalPageLenPaisesOrigen = pageLenTablePaisesOrigen;
+
+                var bPaging = true;
+                if (data.length <= pageLenTablePaisesOrigen) {
+                    bPaging = false;
+                }
+                var tableTabPaisesOrigen = $('#table-tabPaisesOrigen').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTablePaisesOrigen,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "PaisOrigen",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdPaisOrigen",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabPaisesOrigen) {
+                            if (settings._iDisplayStart >= pageLenTablePaisesOrigen) {
+                                settings._iDisplayStart = originalPagePaisesOrigen;
+                                settings._iDisplayLength = originalPageLenPaisesOrigen;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPagePaisesOrigen = settings._iDisplayStart;
+                                originalPageLenPaisesOrigen = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnTabAddPaisesOrigenOrDestino', tableTabPaisesOrigen);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabPaisesOrigen);
+            }
+        }
+        TablaTabPaisesOrigen.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaTabViasTransporte() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTableViasTransporte = 10;
+                var originalPageTableViasTransporte = 0;
+                var originalPageLenTableViasTransporte = pageLenTableViasTransporte;
+                var bPaging = true;
+                if (data.length <= pageLenTableViasTransporte) {
+                    bPaging = false;
+                }
+                var tableTabViasTransporte = $('#table-tabViasTransp').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableViasTransporte,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "ViaTransp",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdViaTransp",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabViasTransporte) {
+                            if (settings._iDisplayStart >= pageLenTableViasTransporte) {
+                                settings._iDisplayStart = originalPageTableViasTransporte;
+                                settings._iDisplayLength = originalPageLenTableViasTransporte;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageTableViasTransporte = settings._iDisplayStart;
+                                originalPageLenTableViasTransporte = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnTabAddViasTransp', tableTabViasTransporte);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabViasTransporte);
+            }
+        }
+        TablaTabViasTransporte.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaTabAduanaDUAs() {
+            this.loadDataTabla = function (data, dataFooter, existeDUA) {
+                var pageLenTableAduanaDUAs = 10;
+                var originalPageTableAduanaDUAs = 0;
+                var originalPageLenTableAduanaDUAs = pageLenTableAduanaDUAs;
+
+                var bPaging = true;
+                if (data.length <= pageLenTableAduanaDUAs) {
+                    bPaging = false;
+                }
+                var bVisibleDUA;
+
+                var tableTabAduanaDUAs = $('#table-tabAduanaDUAs').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableAduanaDUAs,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "Aduana",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "DUA",
+                            "visible": existeDUA,
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        }
+                        ,
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIFTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "IdAduana",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(1).footer()).html('Total');
+                        $(api.column(2).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(3).footer()).html(dataFooter.CIFTotal);
+                        //$(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabAduanaDUAs) {
+                            if (settings._iDisplayStart >= pageLenTableAduanaDUAs) {
+                                settings._iDisplayStart = originalPageTableAduanaDUAs;
+                                settings._iDisplayLength = originalPageLenTableAduanaDUAs;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageTableAduanaDUAs = settings._iDisplayStart;
+                                originalPageLenTableAduanaDUAs = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnTabAddAduanaDUAs', tableTabAduanaDUAs);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabAduanaDUAs);
+            }
+        }
+        TablaTabAduanaDUAs.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaResumExportadoresExp() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var vCodPais = $("#cboPais").find("option:selected").val();
+                var pageLenTableExportersExp = 5;
+                var originalPageTableExportersExp = 0;
+                var originalPageLenTableExportersExp = pageLenTableExportersExp;
+                var bPaging = true;
+                if (data.length <= pageLenTableExportersExp) {
+                    bPaging = false;
+                }
+                var tableTabExportersExp = $('#table-tabResumenExportadoresExp').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableExportersExp,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "Exportador",
+                            "render": function (data, type, row, meta) {
+                                if (vCodPais == "PE" || vCodPais == "PEB") {
+                                    return '<a  class="columExporterExpTag" title="SENTINEL, Alertas y Reportes de Deudas" ><img src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" /></a>_' + data;
+                                } else {
+                                    return data;
+                                }
+                            },
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdExportador",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabExportersExp) {
+                            if (settings._iDisplayStart >= pageLenTableExportersExp) {
+                                settings._iDisplayStart = originalPageTableExportersExp;
+                                settings._iDisplayLength = originalPageLenTableExportersExp;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageTableExportersExp = settings._iDisplayStart;
+                                originalPageLenTableExportersExp = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnResumAddExportadoresImportOrExport', tableTabExportersExp);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabExportersExp);
+            }
+        }
+        TablaResumExportadoresExp.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaResumPaisesDestino() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTableResumPaisesDestino = 5;
+                var originalPageResumPaisesDestino = 0;
+                var originalPageLenResumPaisesDestino = pageLenTableResumPaisesDestino;
+
+                var bPaging = true;
+                if (data.length <= pageLenTableResumPaisesDestino) {
+                    bPaging = false;
+                }
+                var tableTabResumenPaisesDestino = $('#table-tabResumenPaisesDestino').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableResumPaisesDestino,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "PaisDestino",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdPaisDestino",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabResumenPaisesDestino) {
+                            if (settings._iDisplayStart >= pageLenTableResumPaisesDestino) {
+                                settings._iDisplayStart = originalPageResumPaisesDestino;
+                                settings._iDisplayLength = originalPageLenResumPaisesDestino;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageResumPaisesDestino = settings._iDisplayStart;
+                                originalPageLenResumPaisesDestino = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnResumAddPaisesOrigenOrDestino', tableTabResumenPaisesDestino);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabResumenPaisesDestino);
+            }
+        }
+        TablaResumPaisesDestino.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaResumImportadoresExp() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTableResumImportersExp = 5;
+                var originalPageTableResumImportersExp = 0;
+                var originalPageLenTableResumImportersExp = pageLenTableResumImportersExp;
+                var bPaging = true;
+                if (data.length <= pageLenTableResumImportersExp) {
+                    bPaging = false;
+                }
+                var tableTabResumImportersExp = $('#table-tabResumenImportadoresExp').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableResumImportersExp,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "ImportadorExp",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdImportadorExp",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabResumImportersExp) {
+                            if (settings._iDisplayStart >= pageLenTableResumImportersExp) {
+                                settings._iDisplayStart = originalPageTableResumImportersExp;
+                                settings._iDisplayLength = originalPageLenTableResumImportersExp;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageTableResumImportersExp = settings._iDisplayStart;
+                                originalPageLenTableResumImportersExp = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnResumAddImportadoresImportOrExport', tableTabResumImportersExp);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabResumImportersExp);
+            }
+        }
+        TablaResumImportadoresExp.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaTabExportersExp() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var vCodPais = $("#cboPais").find("option:selected").val();
+                var pageLenTableExporters = 10;
+                var originalPageTableExporters = 0;
+                var originalPageLenTableExporters = pageLenTableExporters;
+                var bPaging = true;
+                if (data.length <= pageLenTableExporters) {
+                    bPaging = false;
+                }
+                var tableTabExporters = $('#table-tabExportadores').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableExporters,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "Exportador",
+                            "render": function (data, type, row, meta) {
+                                if (vCodPais == "PE" || vCodPais == "PEB") {
+                                    return '<a  class="columExporterExpTag" title="SENTINEL, Alertas y Reportes de Deudas" ><img src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" /></a>_' + data;
+                                } else {
+                                    return data;
+                                }
+                            },
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords" >' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdExportador",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabExporters) {
+                            if (settings._iDisplayStart >= pageLenTableExporters) {
+                                settings._iDisplayStart = originalPageTableExporters;
+                                settings._iDisplayLength = originalPageLenTableExporters;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageTableExporters = settings._iDisplayStart;
+                                originalPageLenTableExporters = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnTabAddExportadoresImportOrExport', tableTabExporters);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabExporters);
+            }
+        }
+        TablaTabExportersExp.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaTabImportadoresExp() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTableTabImportersExp = 10;
+                var originalPageTableTabImportersExp = 0;
+                var originalPageLenTableTabImportersExp = pageLenTableTabImportersExp;
+                var bPaging = true;
+                if (data.length <= pageLenTableTabImportersExp) {
+                    bPaging = false;
+                }
+                var tableTabTabImportersExp = $('#table-tabImportadores').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableTabImportersExp,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "ImportadorExp",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdImportadorExp",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabTabImportersExp) {
+                            if (settings._iDisplayStart >= pageLenTableTabImportersExp) {
+                                settings._iDisplayStart = originalPageTableTabImportersExp;
+                                settings._iDisplayLength = originalPageLenTableTabImportersExp;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageTableTabImportersExp = settings._iDisplayStart;
+                                originalPageLenTableTabImportersExp = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnTabAddImportadoresImportOrExport', tableTabTabImportersExp);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabTabImportersExp);
+            }
+        }
+        TablaTabImportadoresExp.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaTabPaisesDestino() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTableTabPaisesDestino = 10;
+                var originalPageTabPaisesDestino = 0;
+                var originalPageLenTabPaisesDestino = pageLenTableTabPaisesDestino;
+
+                var bPaging = true;
+                if (data.length <= pageLenTableTabPaisesDestino) {
+                    bPaging = false;
+                }
+                var tableTabTabPaisesDestino = $('#table-tabPaisesOrigen').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableTabPaisesDestino,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "PaisDestino",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdPaisDestino",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabTabPaisesDestino) {
+                            if (settings._iDisplayStart >= pageLenTableTabPaisesDestino) {
+                                settings._iDisplayStart = originalPageTabPaisesDestino;
+                                settings._iDisplayLength = originalPageLenTabPaisesDestino;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageTabPaisesDestino = settings._iDisplayStart;
+                                originalPageLenTabPaisesDestino = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnTabAddPaisesOrigenOrDestino', tableTabTabPaisesDestino);
+
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabTabPaisesDestino);
+            }
+        }
+        TablaTabPaisesDestino.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaDistrito() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTableResumPaisesDestino = 5;
+                var originalPageResumPaisesDestino = 0;
+                var originalPageLenResumPaisesDestino = pageLenTableResumPaisesDestino;
+                var bPaging = true;
+
+                if (data.length <= pageLenTableResumPaisesDestino) {
+                    bPaging = false;
+                }
+
+                var tableTabResumenDistricts = $('#table-tabResumenDistricts').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableResumPaisesDestino,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "Distrito",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIForFOBTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIForFOBTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdDistrito",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabResumenDistricts) {
+                            if (settings._iDisplayStart >= pageLenTableResumPaisesDestino) {
+                                settings._iDisplayStart = originalPageResumPaisesDestino;
+                                settings._iDisplayLength = originalPageLenResumPaisesDestino;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageResumPaisesDestino = settings._iDisplayStart;
+                                originalPageLenResumPaisesDestino = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnResumAddDistricts', tableTabResumenDistricts);
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabResumenDistricts);
+            }
+        }
+        TablaDistrito.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaTabDistrito() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTableResumPaisesDestino = 10;
+                var originalPageResumPaisesDestino = 0;
+                var originalPageLenResumPaisesDestino = pageLenTableResumPaisesDestino;
+                var bPaging = true;
+
+                if (data.length <= pageLenTableResumPaisesDestino) {
+                    bPaging = false;
+                }
+
+                var tableTabDistricts = $('#table-tabDistricts').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableResumPaisesDestino,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "Distrito",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIForFOBTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "CIForFOBTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdDistrito",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabDistricts) {
+                            if (settings._iDisplayStart >= pageLenTableResumPaisesDestino) {
+                                settings._iDisplayStart = originalPageResumPaisesDestino;
+                                settings._iDisplayLength = originalPageLenResumPaisesDestino;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageResumPaisesDestino = settings._iDisplayStart;
+                                originalPageLenResumPaisesDestino = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnTabAddDistricts', tableTabDistricts);
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableTabDistricts);
+            }
+        }
+        TablaTabDistrito.prototype = Object.create(TableDemoPage.prototype);
+
+        function TablaDetalleTipoImporter() {
+
+            this.getDataTablaDetalleExcel = function (pFilter) {
+                var self = this;
+                LoadingDemoPage.showOrHideLoadingTab(true);
+                var vTipoOpe = $('input:radio[name=rdbtnTipoOpe]:checked').val();
+                var vCodPais = $("#cboPais").find("option:selected").val();
+                var vTextPais = $("#cboPais").find("option:selected").text();
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("LoadDetalle", "Consulta")',
+                    data: {
+                        TipoOpe: vTipoOpe,
+                        anioMesIni: Fecha.getYearAndMonth($('#cboDesde').datepicker('getDate')),
+                        anioMesFin: Fecha.getYearAndMonth($('#cboHasta').datepicker('getDate')),
+                        CodPais: vCodPais,
+                        filtro: pFilter
+                    },
+                    success: function (data) {
+                        if (data.error) {
+                            LoadingDemoPage.showOrHideLoadingTab(false);
+                        } else {
+                            if (vTipoOpe == "I") {
+                                self.loadData(data.gridData, vCodPais, vTextPais);
+                            } else {
+                                self.loadDataExporters(data.gridData, vCodPais, vTextPais);
+                            }
+                        }
+                    }
+                });
+            }
+
+            this.loadData = function (data, codPais, textPais) {
+                var pageLenTableDetalle = 20;
+                var originalPageDetalle = 0;
+                var originalPageLenDetalle = pageLenTableDetalle;
+
+                var bPaging = true;
+                if (data.sourceData.length <= pageLenTableDetalle) {
+                    bPaging = false;
+                }
+
+                var tableTabDetalle = $('#table-tabDetalleExcelImports').DataTable({
+                    "searching": false,
+                    "ordering": false,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableDetalle,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        {
+                            className: "dt-body-right", "targets": [0, 5, 6, 8, 9, 10]
+                        },
+                        {
+                            className: "dt-body-center", "targets": [1, 2, 3, 4]
+                        },
+                        {
+                            className: "dt-head-center", "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+                        },
+                        {
+                            className: "fill-size-columns", "targets": [12]
+                        },
+                        {
+                            "targets": 1,
+                            "render": function (data, type, row, meta) {
+                                return data + '<br>' + '<a class="tagRequestFreeTrial" title="SENTINEL, Alertas y Reportes de Deudas"><img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" /></a>';
+                            }
+                        },
+                        {
+                            "targets": 3,
+                            "render": function (data, type, row, meta) {
+                                var dataRender;
+                                var dataLnkGoogle;
+                                var lnkpais;
+
+                                if (codPais != "PEB")
+                                    lnkpais = textPais.toUpperCase();
+                                else
+                                    lnkpais = "PERÚ";
+
+                                dataLnkGoogle = "http://www.google.com/search?q=\"" + data.trim().replace("&", "") + "\" \"" + lnkpais + "\"";
+
+                                if (codPais == "PE" || codPais == "PEB") {
+                                    dataRender = data + '<br>' +
+                                     '<a class="tagRequestFreeTrial" title="SENTINEL, Alertas y Reportes de Deudas"><img src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" /></a>' +
+                                     '_<a href=\'' + dataLnkGoogle + '\' target="_blank"><img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" /></a>';
+                                }
+                                else {
+                                    dataRender = data + '<br>' + '<a href=\'' + dataLnkGoogle + '\' target="_blank"><img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" /></a>';
+                                }
+                                return dataRender;
+                            }
+                        },
+                        {
+                            "targets": 4,
+                            "render": function (data, type, row, meta) {
+                                var dataLnkGoogle = "http://www.google.com/search?q=\"" + data.trim().replace("&", "") + "\" \"" + row.PaisOrigen + "\"";
+
+                                return data + '<br>' + '<a href=\'' + dataLnkGoogle + '\' target="_blank"><img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" /></a>';
+                            }
+                        }
+                    ],
+                    "columns": data.sourceColumns,
+                    "data": data.sourceData,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabDetalle) {
+                            if (settings._iDisplayStart >= pageLenTableDetalle) {
+                                settings._iDisplayStart = originalPageDetalle;
+                                settings._iDisplayLength = originalPageLenDetalle;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageDetalle = settings._iDisplayStart;
+                                originalPageLenDetalle = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                this.bindClickTagColumnDate();
+                this.bindClickSearchByDesComercialButton();
+                this.bindClickRestablecerButton();
+
+                LoadingDemoPage.showOrHideLoadingTab(false);
+            };
+
+
+            this.bindClickTagColumnDate = function () {
+                $('#table-tabDetalleExcelImports tbody')
+                    .on('click', 'tr > td > a.tagRequestFreeTrial', function () {
+                        TableDemoPage.prototype.showModalRequestFreeTrial();
+                    });
+            };
+
+            this.bindClickSearchByDesComercialButton = function () {
+                var self = this;
+                $("#table-tabDetalleExcelImports ").on('click', 'a#lnkSearchDetalleByFilter', function () {
+                    var textSearch = $("#txtDesComercialBB").val();
+                    self.getDataTablaDetalleExcel(textSearch);
+                });
+            };
+
+            this.bindClickRestablecerButton = function () {
+                var self = this;
+                $("#table-tabDetalleExcelImports").on('click', 'a#lnkLoadDettalle', function () {
+                    $("#txtDesComercialBB").val("");
+                    self.getDataTablaDetalleExcel("");
+                });
+            };
+
+            this.loadDataExporters = function (data, codPais, textPais) {
+                var pageLenTableDetalle = 20;
+                var originalPageDetalle = 0;
+                var originalPageLenDetalle = pageLenTableDetalle;
+
+                var bPaging = true;
+                if (data.sourceData.length <= pageLenTableDetalle) {
+                    bPaging = false;
+                }
+
+                var tableTabDetalle = $('#table-tabDetalleExcelImports').DataTable({
+                    "searching": false,
+                    "ordering": false,
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableDetalle,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        {
+                            className: "dt-body-right", "targets": [0, 5, 6, 8, 9, 10]
+                        },
+                        {
+                            className: "dt-body-center", "targets": [1, 2, 3, 4]
+                        },
+                        {
+                            className: "dt-head-center", "targets": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+                        },
+                        {
+                            className: "fill-size-columns", "targets": [10]
+                        },
+                        {
+                            "targets": 1,
+                            "render": function (data, type, row, meta) {
+                                return data + '<br>' + '<a class="tagRequestFreeTrial" title="SENTINEL, Alertas y Reportes de Deudas"><img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" /></a>';
+                            }
+                        },
+                        {
+                            "targets": 3,
+                            "render": function (data, type, row, meta) {
+                                var dataRender;
+                                var dataLnkGoogle;
+                                var lnkpais;
+
+                                if (codPais != "PEB")
+                                    lnkpais = textPais.toUpperCase();
+                                else
+                                    lnkpais = "PERÚ";
+
+                                dataLnkGoogle = "http://www.google.com/search?q=\"" + data.trim().replace("&", "") + "\" \"" + lnkpais + "\"";
+
+                                if (codPais == "PE" || codPais == "PEB") {
+                                    dataRender = data + '<br>' +
+                                     '<a class="tagRequestFreeTrial" title="SENTINEL, Alertas y Reportes de Deudas"><img src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" /></a>' +
+                                     '_<a href=\'' + dataLnkGoogle + '\' target="_blank"><img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" /></a>';
+                                }
+                                else {
+                                    dataRender = data + '<br>' + '<a href=\'' + dataLnkGoogle + '\' target="_blank"><img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" /></a>';
+                                }
+                                return dataRender;
+                            }
+                        },
+                        {
+                            "targets": 4,
+                            "render": function (data, type, row, meta) {
+                                var dataLnkGoogle = "http://www.google.com/search?q=\"" + data.trim().replace("&", "") + "\" \"" + row.PaisOrigen + "\"";
+
+                                return data + '<br>' + '<a href=\'' + dataLnkGoogle + '\' target="_blank"><img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" /></a>';
+                            }
+                        }
+                    ],
+                    "columns": data.sourceColumns,
+                    "data": data.sourceData,
+                    "preDrawCallback": function (settings) {
+                        if (tableTabDetalle) {
+                            if (settings._iDisplayStart >= pageLenTableDetalle) {
+                                settings._iDisplayStart = originalPageDetalle;
+                                settings._iDisplayLength = originalPageLenDetalle;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageDetalle = settings._iDisplayStart;
+                                originalPageLenDetalle = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                this.bindClickTagColumnDate();
+                this.bindClickSearchByDesComercialButton();
+                this.bindClickRestablecerButton();
+
+                LoadingDemoPage.showOrHideLoadingTab(false);
+            };
+        }
+
+        function TableResumenMarca() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTableResum = 5;
+                var originalPageResum = 0;
+                var originalPageLenResum = pageLenTableResum;
+                var bPaging = true;
+
+                if (data.length <= pageLenTableResum) {
+                    bPaging = false;
+                }
+
+                var tableResumMarcas = $('#table-tabResumenMarcas').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableResum,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "Marca",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdMarca",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableResumMarcas) {
+                            if (settings._iDisplayStart >= pageLenTableResum) {
+                                settings._iDisplayStart = originalPageResum;
+                                settings._iDisplayLength = originalPageLenResum;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageResum = settings._iDisplayStart;
+                                originalPageLenResum = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnResumAddMarcas', tableResumMarcas);
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableResumMarcas);
+            }
+        }
+        TableResumenMarca.prototype = Object.create(TableDemoPage.prototype);
+
+        function TableMarca() {
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTableResum = 10;
+                var originalPageResum = 0;
+                var originalPageLenResum = pageLenTableResum;
+                var bPaging = true;
+
+                if (data.length <= pageLenTableResum) {
+                    bPaging = false;
+                }
+
+                var tableMarcas = $('#table-tabMarcas').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableResum,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "Marca",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdMarca",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableMarcas) {
+                            if (settings._iDisplayStart >= pageLenTableResum) {
+                                settings._iDisplayStart = originalPageResum;
+                                settings._iDisplayLength = originalPageLenResum;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageResum = settings._iDisplayStart;
+                                originalPageLenResum = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnTabAddMarcas', tableMarcas);
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableMarcas);
+            }
+        }
+        TableMarca.prototype = Object.create(TableDemoPage.prototype);
+
+        function TableModelo() {
+
+            this.loadDataTabla = function (data, dataFooter) {
+                var pageLenTableResum = 10;
+                var originalPageResum = 0;
+                var originalPageLenResum = pageLenTableResum;
+                var bPaging = true;
+
+                if (data.length <= pageLenTableResum) {
+                    bPaging = false;
+                }
+
+                var tableModelos = $('#table-tabModelos').DataTable({
+                    "searching": false,
+                    "ordering": true,
+                    "order": [],
+                    "info": false,
+                    "bLengthChange": false,
+                    "pageLength": pageLenTableResum,
+                    "pagingType": "numbers",
+                    "destroy": true,
+                    "paging": bPaging,
+                    "columnDefs": [
+                        { className: "dt-body-right", "targets": [1, 2, 3] },
+                        { className: "dt-head-center", "targets": [0, 1, 2, 3] },
+                        { className: "underlineHeadDataTable", "targets": [0, 1, 2] },
+                        {
+                            'targets': 4,
+                            'searchable': false,
+                            'orderable': false,
+                            'className': 'dt-body-center',
+                            'checkboxes': {
+                                'selectRow': false,
+                                'selectAllPages': false
+                            }
+                        },
+                        { className: "dt-head-center", "targets": 4 }
+                    ],
+                    "columns": [
+                        {
+                            "data": "Modelo",
+                            "orderable": true,
+                            "orderSequence": ["asc"]
+                        },
+                        {
+                            "data": "CantReg",
+                            "className": "columnUnderline",
+                            "render": function (data, type, row, meta) {
+                                return '<a title="@Resources.Grid_Column_SeeRecords">' + data + '</a>';
+                            },
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+                            "data": "FOBTot",
+                            "orderable": true,
+                            "orderSequence": ["desc"]
+                        },
+                        {
+
+                            "data": "FOBTotPercentaje",
+                            "orderable": false
+                        },
+                        {
+                            "data": "IdModelo",
+                            "orderable": false
+                        }
+                    ],
+                    "footerCallback": function (row, data, start, end, display) {
+                        var api = this.api(), data;
+                        var percentajeTotal = "100.00%";
+
+                        $(api.column(0).footer()).html('@Resources.TotalsText');
+                        $(api.column(1).footer()).html(dataFooter.RegisterCount);
+                        $(api.column(2).footer()).html(dataFooter.CIFTotal);
+                        $(api.column(3).footer()).html(percentajeTotal);
+                    },
+                    "data": data,
+                    "preDrawCallback": function (settings) {
+                        if (tableModelos) {
+                            if (settings._iDisplayStart >= pageLenTableResum) {
+                                settings._iDisplayStart = originalPageResum;
+                                settings._iDisplayLength = originalPageLenResum;
+
+                                TableDemoPage.prototype.showModalRequestFreeTrial();
+
+                                return false;
+                            } else {
+                                originalPageResum = settings._iDisplayStart;
+                                originalPageLenResum = settings._iDisplayLength;
+                            }
+                        }
+                    }
+                });
+
+                TableDemoPage.prototype.bindClickEventForAddAndSearchButton('dd', 'btnTabAddModelos', tableModelos);
+                TableDemoPage.prototype.bindPreDrawAndOrderDtEvents(tableModelos);
+
+            }
+        }
+        TableModelo.prototype = Object.create(TableDemoPage.prototype);
+
+    </script>
+
+    <script src="@Url.Content("~/Scripts/demo/dataTablesEvents.js")" defer type="text/javascript"></script>
+}

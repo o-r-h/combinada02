@@ -1,0 +1,12 @@
+﻿@media all and (min-width: 1361px) and (max-width: 1559px) {
+    /* Blog */
+    .noticia-destacada .noticia-destacada-content { width: 45% !important; }
+
+    .noticia-destacada .noticia-destacada-content .noticia-body { width: 68% !important; }
+
+    .noticia-destacada .noticia-destacada-imagen { width: 55% !important; }
+
+    .noticia-destacada .noticia-destacada-imagen img { padding-top: 20px !important; }
+
+    .title-fixed { max-width: 1110px !important; }
+}

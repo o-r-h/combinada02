@@ -1,0 +1,47 @@
+﻿@using Veritrade2018.Helpers
+
+@{
+    string culture = CultureHelper.GetCurrentCulture();
+}
+
+<div class="modal fade modal-consulta" tabindex="-1" role="dialog" id="ModalInfoSentinel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="padding: 20px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="icon-close-modal" aria-hidden="true">&times;</span>
+                </button>
+                <img src="~/Content/Images/veritrade_logo.png" witdh="50" height="50" alt="Alternate Text" />
+                <h4 class="modal-title text-center">
+                    <strong>Veritrade - Sentinel</strong>
+                </h4>
+            </div>
+            <br />
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12">
+                        @if (culture == "es")
+                        {
+                        <div style="text-align: justify;">
+                            <p><b>Estimado cliente:</b></p>
+                            <p>Lamentamos informarle que, temporalmente, no es posible acceder a la información de <b>SENTINEL</b>. Nuestro equipo está trabajando para resolver este inconveniente.</p>
+                            <p>Agradecemos mucho su comprensión.</p>
+                            <p><b>Atentamente,<br />Veritrade</b></p>
+                        </div>
+                        }
+                        else
+                        {
+                        <div style="text-align: justify;">
+                            <p><b>Dear Customer:</b></p>
+                            <p>We regret to inform you that, temporarily, access to <b>SENTINEL</b> information is not possible. Our team is working to resolve this issue.</p>
+                            <p>Agradecemos mucho su comprensión.</p>
+                            <p><b>Sincerely,<br />Veritrade</b></p>
+                        </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

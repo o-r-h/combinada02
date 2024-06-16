@@ -1,0 +1,140 @@
+﻿@model List<Detalle>
+@using Veritrade2018.Models.Minisite
+@using Veritrade2018.Helpers
+@using System.Globalization
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var idiomaText = culture.Equals("es") ? CultureInfo.CreateSpecificCulture("es-pe") : CultureInfo.CreateSpecificCulture("en-us");
+    var codCampania = ViewData["CodCampaña"];
+    var count = 1;
+}
+<div class="table-responsive" style="position: relative">
+    <table class="table table-bordered elementhover" data-toggle="modal" data-target="#ModalEmbarque">
+        <thead>
+            <tr>
+                <th class="impair-column">
+                    <label>Nº</label>
+                </th>
+                <th class="pair-column">
+                    <label>@Resources.MinisiteResources.Table03_Header01</label>
+                </th>
+                <th class="impair-column">
+                    <label>@Resources.MinisiteResources.Table03_Header02</label>
+                </th>
+                <th class="pair-column">
+                    <label>@Resources.MinisiteResources.Table03_Header03</label>
+                </th>
+                <th class="impair-column">
+                    <label>@Resources.MinisiteResources.Table03_Header04</label>
+                </th>
+                <th class="pair-column">
+                    <label>@Resources.MinisiteResources.Table03_Header05</label>
+                </th>
+                <th class="impair-column">
+                    <label>@Resources.MinisiteResources.Table03_Header06</label>
+                </th>
+                <th class="pair-column">
+                    <label>@Resources.MinisiteResources.Table03_Header07</label>
+                </th>
+                <th class="impair-column">
+                    <label>@Resources.MinisiteResources.Table03_Header08</label>
+                </th>
+                <th class="pair-column">
+                    <label>@Resources.MinisiteResources.Table03_Header09</label>
+                </th>
+                <th class="impair-column">
+                    @if (ViewData["tipo"].ToString().Equals("importaciones"))
+                    {
+                        <label>@Resources.MinisiteResources.Table03_Header10</label>
+                    }
+                    else
+                    {
+                        <label>@Resources.MinisiteResources.Table03_Header10B</label>
+                    }
+                </th>
+                <th class="pair-column">
+                    <label>@Resources.MinisiteResources.Table03_Header11</label>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var data in Model)
+            {
+                <tr>
+                    <th>
+                        <a href="javascript:void(0);">@(count++)</a>
+                    </th>
+                    <td class="text-center">
+                        @string.Format(idiomaText, "{0:d}", data.FechaNum)
+                        <p class="text-center">
+                            <span class="glyphicon" aria-hidden="true">
+                                <img src="~/Content/Images/Minisite/ico_lupa-2x.png" alt="" style="width: 10px; height: 10px; cursor: pointer;" />
+                            </span>
+                        </p>
+                    </td>
+                    <td class="text-center">@data.Nandina</td>
+                    <td>
+                        <label class="content-left">@data.Proveedor</label>
+                        <div class="content-right">
+                            @if (ViewData["paisEmpresa"].Equals("PERU"))
+                            {
+                                <span class="glyphicon" aria-hidden="true">
+                                    <img src="~/Content/Images/ico_sentinel.jpg" alt="" style="width: 13px; height: 7px; cursor: pointer;" />
+                                </span>
+                            }
+                            <span class="glyphicon" aria-hidden="true">
+                                <img src="~/Content/Images/Minisite/gicon-x2.png" alt="" style="width: 10px; height: 10px; cursor: pointer;" />
+                            </span>
+                        </div>
+                    </td>
+                    <td>
+                        <label class="content-left">@data.Importador</label>
+                        <div class="content-right">
+                            <span class="glyphicon" aria-hidden="true">
+                                <img src="~/Content/Images/Minisite/gicon-x2.png" alt="" style="width: 10px; height: 10px; cursor: pointer;" />
+                            </span>
+                        </div>
+                    </td>
+                    <td class="text-center">@string.Format(idiomaText, "{0:N0}", data.PesoNeto)</td>
+                    <td class="text-center">@string.Format(idiomaText, "{0:N0}", data.Cantidad)</td>
+                    <td class="text-center">@data.Unidad</td>
+                    @if (data.Regimen == "Importaciones")
+                    {
+                        <td class="text-center">
+                            @string.Format(idiomaText, "{0:N2}", data.CifUnit)
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="text-center">
+                            @string.Format(idiomaText, "{0:N2}", data.FobUnit)
+                        </td>
+                    }
+                    <td class="text-center">@data.Dua</td>
+                    <td class="text-center">@data.PaisProced</td>
+                    <td>@data.DesComercial</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    @if (Model.Count < 2)
+    {
+        <div class="box-trial" style="position: relative;">
+            <div class="box box-lg">
+                <p>
+                    @Resources.MinisiteResources.BlockImage_Text01 <a href="@Url.Action("Index", "PruebaGratis", new {culture, campania = codCampania})">@Resources.MinisiteResources.BlockImage_Text02</a>
+                </p>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="box-trial">
+            <div class="box box-lg">
+                <p>
+                    @Resources.MinisiteResources.BlockImage_Text01 <a href="@Url.Action("Index", "PruebaGratis", new {culture, campania = codCampania})">@Resources.MinisiteResources.BlockImage_Text02</a>
+                </p>
+            </div>
+        </div>
+    }
+</div>

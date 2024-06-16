@@ -1,0 +1,529 @@
+﻿.modal {
+    text-align: center;
+    padding: 0 !important;
+}
+
+    .modal:before {
+        content: '';
+        display: inline-block;
+        height: 100%;
+        vertical-align: middle;
+        margin-right: -4px;
+    }
+
+.modal-dialog {
+    display: inline-block;
+    text-align: left;
+    vertical-align: middle;
+}
+
+.modal-special {
+    width: 90%;
+}
+
+#lnkContacto, #linkPrueba {
+    cursor: pointer;
+    font-style: normal;
+}
+
+.modal_popup {
+    font-family: ProximaNova-Regular;
+    margin-top: 10px;
+    position: relative;
+    width: 100%;
+}
+
+    .modal_popup .title {
+        display: inline-block;
+        text-align: center;
+        width: 100%;
+    }
+
+        .modal_popup .title h2 {
+            color: #3e4d5c;
+            font-family: ProximaNova-Bold;
+            font-size: 24px;
+            line-height: 26px;
+            margin: 0 auto;
+            padding-bottom: 6px;
+            padding-top: 0;
+            text-decoration: none;
+        }
+
+        .modal_popup .title img {
+            height: 20px;
+            width: 50px;
+        }
+
+    .modal_popup .modal_clientes_content {
+        position: relative;
+        display: inline-block;
+        max-height: calc(100vh - 182px);
+        overflow-y: scroll;
+        padding: 20px;
+        width: 100%;
+    }
+
+        .modal_popup .modal_clientes_content .image-content {
+            position: relative;
+            width: 20%;
+            float: left;
+            display: inline-block;
+            text-align: center;
+        }
+
+    .modal_popup .modal_paises_content {
+        position: relative;
+        display: inline-block;
+        max-height: calc(100vh - 182px);
+        overflow-y: scroll;
+        padding: 24px;
+        width: 100%;
+    }
+
+        .modal_popup .modal_paises_content .home_list_data {
+            display: inline-block;
+            width: 100%;
+            font-family: ProximaNova-Regular;
+            font-size: 15px;
+            color: #787671;
+            text-decoration: none;
+            padding: 5px 0;
+        }
+
+            .modal_popup .modal_paises_content .home_list_data:hover {
+                background-color: #F3F3F3;
+                cursor: pointer;
+                color: #28ACF2;
+            }
+
+        .modal_popup .modal_paises_content hr {
+            border-top: 1px solid #C1C1C1;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        .modal_popup .modal_paises_content img {
+            margin-right: 8px;
+        }
+
+        .modal_popup .modal_paises_content .home_list_data > span {
+            padding-right: 5px;
+        }
+
+    .modal_popup .terminos_condiciones_content {
+        position: relative;
+        max-height: calc(100vh - 182px);
+        margin: 20px auto;
+        padding: 0 20px;
+        font-family: ProximaNova-Light;
+        font-size: 12px;
+        color: #616161;
+        letter-spacing: 0.2pt;
+        line-height: 14px;
+        overflow-y: scroll;
+    }
+
+        .modal_popup .terminos_condiciones_content p {
+            text-align: justify;
+        }
+
+    .modal_popup .message_content {
+        font-family: ProximaNova-Regular;
+        font-size: 15px;
+        color: #878581;
+        line-height: 21px;
+        padding: 40px 20px;
+        text-align: center;
+    }
+
+    .modal_popup .minisite {
+        font-family: ProximaNova-Regular;
+        font-size: 14px;
+        color: #7b8191;
+        text-align: center;
+        line-height: 24px;
+    }
+
+    .modal_popup label.result {
+        font-family: ProximaNova-Regular;
+        font-size: 14px;
+        color: #7b8191;
+        line-height: 24px;
+    }
+
+    .modal_popup .table {
+        font-family: ProximaNova-Regular;
+        font-size: 10px;
+        color: #2d3b61;
+        text-align: center;
+        line-height: 14px;
+        margin-bottom: 10px;
+    }
+
+        .modal_popup .table thead {
+            font-family: ProximaNova-Bold;
+        }
+
+        .modal_popup .table .column-pair {
+            background-color: #3a4976;
+            color: #ffffff;
+            text-align: center;
+        }
+
+        .modal_popup .table .column-impair {
+            background-color: #2d3b61;
+            color: #ffffff;
+            text-align: center;
+        }
+
+    .modal_popup .label-left {
+        font-family: 'ProximaNova-Regular';
+        font-size: 13px;
+        color: #54ace6;
+        text-align: left;
+        line-height: 16px;
+    }
+
+    .modal_popup .label-right {
+        font-family: 'ProximaNova-Regular';
+        font-size: 13px;
+        color: #7a8090;
+        text-align: left;
+        line-height: 16px;
+        text-transform: uppercase;
+    }
+
+.footer-right {
+    font-family: 'ProximaNova-Regular';
+    font-size: 12px;
+    font-weight: 600;
+    color: #7b8191;
+    text-align: left;
+    line-height: 14px;
+    border-left: 2px solid #cfdee5;
+}
+
+    .footer-right .footer-title-info {
+        font-family: 'ProximaNova-Regular';
+        font-size: 16px;
+        color: #4a6a8a;
+        line-height: 24px;
+    }
+
+    .footer-right p {
+        margin-left: 15px;
+    }
+
+.modal-content {
+    height: inherit;
+    margin: 0 auto;
+    width: inherit;
+}
+
+.modal-content {
+    -ms-border-radius: 0;
+    border-radius: 0;
+}
+
+.terminos_venta_content {
+    color: rgb(97, 97, 97);
+    font-family: ProximaNova-Light;
+    font-size: 12px;
+    letter-spacing: 0.2pt;
+    line-height: 14px;
+    margin: 15px auto;
+}
+
+.close-modal {
+    background-image: url('/Content/Images/ven_botcerrar_off.png');
+    background-position: center center;
+    background-repeat: no-repeat;
+    padding: 3px 12px;
+    position: relative;
+}
+
+    .close-modal:hover {
+        background-image: url('/Content/Images/ven_botcerrar_over.png');
+    }
+
+.modal-header .modal-title {
+    color: #54ace6;
+    font-family: 'ProximaNova-Regular';
+    font-size: 20px;
+    line-height: 24px;
+    text-align: left;
+}
+
+    .modal-header .modal-title span {
+        color: #4a6a8a;
+        font-family: 'ProximaNova-Bold';
+        font-size: 20px;
+        line-height: 24px;
+        text-align: left;
+    }
+
+.modal-header button.close {
+    color: #2d3b61;
+    font-family: 'ProximaNova-Regular';
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 24px;
+    opacity: 1;
+    text-align: left;
+}
+
+    .modal-header button.close span {
+        color: #54ace6;
+        font-size: 20px;
+        line-height: 0;
+    }
+
+.titulo_section {
+    color: #2d3b61;
+    font-family: 'Open Sans';
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+    text-align: left;
+    text-transform: uppercase;
+}
+
+.descripcion_section p {
+    color: #7b8191;
+    font-family: 'OpenSans-Semibold';
+    font-size: 14px;
+    line-height: 20px;
+    text-align: left;
+}
+
+    .descripcion_section p > span {
+        color: #2d3b61;
+        font-family: 'Open Sans';
+        font-size: 14px;
+        font-weight: bold;
+        line-height: 20px;
+        text-align: left;
+    }
+
+.descripcion_section ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+}
+
+.descripcion_section li {
+    color: #7b8191;
+    font-family: 'Open Sans';
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    text-align: left;
+}
+
+    .descripcion_section li:before {
+        content: "-";
+        padding-right: 8px;
+    }
+
+.modal-header {
+    margin: auto 15px;
+    padding: 10px 0;
+}
+
+.modal-footer {
+    margin: auto 15px;
+    padding: 10px 0;
+}
+
+.modal-backdrop {
+    background-color: #2d3b61;
+}
+
+    .modal-backdrop.in {
+        z-index: 9999;
+    }
+
+.modal-open .modal {
+    z-index: 99999;
+}
+
+.modal-body button.close {
+    margin-right: 15px;
+    -ms-opacity: .5;
+    opacity: .5;
+    border: 1px solid;
+}
+
+    .modal-body button.close:hover {
+        -ms-opacity: 1;
+        opacity: 1;
+    }
+
+    .modal-body button.close > span {
+        padding: 0 2px;
+        margin: 0;
+        line-height: 23px;
+    }
+
+.btn-prueba, .btn-prueba:hover, .btn-prueba:focus {
+    font-family: 'ProximaNova-Regular';
+    font-size: 12px;
+    color: #ffffff;
+    text-align: center;
+    line-height: 30px;
+    height: 31px;
+    width: 145px;
+    background-color: #7ad800;
+    display: inline-block;
+}
+
+
+/* Modals in page demo */
+.modal-consulta .modal-content .modal-title {
+    color: #3e4d5c;
+    font-family: ProximaNova-Bold;
+    font-size: 24px;
+    text-align: center;
+    padding-top: 25px;
+}
+
+.modal-consulta .modal-content span.icon-close-modal-pageDemo {
+    font-size: 40px !important;
+    color: #818c95 !important;
+}
+
+.modal-consulta .modal-content .modal-body .informacion-mensaje {
+    color: #878581;
+    font-family: ProximaNova-Regular;
+    font-size: 15px;
+    line-height: 21px;
+    text-align: center;
+    padding-bottom: 15%;
+}
+
+.modal-consulta .modal-content .modal-body .informacion-mensaje {
+    font-family: ProximaNova-Regular;
+    font-size: 15px;
+    color: #878581;
+    line-height: 21px;
+    text-align: center;
+    padding-bottom: 25px;
+}
+
+.modal-consulta .modal-content .modal-body .divLinkFreeTrial {
+    text-align: center;
+    margin-bottom: 25px;
+}
+
+    .modal-consulta .modal-content .modal-body .divLinkFreeTrial a.LinkFreeTrial {
+        height: 31px;
+        font-family: ProximaNova-Light;
+        font-size: 14px;
+        line-height: 20px;
+        color: #FFFFFF;
+        letter-spacing: 0.2pt;
+        background-color: #7dd614;
+        border: thin solid #64b710;
+        padding: 8px 16px 8px 16px;
+    }
+
+@media screen and (max-width: 374px) {
+    .modal_popup .modal_paises_content {
+        padding: 8px !important;
+    }
+
+        .modal_popup .modal_paises_content .home_list_data {
+            font-size: 10px !important;
+        }
+
+    .modal_popup .modal_clientes_content .image-content {
+        width: 93% !important;
+    }
+
+    .modal-special {
+        width: 93% !important;
+    }
+
+    .modal-header .modal-title,
+    .modal-header .modal-title span {
+        font-size: 14px !important;
+    }
+
+    .modal-consulta .modal-content .modal-title {
+        font-size: 20px !important;
+    }
+
+    .modal-consulta .modal-content .modal-body .informacion-mensaje {
+        font-size: 14px !important;
+    }
+}
+
+@media all and (min-width: 375px) and (max-width: 479px) {
+    .modal_popup .modal_paises_content {
+        padding: 8px !important;
+    }
+
+        .modal_popup .modal_paises_content .home_list_data {
+            font-size: 12px !important;
+        }
+
+    .modal_popup .modal_clientes_content .image-content {
+        width: 50% !important;
+    }
+
+    .modal-special {
+        width: 93% !important;
+    }
+
+    .modal-header .modal-title,
+    .modal-header .modal-title span {
+        font-size: 14px !important;
+    }
+
+    .modal-consulta .modal-content .modal-title {
+        font-size: 20px !important;
+    }
+
+    .modal-consulta .modal-content .modal-body .informacion-mensaje {
+        font-size: 14px !important;
+    }
+}
+
+@media all and (min-width: 480px) and (max-width: 767px) {
+    .modal_popup .modal_paises_content {
+        padding: 16px !important;
+    }
+
+        .modal_popup .modal_paises_content .home_list_data {
+            font-size: 14px !important;
+        }
+
+    .modal_popup .modal_clientes_content .image-content {
+        width: 33.33% !important;
+    }
+
+    .modal-special {
+        width: 93% !important;
+    }
+
+    .modal-header .modal-title,
+    .modal-header .modal-title span {
+        font-size: 16px !important;
+    }
+
+    .modal-consulta .modal-content .modal-title {
+        font-size: 20px !important;
+    }
+
+    .modal-consulta .modal-content .modal-body .informacion-mensaje {
+        font-size: 14px !important;
+    }
+}
+
+@media all and (min-width: 768px) and (max-width: 991px) {
+    .modal_popup .modal_clientes_content .image-content > img {
+        width: 85% !important;
+    }
+}

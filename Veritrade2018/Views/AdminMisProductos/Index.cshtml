@@ -1,0 +1,241 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    ViewBag.Title = "Veritrade Administrador";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    AdminMyProduct objAdminMyProduct = (AdminMyProduct)ViewData["objAdminMyProduct"];
+}
+
+<style>
+    #cboGruposF {
+        height: 27px !important;
+    }
+</style>
+
+<div id="loadingPageAdmin" class="loader is-active-loading">
+    <div class="objectLoading"></div>
+</div>
+
+<div class="padding-height-sm">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <p class="tittle-info">
+                <label id="desCantidadProductos">
+                    @objAdminMyProduct.DescripcionCantidad
+                </label>
+                <a class="downloadExcel"><img src="/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" /></a>
+            </p>
+        </div>
+
+        <div class="col-xs-12 col-sm-12 text-center hidden-xs">
+
+            <a href="@Url.Action("Index", "MisBusquedas")" class="btn boton-opcion margin-height-sm" data-field="nomBtnAddNewProduct">
+                @Resources.MiPerfil.Btn_AddNewProduct
+            </a>
+
+            <button class="btn boton-opcion margin-height-sm btnAddToGroup">
+                @Resources.MiPerfil.Btn_AddSelectionToAGroup
+            </button>
+            <button class="btn boton-delete margin-height-sm btnDeleteSelection">
+                @Resources.MiPerfil.Btn_DeleteSelection
+            </button>
+            <a href="@Url.Action("Index", "MisFavoritos")" class="btn boton-volver margin-height-sm">
+                @Resources.MiPerfil.Btn_Back
+            </a>
+        </div>
+
+        <div class="col-xs-12 col-sm-12">
+            @Html.Partial("GridViews/TableView", objAdminMyProduct)
+        </div>
+
+        <div class="col-xs-12 col-sm-12 text-center">
+            <a href="@Url.Action("Index", "MisBusquedas")" class="btn boton-opcion margin-height-sm" data-field="nomBtnAddNewProduct">
+                @Resources.MiPerfil.Btn_AddNewProduct
+            </a>
+
+            <button class="btn boton-opcion margin-height-sm btnAddToGroup">
+                @Resources.MiPerfil.Btn_AddSelectionToAGroup
+            </button>
+            <button class="btn boton-delete margin-height-sm btnDeleteSelection">
+                @Resources.MiPerfil.Btn_DeleteSelection
+            </button>
+            <a href="@Url.Action("Index", "MisFavoritos")" class="btn boton-volver margin-height-sm">
+                @Resources.MiPerfil.Btn_Back
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Inicio Modal AddToGroup-->
+@Html.Partial("Modals/Modal_AddToGroup", objAdminMyProduct)
+<!-- Fin Modal AddToGroup -->
+<!--Inicio Modal Ventana Sesión-->
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaSesion.cshtml")
+<!--Fin-->
+
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaContactenos.cshtml")
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaMensaje.cshtml")
+
+
+@section Scripts{
+    <script src="@Url.Content("~/Scripts/Plugins/jquery.twbsPagination.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Admin/admin.js?2")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Admin/AdminMisProductos/AdminMisProductos.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/MixPanel/MisFavoritos/MisFavoritosMP.js?1")" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        //Lógica de sessión
+        var t;
+        var timeout = 15 * 60 * 1000;
+
+        function SessionExpiredAlert() {
+            t = setTimeout(function () {
+                $('#ModalVentanaSesion').modal({
+                    show: true,
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }, timeout);
+        };
+
+        function InIEventSession() {
+            clearTimeout(t);
+            SessionExpiredAlert();
+        };
+        //
+
+        $(document).ready(function() {
+
+            var urlPagingTableProducts = '@Url.Action("PageIndexChanging", "AdminMisProductos")';
+            var urlActualizarPartidaFav = '@Url.Action("ActualizarPartidaFav","AdminMisProductos")';
+
+            if ('@objAdminMyProduct.TotalPaginas' > 0) {
+                TableAdminMyProducts.RegisterPaging(urlPagingTableProducts ,
+                    '@objAdminMyProduct.TotalPaginas',
+                    '@objAdminMyProduct.CountVisiblePages',
+                    urlActualizarPartidaFav);
+            }
+
+
+            $("#lnkSearchByNandina, #lnkResetByNandina").click(function() {
+                var vTxtNandinaF = $("#txtNandinaF").val();
+
+                if (this == $("#lnkSearchByNandina")[0] && vTxtNandinaF == "")
+                    return;
+
+                if (this == $("#lnkResetByNandina")[0]) {
+                    vTxtNandinaF  = "";
+                    $("#txtNandinaF").val("");
+                }
+
+                TableAdminMyProducts.SearchOrResetByNandina('@Url.Action("SearchByNandina", "AdminMisProductos")',
+                    vTxtNandinaF,
+                    urlPagingTableProducts,
+                    urlActualizarPartidaFav);
+            });
+
+            $("#lnkSearchByPartida, #lnkResetByPartida").click(function () {
+                var txtPartidaF = $("#txtPartidaF").val();
+
+                if (this == $("#lnkSearchByPartida")[0] && txtPartidaF =="")
+                    return;
+
+                if (this == $("#lnkResetByPartida")[0]) {
+                    txtPartidaF  = "";
+                    $("#txtPartidaF").val("");
+                }
+
+                TableAdminMyProducts.SearchOrResetByPartida('@Url.Action("SearchByPartida", "AdminMisProductos")',
+                    txtPartidaF,
+                    urlPagingTableProducts,
+                    urlActualizarPartidaFav);
+            });
+
+            $("#cboGruposF").change(function () {
+                TableAdminMyProducts.ChangeGruposF("@Url.Action("GruposFavoritosChange", "AdminMisProductos")",
+                    $(this).prop('selectedIndex'),
+                    $(this).val(),
+                    $("#cboGruposF option:selected").text(),
+                    urlPagingTableProducts,
+                    urlActualizarPartidaFav);
+            });
+
+            $(document).on('click',
+                'button.btnAddToGroup',
+                function () {
+                    OptionAdminMyProduct.AddToGroup('@Url.Action("AddToGroup", "AdminMisProductos")');
+                    //Size.ValidationChild();
+                });
+
+
+            ModalAdmin.registerShownEventListener('ModalVentanaContactenos');
+            ModalAdmin.registerHiddenEventListener('ModalVentanaContactenos');
+
+            var urlSendMessageContact = '@Url.Action("EnviarMensajeContactenos", "MisBusquedas")';
+            ModalAdmin.ListenerEnviarMensajeContactenos(urlSendMessageContact);
+
+            ModalAdmin.registerShownEventListener('ModalVentanaMensaje');
+            ModalAdmin.registerHiddenEventListener('ModalVentanaMensaje');
+
+            $("#btnUpdateGroup").click(function() {
+                OptionAdminMyProduct.UpdateGroup('@Url.Action("UpdateGroup", "AdminMisProductos")', urlActualizarPartidaFav);
+            });
+            $("#btnCancelUpdateGroup").click(function () {
+                ModalAdmin.hide("ModalAddToGroup");
+                OptionAdminMyProduct.ResetModalAddToGroup();
+            });
+
+
+            $(document).on('click',
+                'button.btnDeleteSelection',
+                function () {
+                    OptionAdminMyProduct.DeleteSelection('@Url.Action("DeleteFavorite", "AdminMisProductos")',
+                        urlPagingTableProducts,
+                        urlActualizarPartidaFav);
+                });
+
+            //Evento para descargar resumen de tablas
+            $(document).on('click', '.downloadExcel', function () {
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("GetExcelFile", "AdminMisProductos")',
+                    data: {},
+                    beforeSend: function () {
+                        LoadingAdminPage.showOrHideLoadingPage(true);
+                    },
+                    success: function (response) {
+                        LoadingAdminPage.showOrHideLoadingPage(false);
+                        window.location.href = "@Url.RouteUrl(new { Controller = "AdminMisProductos", Action = "DownloadExcelFile" })/?fileName=" + response.fileName;
+                    },
+                    error: function (data) {
+                        console.log(data);
+                    }
+                });
+            });
+
+            LoadingAdminPage.showOrHideLoadingPage(false);
+            Size.ValidationChild();
+        });
+
+        //Inicialiar y Verificar Sesión activa
+        $(document).ready(function() {
+            InIEventSession();
+            $('#ModalVentanaSesion').on('hidden.bs.modal', function () {
+                window.location.href = '@Url.Action("Index", "Home")';
+            });
+        });
+
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            if (jqxhr.status === 401) {
+                window.location.href = '@Url.Action("Index","Home")';
+            } else {
+                console.log(thrownError);
+            }
+        });
+        $( document ).ajaxComplete(function() {
+            InIEventSession();
+        });
+        //
+
+    </script>
+}

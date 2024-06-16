@@ -1,0 +1,237 @@
+﻿@media all and (min-width: 480px) and (max-width: 767px) {
+    .navbar-brand {
+        padding: 15px 15px;
+    }
+
+        .navbar-brand .cabecera_logo {
+            height: 30px;
+            width: 50px;
+            background-color: transparent;
+        }
+
+    /* Barra de Navegacion */
+    .menu-content {
+        height: 60px !important;
+    }
+
+    .barra_navegacion {
+        top: 0;
+    }
+
+        .barra_navegacion div#navbar ul.nav {
+            padding-bottom: 0;
+            padding-top: 0;
+        }
+
+    .barra_navegacion_fixed {
+        height: auto;
+        top: 0;
+    }
+
+    .submenu-left::before, .submenu-right::before {
+        border: none;
+        content: '';
+    }
+
+    .submenu-left li, .submenu-right li {
+        display: block;
+    }
+
+        .submenu-left li a, .submenu-right li a {
+            border: thin solid #cccccc;
+            border-radius: 4px;
+            margin-top: 2px;
+            margin-left: 15px;
+            margin-right: 15px;
+            padding: 5px 15px !important;
+        }
+
+    .nav-list .submenu-right li a {
+        padding: 0 10px;
+    }
+
+    .navbar.barra_navegacion li a.link_menu, .navbar.barra_navegacion li a.link_menu:visited {
+        margin-top: 5px !important;
+    }
+
+    .barra_navegacion .nav-dropdown li a, .barra_navegacion_fixed .nav-dropdown li a {
+        text-align: left;
+    }
+
+    /* Home */
+    .banner .banner_section .banner_content h3 {
+        color: #787671;
+        font-size: 34px;
+        margin-bottom: 0;
+        padding: 0;
+        padding-bottom: 0;
+    }
+
+    .modal_popup .modal_clientes_content, .modal_popup .modal_paises_content {
+        max-height: calc(100vh - 140px) !important;
+        overflow-y: scroll;
+    }
+
+    /* Servicios */
+    div.bhoechie-tab {
+        width: 91% !important;
+    }
+
+    div.bhoechie-tab-content {
+        padding: 50px 35px !important;
+    }
+
+    div.vertical-tab-menu div.tab-menu-list-group .list-group-item:hover > span {
+        display: none !important;
+    }
+
+    .servicios_section .servicios_content p.servicios_contenido {
+        font-size: 13px !important;
+    }
+
+    .servicios_section .servicios_content li {
+        font-size: 13px !important;
+    }
+
+    .servicios_section .servicios_content img.content {
+        padding: 15px 0 !important;
+        width: 260px;
+    }
+
+    /* Ayuda */
+    .ayuda_content .video_content .video_item {
+        float: left;
+        margin: auto 12% !important;
+        width: 80% !important;
+    }
+
+    .ayuda_section .ayuda_content .video_ayuda {
+        height: 170px !important;
+        width: 295px !important;
+    }
+
+    .ayuda_section .ayuda_content .video_description {
+        font-size: 14px !important;
+    }
+
+    .ayuda_section .ayuda_content h4 {
+        font-size: 24px !important;
+    }
+
+    .ayuda_section .ayuda_content .video_description {
+        padding: 0 5%;
+    }
+
+    /* Paises */
+    .paises_section .paises_content img.content {
+        padding: 0 60px !important;
+        width: 100%;
+    }
+
+    .paises_section .paises_content .button-content {
+        padding-left: 0 !important;
+        text-align: center;
+    }
+
+    .paises_section .paises_content label.servicios_title, .servicios_section .servicios_content label.servicios_title_content {
+        font-size: 24px !important;
+        padding-bottom: 8px !important;
+    }
+
+    .paises_section .paises_content p.titulo_detalle {
+        font-size: 15px !important;
+    }
+
+    .paises_section .paises_content li {
+        font-size: 12px !important;
+    }
+
+    .paises_section .paises_content p.nota {
+        font-size: 12px !important;
+    }
+
+    /* Planes y Precios*/
+    hr.plan-separator {
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+    }
+
+    /* Prueba Gratis */
+    .prueba_banner .title {
+        padding: 40px 40px !important;
+    }
+
+        .prueba_banner .title h2 {
+            font-size: 36px !important;
+            line-height: 28px !important;
+            padding: 0 20px;
+        }
+
+    .prueba_section {
+        padding-bottom: 15px;
+        padding-left: 80px !important;
+        padding-right: 80px !important;
+    }
+
+    /* Blog */
+    .noticia-destacada .noticia-destacada-content {
+        padding-left: 50px !important;
+        padding-right: 50px !important;
+        width: 100% !important;
+    }
+
+        .noticia-destacada .noticia-destacada-content .noticia-body {
+            width: 100% !important;
+        }
+
+    .noticias-blog {
+        padding-bottom: 40px !important;
+        padding-left: 50px;
+        padding-right: 50px;
+    }
+
+        .noticias-blog .blog_content_left {
+            padding: 0 !important;
+        }
+
+            .noticias-blog .blog_content_left .post-section .post-item {
+                margin: 10px 50px !important;
+                width: auto !important;
+            }
+
+    .noticia-destacada .noticia-destacada-content .noticia-body {
+        min-height: 350px !important;
+    }
+
+    .noticias-blog .blog_content_right .date-item .imagen-item img {
+        height: 60px !important;
+        width: 120px !important;
+    }
+
+    .noticias-blog .blog_content_right .date-item .anio label {
+        font-size: 26px !important;
+    }
+
+    /* Minisite */
+    .minisite-info .info-description {
+        padding: 30px 30px !important;
+    }
+
+    .minisite-info .detalle, .minisite-info .datos, .minisite-info .graficos {
+        margin: 10px auto !important;
+    }
+
+    .minisite-info .anuncio {
+        margin-bottom: 25px !important;
+    }
+
+        .minisite-info .anuncio h2 {
+            width: 100% !important;
+            height: auto !important;
+        }
+
+    #Chart2 > img, #Chart1 > img {
+        width: 100% !important;
+        height: 88% !important;
+    }
+}

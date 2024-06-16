@@ -1,0 +1,104 @@
+﻿$column-width-init: 150px;
+
+.column-width-min {
+    width: 20px;
+}
+
+.column-width-xs {
+    width: $column-width-init / 2;
+}
+
+.column-width-sm {
+    width: $column-width-init;
+}
+
+.column-width-md {
+    width: $column-width-init * 2;
+}
+
+.column-width-lg {
+    width: $column-width-init * 3;
+}
+
+table {
+    font-size: 10px;
+
+    .table-title {
+        color: $color-white;
+        background-color: $color-blue;
+        text-align: center;
+
+        select {
+            @extend %color-controles-tabla;
+        }
+
+        input {
+            @extend %color-controles-tabla;
+        }
+    }
+
+    .table-footer {
+        color: $color-white;
+        background-color: $color-blue;
+        text-align: center;
+    }
+
+    .form-control {
+        font-size: 10px;
+        height: 24px;
+    }
+
+    thead {
+        tr {
+            th {
+                vertical-align: middle !important;
+            }
+        }
+    }
+
+    margin-bottom:5px !important;
+}
+
+.table-view {
+    display: table;
+    height: 100%;
+}
+
+.table-cell {
+    display: table-cell;
+    vertical-align: middle;
+    float: none;
+}
+
+.pagination > .active > a {
+    background-color: #30a7e5 !important;
+    border-color: #30a7e5 !important;
+}
+.pagination > .active > a:hover {
+    background-color: #30a7e5 !important;
+    border-color: #30a7e5 !important;
+}
+
+@media all and (max-width: 767px) {
+    .table-view {
+        height: 100%;
+    }
+
+    .table-cell {
+        display: inline-block;
+        float: left;
+    }
+}
+
+.column-text-right {
+    text-align: right;
+}
+
+.column-text-center {
+    text-align: center;
+}
+
+.cell-vertical-align-middle {
+    vertical-align: middle !important;
+}
+

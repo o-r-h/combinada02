@@ -1,0 +1,72 @@
+﻿.boton-volver {
+    min-width: 160px;
+    background-color: $color-button-primary;
+    color: $color-white;
+    border-radius: unset;
+    border-color: $color-border-seconday;
+    text-transform: uppercase;
+    font-size: 12px;
+
+    &:hover {
+        color: $color-white;
+        background-color: $color-border-seconday;
+    }
+
+    &:link {
+        color: $color-white;
+        background-color: $color-button-primary;
+    }
+
+    &:focus {
+        color: $color-white;
+        background-color: $color-button-primary;
+    }
+}
+
+.boton-opcion {
+    min-width: 180px;
+    background-color: $color-button-seconday;
+    color: $color-white;
+    border-radius: unset;
+    border-color: $color-border-primary;
+    font-size: 12px;
+
+    &:hover {
+        color: $color-white;
+        background-color: $color-border-primary;
+    }
+
+    &:link {
+        color: $color-white;
+        background-color: $color-button-seconday;
+    }
+
+    &:focus {
+        color: $color-white;
+        background-color: $color-button-seconday;
+    }
+}
+
+.boton-delete {
+    min-width: 180px;
+    background-color: $color-button-delete;
+    color: $color-white;
+    border-radius: unset;
+    border-color: $color-border-delete;
+    font-size: 12px;
+
+    &:hover {
+        color: $color-white;
+        background-color: $color-border-delete;
+    }
+
+    &:link {
+        color: $color-white;
+        background-color: $color-button-delete;
+    }
+
+    &:focus {
+        color: $color-white;
+        background-color: $color-button-delete;
+    }
+}

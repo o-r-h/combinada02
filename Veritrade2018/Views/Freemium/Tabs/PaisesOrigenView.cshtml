@@ -1,0 +1,31 @@
+﻿@using Veritrade2018.Util
+@using Veritrade2018.Models
+@{
+    var modelo = (ConsultaForm)Model;
+
+    var partIdDiv = (modelo.TipoOpe == Enums.TipoOpe.I.ToString() ? (!modelo.FlagVarVisibles.IsManifiesto   ?Enums.Filtro.PaisOrigen.ToString(): Enums.Filtro.PaisEmbarque.ToString()) : Enums.Filtro.PaisDestino.ToString());
+}
+<div class="tab-pane" id="tab-paisesOrigen">
+
+    <div class="row">
+        <div id="@("grid"+partIdDiv)" class="col-md-6 col-sm-12 col-xs-12">
+        </div>
+        <div class="col-md-6 col-sm-12 col-xs-12">
+
+            <div class="form-select-themes pull-right">
+                    <div class="form-group text-center col-sm-12 col-xs-12 group-select-themes">
+                        <label class="control-label">
+                            @Resources.AdminResources.ChartThemes_Text:
+                        </label>
+                        <select id="@("themesChart" + partIdDiv)"
+                                data-filtro="@partIdDiv"
+                                class="form-control filter-selectField-vt select-themes">
+                        </select>
+                    </div>
+               
+            </div>
+
+            <div id="@("pieChart" + partIdDiv)"   class="pie-chart"  style="width: 100%; height: 400px; margin: 0 auto"></div>
+        </div>
+    </div>
+</div>

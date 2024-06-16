@@ -1,0 +1,177 @@
+﻿@using Veritrade2018.Models.Admin;
+@using Veritrade2018.Util
+@{
+    Layout = null;
+
+    var objMySearchForm = (MySearchForm)(Model);
+
+    bool bEnabledCboPais2AndPais = Convert.ToBoolean(ViewData["flagEnabledCboPais2AndPais"]);
+    bool bCheckedrdbImp = Convert.ToBoolean(ViewData["flagCheckedrdbImp"]);
+    bool bCheckedrdbExp = Convert.ToBoolean(ViewData["flagCheckedrdbExp"]);
+    bool bEnabledrdbImp = Convert.ToBoolean(ViewData["flagEnabledrdbImp"]);
+    bool bEnabledrdbExp = Convert.ToBoolean(ViewData["flagEnabledrdbExp"]);
+    string seleccionado = ViewData["Seleccionado"]?.ToString()??"";
+}
+
+
+@functions
+{
+    public bool CheckedResult(string value, string check)
+    {
+        return value == check;
+    }
+}
+
+<div class="form-group">
+    <div class="col-sm-9 col-xs-12">
+        <label class="text-search">
+            @Resources.Resources.Search_Form_Item01
+        </label>
+        <label class="radio-inline">
+            @{
+                var htmlAttributesrdbImp = new Dictionary<string, object>();
+                htmlAttributesrdbImp.Add("id", "rdbImp");
+                if (!bEnabledrdbImp)
+                {
+                    htmlAttributesrdbImp.Add("disabled", "disabled");
+                }
+            }
+
+            @Html.RadioButton("rdbTipoOpe", Enums.TipoOpe.I.ToString(), CheckedResult(Enums.TipoOpe.I.ToString(), objMySearchForm.TipoOperacion) || bCheckedrdbImp, htmlAttributesrdbImp) @Resources.Resources.Home_Search_Radio_Item01
+        </label>
+        <label class="radio-inline">
+            @{
+                var htmlAttributesrdbExp = new Dictionary<string, object>();
+                htmlAttributesrdbExp.Add("id", "rdbExp");
+                if (!bEnabledrdbExp)
+                {
+                    htmlAttributesrdbExp.Add("disabled", "disabled");
+                }
+            }
+
+            @Html.RadioButton("rdbTipoOpe", Enums.TipoOpe.E.ToString(), CheckedResult(Enums.TipoOpe.E.ToString(), objMySearchForm.TipoOperacion) || bCheckedrdbExp, htmlAttributesrdbExp) @Resources.Resources.Home_Search_Radio_Item02
+        </label>
+        <label class="control-label">
+            &nbsp; @Resources.Resources.Search_Form_Item02 &nbsp;
+        </label>
+        
+        @{
+            var htmlAttributesCboPais2AndPais = new Dictionary<string, object>();
+            htmlAttributesCboPais2AndPais.Add("class", "form-control select-formfield select-max-sm");
+            if (!bEnabledCboPais2AndPais)
+            {
+                htmlAttributesCboPais2AndPais.Add("disabled", "disabled");
+            }
+        }
+
+        @Html.DropDownList("cboPais2", new SelectList(objMySearchForm.ListItemsPais2.ToList(), "Value", "Text", objMySearchForm.CodPais2Selected), htmlAttributesCboPais2AndPais)
+
+        @Html.DropDownList("cboPais", new SelectList(objMySearchForm.ListItemsPais.ToList(), "Value", "Text", objMySearchForm.CodPaisSelected), htmlAttributesCboPais2AndPais)
+    </div>
+    <div class="col-sm-3 col-xs-12">
+        <button class="btn btn-video blink-button" onclick="ModalAdmin.registerShowByShowOption('ModalVentanaVideo', true);"
+                @(objMySearchForm.EnabledBtnVerGraficos ? "": "disabled")>
+            @Resources.AdminResources.MySearchs_VideoTutorial_Text
+        </button>
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="col-md-2 col-sm-2 col-xs-12 control-label filter-control-label-vt width-auto">
+        @objMySearchForm.FilterDescription
+    </label>
+    
+    <div class="col-md-5 col-sm-8 col-xs-12 no-padding-left">
+        @if (seleccionado == "")
+        {
+            @Html.DropDownList("cboMyFilters", new SelectList(objMySearchForm.ListItemsMyFilters.ToList(), "Value", "Text"), new { @class = "form-control filter-selectField-vt" })
+        }
+        else
+        {
+            @Html.DropDownList("cboMyFilters", new SelectList(objMySearchForm.ListItemsMyFilters.ToList(), "Value", "Text",seleccionado), new { @class = "form-control filter-selectField-vt" })
+        }
+
+    </div>
+    
+    <label class="col-md-2 col-sm-4 col-xs-3 control-label filter-control-label-vt no-padding-left width-auto">
+        @Resources.AdminResources.AnalyzeIn_Text
+    </label>
+    
+    <div class="col-md-2 col-sm-6 col-xs-9 no-padding-left typeUnit-analyzeIn">
+        <label class="radio-inline @(objMySearchForm.IsVisibleRdbUsd ? "" : "no-display" ) " id="lblRdbUSD">
+            @Html.RadioButton("TipoUnidadAnalisis", "rdbUSD", true, new {id = "rdbUSD"}) @Resources.AdminResources.TypeUSS_Text
+        </label>
+        
+        <label class="radio-inline  @(objMySearchForm.IsVisibleRdbUnid ? "" : "no-display" ) " id="lblRrdbUnid">
+            @Html.RadioButton("TipoUnidadAnalisis", "rdbUnid", false, new {id = "rdbUnid"}) <span id="descUnidad">@Resources.AdminResources.TypeUNIT_Text</span>
+        </label>
+    </div>
+    
+</div>
+
+<div class="form-group">
+    <label class="col-md-2 col-sm-2 col-xs-12 control-label filter-control-label-vt width-auto">
+        @Resources.AdminResources.Period_Text
+    </label>
+
+    <div class="col-md-2 col-sm-2 col-xs-3 no-padding-left div-opcion-periodo">
+        @Html.DropDownList("cboOpcion", new SelectList(objMySearchForm.ListItemsOpcion.ToList(), "Value", "Text"), new { @class = "form-control filter-selectField-vt filtro-periodo opcion-periodo" })
+
+    </div>
+
+    <div class="div-filtro-periodo periodo-ini">
+        <div class="input-group date filtro-periodo" id="cboAnioMesIni">
+            <input name="cboAnioMesIni" type="text" class="form-control" value="">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="div-filtro-periodo periodo-ini">
+        <div class="input-group date filtro-periodo no-display " id="cboAnioIni">
+            <input name="cboAnioIni" type="text" class="form-control  filtro-periodo-anio" value="">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="div-filtro-periodo">
+        <div class="input-group date filtro-periodo" id="cboAnioMesFin">
+            <input name="cboAnioMesFin" type="text" class="form-control" value="">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="div-filtro-periodo">
+        <div class="input-group date filtro-periodo no-display" id="cboAnioFin">
+            <input name="cboAnioFin" type="text" class="form-control  filtro-periodo-anio" value="">
+            <div class="input-group-addon">
+                <span class="glyphicon glyphicon-calendar"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-1 col-sm-2 col-xs-12 divVerGraficos">
+        <button type="button" id="btnVerGraficos" class="btn btn-buscar btnViewCharts">
+            @Html.Raw(Resources.AdminResources.ViewCharts_Button)
+        </button>
+    </div>
+
+    @if (Session["TipoUsuario"].ToString() == "Free Trial" || (bool)(Session["opcionFreeTrial"] ?? false))
+    {
+        var culture = Veritrade2018.Helpers.CultureHelper.GetCurrentNeutralCulture();
+
+        @*Ruben 202206*@
+        <label class="col-sm-1 col-xs-12 control-label width-auto">
+        </label>
+        <div class="col-md-1 col-sm-2 col-xs-12 divVerGraficos">
+            <a href="@Url.Action("Index", "Planes", new { culture })" target="_blank" class="btn btn-buscar btnViewCharts" style="font-weight: bold; background:#F5C224; color: #000000 !important">@Resources.AdminResources.LayoutBar_BuyButton</a>
+        </div>
+    }
+
+</div>

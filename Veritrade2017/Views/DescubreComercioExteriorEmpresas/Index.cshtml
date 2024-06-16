@@ -1,0 +1,172 @@
+﻿@using Veritrade2017.Models
+@using Veritrade2017.Models.CountryProfile
+@{
+    List<CPSubcategoria> listaSub = ViewBag.ListaDatos;
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var idiomaMoneda = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+    var uri = "";
+    if (culture == "es")
+    {
+        uri = HttpContext.Current.Request.Url.AbsolutePath.Substring(0, 10);
+    }
+    else
+    {
+        uri = HttpContext.Current.Request.Url.AbsolutePath.Substring(0, 9);
+    }
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@section Styles{
+
+
+    <link href="@Url.Content("~/Content/Assets/loadingProductProfile.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Plugins/OwlCarousel2-2.2.1/assets/owl.carousel.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap-theme.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/fontawesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/CustomCountryProfile.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/Responsive.css")" rel="stylesheet" />
+    <!-- Icon font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+
+
+
+<div class="container">
+
+    <!-- Start Layout Country Profile -->
+    <header>
+        <div class="inner-header-country">
+            <h1>
+                Descubre el comercio exterior de Argentina <img src="img/flags/Flag_of_Argentina.svg" alt="">
+            </h1>
+            <div class="line-bottom"> </div>
+        </div>
+    </header>
+    <!-- Start Layout Country Profile -->
+
+    <section class="LinksNav">
+        <ol class="breadcrumb">
+            <li><a href="#">Inicio</a></li>
+            <li><a href="#">Argentina</a></li>
+            <li><a href="#">Exportaciones</a></li>
+            <li class="active">Empresas</li>
+        </ol>
+    </section>
+
+    <section class="InfoGeneral">
+        <div class="row flexbox">
+            <div class="col-md-6">
+                <h4>Aquí encontrarás información <br> por categorías de empresas exportadoras <br> argentinas</h4>
+            </div>
+
+            <div class="col-md-6">
+                <div class="DetailsBoxResume">
+                    <h3> 13,906</h3>
+                    <h4>Empresas</h4>
+                    <img src="~/Content/Images/icons/icon_business.svg" alt="" />
+                </div>
+                <div class="SearchEnterprise">
+                    <form>
+                        <input type="search" placeholder="Buscar Empresas">
+                        <button type="submit">Buscar Empresas</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </section>
+
+
+    <section class="TableSortCat-Header">
+        <table class="table table-bordered table-striped mb-0">
+            <tr>
+                <th onclick="sortTable(0, 'str')">Categorías (42)</th>
+                <th onclick="sortTable(1, 'int')" style="text-align: center;" class="ViewSubCats">Subcategoías (205)</th>
+                <th onclick="sortTable(2, 'int')" style="text-align: center;">Empresas <i class="fa fa-arrow-up"></i><i class="fa fa-arrow-down"></i> </th>
+                <th onclick="sortTable(3, 'int')" class="td-right"><span class=" ViewSubCats"> </span> USD$ <span class=" ViewSubCats"> (último año) </span><i class="fa fa-arrow-up"></i><i class="fa fa-arrow-down"></i> </th>
+            </tr>
+
+        </table>
+
+    </section>
+
+
+    <section class="TableSortCat table-wrapper-scroll-y custom-scrollbar">
+
+        <table id="TableSortCatId" class="table table-bordered table-striped mb-0">
+
+            @foreach (var columna in listaSub)
+            {
+
+                <tr onclick="location.href = 'country-profile-argentina-exportaciones-empresas-categorias-aguas.html'">
+                    <td> columna.ShorCategoriaES  </td>
+                    <td class="td-center ViewSubCats">columna.Nsubcategorias </td>
+                    <td class="td-center">columna.NEmpresas</td>
+                    <td class="td-right">columna.NValor</td>
+                </tr>
+            }
+
+
+              
+        </table>
+
+    </section>
+
+
+    <section class="SimpleBanner">
+        <div class="ContainerBox">
+            <div class="row">
+                <div class="TitleBanner">
+                    <h3>Con <b>VERITRADE</b>  podrás: </h3>
+                </div>
+                <div class="col-md-6">
+                    <div class="TittleTest flexbox">
+
+                        <img src="~/Content/Images/icons/icon_data.svg" />
+                        <h4>Reducir tiempos de búsqueda de información</h4>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="TittleTest flexbox">
+                        <img src="~/Content/Images/icons/icon_conections.svg" />
+                        <h4>Obtener data confiable de comercio exterior</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="Marquee">
+        <div class="TittleMarquee">
+            <h4>Empresas y productos relacionados al comercio exterior de Argentina</h4>
+            <div class="LineTitle" style="margin-top: 5px;"></div>
+
+            <marquee scrolldelay="100" scrollamount="4" loop="infinite">
+                <a href="">Vino</a> <a href="">Malbec</a> <a href="">Trapiche</a> <a href="">Newsan</a> <a href="">La Rural</a> <a href="">Cargill</a> <a href="">Bunge</a> <a href="">Vino</a> <a href="">Malbec</a> <a href="">Trapiche</a> <a href="">Newsan</a> <a href="">La Rural</a> <a href="">Cargill</a> <a href="">Bunge</a><a href="">Vino</a> <a href="">Malbec</a> <a href="">Trapiche</a> <a href="">Newsan</a> <a href="">La Rural</a> <a href="">Cargill</a> <a href="">Bunge</a>
+            </marquee>
+
+            <marquee direction="right" scrolldelay="100" scrollamount="4" loop="infinite">
+                <a href="">Vino</a> <a href="">Malbec</a> <a href="">Trapiche</a> <a href="">Newsan</a> <a href="">La Rural</a> <a href="">Cargill</a> <a href="">Bunge</a><a href="">Vino</a> <a href="">Malbec</a> <a href="">Trapiche</a> <a href="">Newsan</a> <a href="">
+                    La
+                    Rural
+                </a> <a href="">Cargill</a> <a href="">Bunge</a><a href="">Vino</a> <a href="">Malbec</a> <a href="">Trapiche</a> <a href="">Newsan</a> <a href="">La Rural</a> <a href="">Cargill</a> <a href="">Bunge</a>
+            </marquee>
+        </div>
+
+    </section>
+
+    <!-- End Layout Country Profile -->
+    <!-- End Layout Country Profile -->
+    <!-- JavaScript Includes -->
+
+
+
+
+
+</div>
+<script src="/Scripts/jquery.min.js"></script>
+<script src="/Scripts/transition.js"></script>
+<script src="/Scripts/collapse.js"></script>
+

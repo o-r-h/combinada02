@@ -1,0 +1,28 @@
+﻿@using Veritrade2018.Models
+@using Veritrade2018.Helpers
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var texto = Configuraciones.GetConfig(culture, "terminos_condiciones_venta");
+}
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalTerminosVenta">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content modal-lg">
+            <div class="modal-body">
+                <div class="row">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal_popup">
+                    <div class="title">
+                        <h2>@Resources.Resources.Terminos_Venta_Titulo</h2>
+                    </div>
+
+                    <div class="terminos_venta_content">
+                        @Html.Raw(texto.Valor)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

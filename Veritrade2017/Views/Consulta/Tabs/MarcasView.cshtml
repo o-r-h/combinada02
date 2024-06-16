@@ -1,0 +1,65 @@
+﻿@using Veritrade2017.Models
+@{
+    var modelo = (ConsultaForm)Model;
+}
+
+<div class="tab-pane" id="tab-marcas">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 divTabMessageExcel">
+            @Resources.Demo_ExcelDonwloadMessage_Part1
+            <span class="spanTabMessageExcel">@Resources.Demo_Brands_Tab</span>
+            @Resources.Demo_ExcelDonwloadMessage_Part2&nbsp;
+            <a class="downloadExcel">
+                <img src="~/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" />
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div class="table-responsive">
+                <table id="table-tabMarcas" class="table cell-border display compact datatable-page-demo" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Resources.Demo_Brands_Tab
+                                <br />
+                                <select id="cboTabMarcas" data-filtro-cbo="Marca" class="form-control filter-select-datatable cboFiltoDataTable">
+                                    <option value="0" selected="selected">
+                                        @Resources.Option_Filter_All
+                                    </option>
+                                </select>
+                            </th>
+                            <th>
+                                @Resources.Grid_Column_SeeRecords
+                            </th>
+                            <th>
+                                Total US$ @Resources.Grid_ColumnHeader_ExportCIF
+                            </th>
+                            <th>%</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div class="section-btn-tabs">
+                    <button id="btnTabAddMarcas" class="btn pull-right" data-filtro-chk="Marca">
+                        @Resources.Add_Filter_Search_Button
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+            <div id="pieChartMarcas" style="width: 100%; height: 400px; margin: 0 auto"></div>
+        </div>
+    </div>
+</div>

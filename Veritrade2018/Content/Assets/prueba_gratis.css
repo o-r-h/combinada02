@@ -1,0 +1,92 @@
+﻿h2 {
+    margin: 0;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.prueba_banner {
+    background-image: url('/Content/Images/fondo_suscripciones.jpg');
+    -ms-background-position: center;
+    background-position: center;
+    -ms-background-repeat: no-repeat;
+    background-repeat: no-repeat;
+    -ms-background-size: cover;
+    background-size: cover;
+}
+
+.prueba_banner .title {
+    display: table;
+    padding: 30px 60px;
+}
+
+.prueba_banner .title img {
+    display: table-cell;
+    height: 117px;
+    margin: auto 15px;
+    width: 108px;
+}
+
+.prueba_banner .title h2 {
+    color: #FFFFFF;
+    display: table-cell;
+    font-family: ProximaNova-Regular;
+    font-size: 32px;
+    line-height: 30px;
+    vertical-align: bottom;
+}
+
+.contenedor_galeria {
+    cursor: zoom-in;
+    padding-bottom: 180px;
+}
+
+.prueba_section {
+    padding-bottom: 5px;
+    padding-left: 100px;
+    padding-right: 60px;
+    padding-top: 30px;
+}
+
+.prueba_section .title {
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.prueba_section .title h2 {
+    color: #3e4d5c;
+    font-family: ProximaNova-Bold;
+    font-size: 24px;
+    line-height: 26px;
+    padding-bottom: 6px;
+    padding-top: 0;
+    text-decoration: none;
+}
+
+.edit_form {
+    display: inline-block;
+    position: relative;
+    width: 100%;
+}
+
+.edit_form label {
+    color: #30a7e5;
+    font-family: ProximaNova-Regular;
+    font-size: 15px;
+    letter-spacing: 0.2pt;
+}
+
+.edit_form .button_trial {
+    background-color: #7DD614;
+    color: #FFFFFF;
+    font-family: ProximaNova-Bold;
+    text-transform: uppercase;
+    -ms-border-radius: 0;
+    border-radius: 0;
+}
+
+.edit_form .button_trial:hover {
+    background-color: #75C710;
+    cursor: pointer;
+}
+
+.contenedor_galeria .owl-carousel { padding: 0 25px; }

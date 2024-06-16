@@ -1,0 +1,46 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    var objPerfil = (MiPerfil)Model;
+
+    var objFlagsFavoritesAndGroups = objPerfil.MyFavoriteAndGroup;
+}
+<div class="col-xs-12 col-sm-12">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <h3 class="tittle-opcion">
+                @Resources.MiPerfil.SettingUpMyFavorites_Text
+            </h3>
+            <p class="description-opcion">
+                @Resources.MiPerfil.DescriptionFavorites_Text
+            </p>
+            
+            <div class="col-xs-12 col-sm-12 text-center">
+                @if (objFlagsFavoritesAndGroups.ExistPartida)
+                {
+                <a href="@Url.Action("Index", "AdminMisProductos")" class="btn boton-opcion" role="button" data-field="Mis Productos">
+                    @Resources.AdminResources.Filter_MyProducts_Button
+                </a>
+                }
+
+                @if (objFlagsFavoritesAndGroups.ExistImporter || objFlagsFavoritesAndGroups.ExistExporter)
+                {
+                <a href="@Url.Action("Index", "AdminMisFavoritos", new {tipoFavorito = objFlagsFavoritesAndGroups.ExistImporter ? "Importador" : "Exportador"})" class="btn boton-opcion" role="button" data-field='@(objPerfil.TipoOpe == "I" ? "Mis Importadores": "Mis Exportadores")'>
+
+                    @(objPerfil.TipoOpe == "I" ? Resources.AdminResources.Filter_MyImporters_Button : Resources.AdminResources.Filter_MyExporters_Button)
+                </a>
+                }
+
+                @if (objFlagsFavoritesAndGroups.ExistSupplier || objFlagsFavoritesAndGroups.ExistImporterExp)
+                {
+                <a href="@Url.Action("Index", "AdminMisFavoritos", new {tipoFavorito = objFlagsFavoritesAndGroups.ExistImporter ? "Proveedor" : "ImportadorExp"})" class="btn boton-opcion" role="button" data-field='@(objPerfil.TipoOpe == "I" ? (objPerfil.CodPaisSelected != "CL" ? "Mis Exportadores": "Mis Marcas"):"Mis Importadores")'>
+
+                    @(objPerfil.TipoOpe == "I" ? (objPerfil.CodPaisSelected != "CL" ? Resources.AdminResources.Filter_MyExporters_Button : Resources.AdminResources.Filter_MyBrands_Button) : Resources.AdminResources.Filter_MyImporters_Button)
+                </a>
+                }
+                
+                <a href="@Url.Action("Index","MisBusquedas")" class="btn boton-volver" role="button">@Resources.MiPerfil.Btn_BackHome</a>
+
+            </div>
+        </div>
+    </div>
+</div>

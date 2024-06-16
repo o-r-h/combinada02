@@ -1,0 +1,710 @@
+﻿@using System.Web.Optimization
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string url = (string)ViewData["url"];
+    string slug = (string)ViewData["slug"];
+    string pais2 = "";
+    switch (slug)
+    {
+        case "ARG": pais2 = "ar"; break;
+        case "CHL": pais2 = "cl"; break;
+        case "COL": pais2 = "co"; break;
+        case "ECU": pais2 = "ec"; break;
+        case "USA": pais2 = "us"; break;
+        case "MEX": pais2 = "mx"; break;
+        case "PER": pais2 = "pe"; break;
+        case "UE": pais2 = "es"; break;
+    }
+}
+@if (controller == "Contactanos")
+{
+    <style>
+        .menu-contact {
+            background-color: #212836;
+            height: 0px !important;
+        }
+    </style>
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <!--  Ini precargar fuentes  --->
+    <link rel="preload" href="/fonts/ProximaNova-LightIt.svg" as="font" type="font/woff2" crossOrigin="anonymous" />
+    <link rel="preload" href="/fonts/ProximaNova-Bold.svg" as="font" type="font/woff2" crossOrigin="anonymous" />
+    <link rel="preload" href="/fonts/ProximaNova-Regular.svg" as="font" type="font/woff2" crossOrigin="anonymous" />
+    <link rel="preload" href="/fonts/ProximaNova-Light.svg" as="font" type="font/woff2" crossOrigin="anonymous" />
+
+    <link rel="preload" href="/fonts/OpenSans-Bold.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+    <link rel="preload" href="/fonts/OpenSans-ExtraBold.ttf" as="font" type="font/woff" crossOrigin="anonymous" />
+    <link rel="preload" href="/fonts/OpenSans-Light.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+    <link rel="preload" href="/fonts/OpenSans-Semibold.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+    <link rel="preload" href="/fonts/OpenSans-Regular.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+    <link rel="preload" href="/fonts/OpenSans-ExtraBoldItalic.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+    <link rel="preload" href="/fonts/OpenSans-BoldItalic.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+
+    <link rel="preload" href="/fonts/OpenSans-LightItalic.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+    <link rel="preload" href="/fonts/OpenSans-Italic.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+    <link rel="preload" href="/fonts/OpenSans-SemiboldItalic.woff" as="font" type="font/woff" crossOrigin="anonymous" />
+
+    @*<link rel="preload" href="/fonts/glyphicons-halflings-regular.sgv" as="font" type="font/woff2" crossOrigin="anonymous" />*@
+    <link rel="preload" href="/fonts/ProximaNova-LightIt.eot" as="font" type="font/eot" crossOrigin="anonymous" />
+    <link rel="preload" href="/fonts/ProximaNova-LightIt.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+
+    @*<link rel="preload" href="/fonts/ProximaNova-Light.eot" as="font" type="font/eot" crossOrigin="anonymous" />*@
+    <link rel="preload" href="/fonts/ProximaNova-Light.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+
+    @*<link rel="preload" href="/fonts/ProximaNova-Regular.eot" as="font" type="font/eot" crossOrigin="anonymous" />*@
+    <link rel="preload" href="/fonts/ProximaNova-Regular.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+
+    @*<link rel="preload" href="/fonts/ProximaNova-Bold.eot" as="font" type="font/eot" crossOrigin="anonymous" />*@
+    <link rel="preload" href="/fonts/ProximaNova-Bold.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+
+    @*<link rel="preload" href="/fonts/ProximaNova-Semibold.svg" as="font" type="font/svg" crossOrigin="anonymous" />*@
+
+    <link rel="preload" href="/fonts/ProximaNova-LightIt.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+    <link rel="preload" href="/fonts/ProximaNova-Bold.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+    <link rel="preload" href="/fonts/ProximaNova-Semibold.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+
+
+    <link rel="preload" href="/fonts/ProximaNova-Light.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+    <link rel="preload" href="/fonts/ProximaNova-Regular.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+    <link rel="preload" href="/fonts/ProximaNova-Semibold.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+
+    <link rel="preload" href="/fonts/glyphicons-halflings-regular.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
+    <!--- Fin precargar fuentes -->
+    <!-- #region DevExpress -->
+    @Html.DevExpress().GetStyleSheets(
+                new StyleSheet { ExtensionType = ExtensionType.LoadingPanel },
+                new StyleSheet { ExtensionType = ExtensionType.PageControl },
+                new StyleSheet { ExtensionType = ExtensionType.Chart }
+                )
+    @Html.DevExpress().GetScripts(
+          new Script { ExtensionType = ExtensionType.LoadingPanel },
+          new Script { ExtensionType = ExtensionType.PageControl },
+          new Script { ExtensionType = ExtensionType.Chart }
+          )
+
+
+    <title>@ViewBag.Title</title>
+
+    @*Ruben 202306*@
+    @if (ViewBag.Canonical != null && ViewBag.Canonical != "")
+    {
+        string Canonical = (string)ViewBag.Canonical;
+        <link rel="canonical" href="@Canonical.ToLower()" />
+    }
+
+    @*Ruben 202304*@
+    @if (ViewBag.HreflangEs != null && ViewBag.HreflangEs != "")
+    {
+        <link rel="alternate" href="@ViewBag.HreflangEs" hreflang="es" />
+        <link rel="alternate" href="@ViewBag.HreflangEn" hreflang="en" />
+    }
+
+    <meta name="description" content="@ViewBag.Description">
+    <meta http-equiv="Content-Language" content="@culture" />
+    <link href='@Url.Content("~/Content/Images/favicon.ico")' rel="shortcut icon" type="image/x-icon" />
+    @*<link href='@Url.Content("~/Content/Images/favicon.ico")' rel="shortcut icon" type="image/x-icon" />*@
+
+    @if (controller == "Paises" && culture == "es")
+    {
+        <link rel="alternate" href="https://www.veritradecorp.com/es/paises/ARG" hreflang="es-ar" />
+        <link rel="alternate" href="https://www.veritradecorp.com/es/paises/CHL" hreflang="es-cl" />
+        <link rel="alternate" href="https://www.veritradecorp.com/es/paises/COL" hreflang="es-co" />
+        <link rel="alternate" href="https://www.veritradecorp.com/es/paises/ECU" hreflang="es-ec" />
+        <link rel="alternate" href="https://www.veritradecorp.com/es/paises/USA" hreflang="en-us" />
+        <link rel="alternate" href="https://www.veritradecorp.com/es/paises/MEX" hreflang="es-mx" />
+        <link rel="alternate" href="https://www.veritradecorp.com/es/paises/PER" hreflang="es-pe" />
+        <link rel="alternate" href="https://www.veritradecorp.com/es/paises/UE" hreflang="es-es" />
+
+        @*<link rel="alternate" href="https://www.veritradecorp.com/es/paises/@slug" hreflang="es-@pais2" />*@
+    }
+
+    @*////////////////////// ANALYTICS ///////////////////////*@
+
+    <!-- Google Tag Manager -->
+    @*comentado https://app.asana.com/0/1202736242952541/1205682748217961/f*@
+    <script>
+        (function (w, d, s, l, i) {
+            w[l] = w[l] || [];
+            w[l].push({
+                'gtm.start':
+                    new Date().getTime(), event: 'gtm.js'
+            });
+            var f = d.getElementsByTagName(s)[0],
+                j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : '';
+            j.async = true; j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-WFVKK27');</script>
+    <!-- End Google Tag Manager -->
+    @*////////////////////// END ANALYTICS ///////////////////////*@
+
+    <!-- Facebook Pixel Code -->
+    @*comentado https://app.asana.com/0/1202736242952541/1205682748217961/f*@
+    <script>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments) }
+                ; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+        }
+            (window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js'); fbq('init', '791161605053531'); fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" src="https://www.facebook.com/tr?id=791161605053531&ev=PageView&noscript=1" /></noscript>
+    <!-- End Facebook Pixel Code -->
+    @*comentado https://app.asana.com/0/1202736242952541/1205682748217961/f*@
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-180256041-1"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-180256041-1');
+    </script>
+    @Styles.Render("~/Content/bundles")
+    @RenderSection("Styles", false)
+
+
+</head>
+<body>
+
+    <!-- Google Tag Manager (noscript) -->
+    @*comentado https://app.asana.com/0/1202736242952541/1205682748217961/f*@
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFVKK27"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+
+    @RenderPage("~/Views/Shared/Partials/InfoBar.cshtml")
+    @if (controller == "Contactanos")
+    {
+        <div class="menu-contact">
+            @RenderPage("~/Views/Shared/Partials/Menu.cshtml")
+        </div>
+    }
+    else
+    {
+        <div class="menu-content">
+            @RenderPage("~/Views/Shared/Partials/Menu.cshtml")
+        </div>
+    }
+
+    <div class="main-container">
+        @RenderBody()
+    </div>
+
+    @RenderPage("~/Views/Shared/Partials/Footer.cshtml")
+
+    @Html.Partial("Modals/Modal_Solicitud")
+    @Html.Partial("Modals/Modal_Success")
+    @Html.Partial("Modals/Modal_Terminos_Condiciones")
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+        $("#ModalSuccess button").click(ViewModalLogin);
+
+        $(".contactenos").click(btnContacto);
+
+        // Ruben 202306
+        $(".forgot_link").click(btnOlvidoContrasenha);
+
+        $("#login_button").click(btnLoginCLick);
+        $("#login_button2").click(btnLoginCLick2);
+
+        $('#txtPassword').keydown(function (e){
+            if(e.keyCode == 13) {
+                $("#login_button").trigger("click");
+            }
+        })
+
+        $('#txtPassword2').keydown(function (e) {
+            if (e.keyCode == 13) {
+                $("#login_button2").trigger("click");
+            }
+        })
+
+        @if (!string.IsNullOrEmpty(url))
+        {
+            var asd = 1;
+                <text>
+                    $("#ModalLogin").modal("show");
+                </text>
+            }
+    });
+
+
+
+
+    (function($) {
+        $("select[name='culture']").change(function() {
+            $(this).parents("form").submit();
+        });
+    })(jQuery);
+
+    function ViewModalLogin() {
+        if ($("#ModalLogin").hasClass("fade in")) {
+            $("#ModalLogin").css("z-index","99999");
+            alert("Entro al metodo")
+        }
+
+     }
+
+    function OnSuccessSolicitud(response) {
+        // Ruben 202304
+        var Email = $("#Email").val().trim();
+        console.log(Email);
+        dataLayer.push({
+            'event': 'contactanos', //valor estático
+            'correo': Email //valor dinamico
+        });
+
+        $(':input', '#solicitudForm')
+            .removeAttr('checked')
+            .removeAttr('selected')
+            .not(':button, :submit, :reset, :hidden, :radio, :checkbox')
+            .val('');
+        $('#send_button').prop("disabled", false);
+        $("#loading-compra").hide();
+        $("#ModalSolicitud").modal('hide');
+        $("#success_title").html(response.SuccessTitle);
+        $("#success_message").html(response.SuccessMsg);
+
+        setTimeout(function () { $("#ModalSuccess").modal('show'); }, 1000);
+    }
+
+    function OnFailureSolicitud(response) {
+        $(':input', '#solicitudForm')
+            .removeAttr('checked')
+            .removeAttr('selected')
+            .not(':button, :submit, :reset, :hidden, :radio, :checkbox')
+            .val('');
+        $('#send_button').prop("disabled", false);
+        $("#loading-compra").hide();
+        $("#ModalSolicitud").modal('hide');
+        $("#success_title").html(response.ErrorTitle);
+        $("#success_message").html(response.ErrorMsg);
+
+        setTimeout(function() { $("#ModalSuccess").modal('show'); }, 1000);
+    }
+
+    function onValidateBeginSol() {
+        $('#loading').show();
+        $('#send_button').prop("disabled", true);
+        $('.home_link').css('border-color', '#c9c9c9');
+        $('.home_link').css('color', '#c9c9c9');
+        $('.home_link').css('cursor', 'not-allowed');
+        $('.home_link').css('background-color', '#fff');
+    }
+
+    function onValidateCompleteSol() {
+
+        $('#loading').hide();
+        $('#send_button').prop("disabled", false);
+        $('.home_link').css('border-color', '#5cb3e8');
+        $('.home_link').css('color', '#5cb3e8');
+        $('.home_link').css('cursor', 'pointer');
+        $('.home_link').css('background-color', '#fff');
+
+    }
+
+    function btnContacto() {
+        // Ruben 202306
+        var CodSolicitud = document.getElementById("CodSolicitud");
+        CodSolicitud.value = "CONTACTENOS";
+
+        $('#loading').hide();
+        $("#ModalSolicitud").find("h4.modal-title").html("@Resources.Request_Text01");
+        $("#ModalSolicitud").find("form").attr("action",
+            "@Url.Action("Contactanos", "Home", new {culture})");
+        $("#ModalSolicitud").modal("show");
+    }
+
+    // Ruben 202306
+    function btnOlvidoContrasenha() {
+        var culture = "@culture";
+        var titulo = "Olvidaste tu contraseña";
+        if (culture == "en")
+            titulo = "Forgot your password";
+
+        var CodSolicitud = document.getElementById("CodSolicitud");
+        CodSolicitud.value = "OLVIDASTE";
+
+        $('#loading').hide();
+        $("#ModalSolicitud").find("h4.modal-title").html(titulo);
+        $("#ModalSolicitud").find("form").attr("action",
+            "@Url.Action("Contactanos", "Home", new {culture})");
+        $("#ModalSolicitud").modal("show");
+    }
+
+    function lnkContactoClick() {
+        $("#ModalSuccess").modal("hide");
+        setTimeout(btnContacto, 1300);
+    }
+
+    function btnLoginCLick() {
+        f_showOrHideLoadingLogin(true);
+
+        var txtCodUsuario = document.getElementById("txtCodUsuario");
+        var txtPassword = document.getElementById("txtPassword");
+        var chkTerminos = document.getElementById("chkTerminos");
+
+        var codUsuario = txtCodUsuario.value;
+        var password = txtPassword.value;
+        if (codUsuario == null || codUsuario === "") {
+            alert("@Html.Raw(Resources.LoginValidated_User)");
+            f_showOrHideLoadingLogin(false);
+            txtCodUsuario.focus();
+            return;
+        }
+        if (password == null || password === "") {
+            alert("@Html.Raw(Resources.LoginValidated_Pwd)");
+            txtPassword.focus();
+            f_showOrHideLoadingLogin(false);
+            return;
+        }
+        if (!chkTerminos.checked) {
+            alert("@Html.Raw(Resources.LoginValidated_Terms)");
+            chkTerminos.focus();
+            f_showOrHideLoadingLogin(false);
+            return;
+        }
+        if (f_checkInvalidChars(codUsuario) || f_checkInvalidChars(password)) {
+            alert("@Html.Raw(Resources.LoginValidated_Characters) '*%");
+            txtCodUsuario.focus();
+            f_showOrHideLoadingLogin(false);
+            return;
+        }
+
+        // Ruben 202304
+        /*
+        console.log(codUsuario);
+        dataLayer.push({
+            'event': 'inicio_sesion', //valor estático
+            'correo': codUsuario //valor dinamico
+        });
+        */
+
+        // Ruben 202304
+        f_ValidarJSON(codUsuario);
+    }
+
+    function btnLoginCLick2() {
+        f_showOrHideLoadingLogin2(true);
+
+        var txtCodUsuario = document.getElementById("txtCodUsuario2");
+        var txtPassword = document.getElementById("txtPassword2");
+        var chkTerminos = document.getElementById("chkTerminos2");
+
+        var codUsuario = txtCodUsuario.value;
+        var password = txtPassword.value;
+        if (codUsuario == null || codUsuario === "") {
+            alert("@Html.Raw(Resources.LoginValidated_User)");
+            f_showOrHideLoadingLogin2(false);
+            txtCodUsuario.focus();
+            return;
+        }
+        if (password == null || password === "") {
+            alert("@Html.Raw(Resources.LoginValidated_Pwd)");
+            txtPassword.focus();
+            f_showOrHideLoadingLogin2(false);
+            return;
+        }
+        if (!chkTerminos.checked) {
+            alert("@Html.Raw(Resources.LoginValidated_Terms)");
+            chkTerminos.focus();
+            f_showOrHideLoadingLogin2(false);
+            return;
+        }
+        if (f_checkInvalidChars(codUsuario) || f_checkInvalidChars(password)) {
+            alert("@Html.Raw(Resources.LoginValidated_Characters) '*%");
+            txtCodUsuario.focus();
+            f_showOrHideLoadingLogin2(false);
+            return;
+        }
+
+        f_ValidarJSON2();
+    }
+
+    function habilitarbtnLogin(x) {
+        if (!x) {
+
+            $("#login_button").unbind("click");
+            $("#login_button").css("opacity", ".4");
+            $("#login_button").css("cursor", "no-drop");
+        } else {
+
+            $("#login_button").bind("click", btnLoginCLick);
+            $("#login_button").css("opacity", "1");
+            $("#login_button").css("cursor", "pointer");
+        }
+
+    }
+
+    function habilitarbtnLogin2(x) {
+        if (!x) {
+
+            $("#login_button2").unbind("click");
+            $("#login_button2").css("opacity", ".4");
+            $("#login_button2").css("cursor", "no-drop");
+        } else {
+
+            $("#login_button2").bind("click", btnLoginCLick2);
+            $("#login_button2").css("opacity", "1");
+            $("#login_button2").css("cursor", "pointer");
+        }
+
+    }
+
+    function f_ValidarJSON(codUsuario) {
+
+        habilitarbtnLogin(false);
+        var dataString = new FormData($("#loginForm").get(0));
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Login", "Common")",
+            data: dataString,
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            success: function(result) {
+                var modalSuccess = $("#ModalSuccess");
+                if (result.respuesta === "OK") {
+
+                    // Ruben 202304
+                    console.log(codUsuario);
+                    dataLayer.push({
+                        'event': 'inicio_sesion', //valor estático
+                        'correo': codUsuario //valor dinamico
+                    });
+                    //return;
+
+                    var form = document.getElementById('loginForm');
+                    var hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'inicio');
+                    hiddenInput.setAttribute('value', 'ok');
+                    form.appendChild(hiddenInput);
+                    hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'ruta');
+                    hiddenInput.setAttribute('value', '@url');
+                    form.appendChild(hiddenInput);
+                    form.submit();
+                } else if (result.respuesta === "INCORRECTO") {
+                    f_showOrHideLoadingLogin(false);
+                    modalSuccess.find("#success_title").html("@Resources.Success_title1");
+                    modalSuccess.find("#success_message").html(
+                        "@Resources.desc_title1<br />" +
+                        "@Resources.desc_title2<br />" +
+                        "@Resources.desc_title3 <a onclick='lnkContactoClick();' id='lnkContacto'>@Resources.MenuItem07.ToLower()</a>.");
+                    modalSuccess.modal("show");
+                    habilitarbtnLogin(true);
+                } else if (result.respuesta === "INACTIVO") {
+                    f_showOrHideLoadingLogin(false);
+                    modalSuccess.find("#success_title").html("@Resources.Success_title2");
+                    modalSuccess.find("#success_message")
+                        .html(
+                            "@Resources.desc_title4<br/>@Resources.desc_title5 <a onclick='lnkContactoClick();' id='lnkContacto'>@Resources.MenuItem07.ToLower()</a>.");
+                    modalSuccess.modal("show");
+                    habilitarbtnLogin(true);
+                } else if (result.respuesta === "OTROPAIS") {
+                    f_showOrHideLoadingLogin(false);
+                    modalSuccess.find("#success_title").html("@Resources.Success_title3");
+                    modalSuccess.find("#success_message").html(
+                        "@Resources.desc_title6<br />" +
+                        "@Resources.desc_title7 <a onclick='lnkContactoClick();' id='lnkContacto'>@Resources.MenuItem07.ToLower()</a>.<br />" +
+                        "@Resources.desc_title8 &nbsp<a HREF='@culture/PruebaGratis' id='lnkPrueba'>@Resources.TrialText.ToUpper()</a> ");
+                    modalSuccess.modal("show");
+                    habilitarbtnLogin(true);
+                }
+                else {
+                    f_showOrHideLoadingLogin(false);
+                    modalSuccess.find("#success_title").html("@Resources.Success_title4");
+                    modalSuccess.find("#success_message").html(result.respuesta +
+                        "@Resources.desc_title9 &nbsp<a onclick='lnkContactoClick();' id='lnkContacto'>@Resources.MenuItem07.ToLower()</a>.");
+                    modalSuccess.modal("show");
+                    habilitarbtnLogin(true);
+                }
+            },
+            error: function () {
+                f_showOrHideLoadingLogin(false);
+                alert("@Resources.desc_title10");
+            }
+        });
+    }
+
+    function f_ValidarJSON2() {
+
+        habilitarbtnLogin2(false);
+        var dataString = new FormData($("#loginForm2").get(0));
+        console.log(dataString)
+        $.ajax({
+            type: "POST",
+            url: "@Url.Action("Login2", "Common")",
+            data: dataString,
+            dataType: "json",
+            contentType: false,
+            processData: false,
+            success: function(result) {
+                var modalSuccess = $("#ModalSuccess");
+                if (result.respuesta === "OK") {
+                    var form = document.getElementById('loginForm2');
+                    var hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'inicio');
+                    hiddenInput.setAttribute('value', 'ok');
+                    form.appendChild(hiddenInput);
+                    hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'ruta');
+                    hiddenInput.setAttribute('value', '@url');
+                    form.appendChild(hiddenInput);
+                    $(form).find("#txtCodUsuario2").attr('name', 'txtCodUsuario');
+                    $(form).find("#txtPassword2").attr('name', 'txtPassword');
+                    form.submit();
+                } else if (result.respuesta === "INCORRECTO") {
+                    f_showOrHideLoadingLogin2(false);
+                    modalSuccess.find("#success_title").html("@Resources.Success_title1");
+                    modalSuccess.find("#success_message").html(
+                        "@Resources.desc_title1<br />" +
+                        "@Resources.desc_title2<br />" +
+                        "@Resources.desc_title3 <a onclick='lnkContactoClick();' id='lnkContacto'>@Resources.MenuItem07.ToLower()</a>.");
+                    modalSuccess.modal("show");
+                    habilitarbtnLogin2(true);
+                } else if (result.respuesta === "INACTIVO") {
+                    f_showOrHideLoadingLogin2(false);
+                    modalSuccess.find("#success_title").html("@Resources.Success_title2");
+                    modalSuccess.find("#success_message")
+                        .html(
+                            "@Resources.desc_title4<br/>@Resources.desc_title5 <a onclick='lnkContactoClick();' id='lnkContacto'>@Resources.MenuItem07.ToLower()</a>.");
+                    modalSuccess.modal("show");
+                    habilitarbtnLogin2(true);
+                } else if (result.respuesta === "OTROPAIS") {
+                    f_showOrHideLoadingLogin2(false);
+                    modalSuccess.find("#success_title").html("@Resources.Success_title3");
+                    modalSuccess.find("#success_message").html(
+                        "@Resources.desc_title6<br />" +
+                        "@Resources.desc_title7 <a onclick='lnkContactoClick();' id='lnkContacto'>@Resources.MenuItem07.ToLower()</a>.<br />" +
+                        "@Resources.desc_title8 &nbsp<a HREF='@culture/PruebaGratis' id='lnkPrueba'>@Resources.TrialText.ToUpper()</a> ");
+                    modalSuccess.modal("show");
+                    habilitarbtnLogin2(true);
+                }
+                else {
+                    f_showOrHideLoadingLogin2(false);
+                    modalSuccess.find("#success_title").html("@Resources.Success_title4");
+                    modalSuccess.find("#success_message").html(result.respuesta +
+                        "@Resources.desc_title9 &nbsp<a onclick='lnkContactoClick();' id='lnkContacto'>@Resources.MenuItem07.ToLower()</a>.");
+                    modalSuccess.modal("show");
+                    habilitarbtnLogin2(true);
+                }
+            },
+            error: function () {
+                f_showOrHideLoadingLogin2(false);
+                alert("@Resources.desc_title10");
+            }
+        });
+    }
+
+    function f_checkInvalidChars(s) {
+        var invalidChars = "'*%";
+        if (s === "" || s == null) return false;
+        for (var i = 0; i < s.length; i++)
+            for (var j = 0; j < invalidChars.length; j++)
+                if (s.charAt(i) === invalidChars.charAt(j)) return true;
+        return false;
+        }
+
+    function f_showOrHideLoadingLogin(pEstado) {
+        return;
+        if (pEstado) {
+            $("#loadingLogin").addClass("is-active-loading-login");
+        } else {
+            $("#loadingLogin").removeClass("is-active-loading-login");
+        }
+    }
+
+    function f_showOrHideLoadingLogin2(pEstado) {
+        return;
+        if (pEstado) {
+            $("#loadingLogin2").addClass("is-active-loading-login");
+        } else {
+            $("#loadingLogin2").removeClass("is-active-loading-login");
+        }
+        }
+
+
+    </script>
+    <!-- begin olark code -->
+    <script type="text/javascript" async>
+        ;
+        (function (o, l, a, r, k, y) {
+            if (o.olark) return;
+            r = "script";
+            y = l.createElement(r);
+            r = l.getElementsByTagName(r)[0];
+            y.async = 1;
+            y.src = "//" + a;
+            r.parentNode.insertBefore(y, r);
+            y = o.olark = function () {
+                k.s.push(arguments);
+                k.t.push(+new Date)
+            };
+            y.extend = function (i, j) { y("extend", i, j) };
+            y.identify = function (i) { y("identify", k.i = i) };
+            y.configure = function (i, j) {
+                y("configure", i, j);
+                k.c[i] = j
+            };
+            k = y._ = { s: [], t: [+new Date], c: {}, l: a };
+        })(window, document, "static.olark.com/jsclient/loader.js");
+        /* Add configuration calls below this comment */
+        olark.identify('9601-799-10-2054');
+    </script>
+
+    @if (!culture.Equals("es"))
+    {
+        <script type="text/javascript">
+            olark.configure("locale.welcome_title", "Online Chat");
+            olark.configure("locale.chatting_title", "Live Help: Now Chatting");
+            olark.configure("locale.unavailable_title", "Contact us");
+            olark.configure("locale.away_message", "Leave a message");
+            olark.configure("locale.welcome_message",
+                "Welcome to my website.  You can use this chat window to chat with me.");
+            olark.configure("locale.chat_input_text", "Type here and hit  to chat");
+            olark.configure("locale.name_input_text", "<Click here> and type your Name");
+            olark.configure("locale.email_input_text", "<Click here> and type your Email");
+            olark.configure("locale.phone_input_text", "<Click here> and type your Phone");
+            olark.configure("locale.offline_note_message", "We are offline, send us a message");
+            olark.configure("locale.send_button_text", "Send");
+            olark.configure("locale.offline_note_thankyou_text",
+                "Thank you for your message.  We will get back to you as soon as we can.");
+            olark.configure("locale.offline_note_error_text",
+                "You must complete all fields and specify a valid email address");
+            olark.configure("locale.offline_note_sending_text", "Sending...");
+            olark.configure("locale.operator_is_typing_text", "is typing...");
+            olark.configure("locale.operator_has_stopped_typing_text", "has stopped typing");
+            olark.configure("locale.introduction_error_text",
+                "Please leave a name and email address so we can contact you in case we get disconnected");
+            olark.configure("locale.introduction_messages", "Questions? We’d love to chat!");
+            olark.configure("locale.introduction_submit_button_text", "Start chat");
+            olark.configure("locale.disabled_input_text_when_convo_has_ended", "chat ended, refresh for new chat");
+            olark.configure("locale.disabled_panel_text_when_convo_has_ended",
+                "This conversation has ended, but all you need to do is refresh the page to start a new one!");
+        </script>
+    }
+    <!-- end olark code -->
+
+
+
+    @Scripts.Render("~/Scripts/bundles")
+    @RenderSection("Scripts", false)
+
+
+
+</body>
+</html>

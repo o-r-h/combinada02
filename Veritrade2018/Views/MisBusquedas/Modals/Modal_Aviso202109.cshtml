@@ -1,0 +1,28 @@
+﻿
+<div class="modal fade modal-consulta" tabindex="-1" role="dialog" id="ModalAviso202109">
+    <div class="modal-dialog" role="document" style="width:505px;">
+        <div class="modal-content" style="padding:10px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="icon-close-modal" aria-hidden="true">&times;</span>
+                </button>
+                @*<img src="~/Content/Images/veritrade_logo.png" witdh="50" height="50" alt="Alternate Text" />*@
+            </div>
+            <div class="modal-body">
+                @if (@Resources.Resources.Idioma == "ES")
+                {
+                    <img src="~/Content/Images/Aviso202109ES.png" witdh="455" height="460" />
+                }
+                else
+                {
+                    <img src="~/Content/Images/Aviso202109EN.png" witdh="455" height="460" />
+                }
+                <table style="width:100%">
+                    <tr><td align="center"><button id="btnNoShowMeAviso" class="btn btn-ok"> @Resources.AdminResources.Modal_VentanaVideo_Button_No_Show </button></td></tr>
+                </table>
+                
+            </div>
+        </div>
+    </div>
+</div>
+

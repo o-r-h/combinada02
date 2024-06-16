@@ -1,0 +1,12 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+
+ @*@Html.PagedListPager((IPagedList)Model,
+                        pagina => Url.Action("CargarFavoritos", "MisBusquedas", new{ pagina }),
+                        PagedListRenderOptions.PageNumbersOnly)*@
+
+@Html.PagedListPager((IPagedList)Model,
+    pagina => Url.Action("CargarFavoritos", "MisBusquedas", new{ pagina }),
+    PagedListRenderOptions.OnlyShowFivePagesAtATime)
+

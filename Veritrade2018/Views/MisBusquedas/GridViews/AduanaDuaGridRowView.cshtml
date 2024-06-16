@@ -1,0 +1,55 @@
+﻿@using Veritrade2018.Models.Admin
+@using Veritrade2018.Util
+@using Veritrade2018.Helpers
+@{
+    var objDataTab = (TabData)Model;
+
+    var idsSeleccionados = objDataTab.IdsSeleccionados;
+
+    bool verificarCheckBox = (idsSeleccionados != null && idsSeleccionados.Count > 0);
+}
+
+
+@foreach (var item in objDataTab.ListRowsTab)
+{
+    <tr>
+        <td>
+            <p class="wspace-normal">
+                @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+            </p>
+        </td>
+        @if (objDataTab.GridHead.IsVisibleDuas)
+        {
+            <td class="cell-vertical-align-middle">
+                @item.Dua
+            </td>
+        }
+
+        <td class="columnUnderline column-text-right cell-vertical-align-middle">
+            @if (item.IsEnabledTotalReg)
+            {
+                <a class="lnkVerRegistros"
+                   title="@objDataTab.GridHead.TitleColumnTotalReg"
+                   data-filtro="@objDataTab.Filtro"
+                   data-idregistro="@item.Id">
+                    @item.TotalReg
+                </a>
+            }
+            else
+            {
+                @item.TotalReg
+            }
+        </td>
+        <td class="column-text-right cell-vertical-align-middle">
+            @item.CiFoFobTot
+        </td>
+
+        @if (objDataTab.GridHead.IsVisibleColumnCheck)
+        {
+            <td class="cell-vertical-align-middle">
+                <input value="@item.Id" id="@("chk"+item.Id.ToString())" type="checkbox"
+                       onclick="ValidarSeleccionCheck('@("chk"+item.Id.ToString())','@(Enums.TipoFiltro.Tab+ objDataTab.Filtro)')" />
+            </td>
+        }
+    </tr>
+}

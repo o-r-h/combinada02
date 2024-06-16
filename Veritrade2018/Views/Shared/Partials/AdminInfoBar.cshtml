@@ -1,0 +1,141 @@
+﻿@using Veritrade2018.Helpers
+@using Veritrade2018.Models.Admin
+@using Veritrade2018.Util;
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    var IngresoComoFreeTrial = (bool)(ViewData["IngresoComoFreeTrial"] ?? false);
+    var flagBotonPrueba = VarGeneral.Instance.ValuesDict[Enums.VarId.VISIBILIDAD_PRUEBA_GRATIS.GetDn()].Valores;
+    var flagMiCuenta = VarGeneral.Instance.ValuesDict[Enums.VarId.VISIBILIDAD_MI_CUENTA.GetDn()].Valores;
+    var flagAlertas = VarGeneral.Instance.ValuesDict[Enums.VarId.VISIBILIDAD_ALERT_USER.GetDn()].Valores;
+    var visibleAlert = FuncionesBusiness.GetLimitAlert(Funciones.ObtieneIdPlan(Session["IdUsuario"].ToString()), "AMP");
+    var origenAux = Funciones.ObtieneOrigen(Session["IdUsuario"].ToString()).ToUpper();
+}
+
+@helper Selected(string c, string culture)
+{
+    if (c == culture)
+    {
+        @:selected="selected"
+    }
+}
+
+<nav class="navbar navbar-inverse navbar-admin">
+    <div class="container container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="@Url.Action("Index", "MisBusquedas")">
+                <img alt="Brand" src="/Content/Images/logo_cabecera.jpg">
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><label><span>@Resources.AdminResources.LayoutBar_Message </span>&nbsp; @ViewBag.nombreUsuario &nbsp; @(IngresoComoFreeTrial ? "["+ Resources.Resources.TrialText.ToUpper() + "]" : "" )  </label></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+
+                @if (!IngresoComoFreeTrial && ViewBag.tipoUsuario == "Free Trial")
+                {
+                    <li><a href="@Url.Action("Index", "Planes", new {culture})" class="btn btn-buy-header" style="background:#FFE632; color:#000000!important">@Resources.AdminResources.LayoutBar_BuyButton</a></li>
+                }
+                @*else if (!IngresoComoFreeTrial && ViewBag.tipoUsuario == "Cliente" && flagBotonPrueba == "1")
+        {
+            <li><a href="@Url.Action("Index", "MisBusquedas", new {culture , op = "ft"})" onclick="return confirm('@Resources.Resources.ModeFreeTrial_Message')" class="btn btn-buy-header">@Resources.AdminResources.LayoutBar_ModeFreeButton</a></li>
+        }*@
+                else if (IngresoComoFreeTrial)
+                {
+                    <li><a href="@Url.Action("Index", "MisBusquedas", new {culture , op = "et"})" class="btn btn-buy-header">@Resources.AdminResources.LayoutBar_ExitModeFreeButton</a></li>
+                }
+
+                <li><button type="button" id="idioma" class="btn btn-language">@Resources.AdminResources.LayoutBar_LanguageButton.ToUpper() +</button></li>
+                <li class="dropdown">
+                    <a href="javascript:void(0);"> <span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>
+                    <ul class="dropdown-menu">
+                        @if ((ViewBag.Plan != "UNIVERSIDADES" || origenAux == "DELOITTE" || origenAux == "ITP") && flagAlertas == "1"@*&& ViewBag.tipoUsuario != "Free Trial"*@ /**/
+                                                                                                                                                                                                                                                    /**/
+                                                                                                                                                                                                                                                    /**/
+                                                                                                                                                                                                                                                    /**/
+                                                                                                                                                                                                                                                    /**/
+                                                                                                                                                                                                                                                    /**/
+                                                                                                                                                                                                                                                    && !IngresoComoFreeTrial && visibleAlert > 0)
+                                    {
+                                        <li><a href="@Url.Action("Index", "MisAlertasFavoritos")" data-field="Mis Alertas">@Resources.AdminResources.LayoutMenu_Item05</a></li>
+                                        if (Funciones.BuscaAlertasDeshabilitadasUsuario(Session["IdUsuario"].ToString()))
+                                        {
+                                            <li><a id="toggleAlert" href="#" data-field="Habilitar Alertas">@Resources.AdminResources.NavBar_EnAlert</a></li>
+                                        }
+                                        else
+                                        {
+                                            <li><a id="toggleAlert" href="#" data-field="Deshabilitar Alertas">@Resources.AdminResources.NavBar_DisAlert</a></li>
+                                        }
+
+
+                                    }
+                        @if (Funciones.EsUsuarioPrincipal(Session["IdUsuario"].ToString()) && flagMiCuenta == "1")
+                        {
+                            <li><a href="@Url.Action("Index", "MiCuenta")" data-field="Mi Cuenta">@Resources.AdminResources.LayoutMenu_MyAccount</a></li>
+                        }
+                        @if (ViewBag.plan != "UNIVERSIDADES" || origenAux == "DELOITTE" || origenAux == "ITP"@*&& !(bool)(Session["opcionFreeTrial"] ?? false)*@)
+{ //&& ViewBag.tipoUsuario != "Convenio")
+                    @*if (flagAlertas  == "1")
+    {
+    <li><a href="@Url.Action("Index", "MisAlertasFavoritos")">@Resources.AdminResources.LayoutMenu_Item05</a></li>
+    }*@
+                    @*<li><a href="@Url.Action("Index", "MiPerfil")">@Resources.AdminResources.LayoutMenu_Item01</a></li>*@
+                    <li><a href="@Url.Action("Index", "MisFavoritos")" data-field="Mis Favoritos">@Resources.AdminResources.LayoutMenu_Item03</a></li>
+                    <li><a href="@Url.Action("Index", "MisGrupos")" data-field="Mis Grupos">@Resources.AdminResources.LayoutMenu_Item04</a></li>
+                    <li>
+                        @*@Html.ActionLink(Resources.MiPerfil.Btn_MyTemplates, "Index", "MisPlantillas", new { }, new { })*@ @*JANAQ 140620 : Linea modificada para agregar un atributo al enlace mis-plantillas *@
+                        @Html.ActionLink(Resources.MiPerfil.Btn_MyTemplates, "Index", "MisPlantillas", new { }, new { data_field = "Mis Plantillas" })
+                    </li>
+                }
+                        @if (!IngresoComoFreeTrial && ViewBag.tipoUsuario == "Cliente" && flagBotonPrueba == "1")
+                        {
+                    <li>
+                        <a href="@Url.Action("Index", "MisBusquedas", new {culture , op = "ft"})" onclick="return confirm
+                                ('@Resources.Resources.ModeFreeTrial_Message')" data-field="Mi Prueba Gratuita">@Resources.AdminResources.LayoutMenu_ModeFree</a>
+                            </li>
+                        }
+                        @*else if (IngresoComoFreeTrial)
+        {
+        <li><a href="@Url.Action("Index", "MisBusquedas", new {culture , op = "et"})" >@Resources.AdminResources.LayoutBar_ExitModeFreeButton</a></li>
+        }*@
+                        <li role="separator" class="divider"></li>
+                        <li><a href="@Url.Action("Logout", "Common")" data-field="Cerrar Sesión">@Resources.AdminResources.LayoutMenu_Item02</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+    <div class="hidden">
+        @using (Html.BeginForm("SetCulture", controller, null, FormMethod.Post, htmlAttributes: new { @id = "form-language" }))
+        {
+            <select name="culture" class="bot_cabecera_01">
+                <option value="en-us" @Selected("es", culture)>English</option>
+                <option value="es" @Selected("en", culture)>Español</option>
+            </select>
+        }
+    </div>
+</nav>
+
+@if (controller.Equals("MisBusquedas") || controller.Equals("MisProductos") || controller.Equals("MisCompanias"))
+{
+    @NavBar.MenuHelper(this.ViewContext, controller, tipoUsuario: ViewBag.tipoUsuario, plan: ViewBag.plan,origenAux: origenAux)
+}
+else
+{
+    @*@PerfilBar.PerfilHelper(this.ViewContext, controller, titlePerfilBar, objMiPerfil)*@
+
+    ViewData["controller"] = controller;
+    @Html.Partial("Partials/PerfilBar")
+}
+

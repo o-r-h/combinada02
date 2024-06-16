@@ -1,0 +1,55 @@
+﻿@model ServiciosPaisesDetalles
+    
+@using Veritrade2018.Models
+@using Veritrade2018.Helpers
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var file = culture.Substring(0, 2);
+    var list = ServiciosPaisesDetalles.GetDatesInfo(Model.CodInfo);
+    var cadena = "";
+}
+<div class="servicios_contenido">
+    <p class="titulo_detalle">
+        @Model.Titulo
+    </p>
+    @if (list.Count > 0)
+    {
+        if (culture.Equals("es"))
+        {
+            @cadena
+            {
+                cadena = Model.Descripcion.Replace("{0}", list[0].ToString("dd - MMMM / yyyy").Replace("-", "de").Replace("/", "del"));
+                cadena = cadena.Replace("{1}", list[1].ToString("dd - MMMM / yyyy").Replace("-", "de").Replace("/", "del"));
+            }
+            @Html.Raw(cadena)
+        }
+        else
+        {
+            @cadena
+            {
+                cadena = Model.Descripcion.Replace("{0}", list[0].ToString("MMMM dd, yyyy"));
+                cadena = cadena.Replace("{1}", list[1].ToString("MMMM dd, yyyy"));
+            }
+            @Html.Raw(cadena)
+        }
+    }
+    else
+    {
+        @Html.Raw(Model.Descripcion)
+    }
+
+
+    @if (!string.IsNullOrEmpty(Model.Archivo))
+    {
+        <p>
+            <a class="bot_muestra" href="/Files/@file/@Model.Archivo" target="_blank">@Resources.Resources.Button_Download</a>
+        </p>
+    }
+
+    @if (!string.IsNullOrEmpty(Model.Nota))
+    {
+        <p class="nota">
+            <b>Nota: </b>@Model.Nota
+        </p>
+    }
+</div>

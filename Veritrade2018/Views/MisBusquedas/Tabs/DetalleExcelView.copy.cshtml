@@ -1,0 +1,275 @@
+﻿
+<div class="tab-pane" id="tab-detalle">
+    
+    <div class="row">
+        <div class="col-sm-12">
+            
+            <div class="row">
+                <div class="col-sm-12 divTabMessageExcel">
+                    @Resources.Resources.Demo_ExcelDonwloadMessage_Part1
+                    <span class="spanTabMessageExcel">@Resources.Resources.Demo_DetailExcel_Tab</span>
+                    @Resources.Resources.Demo_ExcelDonwloadMessage_Part2&nbsp;
+                    <select>
+                        <option value="0">[TODOS LOS CAMPOS]</option>
+                        <option value="18901">Plantilla 01</option>
+                    </select>
+                    &nbsp;
+                    <a class="downloadExcel">
+                        <img src="/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" />
+                        @*<img src="@Url.Content("/Content/Images/bot_excel_off.png")" width="24" height="24" class="ico_excel" alt="" />*@
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="com-sm-12">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead>
+                                <tr class="table-title">
+                                    <th>
+                                        No.
+                                    </th>
+                                    <th>
+                                        Fecha
+                                    </th>
+                                    <th>
+                                        Partida Aduanera
+                                    </th>
+                                    <th>
+                                        Importador
+                                    </th>
+                                    <th>
+                                        Exportador
+                                    </th>
+                                    <th>
+                                        Kg Neto
+                                    </th>
+                                    <th>
+                                        Cantidad
+                                    </th>
+                                    <th>
+                                        Unid.
+                                    </th>
+                                    <th>
+                                        US$ FOB Unit.
+                                    </th>
+                                    <th>
+                                        US$ CIF Unit.
+                                    </th>
+                                    <th>
+                                        US$ CIF Unit + Imptos.
+                                    </th>
+                                    <th>
+                                        DUA <input type="text" />
+                                        <a id="lnkSearchDetalleByFilter"><img src="@Url.Content("/Content/Images/bot_lupal_off.png")" title="Buscar" width="20" height="20" class="cursor-action" /></a>
+                                        <a id="lnkLoadDettalle"><img src="@Url.Content("/Content/Images/bot_recarga_off.png")" title="Restablecer" width="20" height="20" class="cursor-action" /></a>
+                                    </th>
+                                    <th>
+                                        País Origen
+                                    </th>
+                                    <th>
+                                        Descripción  Comercial
+                                        <br />
+                                        <input type="text"  />
+                                        <a id="lnkSearchDetalleByFilter"><img src="@Url.Content("/Content/Images/bot_lupal_off.png")" title="Buscar" width="20" height="20" class="cursor-action" /></a>
+                                        <a id="lnkLoadDettalle"><img src="@Url.Content("/Content/Images/bot_recarga_off.png")" title="Restablecer" width="20" height="20" class="cursor-action" /></a>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        23/02/2018
+                                        <br />
+                                        <a href="#">
+                                            <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        4016930000
+                                    </td>
+                                    <td>
+                                        ALICORP SAA
+                                        <br />
+                                        <a href="#">
+                                            <img src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" class="cursor-action" />
+                                        </a>                                        _
+                                        <a href="#">
+                                            <img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" class="cursor-action" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        N/A
+                                        <br />
+                                        <a href="#">
+                                            <img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" class="cursor-action" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        0.46
+                                    </td>
+                                    <td>
+                                        10.00
+                                    </td>
+                                    <td>
+                                        U
+                                    </td>
+                                    <td>
+                                        25.00
+                                    </td>
+                                    <td>
+                                        26.86
+                                    </td>
+                                    <td>
+                                        28.47
+                                    </td>
+                                    <td>030488</td>
+                                    <td>ARGENTINA</td>
+                                    <td>
+                                        EMPAQUE TECMAR 200-97-00014/00 SELLADO DE PRODUCTO ALIMENTICIO REPUESTO ARO SELLO ROTOR
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        23/02/2018
+                                        <br />
+                                        <a href="#">
+                                            <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        4016930000
+                                    </td>
+                                    <td>
+                                        ALICORP SAA
+                                        <br />
+                                        <a href="#">
+                                            <img src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" class="cursor-action" />
+                                        </a>                                        _
+                                        <a href="#">
+                                            <img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" class="cursor-action" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        N/A
+                                        <br />
+                                        <a href="#">
+                                            <img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" class="cursor-action" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        0.46
+                                    </td>
+                                    <td>
+                                        10.00
+                                    </td>
+                                    <td>
+                                        U
+                                    </td>
+                                    <td>
+                                        25.00
+                                    </td>
+                                    <td>
+                                        26.86
+                                    </td>
+                                    <td>
+                                        28.47
+                                    </td>
+                                    <td>030488</td>
+                                    <td>ARGENTINA</td>
+                                    <td>
+                                        EMPAQUE TECMAR 200-97-00014/00 SELLADO DE PRODUCTO ALIMENTICIO REPUESTO ARO SELLO ROTOR
+                                    </td>
+                                </tr>
+
+                                <tr>
+                                    <td>1</td>
+                                    <td>
+                                        23/02/2018
+                                        <br />
+                                        <a href="#">
+                                            <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        4016930000
+                                    </td>
+                                    <td>
+                                        ALICORP SAA
+                                        <br />
+                                        <a href="#">
+                                            <img src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" class="cursor-action" />
+                                        </a>                                        _
+                                        <a href="#">
+                                            <img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" class="cursor-action" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        N/A
+                                        <br />
+                                        <a href="#">
+                                            <img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" class="cursor-action" />
+                                        </a>
+                                    </td>
+                                    <td>
+                                        0.46
+                                    </td>
+                                    <td>
+                                        10.00
+                                    </td>
+                                    <td>
+                                        U
+                                    </td>
+                                    <td>
+                                        25.00
+                                    </td>
+                                    <td>
+                                        26.86
+                                    </td>
+                                    <td>
+                                        28.47
+                                    </td>
+                                    <td>030488</td>
+                                    <td>ARGENTINA</td>
+                                    <td>
+                                        EMPAQUE TECMAR 200-97-00014/00 SELLADO DE PRODUCTO ALIMENTICIO REPUESTO ARO SELLO ROTOR
+                                    </td>
+                                </tr>
+                            </tbody>
+                           
+                        </table>
+
+                        <div class="text-center">
+                            <nav aria-label="Page navigation">
+                                <ul class="pagination pagination-sm">
+                                    <li>
+                                        <a href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                        </a>
+                                    </li>
+                                    <li><a class="active" href="#">1</a></li>
+                                    <li><a href="#">2</a></li>
+                                    <li><a href="#">3</a></li>
+                                    <li><a href="#">4</a></li>
+                                    <li><a href="#">5</a></li>
+                                    <li>
+                                        <a href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>

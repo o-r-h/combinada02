@@ -1,0 +1,17 @@
+﻿@{
+    int total = Convert.ToInt16(Model.total);
+}
+@if (total > 0)
+{
+    <div id="exporChart" style="width:100%; height:325px"></div>
+}
+else
+{
+    <div style="background-image: url('/Content/Images/Minisite/banner_gris-2x.png');height: 310px">
+        <div class="box">
+            <p>
+                @Resources.MinisiteResources.Chart01_Empty
+            </p>
+        </div>
+    </div>
+}

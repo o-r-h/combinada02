@@ -1,0 +1,267 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="AddFavoritesToGroup_Text" xml:space="preserve">
+    <value>Add favorites to Group</value>
+  </data>
+  <data name="Add_newBrand_Text" xml:space="preserve">
+    <value>Add new Brand</value>
+  </data>
+  <data name="Add_new_Text" xml:space="preserve">
+    <value>Add new</value>
+  </data>
+  <data name="Btn_AddNewProduct" xml:space="preserve">
+    <value>Add new Product</value>
+  </data>
+  <data name="Btn_AddSelectionToAGroup" xml:space="preserve">
+    <value>Add selection to a Group</value>
+  </data>
+  <data name="Btn_AddToGroup" xml:space="preserve">
+    <value>Add to group</value>
+  </data>
+  <data name="Btn_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Btn_BackHome" xml:space="preserve">
+    <value>BACK</value>
+  </data>
+  <data name="Btn_DeleteSelection" xml:space="preserve">
+    <value>Delete selection</value>
+  </data>
+  <data name="Btn_GoToMyGroups" xml:space="preserve">
+    <value>Go to My Groups</value>
+  </data>
+  <data name="Btn_MyBrandsGroups" xml:space="preserve">
+    <value>My Brands Groups</value>
+  </data>
+  <data name="Btn_MyExportersGroups" xml:space="preserve">
+    <value>My Exporters Groups</value>
+  </data>
+  <data name="Btn_MyImportersGroups" xml:space="preserve">
+    <value>My Importers Groups</value>
+  </data>
+  <data name="Btn_MyProductsGroups" xml:space="preserve">
+    <value>My Products Groups</value>
+  </data>
+  <data name="Btn_MyTemplates" xml:space="preserve">
+    <value>My Excel templates</value>
+  </data>
+  <data name="CustomizeMyTemplates_Text" xml:space="preserve">
+    <value>Customize My Excel templates</value>
+  </data>
+  <data name="DeleteFavorites_Text" xml:space="preserve">
+    <value>Delete favorites</value>
+  </data>
+  <data name="DeleteFavorite_Text" xml:space="preserve">
+    <value>Delete favorite</value>
+  </data>
+  <data name="DeleteSelectedGroups_Text" xml:space="preserve">
+    <value>Delete selected Groups</value>
+  </data>
+  <data name="Delete_Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="DescriptionFavorites_Text" xml:space="preserve">
+    <value>In this section, you can edit, delete or rename your Favorites or form Groups by joining several of them (products or companies) per your criteria.</value>
+  </data>
+  <data name="DescriptionGroups_Text" xml:space="preserve">
+    <value>From this section, you can edit or delete your Product Groups or Companies.</value>
+  </data>
+  <data name="Group_Text" xml:space="preserve">
+    <value>Group</value>
+  </data>
+  <data name="ModifyGroup_Text" xml:space="preserve">
+    <value>Modify Group</value>
+  </data>
+  <data name="Msg_CouldNotDeleteAllSelectedFavorites" xml:space="preserve">
+    <value>Could not delete all selected favorites. &lt;br&gt;A group must have at least one favorite. &lt;br&gt;We assure you eliminate the entire Group</value>
+  </data>
+  <data name="MyFavoritesAndGroupsConfiguration_Text" xml:space="preserve">
+    <value>My Favorites and Groups Configuration</value>
+  </data>
+  <data name="MyGroups_Text" xml:space="preserve">
+    <value>My Groups</value>
+  </data>
+  <data name="Save_Text" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="SelectAtLeastOneFavoriteToDelete_Text" xml:space="preserve">
+    <value>Please select at least one favorite to delete</value>
+  </data>
+  <data name="SelectAtLeastOneFavorite_Text" xml:space="preserve">
+    <value>Please select at least one favorite</value>
+  </data>
+  <data name="SelectAtLeastOneGroupToDelete_Text" xml:space="preserve">
+    <value>Please select at least one group to delete</value>
+  </data>
+  <data name="Select_Text" xml:space="preserve">
+    <value>Select</value>
+  </data>
+  <data name="SettingUpMyFavorites_Text" xml:space="preserve">
+    <value>Setting up My Favorites</value>
+  </data>
+  <data name="SettingUpMyGroups_Text" xml:space="preserve">
+    <value>Setting up My Groups</value>
+  </data>
+  <data name="Setting_My_Products" xml:space="preserve">
+    <value>Personalizar Mis Productos</value>
+  </data>
+  <data name="ShowFavorites_Text" xml:space="preserve">
+    <value>Show Favorites</value>
+  </data>
+  <data name="TaxID_Text" xml:space="preserve">
+    <value>Tax ID</value>
+  </data>
+  <data name="Update_Text" xml:space="preserve">
+    <value>Update</value>
+  </data>
+  <data name="CustomizeMyExcelTemplates_Text" xml:space="preserve">
+    <value>Customize My Excel Templates</value>
+  </data>
+  <data name="Template_Text" xml:space="preserve">
+    <value>Template</value>
+  </data>
+  <data name="Default_Text" xml:space="preserve">
+    <value>Default</value>
+  </data>
+  <data name="NewTemplate_Text" xml:space="preserve">
+    <value>New Template</value>
+  </data>
+  <data name="AvailableFields_Text" xml:space="preserve">
+    <value>Available Fields</value>
+  </data>
+  <data name="CustomizedName_Text" xml:space="preserve">
+    <value>Customized Name</value>
+  </data>
+  <data name="SaveTemplate_Text" xml:space="preserve">
+    <value>Save Template</value>
+  </data>
+  <data name="DeleteTemplate_Text" xml:space="preserve">
+    <value>Delete Template</value>
+  </data>
+  <data name="MyFavoritesConfiguration_Text" xml:space="preserve">
+    <value>My Favorites Configuration</value>
+  </data>
+  <data name="MyGroupsConfiguration_Text" xml:space="preserve">
+    <value>My Groups Configuration</value>
+  </data>
+  <data name="SettingUpMyAlerts_Text" xml:space="preserve">
+    <value>Setting up My Alerts</value>
+  </data>
+</root>

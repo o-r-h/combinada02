@@ -1,0 +1,56 @@
+﻿@using Veritrade2018.Models
+@using Veritrade2018.Helpers
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var servicios = (List<Servicios>)ViewData["serviciosMenu"];
+    var codCampania = ViewData["CodCampaña"];
+    if (Session["c"] != null && Session["c"].ToString() != "")
+    {
+        codCampania = Session["c"].ToString();
+    }
+}
+<footer class="footer">
+    <div class="container">
+        <div class="row hidden-xs">
+            <div class="col-xs-12 col-sm-3 col-md-3">
+                <h4>@Resources.Resources.Footer_SiteMap</h4>
+                <p>@Html.ActionLink(Resources.Resources.MenuItem01, "Index", "Servicios", new { culture, slug = servicios[0].Slug }, new { })</p>
+                <p>@Html.ActionLink(Resources.Resources.MenuItem02, "Index", "Ayuda", new { culture }, new { })</p>
+                <p>@Html.ActionLink(Resources.Resources.MenuItem03, "Index", "Consulta", new { culture }, new { })</p>
+                <p>@Html.ActionLink(Resources.Resources.MenuItem04, "Index", "Paises", new { culture, slug = "PER" }, new { })</p>
+            </div>
+            <div class="col-xs-12 col-sm-5 col-md-6">
+                <h4>&nbsp;</h4>
+                <p>@Html.ActionLink(Resources.Resources.MenuItem05, "Index", "Planes", new { culture }, new { })</p>
+                <p>@Html.ActionLink(Resources.Resources.MenuItem06, "Index", "Blog", new { culture }, new { })</p>
+                <p>@Html.ActionLink(Resources.Resources.TrialText, "Index", "PruebaGratis", new { culture, campania = codCampania }, new { @class = "link_footer hidden-xs" })</p>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-3">
+                <h4>@Resources.Resources.MenuItem07</h4>
+                <p>@Resources.Resources.Footer_Email: @Configuraciones.GetConfig(culture, "email_footer").Valor</p>
+                <p>@Resources.Resources.Footer_Phone: @Configuraciones.GetConfig(culture, "phone_footer").Valor</p>
+                <br>
+                <p>
+                    <b>@Resources.Resources.Footer_Searchby: </b>
+                    <a href="https://www.facebook.com/veritrade/" target="new">
+                        <img src="@Url.Content("~/Content/Images/ico_social01_off.jpg")" class="pie_icon" alt="" />
+                    </a>
+                    <a href="https://plus.google.com/u/0/105745704279265511357/posts" target="new">
+                        <img src="@Url.Content("~/Content/Images/ico_social02_off.jpg")" class="pie_icon" alt="" />
+                    </a>
+                    <a href="https://www.linkedin.com/company/veritrade-analysis" target="new">
+                        <img src="@Url.Content("~/Content/Images/ico_social03_off.jpg")" class="pie_icon" alt="" />
+                    </a>
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12">
+                <p>
+                    &#64;2015 Veritrade &nbsp;&#124;&nbsp; @Resources.Resources.Footer_AllRightsReserved &nbsp;&#124;&nbsp;
+                    @Html.ActionLink(Resources.Resources.Footer_TermsConditions, "", null, new { href = "#ModalTerminosCondiciones", data_toggle = "modal" })
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>

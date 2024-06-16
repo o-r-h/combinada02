@@ -1,0 +1,240 @@
+﻿@using System.Web.Optimization
+@using Veritrade2017.Models
+@using Veritrade2017.Models.Minisite
+@using Veritrade2017.Models.ProductProfile
+
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+
+    ViewBag.Title = ProductProfileResources.Title_Landing;
+    //ViewBag.Description = ProductProfileResources.Meta_Description;
+
+    if (culture == "es")
+    {
+        ViewBag.Title = "Encuentra Importaciones y Exportaciones Por Producto | Veritrade";
+        ViewBag.Description = "Busca importaciones y exportaciones de productos o partidas arancelarias que tu empresa necesita. [Prueba Gratis hoy]";
+    }
+
+    var last_searches = (List<BuscarProducto>)ViewData["last_searches"];
+    int count_last_searches = (Int32)ViewData["CountSearches"];
+}
+
+@section Styles
+{
+    @Styles.Render("~/Content/home")
+    <link href="@Url.Content("~/Content/Assets/prueba_gratis.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Assets/productprofile.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Assets/loading.css")" rel="stylesheet" type="text/css" />
+}
+<style>
+
+    .is-active-loading {
+        background-color: transparent;
+    }
+
+    .loader .objectLoading {
+        width: 6px;
+        height: 17px;
+        background: rgba(100,186,234,1);
+        position: relative;
+        animation: objectLoading-animation 1s ease-in-out infinite;
+        animation-delay: 0.4s;
+        top: 50%;
+        margin: -28px auto 0;
+    }
+
+        .loader .objectLoading::after, .loader .objectLoading::before {
+            content: '';
+            position: absolute;
+            width: 6px;
+            height: 17px;
+            background: rgba(100,186,234,1);
+            animation: objectLoading-animation 1s ease-in-out infinite;
+        }
+
+        .loader .objectLoading::before {
+            right: 10px;
+            animation-delay: 0.2s;
+        }
+
+        .loader .objectLoading::after {
+            left: 10px;
+            animation-delay: 0.2s;
+        }
+
+    /*.is-active-loading {
+            background-color: rgba(150,150,150,.15);
+            height: 100%;
+            z-index: 999999;
+            position: absolute;
+            left: auto;
+            width: auto;
+            right: 30px;
+            top: 50%;
+        }*/
+    /*.loader .objectLoading::before {
+            right: 10px !important;
+        }
+        .loader .objectLoading::after, .loader .objectLoading::before {
+            content: '';
+            width: 6px;
+            height: 17px;
+        }
+        .loader .objectLoading::after {
+            left: 10px !important;
+        }
+        .loader .objectLoading {
+            width: 6px;
+            height: 17px;
+            background: rgba(100,186,234,1);
+            position: relative;
+            animation: objectLoading-animation 1s ease-in-out infinite;
+            animation-delay: 0.4s;
+            top: 50%;
+            margin: -28px auto 0;
+        }*/
+</style>
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.11.4.min.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/misproductos.js")"></script>
+    <script src="@Url.Content("~/Scripts/Admin/admin.js")" defer type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            LoadingAdminPage.showOrHideLoadingPage(false);
+            var flag = true;
+            Productos.LastSearches('@Url.Action("LastSearches2", "ProductoPerfil")', '@culture');
+            //var cont = 10;
+            //setTimeout(console.log("HASDASDASDSS"), 3000);
+            function timeout(flag) {
+                if (flag) {
+                    setTimeout(function () {
+                        @*if (cont >= @count_last_searches ) {
+                            cont = 0;
+                        }*@
+                        Productos.LastSearches('@Url.Action("LastSearches2", "ProductoPerfil")', '@culture');
+                        flag = false;
+                        timeout(flag);
+                        //cont += 10;
+                        },
+                        5000);
+                }
+            }
+            timeout(flag);
+        });
+
+        @*setTimeout(Productos.LastSearches(urlPost), 5000);*@
+    </script>
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $("#txtProducto").autocomplete({
+                appendTo: "#autocompleteProducto",
+                source: function(request, response) {
+                    $.ajax({
+                        url: "@Url.Action("BuscarProducto", "ProductoPerfil")",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            description: request.term,
+                            idioma: '@culture'
+                        },
+                        beforeSend: function () {
+                            LoadingAdminPage.showOrHideLoadingPage(true);
+                        },
+                        success: function(data) {
+                            //console.log(data);
+                            LoadingAdminPage.showOrHideLoadingPage(false);
+                            response($.map(data,
+                                function(item) {
+                                    return {
+                                        id: item.id,
+                                        label: item.value,
+                                        value: item.value,
+                                        pais: item.pais,
+                                        tipoOpe: item.tipoOpe,
+                                        uri: item.uri,
+                                        codPartida: item.codPartida
+                                    };
+                                }));
+                        }
+                    });
+                },
+                minLength: 2,
+                open: function(event, ui) {
+                    $('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
+                },
+                select: function(event, ui) {
+                    //console.log(ui);
+                     $('#search').prop("disabled", false);
+                    if ('@culture' == "es") {
+                        $("#slug").val("/@culture/" +
+                            ui.item.pais +
+                            "/importaciones-y-exportaciones/" +
+                            ui.item.uri +
+                            "/" +
+                            ui.item.codPartida);
+                    } else {
+                        $("#slug").val("/@culture/" +
+                            ui.item.pais +
+                            "/imports-and-exports/" +
+                            ui.item.uri +
+                            "/" +
+                            ui.item.codPartida);
+                    }
+                }
+            });
+            $('#txtProducto').blur(function () {
+                if ($('#txtProducto').val().trim() === '') {
+                    $('#search').prop("disabled", true);
+                }
+
+            });
+            $(function() {
+                $("#search").click(function () {
+                    
+                    if ($("#slug").val().trim() !== "") {
+                        if ('@culture' == "es") {
+                            window.location.replace($("#slug").val());
+                        } else {
+                            window.location.replace($("#slug").val());
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+<div class="t_fondo_celeste-w">
+    <div class="t_fondo_celeste-l">
+        <div class="t_fondo_celeste-r">
+            <div class="t_fondo_celeste">
+                <div class="container t_container_b">
+                    <h2>@Html.Raw(Resources.Empresas_Buscar_Content_Title)</h2>
+                    <h3>@ProductProfileResources.Productos_Buscar_Content_SubTitle</h3>
+
+                    <div class="t_buscar">
+                        <div class="row">
+                            <div class="col-md-8">
+                                @Html.Hidden("slug")
+                                <input type="text" id="txtProducto" placeholder="@ProductProfileResources.Productos_Buscar_Content_SubTitle">
+                                <div id="autocompleteProducto" class="autocomplete_content"></div>
+                                @*<div id="loadingPageAdmin" class="loader is-active-loading" style="position: absolute;left: auto;width: auto;right: 30px;top: 50%;">*@
+                                <div id="loadingPageAdmin" class="loader" style="position: absolute;left: auto;width: auto;right: 30px;top: 100%;">
+                                        <div class="objectLoading"></div>
+                                    </div>
+                                </div>
+                            <div class="col-md-4">
+                                <button disabled class="btn-search btn btn-lg btn-primary" id="search" onclick="ga('send', 'event', 'boton', 'click', 'buscar')">@Resources.Search_Button</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="LastSearches">
+                        @Html.Partial("~/Views/ProductoPerfil/Partials/LastSearches.cshtml", last_searches)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

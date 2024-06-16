@@ -1,0 +1,763 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="DestinationCountry_FormField_Label" xml:space="preserve">
+    <value>País Destino</value>
+  </data>
+  <data name="Filter_MyBrands_Button" xml:space="preserve">
+    <value>Mis Marcas</value>
+  </data>
+  <data name="Filter_MyExporters_Button" xml:space="preserve">
+    <value>Mis Exportadores</value>
+  </data>
+  <data name="Filter_MyImporters_Button" xml:space="preserve">
+    <value>Mis Importadores</value>
+  </data>
+  <data name="Filter_MyProducts_Button" xml:space="preserve">
+    <value>Mis Productos</value>
+  </data>
+  <data name="LayoutBar_BuyButton" xml:space="preserve">
+    <value>Comprar online</value>
+  </data>
+  <data name="LayoutBar_LanguageButton" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="LayoutBar_Message" xml:space="preserve">
+    <value>Bienvenido (a)</value>
+  </data>
+  <data name="LayoutMenu_Item01" xml:space="preserve">
+    <value>Mi Cuenta</value>
+  </data>
+  <data name="LayoutMenu_Item02" xml:space="preserve">
+    <value>Cerrar Sesión</value>
+  </data>
+  <data name="Modal_VentanaAviso_Att" xml:space="preserve">
+    <value>Atentamente,</value>
+  </data>
+  <data name="Modal_VentanaAviso_Contactus_Button" xml:space="preserve">
+    <value>Contáctenos</value>
+  </data>
+  <data name="Modal_VentanaAviso_Greeting" xml:space="preserve">
+    <value>Estimados Amigos,</value>
+  </data>
+  <data name="Modal_VentanaAviso_InvitationNewDatabase" xml:space="preserve">
+    <value>Si deseas adquirir los planes que tienen esta nueva base de datos</value>
+  </data>
+  <data name="Modal_VentanaAviso_Message1" xml:space="preserve">
+    <value>Queremos comunicarles que a partir de ahora Veritrade cuenta con información de México Vía marítima en detalle.  Para acceder a esta información, tienes que escoger la Región: Latinoamerica y después escoger "México Detalle Marítimo":</value>
+  </data>
+  <data name="Modal_VentanaAviso_Message2" xml:space="preserve">
+    <value>Esta información ya se encuentra disponible para nuestros clientes de los Planes Full Latam y Latam Full World.
+														&lt;br&gt;Como siempre nuestro objetivo es mejorar la usabilidad, experiencia de uso y la calidad de nuestras bases de datos para el beneficio de nuestros clientes.</value>
+  </data>
+  <data name="Modal_VentanaAviso_NewDatabase" xml:space="preserve">
+    <value>¡ Nueva  Base de Datos: México Vía marítima en detalle !</value>
+  </data>
+  <data name="Modal_VentanaAviso_Sign" xml:space="preserve">
+    <value>El Equipo Veritrade</value>
+  </data>
+  <data name="Modal_VentanaAviso_Slogan" xml:space="preserve">
+    <value>Tu aliado en información de comercio exterior de Latinoamérica y el mundo</value>
+  </data>
+  <data name="Modal_VentanaAviso_VeritradeNews" xml:space="preserve">
+    <value>Novedades Veritrade</value>
+  </data>
+  <data name="Modal_VentanaContactenos_SendButton" xml:space="preserve">
+    <value>Enviar</value>
+  </data>
+  <data name="Modal_VentanaContactenos_Title" xml:space="preserve">
+    <value>Solicitud de contacto o soporte</value>
+  </data>
+  <data name="Modal_VentanaVideo_Message" xml:space="preserve">
+    <value>Queremos ayudarte a maximizar el uso que puedas darle a Veritrade. Por eso te brindamos estos tutoriales que te ayudarán a ti y a tu empresa a obtener toda la información que necesitas cuando la necesitas.</value>
+  </data>
+  <data name="Modal_VentanaVideo_Title" xml:space="preserve">
+    <value>Cómo buscar en Veritrade</value>
+  </data>
+  <data name="Modal_VentanaVideo_UrlVideo" xml:space="preserve">
+    <value>https://www.youtube.com/embed/dw0qgNuIePQ?rel=0</value>
+  </data>
+  <data name="Modal_VentanaVideo_Button_No_Show" xml:space="preserve">
+    <value>No volver a mostrar</value>
+  </data>
+  <data name="Modal_VentanaVideo_Text_No_Show" xml:space="preserve">
+    <value>Puedes volver a ver los videos haciendo clic en "Ver video tutorial" ubicado en la barra superior</value>
+  </data>
+  <data name="Modal_VentanContactenos_FormLabelMessage" xml:space="preserve">
+    <value>Mensaje</value>
+  </data>
+  <data name="MySearchs_VideoTutorial_Text" xml:space="preserve">
+    <value>Video Tutorial</value>
+  </data>
+  <data name="NavBar_Item01" xml:space="preserve">
+    <value>Mis Búsquedas</value>
+  </data>
+  <data name="NavBar_Item02" xml:space="preserve">
+    <value>Mis Productos</value>
+  </data>
+  <data name="NavBar_Item03" xml:space="preserve">
+    <value>Mis Compañías</value>
+  </data>
+  <data name="OriginCountry_FormField_Label" xml:space="preserve">
+    <value>País Origen</value>
+  </data>
+  <data name="EmbarqueCountry_FormField_Label" xml:space="preserve">
+    <value>País Embarque</value>
+  </data>
+  <data name="Modal_VentanMensaje_OKButton" xml:space="preserve">
+    <value>ACEPTAR</value>
+  </data>
+  <data name="OptionTextField_Select" xml:space="preserve">
+    <value>Seleccione</value>
+  </data>
+  <data name="Model_FormField_Label" xml:space="preserve">
+    <value>Modelo</value>
+  </data>
+  <data name="FilterText_Aduana" xml:space="preserve">
+    <value>Aduana</value>
+  </data>
+  <data name="FilterText_District" xml:space="preserve">
+    <value>Distrito</value>
+  </data>
+  <data name="FilterText_ViaTransp" xml:space="preserve">
+    <value>Vía Transporte</value>
+  </data>
+  <data name="Modal_VentanaMensaje_LnkContactenos" xml:space="preserve">
+    <value>contáctenos</value>
+  </data>
+  <data name="Modal_VentanaMensaje_MessageContactenos" xml:space="preserve">
+    <value>Si desea mas información</value>
+  </data>
+  <data name="ComercialDesc_FilterText" xml:space="preserve">
+    <value>Desc. Comercial</value>
+  </data>
+  <data name="Nandina2_FilterText" xml:space="preserve">
+    <value>Partida</value>
+  </data>
+  <data name="Label_MyFilters" xml:space="preserve">
+    <value>Mis Filtros</value>
+  </data>
+  <data name="Add_ToMyExporters_Button" xml:space="preserve">
+    <value>Agregar a Mis Exportadores</value>
+  </data>
+  <data name="Add_ToMyImporters_Button" xml:space="preserve">
+    <value>Agregar a Mis Importadores</value>
+  </data>
+  <data name="Add_ToMyProducts_Button" xml:space="preserve">
+    <value>Agregar a Mis Productos</value>
+  </data>
+  <data name="Message_Valida_AddFilterSearchButton" xml:space="preserve">
+    <value>Por favor seleccione el(los) elemento(s) a Agregar</value>
+  </data>
+  <data name="Notified_FilterText" xml:space="preserve">
+    <value>Notificado</value>
+  </data>
+  <data name="CustomsDUA_FilterText" xml:space="preserve">
+    <value>Aduana DUA</value>
+  </data>
+  <data name="Customs_FilterText" xml:space="preserve">
+    <value>Aduana</value>
+  </data>
+  <data name="DestinationPort_FilterText" xml:space="preserve">
+    <value>Puerto Destino</value>
+  </data>
+  <data name="LastShipmentCountry_FilterText" xml:space="preserve">
+    <value>Último País Embarque</value>
+  </data>
+  <data name="LastShipmentPort_FilterText" xml:space="preserve">
+    <value>Último Puerto Embarque</value>
+  </data>
+  <data name="Manifest_FilterText" xml:space="preserve">
+    <value>Manifiesto</value>
+  </data>
+  <data name="UnloadingPort_FilterText" xml:space="preserve">
+    <value>Puerto Descarga</value>
+  </data>
+  <data name="Favorites_Word" xml:space="preserve">
+    <value>Favoritos</value>
+  </data>
+  <data name="Add_Text" xml:space="preserve">
+    <value>Agregar</value>
+  </data>
+  <data name="Cancel_Text" xml:space="preserve">
+    <value>Cancelar</value>
+  </data>
+  <data name="FavoriteName_Text" xml:space="preserve">
+    <value>Nombre Favorito</value>
+  </data>
+  <data name="Favorite_Text" xml:space="preserve">
+    <value>Favorito</value>
+  </data>
+  <data name="SelectItemsAdd_Text" xml:space="preserve">
+    <value>Seleccione los elementos a Agregar</value>
+  </data>
+  <data name="AddToGroup_Text" xml:space="preserve">
+    <value>Agregar a Grupo</value>
+  </data>
+  <data name="CreateNewGroup_Text" xml:space="preserve">
+    <value>Crear Nuevo Grupo</value>
+  </data>
+  <data name="ModalAgregarFavoritos_MsjValidateEnterNewGroup" xml:space="preserve">
+    <value>Ingrese el Nuevo Grupo</value>
+  </data>
+  <data name="ModalAgregarFavoritos_MsjValidateSelectedOption" xml:space="preserve">
+    <value>Por favor seleccione al menos alguna opción</value>
+  </data>
+  <data name="MessageLimitPlanFavorites" xml:space="preserve">
+    <value>No puede agregar los favoritos seleccionados porque superará el límite de su plan contratado</value>
+  </data>
+  <data name="Message_FavoriteAdded" xml:space="preserve">
+    <value>Se agregó el favorito seleccionado.</value>
+  </data>
+  <data name="Message_FavoritesAdded" xml:space="preserve">
+    <value>Se agregaron los favoritos seleccionados.</value>
+  </data>
+  <data name="Message_FavoriteExists" xml:space="preserve">
+    <value>El favorito seleccionado ya existe</value>
+  </data>
+  <data name="Message_FavoriteNotAdded" xml:space="preserve">
+    <value>No puede agregar el favorito seleccionado</value>
+  </data>
+  <data name="Message_FavoritesExists" xml:space="preserve">
+    <value>Favoritos seleccionados ya existen</value>
+  </data>
+  <data name="Message_SomeoneFavoritesAdded" xml:space="preserve">
+    <value>Se agregaron algunos favoritos seleccionados.</value>
+  </data>
+  <data name="Records_Text" xml:space="preserve">
+    <value>registro(s)</value>
+  </data>
+  <data name="Exports_Text" xml:space="preserve">
+    <value>Exportaciones</value>
+  </data>
+  <data name="HTS_CodeDescription_Text" xml:space="preserve">
+    <value>Descripción Partida Aduanera</value>
+  </data>
+  <data name="Imports_Text" xml:space="preserve">
+    <value>Importaciones</value>
+  </data>
+  <data name="Period_Text" xml:space="preserve">
+    <value>Período</value>
+  </data>
+  <data name="Total_records_Text" xml:space="preserve">
+    <value>Total registros</value>
+  </data>
+  <data name="DownloadToExcel_Text" xml:space="preserve">
+    <value>Descargar Archivo</value>
+  </data>
+  <data name="RecordsFirsLetterUpperCase_Text" xml:space="preserve">
+    <value>Registros</value>
+  </data>
+  <data name="NoRecordsFound_Text" xml:space="preserve">
+    <value>No se encontraron registros</value>
+  </data>
+  <data name="CommercialDescription_FormField_Label" xml:space="preserve">
+    <value>Descripción Comercial</value>
+  </data>
+  <data name="Add_ToMyBrands_Button" xml:space="preserve">
+    <value>Agregar a Mis Marcas</value>
+  </data>
+  <data name="Modal_VentanaSesion_Message" xml:space="preserve">
+    <value>La sesión ha expirado</value>
+  </data>
+  <data name="Modal_VentanaSesion_Title" xml:space="preserve">
+    <value>Sesión Expirada</value>
+  </data>
+  <data name="ChartThemes_Text" xml:space="preserve">
+    <value>Temas</value>
+  </data>
+  <data name="DownloadPDF_Text" xml:space="preserve">
+    <value>Exportar a PDF</value>
+  </data>
+  <data name="DownloadPNG_Text" xml:space="preserve">
+    <value>Exportar a PNG</value>
+  </data>
+  <data name="ExportMenuButtonTitle_Text" xml:space="preserve">
+    <value>Opciones para exportar</value>
+  </data>
+  <data name="PrintChart_Text" xml:space="preserve">
+    <value>Imprimir gráfico</value>
+  </data>
+  <data name="DoNotFavoriteProducts_Text" xml:space="preserve">
+    <value>Ud no tiene Productos favoritos</value>
+  </data>
+  <data name="AnalyzeIn_Text" xml:space="preserve">
+    <value>Analizar en</value>
+  </data>
+  <data name="TypeUSS_Text" xml:space="preserve">
+    <value>US$</value>
+  </data>
+  <data name="TypeUNIT_Text" xml:space="preserve">
+    <value>KILOGRAMOS</value>
+  </data>
+  <data name="DoNotFoundExports_Text" xml:space="preserve">
+    <value>No se encontraron exportaciones</value>
+  </data>
+  <data name="DoNotFoundImports_Text" xml:space="preserve">
+    <value>No se encontraron importaciones</value>
+  </data>
+  <data name="From_Text" xml:space="preserve">
+    <value>de</value>
+  </data>
+  <data name="Of_text" xml:space="preserve">
+    <value>de</value>
+  </data>
+  <data name="PeriodSummary_Text" xml:space="preserve">
+    <value>Resumen Período</value>
+  </data>
+  <data name="ExportedQuanty_Text" xml:space="preserve">
+    <value>Cantidad &lt;br&gt; Exportada</value>
+  </data>
+  <data name="ImportedQuanty_Text" xml:space="preserve">
+    <value>Cantidad &lt;br&gt; Importada</value>
+  </data>
+  <data name="TotalExported_Text" xml:space="preserve">
+    <value>Total &lt;br&gt; Exportado</value>
+  </data>
+  <data name="TotalImported_Text" xml:space="preserve">
+    <value>Total &lt;br&gt; Importado</value>
+  </data>
+  <data name="UnitPrice_Text" xml:space="preserve">
+    <value>Precio &lt;br&gt; Unitario</value>
+  </data>
+  <data name="Message_Validate_SelectProduct_Text" xml:space="preserve">
+    <value>Por favor seleccione un Producto</value>
+  </data>
+  <data name="ViewCharts_Button" xml:space="preserve">
+    <value>VER GRÁFICOS</value>
+  </data>
+  <data name="DestinationCountriesSummary_Text" xml:space="preserve">
+    <value>Ranking Países Destino</value>
+  </data>
+  <data name="ExportersSummary_Text" xml:space="preserve">
+    <value>Ranking Exportadores</value>
+  </data>
+  <data name="ImportersSummary_Text" xml:space="preserve">
+    <value>Ranking Importadores</value>
+  </data>
+  <data name="OriginCountriesSummary_Text" xml:space="preserve">
+    <value>Ranking Países Origen</value>
+  </data>
+  <data name="HTS_Code_Text" xml:space="preserve">
+    <value>Partida</value>
+  </data>
+  <data name="WeightNet_Text" xml:space="preserve">
+    <value>Peso Neto</value>
+  </data>
+  <data name="Weight_Gross_Text" xml:space="preserve">
+    <value>Peso Bruto</value>
+  </data>
+  <data name="Unit_Text" xml:space="preserve">
+    <value>Unidad</value>
+  </data>
+  <data name="Commercial_Description_Text" xml:space="preserve">
+    <value>Descripción Comercial</value>
+  </data>
+  <data name="DownloadResultsToExcel_Text" xml:space="preserve">
+    <value>Si lo desea puede descargar los registros a un archivo Excel</value>
+  </data>
+  <data name="ExportTableToExcel_Text" xml:space="preserve">
+    <value>Exportar Tabla a Excel</value>
+  </data>
+  <data name="Product_Text" xml:space="preserve">
+    <value>Producto</value>
+  </data>
+  <data name="Filter_MyCompanies_Text" xml:space="preserve">
+    <value>Mis Compañias</value>
+  </data>
+  <data name="DoNotFavoriteCompanies_Text" xml:space="preserve">
+    <value>Ud no tiene Empresas favoritas</value>
+  </data>
+  <data name="UrlVideo_MyCompanies" xml:space="preserve">
+    <value>https://www.youtube.com/embed/E3BwnnxJyhI?rel=0</value>
+  </data>
+  <data name="UrlVideo_MyProducts" xml:space="preserve">
+    <value>https://www.youtube.com/embed/VpQXJhZe7ZM?rel=0</value>
+  </data>
+  <data name="Message_Validate_SelectCompanie_Text" xml:space="preserve">
+    <value>Por favor seleccione una Compañia</value>
+  </data>
+  <data name="ProductsRanking_Text" xml:space="preserve">
+    <value>Ranking Productos</value>
+  </data>
+  <data name="HTS_Description_Text" xml:space="preserve">
+    <value>Descripción Partida</value>
+  </data>
+  <data name="LayoutMenu_Item03" xml:space="preserve">
+    <value>Mis Favoritos</value>
+  </data>
+  <data name="LayoutMenu_MyAccount" xml:space="preserve">
+    <value>Mi Cuenta</value>
+  </data>
+  <data name="LayoutMenu_Item04" xml:space="preserve">
+    <value>Mis Grupos</value>
+  </data>
+  <data name="BrandSummary_Text" xml:space="preserve">
+    <value>Ranking Marca</value>
+  </data>
+  <data name="SentinelValidation_Text" xml:space="preserve">
+    <value>Su plan no permite ver la información crediticia de esta empresa</value>
+  </data>
+  <data name="LayoutBar_ExitModeFreeButton" xml:space="preserve">
+    <value>SALIR PRUEBA G.</value>
+  </data>
+  <data name="LayoutBar_ModeFreeButton" xml:space="preserve">
+    <value>PRUEBA GRATIS</value>
+  </data>
+  <data name="LayoutMenu_Item05" xml:space="preserve">
+    <value>Mis Alertas</value>
+  </data>
+  <data name="NavBar_Item04" xml:space="preserve">
+    <value>Mis Productos - Compañías</value>
+  </data>
+  <data name="NavBar_Item05" xml:space="preserve">
+    <value>Mis Compañías - Productos</value>
+  </data>
+  <data name="NavBar_EnAlert" xml:space="preserve">
+    <value>Habilitar Alertas</value>
+  </data>
+  <data name="NavBar_DisAlert" xml:space="preserve">
+    <value>Deshabilitar Alertas</value>
+  </data>
+  <data name="Delete_ToMyAlerts_Button" xml:space="preserve">
+    <value>Eliminar Alertas</value>
+  </data>
+  <data name="Update_ToMyAlerts_Button" xml:space="preserve">
+    <value>Actualizar Alertas</value>
+  </data>
+  <data name="Company_Text" xml:space="preserve">
+    <value>Compañía</value>
+  </data>
+  <data name="Message_Alerts_Max_Selected_01" xml:space="preserve">
+    <value>ERROR: Su plan sólo permite seleccionar</value>
+  </data>
+  <data name="Message_Alerts_Max_Selected_02" xml:space="preserve">
+    <value>Superaste el máximo de seleccionados</value>
+  </data>
+  <data name="Message_Alerts_Not_Detail_Selected" xml:space="preserve">
+    <value>Seleccione al menos un detalle de favorito</value>
+  </data>
+  <data name="Message_Alerts_Not_Selected" xml:space="preserve">
+    <value>Seleccione al menos un favorito</value>
+  </data>
+  <data name="Message_Alerts_Succes_Deleted" xml:space="preserve">
+    <value>Eliminado con éxito</value>
+  </data>
+  <data name="Message_Alerts_Succes_Saved" xml:space="preserve">
+    <value>Grabado con éxito</value>
+  </data>
+  <data name="Message_Alerts_Max_Selected_03" xml:space="preserve">
+    <value>Superó el máximo de empresas seleccionadas</value>
+  </data>
+  <data name="Message_Alerts_Max_Selected_04" xml:space="preserve">
+    <value>Superó el máximo de productos seleccionados</value>
+  </data>
+  <data name="LabelAmount_Text" xml:space="preserve">
+    <value>Importe</value>
+  </data>
+  <data name="LabelCompany_Text" xml:space="preserve">
+    <value>Empresa</value>
+  </data>
+  <data name="LabelCreationDate_Text" xml:space="preserve">
+    <value>Fecha Creación</value>
+  </data>
+  <data name="LabelEndDate_Text" xml:space="preserve">
+    <value>Fecha Fin</value>
+  </data>
+  <data name="LabelNames_Text" xml:space="preserve">
+    <value>Nombres</value>
+  </data>
+  <data name="LabelPassword_Text" xml:space="preserve">
+    <value>Contraseña</value>
+  </data>
+  <data name="LabelPhone_Text" xml:space="preserve">
+    <value>Teléfono</value>
+  </data>
+  <data name="LabelStartDate_Text" xml:space="preserve">
+    <value>Fecha Inicio</value>
+  </data>
+  <data name="LabelState_Text" xml:space="preserve">
+    <value>Estado</value>
+  </data>
+  <data name="LabelSurname_Text" xml:space="preserve">
+    <value>Apellidos</value>
+  </data>
+  <data name="LabelUserType_Text" xml:space="preserve">
+    <value>Tipo Usuario</value>
+  </data>
+  <data name="LabelUser_Text" xml:space="preserve">
+    <value>Usuarios</value>
+  </data>
+  <data name="BtnNewUser_Text" xml:space="preserve">
+    <value>Nuevo Usuario</value>
+  </data>
+  <data name="LabelUserPlan_Text" xml:space="preserve">
+    <value>Usuario Plan</value>
+  </data>
+  <data name="TypeUNIT_Text_CN" xml:space="preserve">
+    <value>kilos</value>
+  </data>
+  <data name="More_Size_Word" xml:space="preserve">
+    <value>Debe ingresar al menos una palabra de 3 letras</value>
+  </data>
+  <data name="AddToGroup_Text_To_Alerta" xml:space="preserve">
+    <value>Agregar a Mis Alertas</value>
+  </data>
+  <data name="TitleAlerts_Text" xml:space="preserve">
+    <value>Administrador de mis alertas</value>
+  </data>
+  <data name="btnAddAlert_Text" xml:space="preserve">
+    <value>Añadir Alertas</value>
+  </data>
+  <data name="Add_Alerts" xml:space="preserve">
+    <value>Añadir Alertas</value>
+  </data>
+  <data name="Company_Text_02" xml:space="preserve">
+    <value>Compañias</value>
+  </data>
+  <data name="Product_Text_02" xml:space="preserve">
+    <value>Productos</value>
+  </data>
+  <data name="Title_Alerts_01" xml:space="preserve">
+    <value>Nueva Alerta</value>
+  </data>
+  <data name="Title_Alerts_02" xml:space="preserve">
+    <value>Alertas Creadas</value>
+  </data>
+  <data name="Description_AlertsFavorites_Text" xml:space="preserve">
+    <value>En esta sección Ud. podrá editar, eliminar y cambiar sus Alertas, juntando a varios  de ellos (productos con compañías) según su criterio.</value>
+  </data>
+  <data name="VeriAlertas_Label" xml:space="preserve">
+    <value>VeriAlertas</value>
+  </data>
+  <data name="LayoutMenu_ModeFree" xml:space="preserve">
+    <value>Mi Prueba Gratuita</value>
+  </data>
+  <data name="ModalMessageFree_LinkContactenos" xml:space="preserve">
+    <value>Si tiene alguna consulta o desea migrar de plan:</value>
+  </data>
+  <data name="ModalMessageFree_Message" xml:space="preserve">
+    <value>Usted está en una prueba gratuita, donde podrá apreciar todas las Bases de datos que cuenta en Veritrade. Tome en cuenta que esta opción es de carácter informativo y solo tendrá disponible 3 meses información.</value>
+  </data>
+  <data name="ModalMessageFree_Title" xml:space="preserve">
+    <value>Prueba Gratuita</value>
+  </data>
+  <data name="BtnSetAlert_Text" xml:space="preserve">
+    <value>Configurar Alerta</value>
+  </data>
+  <data name="Description_AlertsFavorites2_Text" xml:space="preserve">
+    <value>Condiciones: Para poder crear una alerta, previamente deberá haber agregado un producto o compañias a sus favoritos. Las Alertas llegarán a su correo cada vez que se actualice la información del pais donde haya creado la alerta.</value>
+  </data>
+  <data name="Description_AlertsFavorites3_Text" xml:space="preserve">
+    <value>Tipos de Alertas:</value>
+  </data>
+  <data name="LabelActive_Text" xml:space="preserve">
+    <value>Activo</value>
+  </data>
+  <data name="LabelInactive_Text" xml:space="preserve">
+    <value>Inactivo</value>
+  </data>
+  <data name="LabelMain_Text" xml:space="preserve">
+    <value>Principal</value>
+  </data>
+  <data name="LabelSecondary_Text" xml:space="preserve">
+    <value>Secundario</value>
+  </data>
+  <data name="AlertsOf_Text" xml:space="preserve">
+    <value>alertas de</value>
+  </data>
+  <data name="YouHave_Text" xml:space="preserve">
+    <value>Tienes</value>
+  </data>
+  <data name="My_Alerts_Preview" xml:space="preserve">
+    <value>Previo del correo Alerta</value>
+  </data>
+  <data name="My_Acc_Valid_Email" xml:space="preserve">
+    <value>No es un correo electrónico válido</value>
+  </data>
+  <data name="My_Alerts_Choise_Comp" xml:space="preserve">
+    <value>Elige una Compañía</value>
+  </data>
+  <data name="My_Alerts_Choise_Prod" xml:space="preserve">
+    <value>Elige un Producto</value>
+  </data>
+  <data name="AlertExceed_Text" xml:space="preserve">
+    <value>La cantidad máxima de alertas se excedió de acuerdo con su plan</value>
+  </data>
+  <data name="ExistsAlert_Text" xml:space="preserve">
+    <value>La alerta ya existe</value>
+  </data>
+  <data name="MesExistsAlertEx_Text" xml:space="preserve">
+    <value>Debe agregar a mis exportadores para poder registrar la alerta.</value>
+  </data>
+  <data name="MesExistsAlertIm_Text" xml:space="preserve">
+    <value>Debe agregar a mis importadores para poder registrar la alerta.</value>
+  </data>
+  <data name="MesExistsAlertPr_Text" xml:space="preserve">
+    <value>Debe agregar a mis productos para poder registrar la alerta.</value>
+  </data>
+  <data name="SaveAlert_Text" xml:space="preserve">
+    <value>Se registró la alerta.</value>
+  </data>
+  <data name="ButtonDetails_Text" xml:space="preserve">
+    <value>Ver Detalle</value>
+  </data>
+  <data name="Note_Label" xml:space="preserve">
+    <value>Nota: </value>
+  </data>
+  <data name="MessageModalAduanaCL_Text" xml:space="preserve">
+    <value>Desde Agosto 2016 la aduana de Chile eliminó las columnas del nombre de las empresas y el RUT de importadores y exportadores de Chile. Ante esta situación y con acciones de machine learning y minería de datos a través de nuestro servicio de</value>
+  </data>
+  <data name="MessageModalAduanaCL2_Text" xml:space="preserve">
+    <value>podemos predecir con una probabilidad bastante certera la información de estas columnas ocultas por la aduana. Pedimos utilizar la información de estas columnas como complementaria</value>
+  </data>
+  <data name="LabelComplementaryInformation_Text" xml:space="preserve">
+    <value>Fuente</value>
+  </data>
+  <data name="DetailButton_Text" xml:space="preserve">
+    <value>Detalle</value>
+  </data>
+  <data name="DestinationText" xml:space="preserve">
+    <value>Destino</value>
+  </data>
+  <data name="InfoTabla_Details1" xml:space="preserve">
+    <value>La información de este tab proviene directamente de la aduana del país de origen, la cual tiene más información a detalle que puede ayudar a un mejor análisis de la partida. Recomendamos utilizar esta información como complementaria.</value>
+  </data>
+  <data name="InfoTabla_Details2" xml:space="preserve">
+    <value>La información de este tab proviene directamente de la aduana del país de destino, la cual tiene más información a detalle que puede ayudar a un mejor análisis de la partida. Recomendamos utilizar esta información como complementaria.</value>
+  </data>
+  <data name="OriginText" xml:space="preserve">
+    <value>Origen</value>
+  </data>
+  <data name="InfoTabla_Modal1" xml:space="preserve">
+    <value>La información proviene directamente de la aduana de</value>
+  </data>
+  <data name="InfoTabla_Modal2" xml:space="preserve">
+    <value>, la cual tiene más información a detalle que puede ayudar a un mejor análisis de la partida. Recomendamos utilizar esta información como complementaria.</value>
+  </data>
+  <data name="AduanaDestinationInfoComplementaria_text" xml:space="preserve">
+    <value>Data Aduana Destino</value>
+  </data>
+  <data name="AduanaOriginInfoComplementaria_text" xml:space="preserve">
+    <value>Data Aduana Origen</value>
+  </data>
+  <data name="ViewTariffs_Button" xml:space="preserve">
+    <value>Ver Aranceles</value>
+  </data>
+</root>

@@ -1,0 +1,87 @@
+﻿@import "_colores.scss";
+@import "_fonts.scss";
+@import "_menu.scss";
+@import "_components.scss";
+@import "_forms.scss";
+@import "_tables.scss";
+@import "_helpers.scss";
+@import "_buttons.scss";
+
+body {
+    font-family: 'ProximaNova-Regular';
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.navbar-brand {
+    font-size: 16px;
+    line-height: 18px;
+    height: auto;
+}
+
+.highcharts-title {
+    font-size: 14px !important;
+}
+
+.radio-inline {
+    margin-right: 4px;
+    margin-left: 4px;
+}
+
+.form-horizontal .checkbox, .form-horizontal .checkbox-inline, .form-horizontal .radio, .form-horizontal .radio-inline {
+    padding-top: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.tittle-opcion {
+    font-size: 16px;
+    color: $color-blue;
+}
+
+.description-opcion {
+    font-size: 14px;
+    color: $color-black;
+    min-height: 25px;
+    margin-bottom: 24px;
+}
+
+.tittle-info {
+    font-size: 12px;
+    color: $color-info;
+    font-style: italic;
+}
+
+.no-display{
+    display:none;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ui-state-active {
+    background: #30A7E5 !important;
+}
+
+
+.no-padding-left{
+    padding-left:0 !important;
+    
+}
+
+.width-auto{
+    width:auto !important;
+    }
+.text-justify {
+    text-align: justify;
+}
+
+
+
+@import "mis-busquedas.scss";
+@import "mis-productos.scss";
+
+@import "mis-grupos.scss";

@@ -1,0 +1,52 @@
+﻿@using Veritrade2017.Models
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var codCampania = ViewData["CodCampaña"];
+    if (Session["c"] != null && Session["c"].ToString() != "")
+    {
+        codCampania = Session["c"].ToString();
+    }
+}
+<div class="jumbotron banner">
+    <div class="container">
+        <div class="banner_section">
+            <div class="banner_content row">
+                <div class="col-xs-12 col-sm-7 col-md-7 col-lg-8">
+                    <h1>@Configuraciones.GetConfig(culture, "banner_home").Valor</h1>
+                    <img class="underline-image hidden-xs" src="~/Content/Images/transparente.gif" alt="">
+                    <p>
+                        @if (culture == "es")
+                        {
+                            @Html.RouteLink(Resources.TrialText, "PruebaGratis", new { culture, campania = codCampania }, new { @class = "banner_link" })
+                            @Html.Raw("&nbsp;")
+                            @Html.RouteLink("Ver Planes", "Planes", new { culture, campania = codCampania }, new { @class = "banner_link2" })
+                        }
+                        else
+                        {
+                            @Html.RouteLink(Resources.TrialText, "PruebaGratisUS", new { culture, campania = codCampania }, new { @class = "banner_link" })
+                            @Html.Raw("&nbsp;")
+                            @Html.RouteLink("Review Plans", "PlanesUS", new { culture, campania = codCampania }, new { @class = "banner_link2" })
+                        }
+                    </p>
+                </div>
+                <div class="col-xs-12 col-sm-5 col-md-5 col-lg-4" style="text-align: center;">
+                    <div class="row">
+                        <div class="owl-carousel" id="videosCarousel">
+                            <div class="item-video">
+                                <a class="owl-video" href="@Configuraciones.GetConfig(culture, "video_home").Valor"></a>
+                                <span>@Configuraciones.GetConfig(culture, "video_title").Valor</span>
+                            </div>
+                            @foreach (AyudaVideo video in (List<AyudaVideo>) ViewData["videos"])
+                            {
+                                <div class="item-video">
+                                    <a class="owl-video" href="@video.UrlVideo"></a>
+                                    <span>@video.TituloVideo</span>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

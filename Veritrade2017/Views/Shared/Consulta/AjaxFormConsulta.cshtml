@@ -1,0 +1,124 @@
+﻿@using Veritrade2017.Helpers
+@using Veritrade2017.Models
+@{
+    //var regimenSelected = !string.IsNullOrEmpty(ViewData["Regimen"].ToString()) ? ViewData["Regimen"].ToString() : "I";
+    //var paisSelected = !string.IsNullOrEmpty(ViewData["Interes"].ToString()) ? ViewData["Interes"].ToString() : "PE";
+    var culture = CultureHelper.GetCurrentCulture();
+    var listaPaises2 = new ListaPaises().GetPaises2(culture);
+    //var listaPaises = new ListaPaises().PaisesConsulta();
+    var listaPaises = new ListaPaises().GetPaisesAdmin(culture, Session["CodPais2"].ToString());
+
+    //
+    var tipoOpe = !string.IsNullOrEmpty(ViewData["TipoOpe"].ToString()) ? ViewData["TipoOpe"].ToString() : "I";
+    var paisSeleccionado2 = Session["CodPais2"].ToString();
+    var paisSeleccionado = ViewData["codigoPais"].ToString();
+
+    var modelo = (ConsultaForm)Model;
+}
+
+
+@functions
+{
+    public bool CheckedResult(string value, string check)
+    {
+        return value == check;
+    }
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-horizontal formFilterDemo">                       
+
+            <div class="form-group">
+                <label class="col-lg-2 col-md-2 col-sm-2 col-xs-12 control-label">
+                    @Resources.Search_Form_Item01
+                </label>
+                <div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
+                    <div class="radiosFilter">
+                        <label class="radio-inline">
+                            @Html.RadioButton("rdbtnTipoOpe", "I", CheckedResult("I", tipoOpe), new { @id = "rdbImp" }) @Resources.Home_Search_Radio_Item01
+                        </label>
+                        <label class="radio-inline">
+                            @{
+                                var htmlAttributes = new Dictionary<string, object>();
+                                htmlAttributes.Add("id", "rdbExp");
+                                if (paisSeleccionado == "PEB")
+                                {
+                                    htmlAttributes.Add("disabled", "disabled");
+                                }
+                            }
+
+                            @Html.RadioButton("rdbtnTipoOpe", "E", CheckedResult("E", tipoOpe),
+                                htmlAttributes
+                            ) @Resources.Home_Search_Radio_Item02
+                        </label>
+                        <label class="control-label">
+                            &nbsp; @Resources.Search_Form_Item02 &nbsp;
+                        </label>
+                        @Html.DropDownList("cboPais2", new SelectList(listaPaises2.ToList(), "Value", "Text", paisSeleccionado2), new { @class = "form-control select-formfield" })
+
+                        @Html.DropDownList("cboPais", new SelectList(listaPaises.ToList(), "Value", "Text", paisSeleccionado), new { @class = "form-control select-formfield" })
+                    </div>
+                </div>
+            </div>
+
+            <!-- Campos para ingresar filtros -->
+            <div id="container_form">
+                @Html.Partial("Consulta/_FormSection", modelo)
+            </div>
+
+
+            <!-- Filtros agregados-->
+            <div id="filtros">
+            </div>
+
+            <!--Filtro de fechas-->
+            <div class="form-group" id="divLabelRangoFechas">
+                <label id="RangoFechas" class="col-sm-12 label_content">@Resources.Search_Form_Item08</label>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12">
+                    <label class="control-label labelFromRangoFechas filtro-periodo">
+                        @Resources.Search_Form_Item09
+                    </label>
+                    
+                    <div class="input-group date col-sm-2 filtro-periodo" id="cboDesde">
+                        <input name="cboDesde" type="text" class="form-control" value="">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                    </div>
+
+                    <label class="labelToRangoFechas filtro-periodo">
+                        @Resources.Search_Form_Item10
+                    </label>
+                    
+                    <div class="input-group date col-sm-2 filtro-periodo" id="cboHasta">
+                        <input name="cboHasta"  type="text" class="form-control"   value="">
+                        <div class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </div>
+                    </div>
+
+                    <label class="demo-mensaje-tiempo-prueba">@Resources.Search_Form_Item11</label>
+                </div>
+            </div>
+            
+
+
+            <!--Botones de busqueda-->
+
+            <div class="col-sm-12">
+                <div class="form-group">
+                    <button type="submit" id="btnSearch" class="btn btn-buscar margin-vsm">
+                        @Resources.Search_Button
+                    </button>
+                    <button type="reset" id="btnReset" class="btn btn-reset margin-vsm">
+                        @Resources.Search_ResetButton
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

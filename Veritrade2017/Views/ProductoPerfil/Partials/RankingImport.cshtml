@@ -1,0 +1,41 @@
+﻿@using Veritrade2017.Models
+@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    Layout = null;
+    
+   
+}
+
+<div id="piecontainer1" class="graphic-content">
+    <div style="background-image: url('/Content/Images/Minisite/banner_gris-2x.png'); height: 400px;">
+        @*<div class="caja">
+            <p>
+                @ProductProfileResources.Chart_Empty
+            </p>
+        </div>*@
+    </div>
+</div>
+<div id="tablaRankImp">    
+</div>
+<div >
+    <nav aria-label="Page navigation">
+        <ul class="pagination pagination-sm">
+            <li>
+                <a href="#" aria-label="Previous">
+                    <span aria-hidden="true">«</span>
+                </a>
+            </li>
+            @for (int i = 1; i <= 10; i++)
+            {
+                <li><a href="javascript:void(0);">@i</a></li>
+            }
+            <li>
+                <a href="#" aria-label="Next">
+                    <span aria-hidden="true">»</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</div>

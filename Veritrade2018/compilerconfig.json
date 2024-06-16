@@ -1,0 +1,30 @@
+﻿[
+  {
+    "outputFile": "Content/Assets/mis-busquedas.css",
+    "inputFile": "Content/Assets/mis-busquedas.scss"
+  },
+  {
+    "outputFile": "Content/Assets/admin/mis-productos.css",
+    "inputFile": "Content/Assets/admin/mis-productos.scss"
+  },
+  {
+    "outputFile": "Content/Assets/admin/colores.css",
+    "inputFile": "Content/Assets/admin/colores.scss"
+  },
+  {
+    "outputFile": "Content/Assets/admin/mis-busquedas.css",
+    "inputFile": "Content/Assets/admin/mis-busquedas.scss"
+  },
+  {
+    "outputFile": "Content/Assets/admin/admin.css",
+    "inputFile": "Content/Assets/admin/admin.scss"
+  },
+  {
+    "outputFile": "Content/Assets/error.css",
+    "inputFile": "Content/Assets/error.scss"
+  },
+  {
+    "outputFile": "Content/Assets/productprofile.css",
+    "inputFile": "Content/Assets/productprofile.scss"
+  }
+]

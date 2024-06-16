@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:tns="http://VERIDEV/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" targetNamespace="http://VERIDEV/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://VERIDEV/">
+      <s:element name="EnviaEmail">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ToName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ToEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="URL" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnviaEmailResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EnviaEmailResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnviaEmail2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ToName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ToEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="URL" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailEnvio1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailEnvioPassword1" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnviaEmail2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EnviaEmail2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnviaEmail3">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="FromName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="FromEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ToName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ToEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CcName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="CcEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BccName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="BccEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="URL" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailEnvio1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailEnvioPassword1" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnviaEmail3Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EnviaEmail3Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnviaVerinews">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ToName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ToEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="URL" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnviaVerinewsResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EnviaVerinewsResult" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnviaVerinews2">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="ToName" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="ToEmail" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="Subject" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="URL" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailEnvio1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailEnvioNombre1" type="s:string" />
+            <s:element minOccurs="0" maxOccurs="1" name="EmailEnvioPassword1" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="EnviaVerinews2Response">
+        <s:complexType>
+          <s:sequence>
+            <s:element minOccurs="0" maxOccurs="1" name="EnviaVerinews2Result" type="s:string" />
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="EnviaEmailSoapIn">
+    <wsdl:part name="parameters" element="tns:EnviaEmail" />
+  </wsdl:message>
+  <wsdl:message name="EnviaEmailSoapOut">
+    <wsdl:part name="parameters" element="tns:EnviaEmailResponse" />
+  </wsdl:message>
+  <wsdl:message name="EnviaEmail2SoapIn">
+    <wsdl:part name="parameters" element="tns:EnviaEmail2" />
+  </wsdl:message>
+  <wsdl:message name="EnviaEmail2SoapOut">
+    <wsdl:part name="parameters" element="tns:EnviaEmail2Response" />
+  </wsdl:message>
+  <wsdl:message name="EnviaEmail3SoapIn">
+    <wsdl:part name="parameters" element="tns:EnviaEmail3" />
+  </wsdl:message>
+  <wsdl:message name="EnviaEmail3SoapOut">
+    <wsdl:part name="parameters" element="tns:EnviaEmail3Response" />
+  </wsdl:message>
+  <wsdl:message name="EnviaVerinewsSoapIn">
+    <wsdl:part name="parameters" element="tns:EnviaVerinews" />
+  </wsdl:message>
+  <wsdl:message name="EnviaVerinewsSoapOut">
+    <wsdl:part name="parameters" element="tns:EnviaVerinewsResponse" />
+  </wsdl:message>
+  <wsdl:message name="EnviaVerinews2SoapIn">
+    <wsdl:part name="parameters" element="tns:EnviaVerinews2" />
+  </wsdl:message>
+  <wsdl:message name="EnviaVerinews2SoapOut">
+    <wsdl:part name="parameters" element="tns:EnviaVerinews2Response" />
+  </wsdl:message>
+  <wsdl:portType name="ServiciosCorreoSoap">
+    <wsdl:operation name="EnviaEmail">
+      <wsdl:input message="tns:EnviaEmailSoapIn" />
+      <wsdl:output message="tns:EnviaEmailSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EnviaEmail2">
+      <wsdl:input message="tns:EnviaEmail2SoapIn" />
+      <wsdl:output message="tns:EnviaEmail2SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EnviaEmail3">
+      <wsdl:input message="tns:EnviaEmail3SoapIn" />
+      <wsdl:output message="tns:EnviaEmail3SoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EnviaVerinews">
+      <wsdl:input message="tns:EnviaVerinewsSoapIn" />
+      <wsdl:output message="tns:EnviaVerinewsSoapOut" />
+    </wsdl:operation>
+    <wsdl:operation name="EnviaVerinews2">
+      <wsdl:input message="tns:EnviaVerinews2SoapIn" />
+      <wsdl:output message="tns:EnviaVerinews2SoapOut" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServiciosCorreoSoap" type="tns:ServiciosCorreoSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="EnviaEmail">
+      <soap:operation soapAction="http://VERIDEV/EnviaEmail" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnviaEmail2">
+      <soap:operation soapAction="http://VERIDEV/EnviaEmail2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnviaEmail3">
+      <soap:operation soapAction="http://VERIDEV/EnviaEmail3" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnviaVerinews">
+      <soap:operation soapAction="http://VERIDEV/EnviaVerinews" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnviaVerinews2">
+      <soap:operation soapAction="http://VERIDEV/EnviaVerinews2" style="document" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="ServiciosCorreoSoap12" type="tns:ServiciosCorreoSoap">
+    <soap12:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="EnviaEmail">
+      <soap12:operation soapAction="http://VERIDEV/EnviaEmail" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnviaEmail2">
+      <soap12:operation soapAction="http://VERIDEV/EnviaEmail2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnviaEmail3">
+      <soap12:operation soapAction="http://VERIDEV/EnviaEmail3" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnviaVerinews">
+      <soap12:operation soapAction="http://VERIDEV/EnviaVerinews" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="EnviaVerinews2">
+      <soap12:operation soapAction="http://VERIDEV/EnviaVerinews2" style="document" />
+      <wsdl:input>
+        <soap12:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap12:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServiciosCorreo">
+    <wsdl:port name="ServiciosCorreoSoap" binding="tns:ServiciosCorreoSoap">
+      <soap:address location="http://admin.veritrade.info/VeritradeServicios/ServiciosCorreo.asmx" />
+    </wsdl:port>
+    <wsdl:port name="ServiciosCorreoSoap12" binding="tns:ServiciosCorreoSoap12">
+      <soap12:address location="http://admin.veritrade.info/VeritradeServicios/ServiciosCorreo.asmx" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

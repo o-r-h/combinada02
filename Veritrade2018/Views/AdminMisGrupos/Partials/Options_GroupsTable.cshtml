@@ -1,0 +1,19 @@
+﻿@{
+    var lTipoFavorito = (string)Model;
+}
+
+@if (lTipoFavorito == "Partida")
+{
+    @Html.ActionLink(Resources.MiPerfil.AddFavoritesToGroup_Text, "Index", "AdminMisProductos", new { }, new { @class = "btn boton-opcion margin-height-sm" })
+}
+else
+{
+    @Html.ActionLink(Resources.MiPerfil.AddFavoritesToGroup_Text, "Index", "AdminMisFavoritos", new { tipoFavorito  = lTipoFavorito }, new { @class = "btn boton-opcion margin-height-sm" })
+}
+
+
+<button class="btn boton-delete margin-height-sm clickDeleteSelectedGroups">
+    @Resources.MiPerfil.DeleteSelectedGroups_Text
+</button>
+
+@Html.ActionLink(Resources.MiPerfil.Btn_Back, "Index", "MisGrupos", new { }, new { @class = "btn boton-volver margin-height-sm" })

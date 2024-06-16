@@ -1,0 +1,83 @@
+﻿@using Veritrade2018.Helpers
+@using Veritrade2018.Models
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var uri = HttpContext.Current.Request.Url.AbsolutePath;
+    var seoConf = ConfiguracionesSeo.GetConfig(culture, uri);
+
+    ViewBag.Title = seoConf.Title;
+    ViewBag.Description = seoConf.Description;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+    <link href="@Url.Content("~/Content/Assets/paises.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Components/vertical-tabs.css")" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function selectCommentBox() {
+            window.location = '#paises';
+            document.getElementById("paises").focus();
+        }
+
+        selectCommentBox();
+    </script>
+}
+
+@helper Select(string active, string slug)
+    {
+        if (active == slug)
+        {
+            @:active
+        }
+}
+
+<div class="container">
+    <div class="paises_section null-margin-v">
+        <div class="paises_content null-margin-v">
+            <a id="paises" class="anchor"></a>
+            <div class="row like-table">
+                <div class="col-lg-12 bhoechie-tab-container like-table-row">
+                    <div class="vertical-tab-menu like-table-cell">
+                        <div class="tab-menu-list-group">
+                            @foreach (var paises in (List<ServiciosPaises>)ViewData["paises"])
+                            {
+                                <a href="@Url.Action("Index", "Paises", new {culture, slug = paises.Abreviatura.Trim()})" class="list-group-item pais @Select(ViewData["slug"].ToString(), paises.Abreviatura.Trim())">
+                                    <img src="~/Content/Images/@paises.ImagenBandera" alt="@paises.Abreviatura.Trim()" style="width: 28px; height: 16px">
+                                    <span class="pais-span">@paises.NombrePais</span>
+                                </a>
+                            }
+                        </div>
+                    </div>
+                    <div class="bhoechie-tab like-table-cell">
+                        @foreach (var paises in (List<ServiciosPaises>)ViewData["paises"])
+                        {
+                            <div class="bhoechie-tab-content @Select(ViewData["slug"].ToString(), paises.Abreviatura.Trim())">
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                    <label class="servicios_title">
+                                        @paises.NombrePais
+                                    </label>
+                                    @foreach (var detalle in ServiciosPaisesDetalles.GetList(paises.Id))
+                                    {
+                                        @Html.Partial("Partials/Detalle_Section", detalle)
+                                    }
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+                                    <img class="content" src="~/Content/Images/ServiciosPaises/@paises.ImagenServicio" alt="@paises.NombrePais" />
+                                </div>
+
+                                <div class="button-content">
+                                    <a href="@(SettingUtility.GetUrlBack() + "/ConsultaGratis.aspx?P=" + ServiciosPaises.GetCodigoPais(paises.Abreviatura.Trim()))" class="button-search">@Html.Raw(Resources.Resources.MenuItem03)</a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

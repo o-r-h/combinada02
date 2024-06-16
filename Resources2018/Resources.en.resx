@@ -1,0 +1,1119 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="Agree_Text" xml:space="preserve">
+    <value>I Agree the</value>
+  </data>
+  <data name="Archive_Text" xml:space="preserve">
+    <value>Archive</value>
+  </data>
+  <data name="Btn_Comprar" xml:space="preserve">
+    <value>Buy</value>
+  </data>
+  <data name="Btn_Contactanos" xml:space="preserve">
+    <value>Contact Us</value>
+  </data>
+  <data name="Btn_Planes" xml:space="preserve">
+    <value>Plans for you here</value>
+  </data>
+  <data name="Button_Back" xml:space="preserve">
+    <value>Back</value>
+  </data>
+  <data name="Button_Continue" xml:space="preserve">
+    <value>Continue</value>
+  </data>
+  <data name="Button_Download" xml:space="preserve">
+    <value>Download sample</value>
+  </data>
+  <data name="Button_Edit" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="Button_GoHome" xml:space="preserve">
+    <value>Login to your account in Veritrade</value>
+  </data>
+  <data name="Button_Pay" xml:space="preserve">
+    <value>Pay</value>
+  </data>
+  <data name="Close_Text" xml:space="preserve">
+    <value>Close</value>
+  </data>
+  <data name="Compra_Confirmacion_Mensaje" xml:space="preserve">
+    <value>We will send you an &lt;span&gt;email&lt;/span&gt; with confirmation and details of your purchase</value>
+  </data>
+  <data name="Compra_Confirmacion_Titulo" xml:space="preserve">
+    <value>Thanks for your &lt;span&gt;purchase!&lt;/span&gt;</value>
+  </data>
+  <data name="Compra_Pedido_Direccion" xml:space="preserve">
+    <value>Address</value>
+  </data>
+  <data name="Compra_Pedido_Igv" xml:space="preserve">
+    <value>IGV</value>
+  </data>
+  <data name="Compra_Pedido_Iva" xml:space="preserve">
+    <value>IVA</value>
+  </data>
+  <data name="Compra_Pedido_RazonSocial" xml:space="preserve">
+    <value>Business Name</value>
+  </data>
+  <data name="Compra_Pedido_Ruc" xml:space="preserve">
+    <value>Ruc</value>
+  </data>
+  <data name="Compra_Pedido_Tax" xml:space="preserve">
+    <value>Sales tax (NY only)</value>
+  </data>
+  <data name="Compra_Pedido_Titulo01" xml:space="preserve">
+    <value>Items</value>
+  </data>
+  <data name="Compra_Pedido_Titulo02" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="Compra_Pedido_Titulo03" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="Compra_Pedido_Total" xml:space="preserve">
+    <value>Total</value>
+  </data>
+  <data name="Compra_Text" xml:space="preserve">
+    <value>Orders</value>
+  </data>
+  <data name="Compra_Titulo01" xml:space="preserve">
+    <value>Your Order</value>
+  </data>
+  <data name="Compra_Titulo02" xml:space="preserve">
+    <value>Register your User in Veritrade</value>
+  </data>
+  <data name="Compra_Titulo03" xml:space="preserve">
+    <value>Payment detail</value>
+  </data>
+  <data name="Compra_Verificacion_Mensaje" xml:space="preserve">
+    <value>You already have a current plan, any questions about our plans &lt;a class="contactenos"&gt; contact us &lt;/a&gt;</value>
+  </data>
+  <data name="Compra_Verificacion_Titulo" xml:space="preserve">
+    <value>User Verification</value>
+  </data>
+  <data name="desc_title1" xml:space="preserve">
+    <value>Your Username and / or Password have not been entered correctly.</value>
+  </data>
+  <data name="desc_title10" xml:space="preserve">
+    <value>An error occurred while sending mail</value>
+  </data>
+  <data name="desc_title2" xml:space="preserve">
+    <value>Please, try again.</value>
+  </data>
+  <data name="desc_title3" xml:space="preserve">
+    <value>If you forgot your Username and / or Password, please</value>
+  </data>
+  <data name="desc_title4" xml:space="preserve">
+    <value>You can not log in because your user is Inactive in Veritrade.</value>
+  </data>
+  <data name="desc_title5" xml:space="preserve">
+    <value>If you want to activate it, please</value>
+  </data>
+  <data name="desc_title6" xml:space="preserve">
+    <value>Sorry, this user does not have access from this country.</value>
+  </data>
+  <data name="desc_title7" xml:space="preserve">
+    <value>If you have a question, please</value>
+  </data>
+  <data name="desc_title8" xml:space="preserve">
+    <value>If you are not yet a Veritrade customer, start your:</value>
+  </data>
+  <data name="desc_title9" xml:space="preserve">
+    <value>, please</value>
+  </data>
+  <data name="Field_Company_Text" xml:space="preserve">
+    <value>Company</value>
+  </data>
+  <data name="Field_Country_Text" xml:space="preserve">
+    <value>Country</value>
+  </data>
+  <data name="Field_EmailUser_Text" xml:space="preserve">
+    <value>E-mail (User)</value>
+  </data>
+  <data name="Field_Email_Text" xml:space="preserve">
+    <value>Email</value>
+  </data>
+  <data name="Field_FirstName_Text" xml:space="preserve">
+    <value>First Name</value>
+  </data>
+  <data name="Field_Fullname_Text" xml:space="preserve">
+    <value>Full Name</value>
+  </data>
+  <data name="Field_LastNames_Text" xml:space="preserve">
+    <value>Last Name</value>
+  </data>
+  <data name="Field_Message_Text" xml:space="preserve">
+    <value>Message</value>
+  </data>
+  <data name="Field_Names_Text" xml:space="preserve">
+    <value>Name and Last name</value>
+  </data>
+  <data name="Field_Phone_Text" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="Footer_AllRightsReserved" xml:space="preserve">
+    <value>All Rights Reserved</value>
+  </data>
+  <data name="Footer_Email" xml:space="preserve">
+    <value>E-mail</value>
+  </data>
+  <data name="Footer_Phone" xml:space="preserve">
+    <value>Phone</value>
+  </data>
+  <data name="Footer_Searchby" xml:space="preserve">
+    <value>Find Us on</value>
+  </data>
+  <data name="Footer_SiteMap" xml:space="preserve">
+    <value>Site Map</value>
+  </data>
+  <data name="Footer_TermsConditions" xml:space="preserve">
+    <value>Terms &amp; Conditions</value>
+  </data>
+  <data name="FreeTrial_Button_Send" xml:space="preserve">
+    <value>Start &gt;</value>
+  </data>
+  <data name="FreeTrial_Title01" xml:space="preserve">
+    <value>You're one step away from doing businesses!</value>
+  </data>
+  <data name="FreeTrial_Title02" xml:space="preserve">
+    <value>Sign up for a free trial</value>
+  </data>
+  <data name="Home_Content_Title01" xml:space="preserve">
+    <value>Clients</value>
+  </data>
+  <data name="Home_Content_Title02" xml:space="preserve">
+    <value>Database Updates</value>
+  </data>
+  <data name="Home_Countries_Button" xml:space="preserve">
+    <value>See more Countries &gt;</value>
+  </data>
+  <data name="Home_Modal_Clientes_Title" xml:space="preserve">
+    <value>Our Clients</value>
+  </data>
+  <data name="Home_Modal_Pais_Title" xml:space="preserve">
+    <value>Database Updates</value>
+  </data>
+  <data name="Home_Search_Cbo_Item01" xml:space="preserve">
+    <value>Tariff Heading</value>
+  </data>
+  <data name="Home_Search_Cbo_Item02" xml:space="preserve">
+    <value>Prod. Commercial Desc.</value>
+  </data>
+  <data name="Home_Search_Company" xml:space="preserve">
+    <value>Company name</value>
+  </data>
+  <data name="Home_Search_Item01" xml:space="preserve">
+    <value>Interested in (*)</value>
+  </data>
+  <data name="Home_Search_Item02" xml:space="preserve">
+    <value>Regime(*)</value>
+  </data>
+  <data name="Home_Search_Item03" xml:space="preserve">
+    <value>Search by</value>
+  </data>
+  <data name="Home_Search_Radio_Item01" xml:space="preserve">
+    <value>Imports</value>
+  </data>
+  <data name="Home_Search_Radio_Item02" xml:space="preserve">
+    <value>Exports</value>
+  </data>
+  <data name="Home_Search_Tab01" xml:space="preserve">
+    <value>Search by company</value>
+  </data>
+  <data name="Home_Search_Tab02" xml:space="preserve">
+    <value>Advanced search</value>
+  </data>
+  <data name="Home_Service_Button" xml:space="preserve">
+    <value>See more &gt;</value>
+  </data>
+  <data name="Invoice_Text" xml:space="preserve">
+    <value>I want an invoice</value>
+  </data>
+  <data name="LatestNews" xml:space="preserve">
+    <value>Latest News</value>
+  </data>
+  <data name="LoginDevelopedLabel" xml:space="preserve">
+    <value>Developed for </value>
+  </data>
+  <data name="LoginForgotLabel" xml:space="preserve">
+    <value>¿Forgot your password?</value>
+  </data>
+  <data name="LoginNavegadoresLabel" xml:space="preserve">
+    <value>Chrome, IE9, Edge and Firefox</value>
+  </data>
+  <data name="LoginPasswordLabel" xml:space="preserve">
+    <value>Password</value>
+  </data>
+  <data name="LoginTerminosLabel" xml:space="preserve">
+    <value>I have read and agree with the</value>
+  </data>
+  <data name="LoginTitle" xml:space="preserve">
+    <value>Welcome to Veritrade</value>
+  </data>
+  <data name="LoginUserLabel" xml:space="preserve">
+    <value>User</value>
+  </data>
+  <data name="LoginValidated_Characters" xml:space="preserve">
+    <value>The user and password can not have the following characters</value>
+  </data>
+  <data name="LoginValidated_Pwd" xml:space="preserve">
+    <value>Enter your password</value>
+  </data>
+  <data name="LoginValidated_Terms" xml:space="preserve">
+    <value>You must accept the terms and conditions</value>
+  </data>
+  <data name="LoginValidated_User" xml:space="preserve">
+    <value>Enter your username</value>
+  </data>
+  <data name="MenuItem01" xml:space="preserve">
+    <value>Who We Help</value>
+  </data>
+  <data name="MenuItem01_SubItem01" xml:space="preserve">
+    <value>Importers</value>
+  </data>
+  <data name="MenuItem01_SubItem02" xml:space="preserve">
+    <value>Exporters</value>
+  </data>
+  <data name="MenuItem01_SubItem03" xml:space="preserve">
+    <value>Sales &amp; Marketing</value>
+  </data>
+  <data name="MenuItem01_SubItem04" xml:space="preserve">
+    <value>Local Buyers</value>
+  </data>
+  <data name="MenuItem01_SubItem05" xml:space="preserve">
+    <value>Analysts</value>
+  </data>
+  <data name="MenuItem01_SubItem06" xml:space="preserve">
+    <value>Logistics Operators</value>
+  </data>
+  <data name="MenuItem02" xml:space="preserve">
+    <value>How we help</value>
+  </data>
+  <data name="MenuItem03" xml:space="preserve">
+    <value>Demo</value>
+  </data>
+  <data name="MenuItem04" xml:space="preserve">
+    <value>Countries</value>
+  </data>
+  <data name="MenuItem05" xml:space="preserve">
+    <value>Prices &amp; Plans</value>
+  </data>
+  <data name="MenuItem06" xml:space="preserve">
+    <value>Blog</value>
+  </data>
+  <data name="MenuItem07" xml:space="preserve">
+    <value>Contact Us</value>
+  </data>
+  <data name="MenuItem08" xml:space="preserve">
+    <value>Login</value>
+  </data>
+  <data name="Mes01" xml:space="preserve">
+    <value>January</value>
+  </data>
+  <data name="Mes02" xml:space="preserve">
+    <value>February</value>
+  </data>
+  <data name="Mes03" xml:space="preserve">
+    <value>March</value>
+  </data>
+  <data name="Mes04" xml:space="preserve">
+    <value>April</value>
+  </data>
+  <data name="Mes05" xml:space="preserve">
+    <value>May</value>
+  </data>
+  <data name="Mes06" xml:space="preserve">
+    <value>June</value>
+  </data>
+  <data name="Mes07" xml:space="preserve">
+    <value>July</value>
+  </data>
+  <data name="Mes08" xml:space="preserve">
+    <value>August</value>
+  </data>
+  <data name="Mes09" xml:space="preserve">
+    <value>September</value>
+  </data>
+  <data name="Mes10" xml:space="preserve">
+    <value>October</value>
+  </data>
+  <data name="Mes11" xml:space="preserve">
+    <value>November</value>
+  </data>
+  <data name="Mes12" xml:space="preserve">
+    <value>December</value>
+  </data>
+  <data name="Most_Reads" xml:space="preserve">
+    <value>Most Read</value>
+  </data>
+  <data name="Pdf_text" xml:space="preserve">
+    <value>Download PDF</value>
+  </data>
+  <data name="Planes_Veritrade" xml:space="preserve">
+    <value>Veritrade Plans</value>
+  </data>
+  <data name="PlanSummary_Text" xml:space="preserve">
+    <value>Plan summary</value>
+  </data>
+  <data name="Plans_Details_Title" xml:space="preserve">
+    <value>&lt;small&gt;Detail of ours&lt;/small&gt; Plans</value>
+  </data>
+  <data name="Plans_Title" xml:space="preserve">
+    <value>Veritrade &lt;small&gt;Plans&lt;/small&gt;</value>
+  </data>
+  <data name="Plans_Title_Countries" xml:space="preserve">
+    <value>Countries</value>
+  </data>
+  <data name="Plans_Title_Downloads" xml:space="preserve">
+    <value>LOGINS AND DOWNLOADS</value>
+  </data>
+  <data name="Plans_Title_Excel" xml:space="preserve">
+    <value>CUSTOM TEMPLATES</value>
+  </data>
+  <data name="Plans_Title_Favorites" xml:space="preserve">
+    <value>Favorites and Groups</value>
+  </data>
+  <data name="Plans_Title_Information" xml:space="preserve">
+    <value>FOREIGN TRADE INFORMATION</value>
+  </data>
+  <data name="Plans_Title_Modules" xml:space="preserve">
+    <value>Modules</value>
+  </data>
+  <data name="Plans_Title_Plans" xml:space="preserve">
+    <value>Plans</value>
+  </data>
+  <data name="Plans_Title_Price" xml:space="preserve">
+    <value>Price</value>
+  </data>
+  <data name="Plans_Title_Users" xml:space="preserve">
+    <value>Users</value>
+  </data>
+  <data name="Post_Publish" xml:space="preserve">
+    <value>Published on</value>
+  </data>
+  <data name="Request_Error_Message" xml:space="preserve">
+    <value>Something went wrong, try again later</value>
+  </data>
+  <data name="Request_Error_Title" xml:space="preserve">
+    <value>Fail</value>
+  </data>
+  <data name="Request_Message" xml:space="preserve">
+    <value>Your request is being processed and we will contact you shortly.</value>
+  </data>
+  <data name="Request_Text01" xml:space="preserve">
+    <value>Request for Contact or Support</value>
+  </data>
+  <data name="Request_Text02" xml:space="preserve">
+    <value>Request for Quotation</value>
+  </data>
+  <data name="Request_Title" xml:space="preserve">
+    <value>Thank you for your interest!</value>
+  </data>
+  <data name="Required_Text" xml:space="preserve">
+    <value>is required</value>
+  </data>
+  <data name="rpta4" xml:space="preserve">
+    <value>Your user has already reached the maximum contracted revenue per month.</value>
+  </data>
+  <data name="rpta5" xml:space="preserve">
+    <value>WITHOUTPROGRAM</value>
+  </data>
+  <data name="rpta6" xml:space="preserve">
+    <value>We are sorry, the income from this machine exceeds the amount contracted.</value>
+  </data>
+  <data name="Search_Button" xml:space="preserve">
+    <value>SEARCH</value>
+  </data>
+  <data name="Search_Form_Item01" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Search_Form_Item02" xml:space="preserve">
+    <value>of</value>
+  </data>
+  <data name="Search_Form_Item03" xml:space="preserve">
+    <value>Product Commercial Description</value>
+  </data>
+  <data name="Search_Form_Item04" xml:space="preserve">
+    <value>Tariff Heading</value>
+  </data>
+  <data name="Search_Form_Item05" xml:space="preserve">
+    <value>Importer</value>
+  </data>
+  <data name="Search_Form_Item06" xml:space="preserve">
+    <value>Exporter</value>
+  </data>
+  <data name="Search_Form_Item07" xml:space="preserve">
+    <value>Filters</value>
+  </data>
+  <data name="Search_Form_Item08" xml:space="preserve">
+    <value>Online information from JAN 01, 2012 to APR 30, 2017</value>
+  </data>
+  <data name="Search_Form_Item09" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="Search_Form_Item10" xml:space="preserve">
+    <value>to</value>
+  </data>
+  <data name="Search_Form_Item11" xml:space="preserve">
+    <value>The free trial only shows 03 months of information</value>
+  </data>
+  <data name="Search_ResetButton" xml:space="preserve">
+    <value>Reset search</value>
+  </data>
+  <data name="Send_Button" xml:space="preserve">
+    <value>Send &gt;</value>
+  </data>
+  <data name="Service_Text_Title_For" xml:space="preserve">
+    <value>For</value>
+  </data>
+  <data name="Stripe_Form_BillingAddress" xml:space="preserve">
+    <value>Billing Address 1</value>
+  </data>
+  <data name="Stripe_Form_BillingAddress2" xml:space="preserve">
+    <value>Billing Address 2</value>
+  </data>
+  <data name="Stripe_Form_BillingCity" xml:space="preserve">
+    <value>Billing City</value>
+  </data>
+  <data name="Stripe_Form_BillingCountry" xml:space="preserve">
+    <value>Billing Country</value>
+  </data>
+  <data name="Stripe_Form_BillingState" xml:space="preserve">
+    <value>Billing State</value>
+  </data>
+  <data name="Stripe_Form_CardName" xml:space="preserve">
+    <value>Cardholder</value>
+  </data>
+  <data name="Stripe_Form_CardNumber" xml:space="preserve">
+    <value>Card number</value>
+  </data>
+  <data name="Stripe_Form_Cvc" xml:space="preserve">
+    <value>Security code</value>
+  </data>
+  <data name="Stripe_Form_Email" xml:space="preserve">
+    <value>Email Address</value>
+  </data>
+  <data name="Stripe_Form_Expiry" xml:space="preserve">
+    <value>Expiration Date (MM / YY)</value>
+  </data>
+  <data name="Stripe_Form_Phone" xml:space="preserve">
+    <value>Phone Number</value>
+  </data>
+  <data name="Stripe_Form_Zip" xml:space="preserve">
+    <value>Zip Code</value>
+  </data>
+  <data name="Success_title1" xml:space="preserve">
+    <value>Incorrect username and / or password</value>
+  </data>
+  <data name="Success_title2" xml:space="preserve">
+    <value>Inactive user</value>
+  </data>
+  <data name="Success_title3" xml:space="preserve">
+    <value>Unauthorized access!</value>
+  </data>
+  <data name="Success_title4" xml:space="preserve">
+    <value>Could not enter the system!</value>
+  </data>
+  <data name="Terminos_Venta_Link" xml:space="preserve">
+    <value>Terms and Conditions of Sale</value>
+  </data>
+  <data name="Terminos_Venta_Titulo" xml:space="preserve">
+    <value>Terms and Conditions of Sale</value>
+  </data>
+  <data name="TrialText" xml:space="preserve">
+    <value>Free Trial</value>
+  </data>
+  <data name="TypeCard_Text" xml:space="preserve">
+    <value>Type of card</value>
+  </data>
+  <data name="ViewFeatures_Text" xml:space="preserve">
+    <value>View plan details</value>
+  </data>
+  <data name="Filters_AddButton" xml:space="preserve">
+    <value>Add to Filters</value>
+  </data>
+  <data name="Filters_Message_Modal" xml:space="preserve">
+    <value>Please select filters to delete</value>
+  </data>
+  <data name="Filters_DeleteButton" xml:space="preserve">
+    <value>Delete selected</value>
+  </data>
+  <data name="Demo_CustomsDuas_Tab" xml:space="preserve">
+    <value>Customs DUAs</value>
+  </data>
+  <data name="Demo_DetailExcel_Tab" xml:space="preserve">
+    <value>Details - Excel</value>
+  </data>
+  <data name="Demo_ExcelDonwloadMessage_Part1" xml:space="preserve">
+    <value>If you wish, you can download the results of the</value>
+  </data>
+  <data name="Demo_ExcelDonwloadMessage_Part2" xml:space="preserve">
+    <value>tab to an excel file</value>
+  </data>
+  <data name="Demo_Importers_Tab" xml:space="preserve">
+    <value>Importers</value>
+  </data>
+  <data name="Demo_OriginCountries_Tab" xml:space="preserve">
+    <value>Origin Countries</value>
+  </data>
+  <data name="Demo_Products_Tab" xml:space="preserve">
+    <value>Products</value>
+  </data>
+  <data name="Demo_Summay_Tab" xml:space="preserve">
+    <value>Summary</value>
+  </data>
+  <data name="Demo_Exporters_Tab" xml:space="preserve">
+    <value>Exporters</value>
+  </data>
+  <data name="Grid_Column_SeeRecords" xml:space="preserve">
+    <value>See records</value>
+  </data>
+  <data name="Demo_Vias_Tab" xml:space="preserve">
+    <value>Vias</value>
+  </data>
+  <data name="Add_Filter_Search_Button" xml:space="preserve">
+    <value>Apply Filters</value>
+  </data>
+  <data name="Option_Filter_All" xml:space="preserve">
+    <value>[ALL]</value>
+  </data>
+  <data name="Message_FreeTrial_Modal_Part1" xml:space="preserve">
+    <value>You did a free search.</value>
+  </data>
+  <data name="Title_FreeTrial_Modal" xml:space="preserve">
+    <value>Request your free trial</value>
+  </data>
+  <data name="Message_FreeTrial_Modal_Part2" xml:space="preserve">
+    <value>If you want to see the information and features, go to:</value>
+  </data>
+  <data name="RecordsFound_Text_Part1" xml:space="preserve">
+    <value>were found</value>
+  </data>
+  <data name="RecordsFound_Text_Part2" xml:space="preserve">
+    <value>records</value>
+  </data>
+  <data name="Grid_ColumnHeader_Customs" xml:space="preserve">
+    <value>Customs</value>
+  </data>
+  <data name="Grid_ColumnHeader_Duas" xml:space="preserve">
+    <value>DUAs</value>
+  </data>
+  <data name="Demo_DestinationCountries_Tab" xml:space="preserve">
+    <value>Destination countries</value>
+  </data>
+  <data name="Grid_ColumnHeader_ExportCIF" xml:space="preserve">
+    <value>FOB</value>
+  </data>
+  <data name="Grid_ColumnHeader_ImportCIF" xml:space="preserve">
+    <value>CIF</value>
+  </data>
+  <data name="SelectFilter_Message_Modal" xml:space="preserve">
+    <value>Please select items to add to filters</value>
+  </data>
+  <data name="Search_Message_Modal" xml:space="preserve">
+    <value>Please enter at least one filter before click on SEARCH button</value>
+  </data>
+  <data name="Search_Title_Modal" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="Demo_Aduanas_Tab" xml:space="preserve">
+    <value>Customs</value>
+  </data>
+  <data name="Demo_Districts_Tab" xml:space="preserve">
+    <value>Districts</value>
+  </data>
+  <data name="Demo_Brands_Tab" xml:space="preserve">
+    <value>Brands</value>
+  </data>
+  <data name="Demo_Models_Tab" xml:space="preserve">
+    <value>Models</value>
+  </data>
+  <data name="ComercialDescription_PlaceHolder" xml:space="preserve">
+    <value>Type words in spanish such as brand, model or product name</value>
+  </data>
+  <data name="Nandina_FormField_Label" xml:space="preserve">
+    <value>HTS Code</value>
+  </data>
+  <data name="Nandina_FormField_PlaceHolder" xml:space="preserve">
+    <value>Type HS CODES or its first 6 digits</value>
+  </data>
+  <data name="From_FormField_Label" xml:space="preserve">
+    <value>From</value>
+  </data>
+  <data name="To_FormField_Label" xml:space="preserve">
+    <value>to</value>
+  </data>
+  <data name="MySearchs_BrandsModels_Tabs" xml:space="preserve">
+    <value>Brands - Models</value>
+  </data>
+  <data name="Grid_Column_TotalRecords" xml:space="preserve">
+    <value>Records</value>
+  </data>
+  <data name="BrandsModels_Detail_InvoiceDetails" xml:space="preserve">
+    <value>detail - Invoice details</value>
+  </data>
+  <data name="BrandsModels_ExcelDonwloadMessage_Part1" xml:space="preserve">
+    <value>You can download in Excel this</value>
+  </data>
+  <data name="BrandsModels_ExcelDonwloadMessage_Part3" xml:space="preserve">
+    <value>Also you can download in Excel the</value>
+  </data>
+  <data name="Title_Tab_BrandsModels" xml:space="preserve">
+    <value>Data for brands and models is extracted from Invoice Details, an additional source of information</value>
+  </data>
+  <data name="Search_Form_BrandField" xml:space="preserve">
+    <value>Brand</value>
+  </data>
+  <data name="LnkTitle_Reset" xml:space="preserve">
+    <value>Reset</value>
+  </data>
+  <data name="LnkTitle_Search" xml:space="preserve">
+    <value>Search</value>
+  </data>
+  <data name="TotalsText" xml:space="preserve">
+    <value>Totals</value>
+  </data>
+  <data name="Date_Text" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="GrossKg_Text" xml:space="preserve">
+    <value>Gross kg</value>
+  </data>
+  <data name="NetKg_Text" xml:space="preserve">
+    <value>Net kg</value>
+  </data>
+  <data name="Quantity_Text" xml:space="preserve">
+    <value>Quantity</value>
+  </data>
+  <data name="Unit_Text" xml:space="preserve">
+    <value>Unit</value>
+  </data>
+  <data name="UnlandingDistrict_Text" xml:space="preserve">
+    <value>Unlanding District</value>
+  </data>
+  <data name="USCIFUnitTaxes_Text" xml:space="preserve">
+    <value>US$ CIF Unit + Taxes</value>
+  </data>
+  <data name="USFASUnit_Text" xml:space="preserve">
+    <value>US$ FAS Unit</value>
+  </data>
+  <data name="USFOBUnit_Text" xml:space="preserve">
+    <value>US$ FOB Unit</value>
+  </data>
+  <data name="NoResultsWereFound_Text" xml:space="preserve">
+    <value>No results were found</value>
+  </data>
+  <data name="Others_Text" xml:space="preserve">
+    <value>Others</value>
+  </data>
+  <data name="Search_Form_Item05_I" xml:space="preserve">
+    <value>Importer / Consignee</value>
+  </data>
+  <data name="Search_Form_Item05_placeholder" xml:space="preserve">
+    <value>Type the importer name</value>
+  </data>
+  <data name="Search_Form_Item06_I" xml:space="preserve">
+    <value>Exporter / Shipper</value>
+  </data>
+  <data name="Search_Form_Item06_placeholder_chile" xml:space="preserve">
+    <value>Type brand name</value>
+  </data>
+  <data name="Search_Form_Item06_placeholder" xml:space="preserve">
+    <value>Type the exporter name</value>
+  </data>
+  <data name="Ult_Paises_Embarque" xml:space="preserve">
+    <value>Last Shipment Countries</value>
+  </data>
+  <data name="Demo_Exporters_Tab_Manif" xml:space="preserve">
+    <value>Exporters / Shippers</value>
+  </data>
+  <data name="Demo_Importers_Tab_Manif" xml:space="preserve">
+    <value>Importers / Consignees</value>
+  </data>
+  <data name="Demo_PtoDescarga_Tab" xml:space="preserve">
+    <value>Unloading Ports</value>
+  </data>
+  <data name="Demo_PtoEmbarque_Tab" xml:space="preserve">
+    <value>Last Shipment Ports</value>
+  </data>
+  <data name="Demo_PtoDestino_Tab" xml:space="preserve">
+    <value>Destination Ports</value>
+  </data>
+  <data name="Demo_Manifiesto_Tab" xml:space="preserve">
+    <value>Manifests</value>
+  </data>
+  <data name="Demo_Notif_Tab" xml:space="preserve">
+    <value>Processors / Notified</value>
+  </data>
+  <data name="Demo_Notif_Tab_Fil" xml:space="preserve">
+    <value>Notify</value>
+  </data>
+  <data name="Pais_Embarque" xml:space="preserve">
+    <value>Shipment Country</value>
+  </data>
+  <data name="Demo_PtoEmbarque" xml:space="preserve">
+    <value>Shipment Port</value>
+  </data>
+  <data name="PesoBruto_Text" xml:space="preserve">
+    <value>Gross Weight</value>
+  </data>
+  <data name="Demo_Bultos" xml:space="preserve">
+    <value>Packages</value>
+  </data>
+  <data name="Demo_DescAdicional" xml:space="preserve">
+    <value>Additional Description</value>
+  </data>
+  <data name="Demo_DestinationCountry" xml:space="preserve">
+    <value>Destination Country</value>
+  </data>
+  <data name="Demo_PtoDescarga" xml:space="preserve">
+    <value>Unloading Port</value>
+  </data>
+  <data name="Demo_PtoDestino" xml:space="preserve">
+    <value>Destination Port</value>
+  </data>
+  <data name="Search_Form_Item06_I_2" xml:space="preserve">
+    <value>Exporters / Shippers</value>
+  </data>
+  <data name="Demo_Importers_Tab_Manif_2" xml:space="preserve">
+    <value>Importadore / Consignatario</value>
+  </data>
+  <data name="Demo_Notif_Tab_2" xml:space="preserve">
+    <value>Processor / Notified</value>
+  </data>
+  <data name="Demo_Manifiesto" xml:space="preserve">
+    <value>Manifest</value>
+  </data>
+  <data name="Search_Form_Item12" xml:space="preserve">
+    <value>from</value>
+  </data>
+  <data name="Success_title5" xml:space="preserve">
+    <value>The online user already exists</value>
+  </data>
+  <data name="ComercialDescription_PlaceHolderUSI" xml:space="preserve">
+    <value>Type English words such as brand, model or product name</value>
+  </data>
+  <data name="desc_title11" xml:space="preserve">
+    <value>At this moment there is already an open session with the user</value>
+  </data>
+  <data name="desc_title12" xml:space="preserve">
+    <value>Veritrade, for the security of your account information, only allows one session open per user.</value>
+  </data>
+  <data name="desc_title13" xml:space="preserve">
+    <value>If you left your browser without pressing the button.</value>
+  </data>
+  <data name="desc_title14" xml:space="preserve">
+    <value>Close Session</value>
+  </data>
+  <data name="desc_title15" xml:space="preserve">
+    <value>for your safety you must wait 20 minutes to re-enter again.</value>
+  </data>
+  <data name="desc_title16" xml:space="preserve">
+    <value>Your user has already reached the maximum contracted revenue per month.</value>
+  </data>
+  <data name="Success_title6" xml:space="preserve">
+    <value>The Visitors' Limit was reached</value>
+  </data>
+  <data name="back_veritrade" xml:space="preserve">
+    <value>BACK TO VERITRADE</value>
+  </data>
+  <data name="desc_title17" xml:space="preserve">
+    <value>Dear Customer</value>
+  </data>
+  <data name="FieldBeforeCountry1_Text" xml:space="preserve">
+    <value>[From]</value>
+  </data>
+  <data name="FieldBeforeCountry2_Text" xml:space="preserve">
+    <value>[To]</value>
+  </data>
+  <data name="LblFooterModal1_Text" xml:space="preserve">
+    <value>Did you like what you saw?</value>
+  </data>
+  <data name="LblFooterModal2_Text" xml:space="preserve">
+    <value>This is just a sample of Veritrade can offer you. Request a free trial and know more.</value>
+  </data>
+  <data name="LblPeriod_Text" xml:space="preserve">
+    <value>Period</value>
+  </data>
+  <data name="RdAnnual_Text" xml:space="preserve">
+    <value>Year</value>
+  </data>
+  <data name="RdTrimester_Text" xml:space="preserve">
+    <value>Quarter</value>
+  </data>
+  <data name="Demo_OriginCountry" xml:space="preserve">
+    <value>Origin Country</value>
+  </data>
+  <data name="Nandina_FormField_Filtro" xml:space="preserve">
+    <value>HTS Code</value>
+  </data>
+  <data name="Access_Contact_Info" xml:space="preserve">
+    <value>E-mail: info@veritrade-ltd.com | Telephones: (+511) 321 2128 - USA (+415) 704 507</value>
+  </data>
+  <data name="Access_Title" xml:space="preserve">
+    <value>Veritrade access</value>
+  </data>
+  <data name="DownloadToExcel_Text" xml:space="preserve">
+    <value>Download</value>
+  </data>
+  <data name="Trial_Excel_Text" xml:space="preserve">
+    <value>Sample: 20 records</value>
+  </data>
+  <data name="Plan_Text" xml:space="preserve">
+    <value>The contracted  plan does not allow to create templates.</value>
+  </data>
+  <data name="MyAccount_Title" xml:space="preserve">
+    <value>Users Configuration</value>
+  </data>
+  <data name="Ctrl_Modify" xml:space="preserve">
+    <value>Modify</value>
+  </data>
+  <data name="Ctrl_Save" xml:space="preserve">
+    <value>Save</value>
+  </data>
+  <data name="Ctrl_Undo" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="MyAccount_Message01" xml:space="preserve">
+    <value>Máxima cantidad de usuarios activos permitidos.</value>
+  </data>
+  <data name="MyAccount_Message02" xml:space="preserve">
+    <value>The user entered already exists.</value>
+  </data>
+  <data name="MyAccount_Message03" xml:space="preserve">
+    <value>You can not Activate the User because you have reached the limit of Users.</value>
+  </data>
+  <data name="ModeFreeTrial_Message" xml:space="preserve">
+    <value>Do you want to enter Free Trial Mode?</value>
+  </data>
+  <data name="Demo_New_Tab" xml:space="preserve">
+    <value>New Tab</value>
+  </data>
+  <data name="Valor_Dolar" xml:space="preserve">
+    <value>Billing in CLP at the exchange rate of the day</value>
+  </data>
+  <data name="Info_MXD_Despedida" xml:space="preserve">
+    <value>Sincerely,</value>
+  </data>
+  <data name="Info_MXD_Emisor" xml:space="preserve">
+    <value>The Veritrade Team</value>
+  </data>
+  <data name="Info_MXD_Parrafo_1" xml:space="preserve">
+    <value>We inform you that we are having a problem with the update of the Mexican Customs, we are two months behind because there have been changes in the SAT (Mexican Tax Administration Service) since the end of 2021.</value>
+  </data>
+  <data name="Info_MXD_Parrafo_2" xml:space="preserve">
+    <value>We still do not have an exact date when we will receive the information, we are working with our provider who is doing everything possible to have the updates as soon as possible.</value>
+  </data>
+  <data name="Info_MXD_Parrafo_3" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Info_MXD_Receptor" xml:space="preserve">
+    <value>Dear customers,</value>
+  </data>
+  <data name="Info_MXD_Titulo" xml:space="preserve">
+    <value>Mexico Database Full Detail Information</value>
+  </data>
+  <data name="Info_MXM_Despedida" xml:space="preserve">
+    <value>Sincerely,</value>
+  </data>
+  <data name="Info_MXM_Emisor" xml:space="preserve">
+    <value>The Veritrade Team</value>
+  </data>
+  <data name="Info_MXM_Parrafo_1" xml:space="preserve">
+    <value>We want to inform you that for reasons beyond our control and very related to the problems of processes and accesses of our information providers, due to the pandemic by COVID-19, we are having problems with information in the Mexican Company name field on the Mexico Maritime Detail database. Approximately 20% of the databases in this information field for the months of January, February and March are not validated.</value>
+  </data>
+  <data name="Info_MXM_Parrafo_2" xml:space="preserve">
+    <value>We are working with our provider to validate these fields of information in the shortest possible time, but we have seen it pertinent, given the global crisis that we have been facing, to upload the information online 100% in order to provide you with the remaining information (80 %) which is validated.</value>
+  </data>
+  <data name="Info_MXM_Parrafo_3" xml:space="preserve">
+    <value>We regret the inconvenience that this situation may cause, but we hope to correct it as soon as possible.</value>
+  </data>
+  <data name="Info_MXM_Receptor" xml:space="preserve">
+    <value>Dear customers,</value>
+  </data>
+  <data name="Info_MXM_Titulo" xml:space="preserve">
+    <value>Mexico Database Maritime Detail Information</value>
+  </data>
+  <data name="Idioma" xml:space="preserve">
+    <value>EN</value>
+  </data>
+  <data name="Info_COL21_Despedida" xml:space="preserve">
+    <value>Sincerely,</value>
+  </data>
+  <data name="Info_COL21_Emisor" xml:space="preserve">
+    <value>The Veritrade Team</value>
+  </data>
+  <data name="Info_COL21_Parrafo_1" xml:space="preserve">
+    <value>We inform you that the Colombian Customs (DIAN) has suppressed the sending of information on the names of Colombian companies, suppliers / consignees (foreign companies) and the commercial description, according to what indicated in the Personal Data Protection manual MN-IC-0062.</value>
+  </data>
+  <data name="Info_COL21_Parrafo_1a" xml:space="preserve">
+    <value>Faced with this, with machine learning and data mining actions, we predict the information of these columns through our VeriEngine service.</value>
+  </data>
+  <data name="Info_COL21_Parrafo_2" xml:space="preserve">
+    <value>We are working with the pertinent authorities to restore the information with the primary objective being the need for market information.</value>
+  </data>
+  <data name="Info_COL21_Parrafo_3" xml:space="preserve">
+    <value>This situation will affect the information corresponding to the month of March 2021 onwards.</value>
+  </data>
+  <data name="Info_COL21_Parrafo_4" xml:space="preserve">
+    <value>We hope to be able to restore this information soon and to be able to inform you of good news regarding this.</value>
+  </data>
+  <data name="Info_COL21_Receptor" xml:space="preserve">
+    <value>Dear user,</value>
+  </data>
+  <data name="Info_COL21_Titulo" xml:space="preserve">
+    <value>CHANGES IN COLOMBIAN CUSTOMS INFORMATION</value>
+  </data>
+  <data name="Info_COL22_Despedida" xml:space="preserve">
+    <value>Sincerely,</value>
+  </data>
+  <data name="Info_COL22_Emisor" xml:space="preserve">
+    <value>The Veritrade Team</value>
+  </data>
+  <data name="Info_COL22_Parrafo_1" xml:space="preserve">
+    <value>Since September 2022, we have complete information on importing, exporting, supplier and consignee companies, as it has once again been exposed by the Dirección de Impuestos y Aduanas Nacionales(DIAN).</value>
+  </data>
+  <data name="Info_COL22_Receptor" xml:space="preserve">
+    <value>Dear user,</value>
+  </data>
+  <data name="Info_COL22_Titulo" xml:space="preserve">
+    <value>NEWS! COMPLETE INFORMATION ON COLOMBIA</value>
+  </data>
+  <data name="Info_PY_Despedida" xml:space="preserve">
+    <value>Sincerely,</value>
+  </data>
+  <data name="Info_PY_Emisor" xml:space="preserve">
+    <value>The Veritrade Team</value>
+  </data>
+  <data name="Info_PY_Parrafo_1" xml:space="preserve">
+    <value>We inform you that the Paraguayan Customs has suppressed the sending of the information of the detailed information which included the name of the exporting / importing company as well as other important data such as the brand and the transport company.</value>
+  </data>
+  <data name="Info_PY_Parrafo_2" xml:space="preserve">
+    <value>At the moment we will be publishing the statistical data of the Paraguayan customs. This situation will affect the information from the month of April 2022.</value>
+  </data>
+  <data name="Info_PY_Parrafo_3" xml:space="preserve">
+    <value>We hope to be able to reestablish this information soon and to be able to inform you of good news regarding this.</value>
+  </data>
+  <data name="Info_PY_Receptor" xml:space="preserve">
+    <value>Dear user,</value>
+  </data>
+  <data name="Info_PY_Titulo" xml:space="preserve">
+    <value>CHANGES IN PARAGUAY CUSTOMS INFORMATION</value>
+  </data>
+</root>

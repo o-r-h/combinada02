@@ -1,0 +1,108 @@
+﻿.form-row {
+    padding-top: 8px;
+    padding-bottom: 8px;
+}
+
+form {
+    font-size: 13px;
+    font-weight: 600;
+
+    label {
+        font-weight: 600;
+    }
+
+    label.radio-inline {
+        color: $color-primary;
+        font-weight: 600;
+    }
+}
+
+.text-search {
+    color: $color-primary;
+}
+
+.text-search02 {
+    color: $color-secondary;
+}
+
+.btn-video {
+    background-color: $color-button-alternative;
+    text-align: center;
+    background-image: url(/Content/Images/Busqueda/arrow_right.png);
+    background-repeat: no-repeat;
+    background-position: center left;
+    border: none;
+    border-radius: 0;
+    cursor: pointer;
+    color: #ffffff;
+    min-width: 180px;
+    text-transform: uppercase;
+    padding-left: 24px;
+    margin: 8px 8px;
+
+    &:hover {
+        color: #ffffff;
+    }
+
+    &:link {
+        color: #ffffff;
+    }
+}
+
+.btn-buscar {
+    background-color: $color-button-primary;
+    color: #ffffff;
+    text-align: center;
+    border: none;
+    border-radius: 0;
+    min-width: 180px;
+    text-transform: uppercase;
+    margin: 8px 8px;
+
+    &:hover {
+        color: #ffffff;
+    }
+
+    &:link {
+        color: #ffffff;
+    }
+}
+
+.select-formfield {
+    display: inline-block;
+    cursor: pointer;
+    font-weight: 600;
+    color: $color-grey;
+    background-color: $color-white;
+    border: 1px solid $color-border-alternative;
+    border-radius: 0;
+    background-image: url(/Content/Images/Busqueda/arrow_down.png);
+    background-position: center right;
+    background-repeat: no-repeat;
+    padding-right: 24px;
+    margin: 4px 4px;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+
+    &::-ms-expand {
+        display: none;
+    }
+}
+
+.select-max-sm {
+    max-width: 200px !important;
+}
+
+.select-max-lg {
+    max-width: 500px !important;
+}
+
+.txt-formfield {
+    display: inline-block;
+    background-color: #fff;
+    border: 1px solid $color-border-alternative;
+    font-weight: 600;
+    color: $color-grey;
+    border-radius: 0;
+}

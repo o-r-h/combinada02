@@ -1,0 +1,118 @@
+﻿@functions
+{
+
+    public string getColSize(bool xflag)
+    {
+        return !xflag ? "col-md-6 col-sm-6" : "col-md-3 col-sm-3";
+    }
+
+}
+
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalVerDetalleId">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="padding: 20px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="icon-close-modal" aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    @Model.modal_title
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div id="infoDetalleExcel">
+
+                    <div class="row fila-info-sentinel">
+                        <div class="col-sm-12 info-empresa-sentinel">
+                            <div class="form-horizontal">
+                                @foreach (var i in Model.resume)
+                                {
+                                    if (i.visible)
+                                    {
+                                <div class="form-group">
+                                    <label class="col-lg-2 @Html.Raw(getColSize(i.hasVal2)) control-label descripcion-info">
+                                        @i.label:
+                                    </label>
+                                    <label class="col-lg-@(i.hasVal2 ? "4" : "10") @Html.Raw(getColSize(i.hasVal2)) control-label valor-informacion">
+                                        @i.value
+                                    </label>
+                                    @if (i.hasVal2)
+                                    {
+                                        <label class="col-lg-2 @Html.Raw(getColSize(i.hasVal2)) control-label descripcion-info">
+                                            @Html.Raw(i.label2)
+                                        </label>
+                                        <label class="col-lg-4 @Html.Raw(getColSize(i.hasVal2)) control-label valor-informacion">
+                                            @i.value2
+                                        </label>
+                                    }
+                                </div>
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead>
+                                    <tr class="table-title">
+                                        @foreach (var i in Model.thead1)
+                                        {
+                                            <th class="column-text-center">
+                                                @i
+                                            </th>
+                                        }
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr>
+                                        @foreach (var i in Model.tbody1)
+                                        {
+                                            <td class="column-text-center">
+                                                @i
+                                            </td>
+                                        }
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    @if (Model.thead2 != null)
+                    {
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                        <tr class="table-title">
+                                            @foreach (var i in Model.thead2)
+                                            {
+                                                <th class="column-text-center">
+                                                    @i
+                                                </th>
+                                            }
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            @foreach (var i in Model.tbody2)
+                                            {
+                                                <td class="column-text-center">
+                                                    @i
+                                                </td>
+                                            }
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,119 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    AdminMyFavorite objAdminMyFavorite = (AdminMyFavorite) Model;
+    var idsSeleccionados = objAdminMyFavorite.IdsSeleccionados;
+
+    bool verificarCheckBox = (idsSeleccionados != null && idsSeleccionados.Count > 0);
+}
+<div class="table-responsive">
+    <table class="table table-condensed table-bordered">
+
+        <thead>
+            <tr class="table-title">
+                <th class="text-center column-width-min">No.</th>
+                <th class="text-center ">
+                    @objAdminMyFavorite.FavoriteUniqueHead.FavoriteDescription <br />
+
+                    <form class="form-inline" role="form">
+                        @Html.TextBox("txtEmpresaF", "", new { @class = "form-control txt-formfield column-width-sm" })
+
+                        <a id="lnkSearchByCompany" href="javascript:void(0)">
+                            <img src="~/Content/Images/Minisite/search-2x.png" alt="search" width="20" height="20" />
+                        </a>
+                        <a id="lnkResetByCompany" href="javascript:void(0)">
+                            <img src="~/Content/Images/Minisite/refresh-2x.png" alt="reset" width="20" height="20" />
+                        </a>
+                    </form>
+                </th>
+
+                @if (objAdminMyFavorite.FavoriteUniqueHead.IsVisibleRuc)
+                {
+                    <th class="text-center">
+                        @objAdminMyFavorite.FavoriteUniqueHead.FavoriteRuc
+                    </th>
+                }
+
+                <th class="text-center">
+                    @objAdminMyFavorite.FavoriteUniqueHead.MyGroupsDescription <br />
+
+                    <form class="form-inline" role="form">
+                        @Html.DropDownList("cboGruposF", new SelectList(objAdminMyFavorite.GruposFavoritos.ToList(), "Value", "Text"), new { @class = "form-control select-formfield column-width-xs" })
+                    </form>
+                </th>
+                <th class="text-center column-width-min">
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" name="name" value="" id="chkAllAdminMyFavorites" onclick="AdminTable.SelectAllChecksCurrentPage('tbodyAdminMyFavorites', this);"  />
+                        </label>
+                    </div>
+                </th>
+            </tr>
+        </thead>
+        <tbody id="tbodyAdminMyFavorites">
+            @foreach (var item in objAdminMyFavorite.FavoritesUniques)
+            {
+                <tr>
+                    <td class="text-center">@item.Index</td>
+                    <td>
+                        <p class="wspace-normal">
+                            @item.Favorito
+                        </p>
+                    </td>
+                    @if (objAdminMyFavorite.FavoriteUniqueHead.IsVisibleRuc)
+                    {
+                        <td class="c_center">
+                            @item.RUC
+                        </td>
+                    }
+
+                    <td>
+                        @foreach (var grupo in item.GroupsFavories)
+                        {
+                            <p class="wspace-normal">
+                                @grupo.Grupo
+                            </p>
+                        }
+                    </td>
+                    <td class="text-center">
+
+                        @foreach (var grupo in item.GroupsFavories)
+                        {
+                            var idCheck = grupo.IdFavorito + "-" + grupo.IdGrupo;
+
+                            @*<div class="checkbox">
+                                <label>*@
+                            <p class="wspace-normal">
+                                @if (verificarCheckBox)
+                                {
+                                    if (idsSeleccionados.Contains(idCheck))
+                                    {
+                                        <input class="mt_m8" type="checkbox" name="chekFavorites" value="@idCheck" checked="checked" />
+                                    }
+                                    else
+                                    {
+                                        <input class="mt_m8" type="checkbox" name="chekFavorites" value="@idCheck" />
+                                    }
+                                }
+                                else
+                                {
+                                    <input class="mt_m8" type="checkbox" name="chekFavorites" value="@idCheck" />
+                                }
+                            </p>
+                                @*</label>
+                            </div>*@
+                         }
+                        </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    @if (objAdminMyFavorite.TotalPaginas > 1)
+    {
+        <div id="divPagingAdminMyFavorites">
+            <nav aria-label="Page navigation" class="text-center">
+                <ul id="pagingAdminMyFavorites" class="pagination pagination-sm pagination-tab-my"></ul>
+            </nav>
+        </div>
+    }
+</div>

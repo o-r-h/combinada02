@@ -1,0 +1,156 @@
+@using Veritrade2017.Helpers
+@using Veritrade2017.Models
+@using Veritrade2017.Models.Minisite
+@model List<Detalle>
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var idiomaText = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+    var codCampania = ViewData["my_campania"]; //sent of parent
+    var count = 1;
+}
+    <div class="col-xs-12 null-padding-h">
+        <div class="table-responsive" style=" cursor: pointer;">
+            <table class="table table-bordered" data-toggle="modal" data-target="#ModalEmbarque">
+                <thead>
+                    <tr>
+                        <th class="impair-column">
+                            <label>Nº</label>
+                        </th>
+                        <th class="pair-column">
+                            <label>@MinisiteResources.Table03_Header01</label>
+                        </th>
+                        <th class="impair-column">
+                            <label>@MinisiteResources.Table03_Header02</label>
+                        </th>
+                        <th class="pair-column">
+                            <label>@MinisiteResources.Table03_Header03</label>
+                        </th>
+                        <th class="impair-column">
+                            <label>@MinisiteResources.Table03_Header04</label>
+                        </th>
+                        <th class="pair-column">
+                            <label>@MinisiteResources.Table03_Header05</label>
+                        </th>
+                        <th class="impair-column">
+                            <label>@MinisiteResources.Table03_Header06</label>
+                        </th>
+                        <th class="pair-column">
+                            <label>@MinisiteResources.Table03_Header07</label>
+                        </th>
+                        <th class="impair-column">
+                            <label>@MinisiteResources.Table03_Header08</label>
+                        </th>
+                        <th class="pair-column">
+                            <label>@MinisiteResources.Table03_Header09</label>
+                        </th>
+                        <th class="impair-column">
+                            @if (ViewData["tipo"].ToString().Equals("importaciones"))
+                            {
+                                <label>@MinisiteResources.Table03_Header10</label>
+                            }
+                            else
+                            {
+                                <label>@MinisiteResources.Table03_Header10B</label>
+                            }
+                        </th>
+                        <th class="pair-column">
+                            <label>@MinisiteResources.Table03_Header11</label>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var data in Model)
+                    {
+                        <tr>
+                            <th>
+                                <a href="javascript:void(0);">@(count++)</a>
+                            </th>
+                            <td class="text-center">
+                                @string.Format(idiomaText, "{0:d}", data.FechaNum)
+                                <p class="text-center">
+                                    <span class="glyphicon" aria-hidden="true">
+                                        <img src="~/Content/Images/Minisite/ico_lupa-2x.png" alt="" style="width: 10px; height: 10px; cursor: pointer;" />
+                                    </span>
+                                </p>
+                            </td>
+                            <td class="text-center">@data.Nandina</td>
+                            <td>
+                                <label>
+                                    @data.Proveedor
+                                    @if (ViewData["paisEmpresa"].Equals("PERU"))
+                                    {
+                                        <span class="glyphicon" aria-hidden="true">
+                                            <img src="~/Content/Images/ico_sentinel.jpg" alt="" style="width: 13px; height: 7px; cursor: pointer;" />
+                                        </span>
+                                    }
+                                    <span class="glyphicon" aria-hidden="true">
+                                        <img src="~/Content/Images/Minisite/gicon-x2.png" alt="" style="width: 10px; height: 10px; cursor: pointer;" />
+                                    </span>
+                                </label>
+                            </td>
+                            <td>
+                                <label>
+                                    @data.Importador
+                                    <span class="glyphicon" aria-hidden="true">
+                                        <img src="~/Content/Images/Minisite/gicon-x2.png" alt="" style="width: 10px; height: 10px; cursor: pointer;" />
+                                    </span>
+                                </label>
+                            </td>
+                            <td class="text-center">@string.Format(idiomaText, "{0:N0}", data.PesoNeto)</td>
+                            <td class="text-center">@string.Format(idiomaText, "{0:N0}", data.Cantidad)</td>
+                            <td class="text-center">@data.Unidad</td>
+                            @if (data.Regimen == "Importaciones")
+                            {
+                                <td class="text-center">
+                                    @string.Format(idiomaText, "{0:N2}", data.CifUnit)
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="text-center">
+                                    @string.Format(idiomaText, "{0:N2}", data.FobUnit)
+                                </td>
+                            }
+                            <td class="text-center">@data.Dua</td>
+                            <td class="text-center">@data.PaisProced</td>
+                            <td>@data.DesComercial</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @if (Model.Count < 2)
+            {
+                <div class="box-trial" style="position: relative;">
+                    <div class="box box-lg">
+                        <p>
+                            @if (culture == "es")
+                            {
+                                @MinisiteResources.BlockImage_Text01 <a href="@Url.RouteUrl("PruebaGratis", new {culture, campania =codCampania})" onclick="dataLayerEmpresa();" class="solicitud"> @MinisiteResources.BlockImage_Text02</a>
+                            }
+                            else
+                            {
+                                @MinisiteResources.BlockImage_Text01 <a href="@Url.RouteUrl("PruebaGratisUS", new {culture, campania = codCampania})" onclick="dataLayerEmpresa();" class="solicitud"> @MinisiteResources.BlockImage_Text02</a>
+                            }
+                        </p>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="box-trial">
+                    <div class="box box-lg">
+                        <p>
+                            @if (culture == "es")
+                            {
+                                @MinisiteResources.BlockImage_Text01 <a href="@Url.RouteUrl("PruebaGratis", new {culture, campania = codCampania})" onclick="dataLayerEmpresa();" class="solicitud"> @MinisiteResources.BlockImage_Text02</a>
+                            }
+                            else
+                            {
+                                @MinisiteResources.BlockImage_Text01 <a href="@Url.RouteUrl("PruebaGratisUS", new {culture, campania = codCampania})" onclick="dataLayerEmpresa();" class="solicitud"> @MinisiteResources.BlockImage_Text02</a>
+                            }
+                        </p>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>

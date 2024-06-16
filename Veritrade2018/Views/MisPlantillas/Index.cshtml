@@ -1,0 +1,317 @@
+﻿@using Veritrade2018.Models.Admin
+@using Veritrade2018.Helpers
+
+@{
+    var culture = CultureHelper.GetCurrentCulture();
+    ViewBag.Title = "Administrador Plantillas";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    string plan = ViewData["Plan"].ToString();
+    AdminMyTemplate objAdminMyTemplate = (AdminMyTemplate)ViewData["objAdminMyTemplate"];
+    string mensaje = @Resources.Resources.Plan_Text;
+
+}
+<style>
+    #cboPais {
+        /*max-width: 190px !important;*/
+    }
+
+    #message a {
+        font-size: 29px;
+    }
+
+    #ModalVentanaMensaje .texto-ventana-mensaje #lnkContactenos a {
+        cursor: pointer;
+    }
+</style>
+<div id="loadingPageAdmin" class="loader is-active-loading">
+    <div class="objectLoading"></div>
+</div>
+
+<div class="padding-height-sm">
+    <div class="row">
+
+        <div class="form-inline" role="form">
+
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2 padding-height-sm">
+                <div class="form-group">
+
+                    <label class="color-secondary">
+                        @Resources.MiPerfil.Template_Text
+                    </label>
+
+                    @Html.DropDownList("cboDescargas", new SelectList(objAdminMyTemplate.Downloads.ToList(), "Value", "Text"), new { @class = "form-control select-formfield" })
+
+                </div>
+                <div id="divBtnNewTemplate" class="form-group @(!objAdminMyTemplate.IsVisibleBtnNewTemplate ? "no-display" : "") ">
+                    <button id="btnNewTemplate" class="btn boton-opcion">
+                        @Resources.MiPerfil.NewTemplate_Text
+                    </button>
+                </div>
+            </div>
+
+            <div id="formTemplate" class="col-xs-12 col-sm-8 col-sm-offset-2 padding-height-sm @(!objAdminMyTemplate.IsVisibleFormTemplate ? "no-display": "") ">
+                <div class="form-group">
+                    <label>
+                        @Resources.MiPerfil.Template_Text
+                    </label>
+
+                    @Html.TextBox("txtTemplate", null, new { @class = "form-control txt-formfield" })
+
+                    <div class="checkbox">
+                        <label>
+                            @Html.CheckBox("chkDefault", false)
+                            @Resources.MiPerfil.Default_Text
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2">
+            @Html.Partial("GridViews/TableView", objAdminMyTemplate)
+        </div>
+
+
+        <div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+            <button id="saveTemplate" class="btn boton-opcion margin-height-sm">
+                @Resources.MiPerfil.SaveTemplate_Text
+            </button>
+            <button id="cancelTemplate" class="btn boton-opcion margin-height-sm">
+                @Resources.AdminResources.Cancel_Text
+            </button>
+            <button id="deleteTemplate" class="btn boton-delete margin-height-sm">
+                @Resources.MiPerfil.DeleteTemplate_Text
+                <!--     Eliminar Plantilla     -->
+            </button>
+            <a href="@Url.Action("Index", "MisBusquedas")" class="btn boton-volver margin-height-sm">
+                @Resources.MiPerfil.Btn_Back
+                <!-- Volver  -->
+            </a>
+        </div>
+    </div>
+</div>
+<!--Inicio Modal Ventana Mensaje-->
+@Html.Partial("Modals/Modal_VentanaMensaje")
+<!--Fin-->
+<!--Inicio - Modal Ventana Contactenos-->
+@Html.Partial("Modals/Modal_VentanaContactenos")
+<!--Fin-->
+<!--Inicio Modal Ventana Sesión-->
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaSesion.cshtml")
+<!--Fin-->
+
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaContactenos.cshtml")
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaMensaje.cshtml")
+
+
+@section Scripts{
+    <script src="@Url.Content("~/Scripts/Admin/admin.js?2")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Admin/MyTemplates/MyTemplates.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/MixPanel/MisPlantillas/MisPlantillasMP.js?1")" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        //Lógica de sessión
+        var t;
+        var timeout = 15 * 60 * 1000;
+
+        function SessionExpiredAlert() {
+            t = setTimeout(function () {
+                $('#ModalVentanaSesion').modal({
+                    show: true,
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }, timeout);
+        };
+
+        function InIEventSession() {
+            clearTimeout(t);
+            SessionExpiredAlert();
+        };
+        //
+
+        $(document).ready(function () {
+
+            $("#btnContactanos").on('click',
+                function () {
+                    ModalAdmin.hideAndShow("ModalVentanaMensaje", "ModalVentanaContactenos");
+                });
+
+            ModalAdmin.registerShownEventListener('ModalVentanaContactenos');
+            ModalAdmin.registerHiddenEventListener('ModalVentanaContactenos');
+
+            $("#btnEnviarMensaje").on('click',
+                function() {
+                    var txtMensaje = $("textarea#txtMensaje").val();
+                    if (txtMensaje == "")
+                        return;
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("EnviarMensajeContactenos", "MisPlantillas")',
+                        data: {
+                            Mensaje: txtMensaje
+                        },
+                        beforeSend: function() {
+                        },
+                        success: function(response) {
+                            $("textarea#txtMensaje").val("");
+                            ModalAdmin.hide("ModalVentanaContactenos");
+                            ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                                "messageTitle",
+                                "Solicitud de contacto o soporte",
+                                "message",
+                                "Su solicitud está siendo procesada y nos contactaremos a la brevedad con usted",
+                                "lnkContactenos",
+                                false);
+                        },
+                        error: function(data) {
+                            console.log(data);
+                        }
+                    });
+                });
+
+
+            $("input:radio[name=rdbTipoOpe]").change(function () {
+                OptionMyTemplate.changeTipoOpe('@Url.Action("TipoOpeChange","MisPlantillas")');
+            });
+
+            $("#cboPais2").change(function () {
+                OptionMyTemplate.changePais2('@Url.Action("Pais2Change", "MisPlantillas")',
+                    $(this).val());
+            });
+
+            $("#cboPais").change(function () {
+                OptionMyTemplate.changePais('@Url.Action("PaisChange", "MisPlantillas")',
+                    $(this).val(),
+                    $("#cboPais option:selected").text());
+            });
+
+            $("#cboDescargas").change(function () {
+                OptionMyTemplate.ChangeDownloads('@Url.Action("DescargasChange","MisPlantillas")', $(this).val());
+
+                if ($(this).prop('selectedIndex') > 0) {
+                    OptionMyTemplate.ShowFormTemplate($(this).find("option:selected").text());
+                } else {
+                    OptionMyTemplate.HideFormTemplate();
+                }
+            });
+
+            $("button#btnNewTemplate").click(function () {
+                var plan = "@plan";
+
+                if (plan != "ESENCIAL") {
+
+                    $("#cboDescargas").prop('selectedIndex', 0);
+                    OptionMyTemplate.NewTemplate('@Url.Action("NewTemplateClick","MisPlantillas")');
+
+                } else {
+
+                    ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                        "messageTitle",
+                        "Veritrade",
+                        "message",
+                        "@mensaje",
+                        "lnkContactenos",
+                        true);
+
+                }
+            });
+            var culture = '@culture';
+            $("button#saveTemplate").click(function () {
+                if ($("#cboDescargas").prop('selectedIndex') == 0 && $("#formTemplate").hasClass("no-display")) {
+                    ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                        "messageTitle",
+                        "Veritrade",
+                        "message",
+                        '@Resources.ValidationResource.Error_SaveDefault',
+                        "lnkContactenos",
+                        false);
+                    return;
+                }
+                else if ($("#txtTemplate").val().trim() == "") {
+                    ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                        "messageTitle",
+                        "Veritrade",
+                        "message",
+                        '@Resources.ValidationResource.Error_General_Required',
+                        "lnkContactenos",
+                        false);
+                } else if ($("#tbodyTemplate input:checked").length == 0) {
+                    ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                        "messageTitle",
+                        "Veritrade",
+                        "message",
+                        '@Resources.ValidationResource.Error_SelectTemplate_Required',
+                        "lnkContactenos",
+                        false);
+                }
+                else {
+                    OptionMyTemplate.SaveTemplate('@Url.Action("SaveTemplate", "MisPlantillas")', culture);
+                }
+            });
+
+            $("button#deleteTemplate").click(function () {
+                if ($("#cboDescargas").prop('selectedIndex') == 0) {
+                    ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                        "messageTitle",
+                        "Veritrade",
+                        "message",
+                        '@Resources.ValidationResource.Error_SaveDefault',
+                        "lnkContactenos",
+                        false);
+                    return;
+                } else {
+                    OptionMyTemplate.DeleteTemplate('@Url.Action("DeleteTemplate", "MisPlantillas")', $("#cboDescargas").val());
+
+                }
+            });
+
+            $("button#cancelTemplate").click(function() {
+                OptionMyTemplate.CancelTemplate('@Url.Action("CancelTemplate","MisPlantillas")');
+            });
+            $('#chkDefault').change(function () {
+                if (culture == 'es') {
+                    var replace = " [Por Defecto]";
+                }
+                else {
+                    var replace = " [Default]";
+                }
+                var txtInicial = $('#txtTemplate');
+                if (!$(this).prop('checked')) {
+                    var txtTemplate = txtInicial.val();
+                    var txtTemplateR = txtTemplate.replace(replace,"");
+                    txtInicial.val(txtTemplateR);
+                }
+                else {
+                    var txtTemplate = txtInicial.val();
+                    var txtTemplateR = txtTemplate + replace;
+                    txtInicial.val(txtTemplateR);
+                }
+            });
+            LoadingAdminPage.showOrHideLoadingPage(false);
+        });
+
+        //Inicialiar y Verificar Sesión activa
+        $(document).ready(function() {
+            InIEventSession();
+            $('#ModalVentanaSesion').on('hidden.bs.modal', function () {
+                window.location.href = '@Url.Action("Index", "Home")';
+            });
+        });
+
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            if (jqxhr.status === 401) {
+                window.location.href = '@Url.Action("Index","Home")';
+            } else {
+                console.log(thrownError);
+            }
+        });
+        $( document ).ajaxComplete(function() {
+            InIEventSession();
+        });
+        //
+
+    </script>
+}

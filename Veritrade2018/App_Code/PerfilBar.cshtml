@@ -1,0 +1,31 @@
+﻿@using System.Web.Mvc
+@helper PerfilHelper(ViewContext context, string active = "", string description = "")
+{
+    var urlAction = new UrlHelper(context.RequestContext);
+    <div class="navbar navbar-menu">
+        <div class="container">
+            <span class="navbar-brand font-bold">@description</span>
+
+            @if (active.Equals("MisPlantillas") || active.Equals("MiPerfil"))
+            {
+                <form class="form-inline" style="padding-top: 4px; display:inline-block">
+                    <div class="form-group">
+                        <label class="radio-inline">
+                            <input type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1"> Importaciones
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2"> Exportaciones
+                        </label>
+                        <label class="color-secondary">de</label>
+                        <select class="form-control select-formfield">
+                            <option selected>Latinoamerica</option>
+                        </select>
+                        <select class="form-control select-formfield">
+                            <option selected>Perú</option>
+                        </select>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+}

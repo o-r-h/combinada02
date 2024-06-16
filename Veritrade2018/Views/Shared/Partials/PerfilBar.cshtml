@@ -1,0 +1,93 @@
+﻿@using Veritrade2018.Models.Admin
+@using Veritrade2018.Util
+
+@{
+    var active = ViewData["controller"];
+    string namePais= "";
+    string regimen = "";
+    string titlePerfilBar = "";
+    if (ViewData["DescPais"]!=null)
+    {
+        namePais = ViewData["DescPais"].ToString();
+    }
+    if (ViewData["Regimen"]!=null)
+    {
+        regimen = ViewData["Regimen"].ToString();
+    }
+    if (namePais!="" && regimen!="")
+    {
+        titlePerfilBar = ViewData["TitlePerfilBar"].ToString() + " - " + namePais + " " + regimen;
+    }
+    else
+    {
+        titlePerfilBar = ViewData["TitlePerfilBar"].ToString();
+    }
+
+    var IngresoComoFreeTrial = (bool)(ViewData["IngresoComoFreeTrial"] ?? false);
+
+    MiPerfil objMiPerfil = (MiPerfil)ViewData["objMiPerfil"];
+}
+
+    <div class="navbar navbar-menu">
+        <div class="container">
+            <span class="navbar-brand font-bold">@titlePerfilBar</span>
+                
+            @if (active.Equals("MisPlantillas") || active.Equals("MiPerfil") || active.Equals("MisFavoritos") || active.Equals("MisGrupos") || active.Equals("MisAlertasFavoritos"))
+            {
+                <form class="form-inline" style="padding-top: 4px; display:inline-block">
+                    <div class="form-group">
+
+                        @{
+                            var htmlAttributesrdbImp = new Dictionary<string, object> { { "id", "rdbImp" } };
+                            if (!objMiPerfil.IsEnabledImportacion)
+                            {
+                                htmlAttributesrdbImp.Add("disabled", "disabled");
+                            }
+                        }
+
+                        <label class="radio-inline">
+                            @Html.RadioButton("rdbTipoOpe", Enums.TipoOpe.I.ToString(), @objMiPerfil.IsCheckedImportacion, htmlAttributesrdbImp) @Resources.Resources.Home_Search_Radio_Item01
+                        </label>
+
+                        @{
+                            var htmlAttributesrdbExp = new Dictionary<string, object> { { "id", "rdbExp" } };
+                            if (!objMiPerfil.IsEnabledExportacion)
+                            {
+                                htmlAttributesrdbExp.Add("disabled", "disabled");
+                            }
+                        }
+                        <label class="radio-inline">
+                            @Html.RadioButton("rdbTipoOpe", Enums.TipoOpe.E.ToString(), objMiPerfil.IscheckedExportacion, htmlAttributesrdbExp) @Resources.Resources.Home_Search_Radio_Item02
+                        </label>
+
+                        <label class="control-label">
+                            &nbsp; @Resources.Resources.Search_Form_Item02 &nbsp;
+                        </label>
+                        @{
+                            var htmlAttributesCboPais2 = new Dictionary<string, object> { { "class", "form-control select-formfield select-max-sm" } };
+
+                            if (!objMiPerfil.IsEnabledCodPais)
+                            {
+                                htmlAttributesCboPais2.Add("disabled", "disabled");
+                            }
+                        }
+
+                        @Html.DropDownList("cboPais2", new SelectList(objMiPerfil.ListItemsPais2.ToList(), "Value", "Text", objMiPerfil.CodPais2Selected), htmlAttributesCboPais2)
+
+                        @{
+                            var htmlAttributesCboPais = new Dictionary<string, object> { { "class", "form-control select-formfield select-max-sm" } };
+
+                            if (!objMiPerfil.IsEnabledCodPaisB)
+                            {
+                                htmlAttributesCboPais.Add("disabled", "disabled");
+                            }
+                        }
+
+                        @Html.DropDownList("cboPais", new SelectList(objMiPerfil.ListItemsPais.ToList(), "Value", "Text", objMiPerfil.CodPaisSelected), htmlAttributesCboPais)
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+
+

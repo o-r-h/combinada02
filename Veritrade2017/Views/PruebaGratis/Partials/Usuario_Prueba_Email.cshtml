@@ -1,0 +1,273 @@
+﻿
+@using Veritrade2017.Models
+@{
+    var modelo = (CorreoUsuarioPrueba)Model;
+}
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>
+        Veritrade
+    </title>
+</head>
+
+<body style="margin: 0;">
+    <form name="form1" method="post" action="./Correos.aspx?Opcion=REGISTRO&amp;CodUsuario=mauricio.castillo%40zeke.cl" id="form1">
+        <div>
+            <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="/wEPDwULLTE1MTQ0NDIwMDIPZBYCAgMPZBYQAgEPDxYCHgdWaXNpYmxlaGRkAgMPDxYCHwBoZGQCBQ8PFgIfAGhkZAIHDw8WAh8AaGRkAgsPDxYCHwBoZGQCDQ8PFgIfAGhkZAIPDw8WAh8AaGRkAhEPDxYCHwBoZGRk60wvZWu/ZN7+2SY1dUr1qC/qdfKbWqzxRGK8onCAYZc=" />
+        </div>
+
+        <div>
+
+            <input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="6505AC6E" />
+        </div>
+
+        <div id="pnlRegistro">
+
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td bgcolor="#f4f4f5">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td width="1%">
+                                    @*<img src="~/Content/Images/transparente.gif" width="40" height="70" />*@
+                                    <img src="http://business.veritrade.info/imagenes_mail/transparente.gif" width="40" height="70" />
+                                </td>
+                                <td width="98%">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td width="20%">
+                                               @* <img src="~/Content/Images/veritrade_logo.png" width="75" height="45" />*@
+                                                <img src="http://business.veritrade.info/imagenes_mail/logo.png" width="75" height="45" />
+                                            </td>
+                                            <td width="70%" align="right">
+                                                <table border="0" cellpadding="0" cellspacing="0" style="white-space: nowrap;">
+                                                    <tr>
+                                                        <td>
+                                                           @* <img src="~/Content/Images/transparente.gif" width="40" height="38" />*@
+                                                            <img src="http://business.veritrade.info/imagenes_mail/transparente.gif" width="40" height="38" />
+                                                        </td>
+                                                        <td>
+                                                            <a href="#" style="font-family: Verdana, Geneva, sans-serif; font-size: 12px; line-height: 20px; text-decoration: none; color: #212936;">www.veritradecorp.com</a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="1%">
+                                   @* <img src="~/Content/Images/transparente.gif" width="40" height="70" />*@
+                                    <img src="http://business.veritrade.info/imagenes_mail/transparente.gif" width="40" height="70" />
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td width="1%">
+                                  @*  <img src="~/Content/Images/transparente.gif" width="40" height="90" />*@
+                                    <img src="http://business.veritrade.info/imagenes_mail/transparente.gif" width="40" height="90" />
+                                </td>
+                                <td width="98%">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td>
+                                                <br />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-family: Verdana, Geneva, sans-serif; font-weight: bold; font-size: 20.3px; line-height: 28px; text-decoration: none; color: #212936;">Prueba Gratis – (Empresa - @modelo.empresa)</td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-family: Verdana, Geneva, sans-serif; font-weight: bold; font-size: 18.2px; line-height: 22px; text-decoration: none; color: #212936;">Datos del Usuario</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-family: ProximaNova-Bold; font-size: 20px; line-height: 22px; text-decoration: none; color: #212936;">
+                                                @*  <img src="~/Content/Images/transparente.gif" width="100" height="7" />*@
+                                                <img src="http://business.veritrade.info/imagenes_mail/transparente.gif" width="100" height="7" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <table width="100" border="0" cellpadding="0" cellspacing="0" style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 22px; text-decoration: none; color: #212936; white-space: nowrap;">
+                                                    <tr>
+                                                        <td width="140" style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">Usuario:</td>
+                                                        <td width="18" style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">
+                                                            @* <img src="~/Content/Images/transparente.gif" width="18" height="18" />*@
+                                                            <img src="http://business.veritrade.info/imagenes_mail/transparente.gif" width="18" height="18" />
+                                                        </td>
+                                                        <td width="259">@modelo.codUsuario</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">Contraseña:</td>
+                                                        <td style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">&nbsp;</td>
+                                                        <td>@modelo.pass</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">Nombres:</td>
+                                                        <td style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">&nbsp;</td>
+                                                        <td>@modelo.nombres</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">Empresa (opcional):</td>
+                                                        <td style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">&nbsp;</td>
+                                                        <td>@modelo.empresa</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">Teléfono:</td>
+                                                        <td style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">&nbsp;</td>
+                                                        <td>@modelo.telefono</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">Código Telefónico: </td>
+                                                        <td style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">&nbsp;</td>
+                                                        <td>@modelo.codTelefono</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-family: Verdana, Geneva, sans-serif; font-weight: bold; font-size: 18.2px; line-height: 22px; text-decoration: none; color: #212936;">Origen</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-family: ProximaNova-Bold; font-size: 20px; line-height: 22px; text-decoration: none; color: #212936;">
+                                                @* <img src="~/Content/Images/transparente.gif" width="100" height="7" />*@
+                                                <img src="http://business.veritrade.info/imagenes_mail/transparente.gif" width="100" height="7" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <table width="100" border="0" cellpadding="0" cellspacing="0" style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 22px; text-decoration: none; color: #212936; white-space: nowrap;">
+                                                    <tr>
+                                                        <td width="140" style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">Campaña: </td>
+                                                        <td width="18" style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">
+                                                            @* <img src="~/Content/Images/transparente.gif" width="18" height="18" />*@
+                                                            <img src="http://business.veritrade.info/imagenes_mail/transparente.gif" width="18" height="18" />
+                                                        </td>
+                                                        @if (modelo.tipoConsulta != null)
+                                                        {
+                                                            <td width="259">@modelo.codCampania | @modelo.publicidad |  |  |  | @modelo.ubicacionAnuncio | @modelo.entidadConsultada</td>
+                                                        }
+                                                        else
+                                                        {
+                                                            <td width="259">@modelo.codCampania | @modelo.publicidad |  |  |  | @modelo.ubicacionAnuncio</td>
+                                                        }
+                                                    </tr>
+                                                    @if (modelo.tipoConsulta != null)
+                                                    {
+                                                        <tr>
+                                                            <td style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">País Consultado:</td>
+                                                            <td style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">&nbsp;</td>
+                                                            <td>@modelo.nombrePais</td>
+                                                        </tr>
+                                                    }
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>&nbsp;</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-family: Verdana, Geneva, sans-serif; font-weight: bold; font-size: 18.2px; line-height: 22px; text-decoration: none; color: #212936;">Datos de conexión</td>
+                                        </tr>
+                                        <tr>
+                                            <td style="font-family: ProximaNova-Bold; font-size: 20px; line-height: 22px; text-decoration: none; color: #212936;">
+                                                @*    <img src="~/Content/Images/transparente.gif" width="100" height="7" />*@
+                                                <img src="http://business.veritrade.info/imagenes_mail/transparente.gif" width="100" height="7" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <table width="100" border="0" cellpadding="0" cellspacing="0" style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 22px; text-decoration: none; color: #212936; white-space: nowrap;">
+                                                    <tr>
+                                                        <td width="140" style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">Dirección IP: </td>
+                                                        <td width="18" style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">
+                                                            @* <img src="~/Content/Images/transparente.gif" width="18" height="18" />*@
+                                                            <img src="http://business.veritrade.info/imagenes_mail/transparente.gif" width="18" height="18" />
+                                                        </td>
+                                                        <td width="259">@modelo.direccionIp</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">Ubicación: </td>
+                                                        <td style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">&nbsp;</td>
+                                                        <td>@modelo.ubicacion</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td colspan="3" style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">&nbsp;</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">Fecha Registro: </td>
+                                                        <td style="font-family: Verdana, Geneva, sans-serif; font-size: 15.5px; line-height: 16px; text-decoration: none; color: #65a5e2;">&nbsp;</td>
+                                                        <td>@modelo.fecRegistro</td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                @*<img src="~/Content/Images/transparente.gif" width="40" height="50" />*@
+                                                <img src="http://business.veritrade.info/imagenes_mail/transparente.gif" width="40" height="50" />
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="1%">
+                                 @*   <img src="~/Content/Images/transparente.gif" width="40" height="90" />*@
+                                    <img src="http://business.veritrade.info/imagenes_mail/transparente.gif" width="40" height="90" />
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+                <tr>
+                    <td bgcolor="#f4f4f5">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                            <tr>
+                                <td width="1%">
+                                    @*<img src="~/Content/Images/transparente.gif" width="40" height="48" />*@
+                                    <img src="http://business.veritrade.info/imagenes_mail/transparente.gif" width="40" height="48" />
+                                </td>
+                                <td width="98%">
+                                    <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                        <tr>
+                                            <td width="25%">&nbsp;</td>
+                                            <td width="75%" align="right">
+                                                <table border="0" cellpadding="0" cellspacing="0" style="font-family: Verdana, Geneva, sans-serif; font-size: 11px; line-height: 17px; text-decoration: none; color: #212936;">
+                                                    <tr>
+                                                        <td>&nbsp;</td>
+                                                        <td>&nbsp;</td>
+                                                        <td>@@2015 Veritrade</td>
+                                                        <td>
+                                                           @* <img src="~/Content/Images/separador_sup.png" width="29" height="22" />*@
+                                                            <img src="http://business.veritrade.info/imagenes_mail/separador_sup.png" width="29" height="22" />
+                                                        </td>
+                                                        <td>Todos los derechos reservados </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                                <td width="1%">
+                                    @*<img src="~/Content/Images/transparente.gif" width="40" height="48" />*@
+                                    <img src="http://business.veritrade.info/imagenes_mail/transparente.gif" width="40" height="48" />
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+    </form>
+</body>
+</html>

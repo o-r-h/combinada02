@@ -1,0 +1,98 @@
+﻿@using Veritrade2017.Models
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var idiomafecha = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+    var masLeidos = (List<PostLanguage>)ViewData["mas_visitados"];
+    var postPublicados = (List<PostLanguage>)ViewData["post_publicados"];
+    var sty = ((Campania.TYPE_CAMPANIA)((int?)Session["TypeCampania"] ?? 0));
+    var CodesCampanias = Campania.CodFormateds3((ViewData["CodesCampanias"] as Dictionary<Campania.CONTROL, string>), culture, Request.Browser.IsMobileDevice, sty );
+
+    var currentMonth = DateTime.Now.Month;
+    var currentYear = DateTime.Now.Year;
+    var meses = new List<string>();
+    meses.Add(Resources.Mes01);
+    meses.Add(Resources.Mes02);
+    meses.Add(Resources.Mes03);
+    meses.Add(Resources.Mes04);
+    meses.Add(Resources.Mes05);
+    meses.Add(Resources.Mes06);
+    meses.Add(Resources.Mes07);
+    meses.Add(Resources.Mes08);
+    meses.Add(Resources.Mes09);
+    meses.Add(Resources.Mes10);
+    meses.Add(Resources.Mes11);
+    meses.Add(Resources.Mes12);
+}
+
+<div class="title">
+    <h2>@Resources.Archive_Text</h2>
+</div>
+
+<div class="section">
+    @for (var y = currentYear; y >= 2015; y--)
+    {
+        <div class="col-xs-12 col-sm-12 date-item">
+            <div class="col-xs-4 col-sm-4 anio">
+                <label>@y</label>
+            </div>
+            <div class="col-xs-8 col-sm-8 null-margin-h meses">
+                @{
+                    int mes = (y == currentYear && currentMonth <= 12) ? currentMonth : 12;
+                }
+                @for (var m = mes; m >= 1; m--)
+                {
+                    <div class="col-xs-12 col-sm-12">
+                        @if (postPublicados.Exists(x => x.Mes == m.ToString() && x.Anio ==y.ToString()))
+                        {
+                            <span class="active" onclick="toggleTable('@m@y');">@meses[m - 1]</span>
+                            <div class="row" id="@m@y" style="display: none;">
+                                @foreach (var publicacion in postPublicados.Where(x=>x.Anio==y.ToString()))
+                                {
+                                    if (Convert.ToInt32(publicacion.Mes) == m)
+                                    {
+                                        <div class="col-xs-12 old-content">
+                                            <span class="title-old">@Html.ActionLink(publicacion.Post.Titulo, "Post", "Blog", new { id = publicacion.Id, culture, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] ) }, new { })</span>
+                                            <span class="date-old">@publicacion.FechaPublicacion.ToString("dd MMMM, yyyy", idiomafecha)</span>
+                                        </div>
+                                    }
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <span href="#">@meses[m - 1]</span>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+                    }
+</div>
+
+@if (masLeidos.Count > 0)
+{
+    <div class="title">
+        <h2>@Resources.Most_Reads</h2>
+    </div>
+
+    <div class="section">
+        @foreach (PostLanguage posted in masLeidos)
+        {
+            <div class="col-xs-12 col-sm-12 date-item">
+                <div class="col-xs-6 col-sm-6">
+                    <div class="imagen-item">
+                        <img src="~/Content/Images/Blog/@posted.ImagenPortada" alt="" />
+                    </div>
+                </div>
+                <div class="col-xs-6 col-sm-6 null-padding-h">
+                    <div class="data-detail">
+                        <span class="titulo">@posted.Post.Titulo</span>
+                        <span class="publicacion">@posted.FechaPublicacion.ToString("dd MMMM, yyyy", idiomafecha)</span>
+                        <span class="ver-mas">@Html.ActionLink(Resources.Home_Service_Button, "Post", "Blog", new { id = posted.Id, culture, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] ) }, new { })</span>
+                    </div>
+                </div>
+            </div>
+            <hr />
+        }
+    </div>
+}

@@ -1,0 +1,519 @@
+﻿@using Veritrade2018.Helpers;
+@{
+    Layout = null;
+    var listaPaises = FuncionesBusiness.SearchCountryAlert();
+    var firsPais = listaPaises.First();
+    var listaPeriodos = FuncionesBusiness.SearchPeriodByCountry(firsPais.Value);
+    var htmlAttributesCboPais2AndPais = new Dictionary<string, object>();
+    var htmlAttributesCboPeriodo = new Dictionary<string, object>();
+    htmlAttributesCboPais2AndPais.Add("class", "form-control filter-selectField-vt select-max-sm");
+    htmlAttributesCboPeriodo.Add("class", "form-control form-cboMes filter-selectField-vt select-max-sm");
+}
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta name="robots" content="noindex, nofollow">
+    <meta name="googlebot" content="noindex, nofollow">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" type="text/css" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.18/css/dataTables.bootstrap.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+    <script type="text/javascript" src="//code.jquery.com/jquery-1.12.4.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.18/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="//cdn.datatables.net/1.10.18/js/dataTables.bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+        <!--script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script-->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.19.3/moment-with-locales.min.js"></script>
+
+    <title>Gestión de Alertas</title>
+    
+    <script type="text/javascript">
+        var arregloSeleccionados = [];
+        var table;
+        $(function() {
+            table = $('#t-users').DataTable({
+                "aLengthMenu": [[5, 10, 15, 25, 50, 100 ], [5, 10, 15, 25, 50, 100]],
+                "iDisplayLength" : 10,
+                "processing": true,
+                "serverSide": true,
+                "ajax": {
+                    "url": "@Url.Action("GetDataTable")",
+                    "type": "POST",
+                    'data': {
+                        country: $("#cboPais").val(),
+                        periodo: $("#cboPeriodo").val(),
+                    }
+                },
+                "columns": [
+                    { "data": "Check"},
+                    {
+                        "className":      'details-control',
+                        "orderable":      false,
+                        "data":           null,
+                        "defaultContent": ''
+                    },
+                    { "data": "Usuario" },
+                    { "data": "Empresa" },
+                    { "data": "Correo" },
+                    { "data": "sPlan" },
+                ],
+                
+                "bSort": false,
+                //"order": [[1, 'asc']]
+            });
+
+            // Add event listener for opening and closing details
+            $('#t-users tbody').on('click', 'td.details-control', function () {
+
+
+
+                var tr = $(this).closest('tr');
+                var row = table.row( tr );
+
+                if ($(row.child()).is(":visible")) {
+                    // This row is already open - close it
+                   
+                    $(row.child()).hide();
+                    tr.removeClass('shown');
+                }
+                else {
+                    // Open this row
+                    
+                    console.log(row);
+                    if (!$(row.child()).length) {
+                        var template = $('#tplPaises').html();
+                        Mustache.parse(template);   // optional, speeds up future uses
+                        var rendered = Mustache.render(template, $.parseJSON(row.data().Paises));
+                        row.child(rendered).show();
+                        var td = $(tr).children(0).children(0);
+                        var id = $(tr).children(0).children(0).val();
+                        $("input[name=chkEnviar][value=" + id + "]").prop("checked", $(td).prop("checked"));
+                        $("input[name=chkEnviar]").prop("checked", $("input[name=checkALL]").prop("checked"));
+                    } else {
+                        row.child().show();
+                    }
+                    
+                    tr.addClass('shown');
+                }
+               
+            });
+
+            $("input[name=checkALL]").on('change', function () {
+               
+
+                if ($("input[name=checkALL]").prop("checked")){
+                    $.each($("#t-users tbody tr[role=row]"), function (e) {
+
+                        var row = table.row($(this));
+                        
+                        if (!$(row.child()).is(":visible")) {
+                            
+                            if (!$(row.child()).length) {
+                                var template = $('#tplPaises').html();
+                                Mustache.parse(template);   // optional, speeds up future uses
+                                var rendered = Mustache.render(template, $.parseJSON(row.data().Paises));
+                                row.child(rendered).show();
+                                // $(row.child()).hide();
+                            } else {
+                                row.child().show();
+                            }
+                            $(this).addClass('shown');
+                        }
+                    });
+                }
+
+                
+               
+                $("input[name=chkUsuario]").prop("checked", $("input[name=checkALL]").prop("checked"));
+                $("input[name=chkEnviar]").prop("checked", $("input[name=checkALL]").prop("checked"));
+            });
+
+            $(document).on('change', "input[name=chkUsuario]", function () {
+
+                
+
+                if (!$(this).prop("checked")) {
+                    $("input[name=checkALL]").prop("checked", $(this).prop("checked"));
+                } else if ($("input[name=chkUsuario]").length == $("input:checkbox:checked[name=chkUsuario]").length){
+                    $("input[name=checkALL]").prop("checked", $(this).prop("checked"));
+                }
+
+                var tr = $(this).closest('tr');
+                //console.log(tr)
+               
+                if ($(this).prop("checked")) {
+                    var row = table.row(tr);
+                    if (!$(row.child()).is(":visible")) {
+                        if (!$(row.child()).length) {
+                            var template = $('#tplPaises').html();
+                            Mustache.parse(template);   // optional, speeds up future uses
+                            var rendered = Mustache.render(template, $.parseJSON(row.data().Paises));
+                            row.child(rendered).show();
+                        } else {
+                            row.child().show();
+                        }
+                        tr.addClass('shown');
+                    }
+                }
+                
+                var td = $(tr).children(0).children(0);
+                var id = $(tr).children(0).children(0).val();
+
+                $("input[name=chkEnviar][value=" + id + "]").prop("checked", $(td).prop("checked"));
+                //console.log($("input[name=chkEnviar][value=" + id + "]"))
+                //console.log($(td))
+
+            });
+
+            $(document).on('change', "#cboPais", function () {
+                //
+                console.log("asdasd");
+                $('input[name=checkALL]').prop('checked', false);
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("GetPeriod")",
+                    data: {
+                        codPais: $("#cboPais").val(),
+                    },
+                    success: function (response) {
+                        $("select#cboPeriodo").html("");
+                        $.each(response.listaPeriodos,
+                            function (index, val) {
+                                $("select#cboPeriodo").append("<option value=" + val.Value + ">" + val.Text + "</option>");
+                            });
+                        
+                    },
+                    error: function (dataError) {
+                        console.log(dataError);
+                        LoadingAdminPage.showOrHideLoadingPage(false);
+                    }
+                });
+
+                table = $('#t-users').DataTable({
+                            "aLengthMenu": [[5, 10, 15, 25, 50, 100 ], [5, 10, 15, 25, 50, 100]],
+                            "iDisplayLength" : 10,
+                            "processing": true,
+                            "serverSide": true,
+                            "ajax": {
+                                "url": "@Url.Action("GetDataTable")",
+                                "type": "POST",
+                                'data': {
+                                    country: $("#cboPais").val(),
+                                    periodo: '',
+                                }
+                            },
+                            "columns": [
+                                { "data": "Check"},
+                                {
+                                    "className":      'details-control',
+                                    "orderable":      false,
+                                    "data":           null,
+                                    "defaultContent": ''
+                                },
+                                { "data": "Usuario" },
+                                { "data": "Empresa" },
+                                { "data": "Correo" },
+                                { "data": "sPlan" },
+                            ],
+                
+                            "bSort": false,
+                            "destroy": true
+                            //"order": [[1, 'asc']]
+                        });
+                 
+            });
+
+            $(document).on('change', "#cboPeriodo", function () {
+                console.log($('input[name=checkALL]'));
+                $('input[name=checkALL]').prop('checked',false);
+                table = $('#t-users').DataTable({
+                    "aLengthMenu": [[5, 10, 15, 25, 50, 100 ], [5, 10, 15, 25, 50, 100]],
+                    "iDisplayLength" : 10,
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax": {
+                        "url": "@Url.Action("GetDataTable")",
+                        "type": "POST",
+                        'data': {
+                            country: $("#cboPais").val(),
+                            periodo: $("#cboPeriodo").val(),
+                        }
+                    },
+                    "columns": [
+                        { "data": "Check"},
+                        {
+                            "className":      'details-control',
+                            "orderable":      false,
+                            "data":           null,
+                            "defaultContent": ''
+                        },
+                        { "data": "Usuario" },
+                        { "data": "Empresa" },
+                        { "data": "Correo" },
+                        { "data": "sPlan" },
+                    ],
+                
+                    "bSort": false,
+                    "destroy": true
+                    //"order": [[1, 'asc']]
+                });
+            });
+
+            $(document).on('change', "input[name=chkEnviar]", function () {
+                var tr = $(this).closest('tr');
+                //console.log(tr)
+                var td = $(tr).children(0).children(0);
+                var id = $(tr).children(0).children(0).val();
+
+                
+
+                if (!$(this).prop("checked")) {
+                    $("input[name=chkUsuario][value=" + id + "]").prop("checked", $(this).prop("checked"));
+                    $("input[name=checkALL]").prop("checked", $(this).prop("checked"));
+                } else if ($("input[name=chkEnviar][value=" + id + "]").length == $("input:checkbox:checked[name=chkEnviar][value=" + id + "]").length) {
+                    
+                    $("input[name = chkUsuario][value = " + id + "]").prop("checked", $(this).prop("checked"));
+                    if ($("input[name=chkUsuario]").length == $("input:checkbox:checked[name=chkUsuario]").length) {
+                        $("input[name=checkALL]").prop("checked", $(this).prop("checked"));
+                    }
+                }
+
+                //$("input[name=chkEnviar][value=" + id + "]").prop("checked", $(td).prop("checked"));
+            });
+
+            $('#t-users tbody').on('click', 'button.btn-prev', function () {
+                var btn = this;
+                $(btn).button("loading");
+                var tr = $(this).closest("tr");
+                $.get("@Url.Action("PreviewAlertaMail")", {
+                    IdUsuario: $(tr).data("idusu"),
+                    CodPais: $(tr).data("codpais"),
+                    Fecha: $(tr).data("fecha")
+                }, function (response) {
+                    bootbox.dialog({
+                        message: response,
+                        title: "Preview de Alerta Mail",
+                        buttons: {
+                            success: {
+                                label: "Aceptar",
+                                className: "btn-success",
+                            },
+                        },
+                        size: "large",
+                    });
+                    $(btn).button("reset");
+                    $(".APC tbody").find("tr:last").css("display", "none");
+                    $(".ACP tbody").find("tr:last").css("display", "none");
+                });
+            });
+
+            $('#t-users tbody').on('click', 'button.btn-send', function () {
+                var btn = this;
+                var tr = $(this).closest("tr");
+                bootbox.confirm("Desea enviar el correo alerta?",
+                    function (result) {
+                        if (result) {
+                            $(btn).button("loading");
+                             $.post("@Url.Action("SendAlertaMail")", {
+                                IdUsuario: $(tr).data("idusu"),
+                                CodPais: $(tr).data("codpais"),
+                                Fecha: $(tr).data("fecha")
+                             }, function (response) {
+                                 bootbox.alert(response.message);
+                                 if (response.success) {
+                                     table.ajax.reload();
+                                 }
+                                $(btn).button("reset");
+                            });
+                        }
+                    }
+                );
+            });
+
+            $("#btnEnviarTodos").on('click',  function () {
+                var btn = this;
+                console.log( $("#cboPais").val())
+                console.log( $("#cboPeriodo").val())
+                console.log($("input[type=search]").val())
+                bootbox.confirm("Desea enviar el correo alerta?",
+                    function (result) {
+                        if (result) {
+                            
+                            $(btn).button("loading");
+                            $.post("@Url.Action("SendAlertaMailMasivo2")", { codPais: $("#cboPais").val(), fecha: $("#cboPeriodo").val(), search: $("input[type=search]").val() }, function (response) {
+                                //console.log(_modelo);
+                                console.log(response)
+                                bootbox.alert(response.message);
+                                if (response.success) {
+                                    table.ajax.reload();
+                                }
+                                $(btn).button("reset");
+                            });
+                        } else {
+                            console.log($("#cboPais").val())
+                            console.log($("#cboPeriodo").val())
+                            console.log($("input[type=search]").val())
+                        }
+                    }
+                );
+            });
+
+            $('#btnEnviarMasivo').on('click', function () {
+                if ($("#t-users .tbl-paises input:checked").length == 0) {
+                    alert("Debe seleccionar al menos un registro de la lista de alertas.");
+                    return false;
+                }
+
+                var modelo = [];
+                $.each($("#t-users .tbl-paises input:checked"), function (e, item) {
+                    var str = $(this).prop("id");
+                    var res = str.split(",");
+                    var fila = {};
+                    fila.CodPais = res[0];
+                    fila.IdUsuario = res[1];
+                    fila.Fecha = res[2];
+                    modelo.push(fila);
+                    
+                });
+                console.log(modelo);
+                var btn = this;
+                var tr = $(this).closest("tr");
+                bootbox.confirm("Desea enviar el correo alerta?",
+                    function (result) {
+                        if (result) {
+                            $(btn).button("loading");
+                            var _modelo = modelo;
+                            
+                            $.post("@Url.Action("SendAlertaMailMasivo")", { alert: _modelo }, function (response) {
+                                //console.log(_modelo);
+                                 bootbox.alert(response.message);
+                                 if (response.success) {
+                                     table.ajax.reload();
+                                 }
+                                $(btn).button("reset");
+                            });
+                        }
+                    }
+                );
+            });
+
+        });
+    </script>
+
+    <script type="text/html" id="tplPaises">
+        <div class="wrap">
+            <table class="table tbl-paises table-hover" cellpadding="0" cellspacing="0" border="0">
+                <thead>
+                    <tr>
+                        <th></th>
+                        
+                        <th> Pa&iacute;s</th>
+                        <th> Periodo</th>
+                        <th> &nbsp;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#.}}
+                    <tr data-codpais="{{CodPais}}" data-idusu="{{IdUsuario}}" data-fecha="{{FechaFin}}">
+                        <td><input type="checkbox"  name="chkEnviar" value="{{IdUsuario}}" id="{{CodPais}},{{IdUsuario}},{{FechaFin}}" /></td>
+                        <td> {{Descripcion}} </td>
+                        <td> {{MesAnio}} </td>
+                        <td>
+                            <button class="btn btn-xs btn-default btn-prev"> <i class="fa fa-fw fa-eye"> </i>  Vista Previa</button>
+                            <button class="btn btn-xs btn-default btn-send">
+                                <i class="fa fa-fw fa-share-square"> </i>
+                                {{#hasEnvios}}
+                                <strong>[{{nEnvios}}]</strong>
+                                {{/hasEnvios}}
+                                Enviar
+                            </button>
+                        </td>
+                    </tr>
+                    {{/.}}
+                </tbody>
+            </table>
+        </div>
+    </script>
+    <style type="text/css">
+        .my-table {
+            border: 1px solid #eee;
+        }
+
+        .wrap {
+            padding: 10px;
+            width: 50%;
+        }
+
+            .wrap > table {
+                border: 1px solid #eee;
+            }
+
+            .wrap th, .wrap td {
+                padding: 6px !important;
+            }
+
+        td.details-control {
+            cursor: pointer;
+            padding-left: 12px !important;
+            font-size: 16px;
+            font-family: "FontAwesome";
+        }
+
+            td.details-control:after {
+                content: "\f055";
+                color: green;
+            }
+
+        tr.shown td.details-control:after {
+            content: "\f056";
+            color: red;
+        }
+
+        #cboPais {
+            display: inline;
+            width: 18%;
+            margin-left: 50px;
+        }
+        .form-cboMes{
+            display:inline-block !important;
+            width: 15% !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h3> Gestión de Alertas </h3>
+        <button class="btn btn-md btn-primary btn-prev" id="btnEnviarTodos"> Env&iacute;o Masivo</button>
+        <button class="btn btn-md btn-primary btn-prev" id="btnEnviarMasivo"> Enviar Seleccionados</button>
+
+        @Html.DropDownList("cboPais", new SelectList(listaPaises.ToList(), "Value", "Text", listaPaises.First())
+                                                            , htmlAttributesCboPais2AndPais)
+        @Html.DropDownList("cboPeriodo", new SelectList(listaPeriodos.ToList(), "Value", "Text", listaPeriodos.First())
+                                                            , htmlAttributesCboPeriodo)
+        <br /><br />
+        <div class="row">
+            <div class="col-lg-12">
+                <table class="table my-table table-hover" id="t-users" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th><input type="checkbox" name="checkALL" value="" /></th>
+                            <th></th>
+                            <th>Usuario</th>
+                            <th>Empresa</th>
+                            <th>Correo</th>
+                            <th>Plan</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,30 @@
+﻿@using System.Web.Mvc
+@helper MenuHelper(ViewContext context, string active = "", string tipoUsuario = "", string plan = "", string origenAux = "")
+    {
+        var urlAction = new UrlHelper(context.RequestContext);
+
+        <div class="navbar-menu">
+            <div class="container">
+                <ul class="pills">
+                    <li class="child-pill @(active.Contains("MisBusquedas") ? "active" : "" )">
+                        <a href="@urlAction.Action("Index","MisBusquedas")">
+                            @Resources.AdminResources.NavBar_Item01
+                        </a>
+                    </li>
+                    @if (plan != "UNIVERSIDADES" || origenAux == "DELOITTE" || origenAux == "ITP")
+                    {
+                        <li class="child-pill @( active.Contains("MisProductos") ? "active" : "")">
+                            <a href="@urlAction.Action("Index", "MisProductos")">
+                                @Resources.AdminResources.NavBar_Item02
+                            </a>
+                        </li>
+                        <li class="child-pill @( active.Contains("MisCompanias") ? "active" : "")">
+                            <a href="@urlAction.Action("Index", "MisCompanias")">
+                                @Resources.AdminResources.NavBar_Item03
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+}

@@ -1,0 +1,63 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    var objAdminMyFavorite = (AdminMyFavorite) Model;
+    var idsSeleccionados = objAdminMyFavorite.IdsSeleccionados;
+
+    bool verificarCheckBox = (idsSeleccionados != null && idsSeleccionados.Count > 0);
+
+}
+@foreach (var item in objAdminMyFavorite.FavoritesUniques)
+{
+    <tr>
+        <td class="text-center">@item.Index</td>
+        <td>
+            <p class="wspace-normal">
+                @item.Favorito
+            </p>
+        </td>
+        @if (objAdminMyFavorite.FavoriteUniqueHead.IsVisibleRuc)
+        {
+            <td>
+                @item.RUC
+            </td>
+        }
+
+        <td>
+            @foreach (var grupo in item.GroupsFavories)
+            {
+                <p class="wspace-normal">
+                    @grupo.Grupo
+                </p>
+            }
+        </td>
+        <td class="text-center">
+
+            @foreach (var grupo in item.GroupsFavories)
+            {
+                var idCheck = grupo.IdFavorito + "-" + grupo.IdGrupo;
+
+                @*<div class="checkbox">
+                                <label>*@
+                <p class="wspace-normal">
+                        @if (verificarCheckBox)
+                        {
+                            if (idsSeleccionados.Contains(idCheck))
+                            {
+                                <input class="mt_m8" type="checkbox" name="chekFavorites" checked="checked" value="@idCheck" />
+                            }
+                            else
+                            {
+                                <input class="mt_m8" type="checkbox" name="chekFavorites" value="@idCheck" />
+                            }
+                        }
+                        else
+                        {
+                            <input class="mt_m8" type="checkbox" name="chekFavorites" value="@idCheck" />
+                        }
+                </p>
+                    @*</label>
+                </div>*@
+            }
+        </td>
+    </tr>
+}

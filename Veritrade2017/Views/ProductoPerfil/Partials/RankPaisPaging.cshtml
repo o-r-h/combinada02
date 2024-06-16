@@ -1,0 +1,10 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+@{
+    Layout = null;
+}
+
+
+@Html.PagedListPager((IPagedList)Model,
+    pagina => Url.Action("CargarRankPais", "ProductoPerfil", new { pagina }),
+    PagedListRenderOptions.OnlyShowFivePagesAtATime)

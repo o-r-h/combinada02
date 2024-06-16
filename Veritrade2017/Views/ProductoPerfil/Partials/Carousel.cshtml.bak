@@ -1,0 +1,53 @@
+﻿@using Veritrade2017.Models
+@using Veritrade2017.Helpers
+
+@{
+    Layout = null;
+    var culture = CultureHelper.GetCurrentCulture();
+    var idiomaText = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+    List<ListProductByPaises> listaPais = null;
+    if (ViewData["Carousel"]!=null)
+    {
+        listaPais = (List<ListProductByPaises>)ViewData["Carousel"];
+    }
+    else
+    {
+        listaPais = (List<ListProductByPaises>)Model;
+    }
+
+    //var listaPais = (ListProductByPaises)Model;
+}
+
+
+<div class="col-xs-12 col-sm-10" style="padding: 8px 0;">
+    <div id="countries" class="owl-carousel owl-theme">
+        @if (listaPais[0].Regimen == "Importaciones")
+        {
+            foreach (var i in listaPais)
+            {
+                var flag = "flag_" + (@i.PaisAduana.ToLower().Replace(" ","_")).Replace(".","_") + ".png";
+                <div class="item">
+                    <div class="table like-table null-margin-v" style="white-space: nowrap;">
+                        <input type="hidden" name="pais" class="pais" value="@i.IdPaisAduana" />
+                        <div class="div1 like-table-cell"><img src="~/Content/Images/@flag"/> <span>@i.AbrevPais.ToUpper()</span> </div>
+                        <div class="div2 like-table-cell">US$ @string.Format(idiomaText, "{0:N0}", i.Importaciones)</div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            foreach (var i in listaPais)
+            {
+                var flag = "flag_" + (@i.PaisAduana.ToLower().Replace(" ", "_")).Replace(".", "_") + ".png";
+                <div class="item">
+                    <div class="table like-table null-margin-v" style="white-space: nowrap;">
+                        <input type="hidden" name="pais" class="pais" value="@i.IdPaisAduana" />
+                        <div class="div1 like-table-cell"><img src="~/Content/Images/@flag" /> <span>@i.AbrevPais.ToUpper()</span> </div>
+                        <div class="div2 like-table-cell">US$ @string.Format(idiomaText, "{0:N0}", i.Exportaciones)</div>
+                    </div>
+                </div>
+            }
+        }
+    </div>
+</div>

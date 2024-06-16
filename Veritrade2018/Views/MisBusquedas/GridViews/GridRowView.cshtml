@@ -1,0 +1,167 @@
+﻿@using Veritrade2018.Models.Admin
+@using Veritrade2018.Util;
+@using Veritrade2018.Helpers
+@{
+    var objTabData = (TabData)Model;
+
+    var idsSeleccionados = objTabData.IdsSeleccionados;
+
+    bool verificarCheckBox = (idsSeleccionados != null && idsSeleccionados.Count > 0);
+
+    bool isDemo = Extensiones.GetCookie("IsDemo") == "1";
+    if ((objTabData.Filtro == "Partida") && (objTabData.CodPais == "PE"))
+    {
+        foreach (var item in objTabData.ListRows)
+        {
+            item.IsVisibleLupaPartida = true;
+        }
+    }
+
+}
+
+@foreach (var item in objTabData.ListRows)
+{
+<tr>
+    <td>
+        <p class="wspace-normal">
+            @*@Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))*@
+            @if (item.IsVisibleSentinel)
+            {
+                if (item.IsPlanPermiteSentinel)
+                {
+                    <a data-idruc="@item.Ruc" class="lnkSentinel" title="SENTINEL, Alertas y Reportes de Deudas">
+                        <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" />
+                    </a>
+                }
+                else
+                {
+                    <a title="SENTINEL, Alertas y Reportes de Deudas" onclick="TablaDeDatos.VerMensajePlanNoSentinel('@Resources.AdminResources.SentinelValidation_Text');">
+                        <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" />
+                    </a>
+                }
+
+                @Html.Raw("&nbsp;" + string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+            }
+            else if ((item.mostrarInformaColombia) && (!isDemo))
+            {
+                if (item.IsPlanPermiteSentinel)
+                {
+                    <a class="click_informaColombia" title="Informa Colombia" onclick="TablaDeDatos.ClickInformaColombia('@item.Id');">
+                        <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                    </a>
+                    @Html.Raw("&nbsp;" + string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                }
+                else
+                {
+                    <a title="Informa Colombia" onclick="TablaDeDatos.VerMensajePlanNoInformaColombia('@Resources.AdminResources.SentinelValidation_Text');" href="javascript:void(0)">
+                        <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                    </a>
+                    @Html.Raw("&nbsp;" + string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                }
+            }
+            else if ((item.mostrarInformaColombia) && (isDemo))
+            {
+                <a class="lnkSentinel">
+                    <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                </a>
+                @Html.Raw("&nbsp;" + string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+
+            }
+            @*else if ((item.mostrarInformaColombia) && (isDemo))
+            {
+                <a class="lnkSentinel">
+                    <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                </a>
+                @Html.Raw("&nbsp;" + string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+            }*@
+            else if (item.IsVisibleLupaPartida)
+            {
+                if (isDemo)
+                {
+                    <a class="lnkSentinel">
+                        <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                    </a>
+                    @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                }
+                else
+                {
+                    <a onclick="TablaDeDatos.ClickArancelesPartida('@item.Descripcion');">
+                        <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                    </a>
+                    @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                }
+            }
+            else
+            {
+                @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+            }
+
+        </p>
+    </td>
+    @if (objTabData.IsVisibleInfoComplementario && (objTabData.Filtro == "PaisOrigen" || objTabData.Filtro == "PaisDestino") && (bool)(Session["isVisibleInfoComplementario"] ?? false))
+    {
+        if (!string.IsNullOrEmpty(item.CodPaisComplementario))
+        {
+            <td>
+                <button class="InfoComplement" data-idregistro="@item.CodPaisComplementario" data-filtro="InfoComplementario">
+                    @Resources.AdminResources.DetailButton_Text
+                </button>
+            </td>
+        }
+        else
+        {
+            <td></td>
+        }
+
+    }
+    <td class="columnUnderline column-text-right cell-vertical-align-middle">
+        @if (item.IsEnabledTotalReg)
+        {
+            <a class="lnkVerRegistros"
+               title="@objTabData.GridHead.TitleColumnTotalReg"
+               data-filtro="@objTabData.Filtro"
+               data-idregistro="@item.Id">
+                @item.TotalReg
+            </a>
+        }
+        else
+        {
+            @item.TotalReg
+        }
+
+    </td>
+    <td class="column-text-right cell-vertical-align-middle">
+        @item.CiFoFobTot
+    </td>
+    <td class="column-text-right cell-vertical-align-middle">
+        @item.CiFoFobPor
+    </td>
+    @if (objTabData.IsVisibleCheck)
+    {
+        <td class="cell-vertical-align-middle">
+            @if (verificarCheckBox)
+            {
+                if (idsSeleccionados.Contains(item.Id.ToString()))
+                {
+
+                    <input type="checkbox" value="@item.Id" id="@("chk"+item.Id.ToString())" checked="checked"
+                           onclick="ValidarSeleccionCheck('@("chk"+item.Id.ToString())','@(Enums.TipoFiltro.Resumen+ objTabData.Filtro)')" />
+                }
+                else
+                {
+
+                    <input type="checkbox" value="@item.Id" id="@("chk"+item.Id.ToString())"
+                           onclick="ValidarSeleccionCheck('@("chk"+item.Id.ToString())','@(Enums.TipoFiltro.Resumen+ objTabData.Filtro)')" />
+                }
+            }
+            else
+            {
+
+                <input type="checkbox" value="@item.Id" id="@("chk"+item.Id.ToString())"
+                       onclick="ValidarSeleccionCheck('@("chk"+item.Id.ToString())','@(Enums.TipoFiltro.Resumen+ objTabData.Filtro)')" />
+            }
+        </td>
+    }
+
+</tr>
+}

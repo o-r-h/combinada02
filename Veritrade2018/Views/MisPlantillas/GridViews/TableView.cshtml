@@ -1,0 +1,59 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    AdminMyTemplate objAdminMyTemplate = (AdminMyTemplate) Model;
+}
+<div class="table-responsive" style="max-height: 500px; overflow-y: scroll;">
+    <table class="table table-condensed table-bordered">
+        <thead>
+            <tr class="table-title">
+                <th class="text-center column-width-min">No.</th>
+                <th class="text-center">
+                    @Resources.MiPerfil.AvailableFields_Text
+                </th>
+                <th class="text-center column-width-xs">
+                    @Resources.MiPerfil.Select_Text <br />
+                    <div class="text-center">
+                        <label>
+                            <input type="checkbox" id="chkAllFields" value="" checked="checked" aria-label="...">
+                        </label>
+                    </div>
+                </th>
+                <th class="text-center">@Resources.MiPerfil.CustomizedName_Text</th>
+            </tr>
+        </thead>
+        <tbody id="tbodyTemplate">
+
+            @foreach (var field in objAdminMyTemplate.MyTemplates)
+            {
+                <tr>
+                    <td>
+                        @field.Index
+                    </td>
+                    <td class="valueField" data-field="@field.Campo">
+                        @field.CampoFavorito
+                    </td>
+                    <td class="checkField">
+                        <div class="text-center">
+                            <label>
+                                @if (field.IsChecked)
+                                {
+                                    <input class="c_template_checkbox" type="checkbox"  value="@field.Campo" checked="checked" aria-label="...">
+                                }
+                                else
+                                {
+                                    <input class="c_template_checkbox" type="checkbox" value="@field.Campo" aria-label="...">
+                                }
+
+                            </label>
+                        </div>
+                    </td>
+                    
+                    <td class="textFavorite">
+                        <input type="text" name="@("txt" + field.Campo)" value="@field.CampoPersonalizado" class="form-control txt-formfield" data-fieldfavorite="@field.CampoFavorito"/>
+                    </td>
+                </tr>
+            }
+
+        </tbody>
+    </table>
+</div>

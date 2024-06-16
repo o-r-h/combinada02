@@ -1,0 +1,113 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    ViewBag.Title = "Veritrade Administrador";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    MiPerfil objMiPerfil = (MiPerfil)ViewData["objMiPerfil"];
+}
+<style>
+    #cboPais {
+        /*max-width: 190px !important;*/
+    }
+
+    .boton-opcion, .boton-volver {
+        margin-top: 10px;
+    }
+
+    .boton-volver {
+        min-width: 180px;
+    }
+</style>
+<div id="loadingPageAdmin" class="loader is-active-loading">
+    <div class="objectLoading"></div>
+</div>
+
+<div class="padding-height-sm">
+    <div class="row">
+        <di id="camposFiltros">
+            @Html.Partial("Partials/MyFavoritesAndMyGroups", objMiPerfil)
+        </di>
+
+        @*<div class="col-xs-12 col-sm-12">
+                <div class="form-group">
+                    <a href="@Url.Action("Index","MisBusquedas")" class="btn boton-volver" role="button">@Resources.MiPerfil.Btn_BackHome</a>
+                </div>
+            </div>*@
+
+    </div>
+</div>
+
+<!--Inicio Modal Ventana Sesión-->
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaSesion.cshtml")
+<!--Fin-->
+
+
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaMensaje.cshtml")
+
+@section Scripts{
+    <script src="@Url.Content("~/Scripts/Admin/admin.js?2")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Admin/MiPerfil/MiPerfil.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/MixPanel/MisGrupos/MisGruposMP.js?1")" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        var t;
+        var timeout = 15 * 60 * 1000;
+
+        function SessionExpiredAlert() {
+            t = setTimeout(function () {
+                $('#ModalVentanaSesion').modal({
+                    show: true,
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }, timeout);
+        };
+
+        function InIEventSession() {
+            clearTimeout(t);
+            SessionExpiredAlert();
+        };
+
+        $(document).ready(function () {
+
+            $("input:radio[name=rdbTipoOpe]").change(function() {
+                FiltrosMiPerfil.changeTipoOpe('@Url.Action("TipoOpeChange", "MisGrupos")',
+                    $('input:radio[name=rdbTipoOpe]:checked').val()
+                );
+            });
+
+            $("#cboPais2").change(function() {
+                FiltrosMiPerfil.changePais2('@Url.Action("Pais2Change", "MisGrupos")',
+                    $(this).val());
+            });
+
+            $("#cboPais").change(function() {
+                FiltrosMiPerfil.changePais('@Url.Action("PaisChange", "MisGrupos")',
+                    $(this).val(),
+                    $("#cboPais option:selected").text());
+            });
+
+
+            LoadingAdminPage.showOrHideLoadingPage(false);
+        });
+
+        $(document).ready(function() {
+            InIEventSession();
+            $('#ModalVentanaSesion').on('hidden.bs.modal', function () {
+                window.location.href = '@Url.Action("Index", "Home")';
+            });
+        });
+
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            if (jqxhr.status === 401) {
+                window.location.href = '@Url.Action("Index","Home")';
+            } else {
+                console.log(thrownError);
+            }
+        });
+        $(document).ajaxComplete(function() {
+            InIEventSession();
+        });
+    </script>
+}
+

@@ -1,0 +1,121 @@
+﻿.paises_section {
+    font-family: ProximaNova-Regular;
+    margin: 20px auto;
+    position: relative;
+    width: 100%;
+}
+
+.paises_section .title h2 {
+    color: #2d3b61;
+    font-family: 'ProximaNova-Bold';
+    font-size: 24px;
+    line-height: 24px;
+    text-align: center;
+}
+
+.anchor {
+    position: absolute;
+    top: -30px;
+}
+
+.paises_section .paises_content { margin: 10px auto; }
+
+.paises_section .paises_content .servicio { padding: 30px; }
+
+.paises_section .paises_content .servicios_item {
+    border: thin solid #bfbfbf;
+    padding: 20px;
+    position: relative;
+}
+
+.paises_section .paises_content .servicios_item > img {
+    height: auto;
+    position: relative;
+    width: 100%;
+}
+
+.paises_section .paises_content img.content { padding: 15px; }
+
+.paises_section .paises_content label.servicios_title {
+    color: #65A5E2;
+    font-family: ProximaNova-Bold;
+    font-size: 30px;
+    font-weight: normal;
+    padding-bottom: 12px;
+    text-decoration: none;
+}
+
+.paises_section .paises_content .servicios_contenido {
+    color: #878581;
+    font-family: ProximaNova-Regular;
+    font-size: 15px;
+    line-height: 22px;
+    margin-bottom: 30px;
+}
+
+.paises_section .paises_content p.nota {
+    color: #212935;
+    font-family: ProximaNova-Light;
+    font-size: 13px;
+    letter-spacing: 0.2pt;
+    line-height: 16px;
+}
+
+.paises_section .paises_content p.titulo_detalle {
+    color: #212836;
+    font-family: ProximaNova-Regular;
+    font-size: 18px;
+    line-height: 21px;
+}
+
+.paises_section .paises_content a.bot_muestra {
+    background-image: url("~/Content/Images/bot_excel_over.png");
+    background-repeat: no-repeat;
+    background-size: 20px 20px;
+    color: #2DA4E3;
+    font-family: ProximaNova-Light;
+    font-size: 14px;
+    letter-spacing: 0.2pt;
+    line-height: 20px;
+    margin-bottom: 15px;
+    padding-left: 25px;
+    padding-top: 2px;
+}
+
+.paises_section .paises_content li {
+    color: #878581;
+    font-family: ProximaNova-Regular;
+    font-size: 15px;
+    line-height: 22px;
+}
+
+.paises_section .paises_content p.servicios_description {
+    color: #A7A8AA;
+    font-family: ProximaNova-Regular;
+    font-size: 13px;
+    line-height: 18px;
+    min-height: 60px;
+    position: relative;
+    text-decoration: none;
+}
+
+.paises_section .paises_content .button-search {
+    background-color: #30a7e5;
+    border: thin solid #598497;
+    color: #FFFFFF;
+    display: inline-block;
+    font-family: ProximaNova-Light;
+    font-size: 14px;
+    letter-spacing: 0.2pt;
+    line-height: 20px;
+    padding: 8px 12px;
+    text-decoration: none;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+.paises_section .paises_content .button-content {
+    display: inline-block;
+    margin: 10px auto;
+    width: 100%;
+}

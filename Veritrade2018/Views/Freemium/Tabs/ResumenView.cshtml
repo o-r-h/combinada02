@@ -1,0 +1,118 @@
+﻿@using Veritrade2018.Models
+@using Veritrade2018.Util
+@{
+    var tipoResumen = Enums.TipoFiltro.Resumen.ToString();
+    var modelo = (ConsultaForm)Model;
+}
+<div class="tab-pane active" id="tab-resumen">
+    
+
+
+    @if (!modelo.FlagVarVisibles.IsManifiesto)
+    {
+        <div class="row rowSummary">
+            <div id="@("grid"+tipoResumen + Enums.Filtro.Partida)" class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+            </div>
+
+            @if (modelo.TipoOpe == Enums.TipoOpe.I.ToString().ToUpper())
+            {
+                <div id="@("grid"+tipoResumen + Enums.Filtro.PaisOrigen)" class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                </div>
+            }
+            else
+            {
+                <div id="@("grid"+tipoResumen + Enums.Filtro.PaisDestino)" class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                </div>
+            }
+
+        </div>
+
+        <div class="row rowSummary">
+
+
+            @if (modelo.TipoOpe == Enums.TipoOpe.I.ToString().ToUpper())
+            {
+                if (modelo.FlagVarVisibles.ExisteDistrito)
+                {
+                    <div id="@("grid" + tipoResumen + Enums.Filtro.Distrito)" class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                    </div>
+                }
+                else
+                {
+                    <div id="@("grid" + tipoResumen + Enums.Filtro.Importador)" class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                    </div>
+                }
+
+
+                @*<div id="@("grid" + tipoResumen + Enums.Filtro.Proveedor)" class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                </div>*@
+            }
+            else
+            {
+                if (modelo.FlagVarVisibles.ExisteDistrito)
+                {
+                    <div id="@("grid" + tipoResumen + Enums.Filtro.Distrito)" class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                    </div>
+                }
+                else
+                {
+                    <div id="@("grid" + tipoResumen + Enums.Filtro.Exportador)" class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
+                    </div>
+                }
+                @*<div id="@("grid" + tipoResumen + Enums.Filtro.ImportadorExp)" class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+                </div>*@
+            }
+
+            <div id="@("grid" + tipoResumen + Enums.Filtro.ViaTransp)" class="col-lg-4 col-md-12 col-sm-12 col-xs-12">
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="row rowSummary">
+            @if (modelo.TipoOpe == Enums.TipoOpe.I.ToString().ToUpper())
+            {
+                <div id="@("grid"+tipoResumen + Enums.Filtro.Importador)" class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                </div>
+                <div id="@("grid"+tipoResumen + (!modelo.FlagVarVisibles.IsManifiesto?Enums.Filtro.PaisOrigen:Enums.Filtro.PaisEmbarque) )" class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                </div>
+            }
+            else
+            {
+                <div id="@("grid"+tipoResumen + Enums.Filtro.Exportador)" class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                </div>
+                <div id="@("grid"+tipoResumen + Enums.Filtro.PaisDestino)" class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                </div>
+            }
+        </div>
+
+        <div class="row rowSummary">
+            @if (modelo.TipoOpe == Enums.TipoOpe.I.ToString().ToUpper())
+            {
+                <div id="@("grid"+tipoResumen + Enums.Filtro.Proveedor)" class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                </div>
+            }
+            else
+            {
+                <div id="@("grid"+tipoResumen + Enums.Filtro.ImportadorExp)" class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                </div>
+            }
+
+            @if (modelo.FlagVarVisibles.ExistePtoDescarga)
+            {
+                <div id="@("grid"+tipoResumen + Enums.Filtro.PtoDescarga)" class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                </div>
+            }
+            else if (modelo.FlagVarVisibles.ExistePtoEmbarque)
+            {
+                <div id="@("grid"+tipoResumen + Enums.Filtro.PtoEmbarque)" class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                </div>
+            }
+            else if (modelo.FlagVarVisibles.ExistePtoDestino)
+            {
+                <div id="@("grid"+tipoResumen + Enums.Filtro.PtoDestino)" class="col-lg-6 col-md-12 col-sm-12 col-xs-12">
+                </div>
+            }
+        </div>
+    }
+</div>

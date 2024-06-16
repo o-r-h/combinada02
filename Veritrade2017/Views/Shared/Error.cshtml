@@ -1,0 +1,63 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+
+@{
+    ViewBag.Title = "Error";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Error</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <style>
+        body {
+            background-color: #212836;
+        }
+
+        .container {
+            background-color: white;
+        }
+
+        .error-template {
+            padding: 40px 15px;
+            text-align: center;
+        }
+
+        .error-actions {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+
+            .error-actions .btn {
+                margin-right: 10px;
+            }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row" style="padding: 60px 0px">
+            <div class="col-xs-12 col-sm-12">
+                <div class="text-center">
+                    <img src="~/Content/Images/veritrade_logo.png" alt="logo" class="img-rounded">
+                </div>
+            </div>
+            <div class="col-xs-12 col-sm-12">
+                <div class="error-template">
+                    <h1>Oops!</h1>
+                    <h2>Error de la aplicación</h2>
+                    <div class="error-details">
+                        Disculpa, ocurrió un error al procesar su solicitud.
+                    </div>
+                    <div class="error-actions">
+                        <a href="@Url.Action("Index", "Home")" class="btn btn-primary">
+                            <i class=" glyphicon glyphicon-home"></i> Ir al Inicio
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

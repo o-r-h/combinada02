@@ -1,0 +1,73 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    var objPerfil = (MiPerfil)Model;
+
+    var objFlagsFavoritesAndGroups = objPerfil.MyFavoriteAndGroup;
+}
+<div class="col-xs-12 col-sm-12">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <h3 class="tittle-opcion">
+                @Resources.MiPerfil.SettingUpMyGroups_Text
+            </h3>
+            <p class="description-opcion">
+                @Resources.MiPerfil.DescriptionGroups_Text
+            </p>
+
+            @*@if (objFlagsFavoritesAndGroups.ExistPartida)
+            {
+                <div class="form-group">
+                    <a href="@Url.Action("Index", "AdminMisGrupos", new {tipoFavorito = "Partida"})" class="btn boton-opcion" role="button">
+                        @Resources.MiPerfil.Btn_MyProductsGroups
+                    </a>
+                </div>
+            }
+
+            @if (objFlagsFavoritesAndGroups.ExistImporter || objFlagsFavoritesAndGroups.ExistExporter)
+            {
+                <div class="form-group">
+                    <a href="@Url.Action("Index", "AdminMisGrupos", new {tipoFavorito = objFlagsFavoritesAndGroups.ExistImporter ? "Importador": "Exportador"})" class="btn boton-opcion" role="button">
+                        @(objPerfil.TipoOpe == "I" ? Resources.MiPerfil.Btn_MyImportersGroups : Resources.MiPerfil.Btn_MyExportersGroups)
+                    </a>
+                </div>
+            }
+
+            @if (objFlagsFavoritesAndGroups.ExistSupplier || objFlagsFavoritesAndGroups.ExistImporterExp)
+            {
+
+                <div class="form-group">
+                    <a href="@Url.Action("Index", "AdminMisGrupos", new {tipoFavorito = objFlagsFavoritesAndGroups.ExistImporter ? "Proveedor" : "ImportadorExp"})" class="btn boton-opcion" role="button">
+                        @(objPerfil.TipoOpe == "I" ? (objPerfil.CodPaisSelected != "CL" ? Resources.MiPerfil.Btn_MyExportersGroups : Resources.MiPerfil.Btn_MyBrandsGroups) : Resources.MiPerfil.Btn_MyImportersGroups)
+                    </a>
+                </div>
+            }*@
+
+            <div class="col-xs-12 col-sm-12 text-center">
+
+                @if (objFlagsFavoritesAndGroups.ExistPartida)
+                {
+                    <a href="@Url.Action("Index", "AdminMisGrupos", new {tipoFavorito = "Partida"})" class="btn boton-opcion" role="button" data-field="Mis Grupos Productos">
+                        @Resources.MiPerfil.Btn_MyProductsGroups
+                    </a>
+                }
+
+                @if (objFlagsFavoritesAndGroups.ExistImporter || objFlagsFavoritesAndGroups.ExistExporter)
+                {
+                    <a href="@Url.Action("Index", "AdminMisGrupos", new {tipoFavorito = objFlagsFavoritesAndGroups.ExistImporter ? "Importador": "Exportador"})" class="btn boton-opcion" role="button" data-field='@(objPerfil.TipoOpe == "I" ? "Mis Grupos Importadores" : "Mis Grupos Exportadores")'>
+                        @(objPerfil.TipoOpe == "I" ? Resources.MiPerfil.Btn_MyImportersGroups : Resources.MiPerfil.Btn_MyExportersGroups)
+                    </a>
+                }
+
+                @if (objFlagsFavoritesAndGroups.ExistSupplier || objFlagsFavoritesAndGroups.ExistImporterExp)
+                {
+                    <a href="@Url.Action("Index", "AdminMisGrupos", new {tipoFavorito = objFlagsFavoritesAndGroups.ExistImporter ? "Proveedor" : "ImportadorExp"})" class="btn boton-opcion" role="button" data-field='@(objPerfil.TipoOpe == "I" ? (objPerfil.CodPaisSelected != "CL" ? "Mis Grupos Exportadores" : "Mis Grupos Marcas") : "Mis Grupos Importadores")'>
+                        @(objPerfil.TipoOpe == "I" ? (objPerfil.CodPaisSelected != "CL" ? Resources.MiPerfil.Btn_MyExportersGroups : Resources.MiPerfil.Btn_MyBrandsGroups) : Resources.MiPerfil.Btn_MyImportersGroups)
+                    </a>
+                }
+
+                <a href="@Url.Action("Index","MisBusquedas")" class="btn boton-volver" role="button">@Resources.MiPerfil.Btn_BackHome</a>
+
+            </div>
+        </div>
+    </div>
+</div>

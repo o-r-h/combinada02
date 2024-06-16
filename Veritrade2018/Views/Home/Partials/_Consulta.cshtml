@@ -1,0 +1,108 @@
+﻿@model Veritrade2018.Models.ConsultaForm
+@using Veritrade2018.Helpers
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var action = culture.Equals("es") ? SettingUtility.GetUrlBack() + "/ConsultaGratis.aspx" : SettingUtility.GetUrlBack() + "/en/FreeSearch.aspx";
+    var paisSelected = ViewData["codPaisIp"] != null ? ViewData["codPaisIp"].ToString() : "PE";
+}
+<div class="consulta_section">
+    <div class="container">
+        <div class="consulta_content">
+            <ul class="nav nav-tabs border-search">
+                <li class="active">
+                    <a class="tabs" data-toggle="tab" href="#menu1">@Resources.Resources.Home_Search_Tab01</a>
+                </li>
+                <li>
+                    <a class="tabs" data-toggle="tab" href="#menu2">@Resources.Resources.Home_Search_Tab02</a>
+                </li>
+            </ul>
+
+            <div class="tab-content content-tabs-search border-search">
+                <div id="menu1" class="tab-pane fade in active">
+                    <div class="row col-xs-12 col-sm-12" style="margin: 20px auto">
+                        @Html.Hidden("slug")
+                        <div class="form-group" style="float: left; margin: auto 20px">
+                            <label>@Resources.Resources.Home_Search_Company</label>
+                        </div>
+                        <div class="col-xs-12 col-sm-7 form-group">
+                            @Html.TextBox("txtEmpresa", null, new { @class = "form-control form-control-search" })
+                            <div id="autocompleteEmpresa" class="autocomplete_content"></div>
+                        </div>
+                        <div class="col-xs-12 col-sm-2 form-group text-center">
+                            <button id="search" class="btn-search" onclick="ga('send', 'event', 'boton', 'click', 'buscar');">@Resources.Resources.Search_Button</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="menu2" class="tab-pane fade">
+                    <div class="row col-xs-12 col-sm-12" style="margin-top: 20px">
+                        @using (Html.BeginForm(null, null, FormMethod.Post, new { action, id = "searchForm", role = "form" }))
+                        {
+                            @Html.Hidden("idAutocompletado")
+                            <div class="col-sm-2 form-group">
+                                <label>@Resources.Resources.Home_Search_Item01</label>
+                                @Html.DropDownList("cboPais",
+                                                   new SelectList(
+                                                       new List<SelectListItem>
+                                                       {
+                                                                                            new SelectListItem {Text = @"Argentina", Value = "AR"},
+                                                                                            new SelectListItem {Text = @"Bolivia", Value = "BO"},
+                                                                                            new SelectListItem {Text = @"Brasil", Value = "BR"},
+                                                                                            new SelectListItem {Text = @"Chile", Value = "CL"},
+                                                                                            new SelectListItem {Text = @"China", Value = "CN"},
+                                                                                            new SelectListItem {Text = @"Colombia", Value = "CO"},
+                                                                                            new SelectListItem {Text = @"Costa Rica", Value = "CR"},
+                                                                                            new SelectListItem {Text = @"Ecuador", Value = "EC"},
+                                                                                            new SelectListItem {Text = @"India", Value = "IN"},
+                                                                                            new SelectListItem {Text = @"México", Value = "MX"},
+                                                                                            new SelectListItem {Text = @"Panamá", Value = "PA"},
+                                                                                            new SelectListItem {Text = @"Paraguay", Value = "PY"},
+                                                                                            new SelectListItem {Text = @"Perú", Value = "PE"},
+                                                                                            new SelectListItem {Text = @"Perú Formato B", Value = "PEB"},
+                                                                                            new SelectListItem {Text = @"Uruguay", Value = "UY"},
+                                                                                            new SelectListItem {Text = @"USA", Value = "US"},
+                                                       }, "Value", "Text", paisSelected),
+                                                   new { @class = "form-control", autocomplete = "off" })
+                            </div>
+                            <div class="col-sm-3 form-group">
+                                <label>@Resources.Resources.Home_Search_Item02</label>
+                                <div class="col-xs-12 col-sm-12 null-padding-h">
+                                    <div class="col-xs-6 col-sm-6 null-padding-h">
+                                        @Html.RadioButton("rdbTipoOpe", "I", true, new { id = "radioI" })
+                                        <label for="radioI">@Resources.Resources.Home_Search_Radio_Item01</label>
+                                    </div>
+                                    <div class="col-xs-6 col-sm-6 null-padding-h">
+                                        @Html.RadioButton("rdbTipoOpe", "E", false, new { id = "radioE" })
+                                        <label for="radioE">@Resources.Resources.Home_Search_Radio_Item02</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-5 form-group">
+                                <label>@Resources.Resources.Home_Search_Item03</label>
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-6 form-group">
+                                        @Html.DropDownList("cboOpcion",
+                                                           new SelectList(
+                                                               new List<SelectListItem>
+                                                               {
+                                                                                                                            new SelectListItem {Text = Resources.Resources.Home_Search_Cbo_Item01, Value = "PAR"},
+                                                                                                                            new SelectListItem {Text = Resources.Resources.Home_Search_Cbo_Item02, Value = "DES"}
+                                                               }, "Value", "Text", "DES"),
+                                                           new { @class = "form-control", autocomplete = "off" })
+                                    </div>
+                                    <div class="col-xs-12 col-sm-6 form-group">
+                                        @Html.TextBoxFor(m => m.txtDesComercialB, "", new { @class = "form-control form-control-search" })
+                                        <div id="autocompleteFilter" class="autocomplete_content"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-2 form-group text-center">
+                                <label>&nbsp;</label>
+                                <input id="submitConsulta" name="submitConsulta" type="submit" class="btn-search" value="@Resources.Resources.Search_Button" />
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,11 @@
+@{
+
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["Controller"].ToString();
+
+    if (controller != "PasswordBypass")
+    {
+        Layout = "~/Views/Shared/_Layout.cshtml";
+    }else{
+        Layout = "~/Views/PasswordBypass/index.cshtml";
+    }
+}

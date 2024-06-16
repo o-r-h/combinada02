@@ -1,0 +1,91 @@
+﻿@using Veritrade2018.Models
+@{
+    var modelo = (ConsultaForm)Model;
+    var texto01 = modelo.CodPais != "CL" ? Resources.Resources.Search_Form_Item06 : Resources.Resources.Search_Form_BrandField;
+}
+
+<!-- Descripcion Comercial -->
+@if (modelo.FlagDescComercialB)
+{
+    <div class="form-group">
+        <div class="col-sm-2">
+            <label class="control-label  label_content">
+                @Resources.Resources.Search_Form_Item03
+            </label>
+        </div>
+        <div class="col-sm-7">
+            @Html.TextBox("txtDesComercialB", "", new { @class = "form-control txt-formfield textfield_filter", autocomplete = "off" })
+        </div>
+        <div class="col-sm-3">
+            <button class="btn btn-filtro margin-vsm" id="btnAddFiltro">
+                @Resources.Resources.Filters_AddButton
+            </button>
+        </div>
+    </div>
+}
+
+<!-- Partida -->
+<div class="form-group">
+    <label class="col-sm-2 control-label label_content">
+        @Resources.Resources.Search_Form_Item04
+    </label>
+    <div class="col-sm-7">
+        @Html.TextBox("txtPartida", "", new { @class = "form-control txt-formfield textfield_filter", autocomplete = "off" })
+        <div id="autocompletePartida" class="autocomplete_content"></div>
+    </div>
+</div>
+
+@if (modelo.TipoOpe == "I")
+{
+    if (modelo.Importador)
+    {
+        <!-- Importador -->
+        <div class=" form-group">
+            <label class=" col-sm-2 control-label label_content">
+                @Resources.Resources.Search_Form_Item05
+            </label>
+            <div class="col-sm-7">
+                @Html.TextBox("txtImportadorB", "", new { @class = "form-control txt-formfield textfield_filter", autocomplete = "off" })
+                <div id="autocompleteImportadorB" class="autocomplete_content"></div>
+            </div>
+        </div>
+    }
+    if (modelo.Proveedor)
+    {
+        <!-- Exportador | Marca -->
+        <div class="form-group">
+            <label class="col-sm-2 control-label label_content">@texto01</label>
+            <div class="col-sm-7">
+                @Html.TextBox("txtProveedorB", "", new { @class = "form-control txt-formfield textfield_filter", autocomplete = "off" })
+                <div id="autocompleteProveedorB" class="autocomplete_content"></div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    if (modelo.Exportador)
+    {
+        <!-- Exportador -->
+        <div class="form-group">
+            <label class=" col-sm-2 control-label label_content">@Resources.Resources.Search_Form_Item06</label>
+            <div class="col-sm-7">
+                @Html.TextBox("txtExportadorB", "", new { @class = "form-control txt-formfield textfield_filter", autocomplete = "off" })
+                <div id="autocompleteExportadorB" class="autocomplete_content"></div>
+            </div>
+        </div>
+    }
+    if (modelo.ImportadorExp)
+    {
+        <!-- Importador Exp -->
+        <div class="form-group">
+            <label class="col-sm-2 control-label label_content">
+                @Resources.Resources.Search_Form_Item05
+            </label>
+            <div class="col-sm-7">
+                @Html.TextBox("txtImportadorExpB", "", new { @class = "form-control txt-formfield textfield_filter", autocomplete = "off" })
+                <div id="autocompleteImportadorExpB" class="autocomplete_content"></div>
+            </div>
+        </div>
+    }
+}

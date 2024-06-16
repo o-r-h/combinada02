@@ -1,0 +1,313 @@
+﻿@using Veritrade2018.Models.Admin
+@using Veritrade2018.Helpers
+@using System.Globalization
+@{
+    ViewBag.Title = "Veritrade Administrador";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    MiPerfil objMiPerfil = (MiPerfil)ViewData["objMiPerfil"];
+    var culture = CultureHelper.GetCurrentCulture();
+    var idioma = culture.Equals("es") ? CultureInfo.CreateSpecificCulture("es-pe") : CultureInfo.CreateSpecificCulture("en-us");
+}
+<style>
+    .boton-opcion, .boton-volver {
+        margin-top: 10px;
+    }
+
+    #previewAlert {
+        width: 100%;
+        height: auto;
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-width: 0 1px 1px 1px;
+        min-height: 376px;
+    }
+</style>
+<div id="loadingPageAdmin" class="loader is-active-loading">
+    <div class="objectLoading"></div>
+</div>
+
+<div class="padding-height-sm">
+    <div class="row">
+        <div id="camposFiltros">
+            @Html.Partial("Partials/MyFavoritesAndMyGroups", objMiPerfil)
+            @*<div class="col-xs-12 col-sm-12">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12">
+                            <h3 class="tittle-opcion">
+                                @Resources.MiPerfil.SettingUpMyAlerts_Text
+                            </h3>
+                            <p class="description-opcion">
+                                En esta sección Ud. podrá editar, eliminar o cambiar de nombre a sus Favoritos o formar Grupos, juntando a varios de ellos (productos o compañias) según su criterio.
+                            </p>
+
+                            <div class="col-xs-12 col-sm-12 text-center">
+                                <a href="@Url.Action("Index", "AdminMisAlertasFavoritas", new {tipoFavorito = "Producto"})" class="btn boton-opcion" role="button">
+                                    @Resources.AdminResources.NavBar_Item02
+                                </a>
+
+                                <a href="@Url.Action("Index", "AdminMisAlertasFavoritas", new {tipoFavorito = "Compañia"})" class="btn boton-opcion" role="button">
+
+                                    @Resources.AdminResources.NavBar_Item03
+                                </a>
+
+                                <a href="@Url.Action("Index", "AdminMisAlertasFavoritas", new {tipoFavorito = "ProductoCompañia"})" class="btn boton-opcion" role="button">
+
+                                    @Resources.AdminResources.NavBar_Item04
+                                </a>
+
+                                <a href="@Url.Action("Index", "AdminMisAlertasFavoritas", new {tipoFavorito = "CompañiaProducto"})" class="btn boton-opcion" role="button">
+
+                                    @Resources.AdminResources.NavBar_Item05
+                                </a>
+
+                                <a href="@Url.Action("Index","MisBusquedas")" class="btn boton-volver" role="button">@Resources.MiPerfil.Btn_BackHome</a>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>*@
+        </div>
+
+
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-12">
+        <h3>@Resources.AdminResources.My_Alerts_Preview </h3><hr>
+        <iframe id="previewAlert" src="javascript:void(0)" frameborder="0">
+            <!-- render here preview -->
+        </iframe>
+    </div>
+</div>
+
+<!--Inicio Modal Ventana Sesión-->
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaSesion.cshtml")
+<!--Fin-->
+
+
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaMensaje.cshtml")
+
+@section Scripts{
+    <script src="@Url.Content("~/Scripts/Admin/admin.js?2")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Admin/MiPerfil/MiPerfil.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/MixPanel/MisAlertas/MisAlertasMP.js?1")" type="text/javascript"></script>
+    <script type="text/javascript">
+
+        var t;
+        var timeout = 15 * 60 * 1000;
+
+        function SessionExpiredAlert() {
+            t = setTimeout(function () {
+                $('#ModalVentanaSesion').modal({
+                    show: true,
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }, timeout);
+        };
+
+        function InIEventSession() {
+            clearTimeout(t);
+            SessionExpiredAlert();
+        };
+
+        function FiltrosMyAlert() {
+        }
+
+        function changePais2(urlPost,
+            pCodPais2) {
+
+            $.ajax({
+                type: "POST",
+                url: urlPost,
+                data: {
+                    codPais2: pCodPais2
+                },
+                beforeSend: function () {
+                    LoadingAdminPage.showOrHideLoadingPage(true);
+                },
+                success: function (response) {
+                    $("#camposFiltros").html("");
+                    $("#camposFiltros").html(response.myFavoritesAndMyGroups);
+                    AdminPage.loadDataComboBox(response.objMiPerfil.ListItemsPais, "cboPais");
+
+                    if (response.objMensaje != null) {
+                        $("#cboPais2").val(response.objMiPerfil.CodPais2Selected);
+                        $("#cboPais").val(response.objMiPerfil.CodPaisSelected);
+
+                        LoadingAdminPage.showOrHideLoadingPage(false);
+                        ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                            "messageTitle",
+                            response.objMensaje.titulo,
+                            "message",
+                            response.objMensaje.mensaje,
+                            "lnkContactenos",
+                            response.objMensaje.flagContactenos);
+                    } else {
+                        $("#cboPais").val(response.objMiPerfil.CodPaisSelected);
+                        LoadingAdminPage.showOrHideLoadingPage(false);
+                    }
+
+
+                    setTimeout(function () {
+                        showMeAlertPreview()
+                    }, 500);
+
+                },
+                error: function (dataError) {
+                    console.info(dataError);
+                }
+            });
+        }
+
+        function changePais(urlPost, pCodPais, pTextCodPais, idCboMyFilters) {
+            $.ajax({
+                type: "POST",
+                url: urlPost,
+                data: {
+                    codPais: pCodPais,
+                    textCodPais: pTextCodPais
+                },
+                beforeSend: function () {
+                    LoadingAdminPage.showOrHideLoadingPage(true);
+                },
+                success: function (response) {
+                    $("#camposFiltros").html("");
+                    $("#camposFiltros").html(response.myFavoritesAndMyGroups);
+                    if (response.objMensaje != null) {
+                        $("#cboPais2").val(response.objMiPerfil.CodPais2Selected);
+                        $("#cboPais").val(response.objMiPerfil.CodPaisSelected);
+                        LoadingAdminPage.showOrHideLoadingPage(false);
+                        ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                            "messageTitle",
+                            response.objMensaje.titulo,
+                            "message",
+                            response.objMensaje.mensaje,
+                            "lnkContactenos",
+                            response.objMensaje.flagContactenos);
+                    } else {
+                        LoadingAdminPage.showOrHideLoadingPage(false);
+                    }
+                    setTimeout(function () {
+                        showMeAlertPreview()
+                    }, 500);
+                },
+                error: function (dataError) {
+                    console.info(dataError);
+                }
+            });
+        }
+
+        function changeTipoOpe(urlPost, tipoOpe) {
+            $.ajax({
+                type: "POST",
+                url: urlPost,
+                data: {
+                    tipoOpe: tipoOpe
+                },
+                beforeSend: function () {
+                    LoadingAdminPage.showOrHideLoadingPage(true);
+                },
+                success: function (response) {
+                    $("#camposFiltros").html("");
+                    $("#camposFiltros").html(response.myFavoritesAndMyGroups);
+
+                    LoadingAdminPage.showOrHideLoadingPage(false);
+                },
+                error: function (dataError) {
+                    console.info(dataError);
+                }
+            });
+        }
+
+
+        $(document).ready(function () {
+
+            LoadingAdminPage.showOrHideLoadingPage(false);
+
+            showMeAlertPreview();
+        });
+
+        $(document).ready(function() {
+            InIEventSession();
+            $('#ModalVentanaSesion').on('hidden.bs.modal', function () {
+                window.location.href = '@Url.Action("Index", "Home")';
+            });
+
+            $("#cboPais2").change(function() {
+                changePais2('@Url.Action("Pais2Change", "MisAlertasFavoritos")',
+                    $(this).val());
+
+            });
+
+            $("#cboPais").change(function() {
+                changePais('@Url.Action("PaisChange", "MisAlertasFavoritos")',
+                    $(this).val(),
+                    $("#cboPais option:selected").text());
+            });
+
+            $("input:radio[name=rdbTipoOpe]").change(function () {
+                console.log("entro");
+                changeTipoOpe('@Url.Action("TipoOpeChange", "MisAlertasFavoritos")',
+                    $('input:radio[name=rdbTipoOpe]:checked').val()
+                );
+            });
+
+            $("#previewAlert").on("load", function () {
+                var el = this;
+                setTimeout(function () {
+                    var iframe = $(el).contents();
+
+                    iframe.find("p.subrayado a").css({ "cursor": "text", "text-decoration": "none" });
+                    iframe.find(".subrayado").css({ "text-decoration": "none" });
+                    iframe.find(".rem").css({ "display": "none" });
+                    iframe.find('a').click(function (event) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                        return false;
+                    });
+                }, 200);
+                LoadingAdminPage.showOrHideLoadingPage(false);
+            });
+
+
+        });
+
+
+
+
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            if (jqxhr.status === 401) {
+                window.location.href = '@Url.Action("Index","Home")';
+            } else {
+                console.log(thrownError);
+            }
+        });
+        $(document).ajaxComplete(function() {
+            InIEventSession();
+        });
+
+        function showMeAlertPreview() {
+            LoadingAdminPage.showOrHideLoadingPage(true);
+            var codPais = $("#cboPais").val();
+
+            if ($("#cboPais2").val() === "4UE") {
+                codPais = "UE" + codPais;
+            }
+
+            @*$.get("@Url.Action("ShowMeAlertPreview")", { codPais }, function (response) {
+                $("#previewAlert").html(response);
+                LoadingAdminPage.showOrHideLoadingPage(false);
+            });*@
+            $("#previewAlert").attr("src", "@Url.Action("ShowMeAlertPreview")?codPais=" + codPais + "&culture=@idioma" );
+        }
+
+
+
+
+    </script>
+}
+

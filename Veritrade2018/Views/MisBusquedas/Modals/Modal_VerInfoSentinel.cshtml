@@ -1,0 +1,124 @@
+﻿<div class="modal fade" tabindex="-1" role="dialog" id="ModalInfoSentinel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="padding: 20px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="icon-close-modal" aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    Sentinel - Alertas y reportes de deudas
+                </h4>
+            </div>
+            <div class="modal-body">
+                
+                <div id="infoSentinel">
+                   
+                </div>
+           
+
+                <div class="row leyenda-info-sentinel">
+
+                    <div class="col-sm-2 item-lenyenda">
+                        <span>Score</span>
+                        <div class="texto-leyenda">
+                            Valor entre<br/>
+                            0.000 (MENOR RIESGO) y 6.000 (MAYOR RIESGO)
+                        </div>
+
+                    </div>
+
+                    <div class="col-sm-2 item-lenyenda">
+                        <span>
+                            Calificación SBS / Microf.
+                        </span>
+                        <ul>
+                            <li>
+                                CPP = Con problemas potenciales
+                            </li>
+                            <li>
+                                DEF = Deficiente
+                            </li>
+                            <li>
+                                DUD = Dudoso
+                            </li>
+                            <li>
+                                NOR = Normal
+                            </li>
+                            <li>
+                                PER = Pérdida
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-sm-2 item-lenyenda">
+                        <span>
+                            Veces 24m
+                        </span>
+                        <ul>
+                            <li>
+                                BI = SBS / Micro Finanzas
+                            </li>
+                            <li>
+                                CC = Cuenta Corriente (Cerradas/Anuladas)
+                            </li>
+                            <li>
+                                CF = Créditos Financieros
+                            </li>
+                            <li>
+                                DI = Documentos Impagos
+                            </li>
+                            <li>
+                                DT = Deuda Tributaria
+                            </li>
+                            <li>
+                                FB = Flash Bancario
+                            </li>
+                            <li>
+                                PR = Protestos
+                            </li>
+                            <li>
+                                RN = Otros Reportes Negativos
+                            </li>
+                            <li>
+                                TA = Tarjetas Crédito (Cerradas/Anuladas)
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="col-sm-2 item-lenyenda">
+                        <span>
+                            Score Promedio
+                        </span>
+                        <div class="texto-leyenda">
+                            Valor entre <br/>
+                            0.000 (MENOR RIESGO) y 6.000 (MAYOR RIESGO)
+                        </div>
+                    </div>
+
+                    <div class="col-sm-3">
+                        <span>Semáforos</span>
+                        <ul>
+                            <li>
+                                <img src="@Url.Content("~/Content/Images/semaforo_gris.png")" width="20" height="20"/>
+                                Bajo riesgo / No reporta información de deudas
+                            </li>
+                            <li>
+                                <img src="@Url.Content("~/Content/Images/semaforo_verde.png")" width="20" height="20"/>
+                                Mínimo riesgo / Sin deudas vencidas
+                            </li>
+                            <li>
+                                <img src="@Url.Content("~/Content/Images/semaforo_ambar.png")" width="20" height="20"/>
+                                Mediano riesgo / Deudas con poco atraso
+                            </li>
+                            <li>
+                                <img src="@Url.Content("~/Content/Images/semaforo_rojo.png")" width="20" height="20"/>
+                                Alto riesgo / Deudas con atraso significativo
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

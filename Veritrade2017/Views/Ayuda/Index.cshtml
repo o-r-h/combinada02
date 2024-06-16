@@ -1,0 +1,95 @@
+﻿@using Veritrade2017.Models
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var uri = HttpContext.Current.Request.Url.AbsolutePath;
+    var seoConf = ConfiguracionesSeo.GetConfig(culture, uri);
+    var ayuda = (Ayuda)ViewData["ayuda"];
+    var videos = new AyudaVideo();
+
+    ViewBag.Title = seoConf.Title;
+    ViewBag.Description = seoConf.Description;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+    <link href="@Url.Content("~/Content/Assets/ayuda.css")" rel="stylesheet" type="text/css" />
+}
+
+<style>
+    h2 {
+        color: black;
+        font-family: ProximaNova-Bold;
+        font-size: 24px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        text-decoration: none;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+
+    h3 {
+        color: #65A5E2;
+        font-family: ProximaNova-Bold;
+        font-size: 20px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        text-decoration: none;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+</style>
+
+<div class="container" style="margin: 10px auto">
+    <div class="ayuda_section">
+    @if (culture == "es")
+    {
+        <div class="ayuda_content">
+            <div class="row video_content">
+                <div class="col-lg-12">
+                    <h2>CENTRO DE CAPACITACIÓN</h2>
+                    <h3>Aprende cómo utilizar la plataforma fácilmente y obtén una mejor experiencia</h3>
+                    <p class="ayuda_description">
+                        A través de los siguientes tutoriales descubre paso a paso todas las funcionalidades
+                        e información que tenemos para tu empresa.  ¡Empieza ahora!
+                    </p>
+                </div>
+            </div>
+            <div class="row video_content">
+                <h2>Módulos de Aprendizaje</h2>
+                @foreach (var video in videos.GetVideos2(1))
+                {
+                    <div class="video_item">
+                        <h5 style="font-size:16px;"><b>@video.Titulo</b></h5>
+                        <iframe class="video_ayuda" src="@video.UrlVideo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+                        </iframe>
+                        @*<iframe class="video_ayuda" src="@video.UrlVideo" allowfullscreen="false"></iframe>*@
+                        <p class="video_description" style="text-align: right;"><span style="background-color:black; color:white;">@video.Descripcion</span>&nbsp;&nbsp;&nbsp;</p>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="ayuda_content">
+            <div class="row video_content">
+                <div class="col-lg-12">
+                    <h1>@ayuda.Titulo</h1>
+                    <h2><p class="ayuda_description">@ayuda.Descripcion</p></h2>
+                </div>
+            </div>
+            <div class="row video_content">
+                @foreach (var video in videos.GetVideos(ayuda.Id))
+                {
+                    <div class="video_item">
+                        <h3>@video.Titulo</h3>
+                        <iframe class="video_ayuda" src="@video.UrlVideo" allowfullscreen="false"></iframe>
+                        <p class="video_description">@video.Descripcion</p>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+    </div>
+</div>

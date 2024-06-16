@@ -1,0 +1,1594 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{0FC8B611-7079-4772-9F6C-6C151B6BAAE5}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Veritrade2017</RootNamespace>
+    <AssemblyName>Veritrade2017</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <MvcBuildViews>false</MvcBuildViews>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>4.0</OldToolsVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <UpgradeBackupLocation />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=18.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <HintPath>..\packages\AjaxControlToolkit.18.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime, Version=3.5.0.2, Culture=neutral, PublicKeyToken=eb42632606e9261f, processorArchitecture=MSIL">
+      <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Dapper, Version=1.50.2.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.50.2\lib\net45\Dapper.dll</HintPath>
+    </Reference>
+    <Reference Include="DevExpress.Charts.v17.1.Core, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.CodeParser.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Dashboard.v17.1.Core, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Dashboard.v17.1.Web, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.Dashboard.v17.1.Web.Mvc5, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Data.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.DataAccess.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.DataAccess.v17.1.UI, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Map.v17.1.Core, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Office.v17.1.Core, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Pdf.v17.1.Core, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.PivotGrid.v17.1.Core, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Printing.v17.1.Core, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.RichEdit.v17.1.Core, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Sparkline.v17.1.Core, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.TreeMap.v17.1.Core, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Utils.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxRichEdit.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Web.ASPxThemes.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Web.Mvc5.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Web.Resources.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Web.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.Xpo.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a" />
+    <Reference Include="DevExpress.XtraCharts.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraCharts.v17.1.Web, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraGauges.v17.1.Core, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v17.1, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevExpress.XtraReports.v17.1.Web, Version=17.1.7.0, Culture=neutral, PublicKeyToken=b88d1754d700e49a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+    </Reference>
+    <Reference Include="DevTrends.MvcDonutCaching, Version=1.3.0.0, Culture=neutral, PublicKeyToken=73c58d802958a09f, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvcDonutCaching.1.3.0\lib\net40\DevTrends.MvcDonutCaching.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.13\lib\itextsharp.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.pdfa, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.pdfa.5.5.13\lib\itextsharp.pdfa.dll</HintPath>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.13.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.13\lib\itextsharp.xmlworker.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.JScript" />
+    <Reference Include="Microsoft.VisualBasic" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="mustache-sharp, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5885df51f4df0041, processorArchitecture=MSIL">
+      <HintPath>..\packages\mustache-sharp.1.0.0\lib\net45\mustache-sharp.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.11.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Stripe.net, Version=10.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Stripe.net.10.4.0\lib\net45\Stripe.net.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.4\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Transactions" />
+    <Reference Include="System.Web.DataVisualization" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Helpers, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.Helpers.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.4\lib\net45\System.Web.Http.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Http.WebHost, Version=5.2.4.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.WebHost.5.2.4\lib\net45\System.Web.Http.WebHost.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Mvc, Version=5.2.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Mvc.5.2.7\lib\net45\System.Web.Mvc.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Web.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.Razor.3.2.7\lib\net45\System.Web.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Deployment, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Deployment.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.7\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Web.Abstractions" />
+    <Reference Include="System.Web.Routing" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="WebGrease, Version=1.6.5135.21930, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebGrease.1.6.0\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="WebMatrix.Data, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebPages.Data.3.2.4\lib\net45\WebMatrix.Data.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\Index.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Assets\admin\admin.css" />
+    <Content Include="Content\Assets\admin\admin.min.css" />
+    <Content Include="Content\Assets\loaderLogin.css" />
+    <Content Include="Content\Assets\loadingProductProfile.css" />
+    <Content Include="Content\Assets\admin\mis-busquedas.css" />
+    <Content Include="Content\Assets\admin\mis-busquedas.min.css" />
+    <Content Include="Content\Assets\admin\mis-productos.css" />
+    <Content Include="Content\Assets\admin\mis-productos.min.css" />
+    <Content Include="Content\Assets\ayuda.css" />
+    <Content Include="Content\Assets\blog.css" />
+    <Content Include="Content\Assets\consulta.css" />
+    <Content Include="Content\Assets\home.css" />
+    <Content Include="Content\Assets\intlTelInput.css" />
+    <Content Include="Content\Assets\loading.css" />
+    <Content Include="Content\Assets\mails.css" />
+    <Content Include="Content\Assets\minisite.css" />
+    <Content Include="Content\Assets\modals.css" />
+    <Content Include="Content\Assets\paises.css" />
+    <Content Include="Content\Assets\planes.css" />
+    <Content Include="Content\Assets\productprofile.css" />
+    <Content Include="Content\Assets\prueba_gratis.css" />
+    <Content Include="Content\Assets\servicios.css" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Components\dropdown-menu.css" />
+    <Content Include="Content\Components\ui-autocomplete.css" />
+    <Content Include="Content\Components\vertical-tabs.css" />
+    <Content Include="Content\Images\ajax-loader-min.gif" />
+    <Content Include="Content\Images\bitmap.png" />
+    <Content Include="Content\Images\bot_lupal_off.png" />
+    <Content Include="Content\Images\bot_recarga_off.png" />
+    <Content Include="Content\Images\Busqueda\arrow_down.png" />
+    <Content Include="Content\Images\Busqueda\arrow_right.png" />
+    <Content Include="Content\Images\Busqueda\ico_dash_01.png" />
+    <Content Include="Content\Images\Busqueda\ico_dash_02.png" />
+    <Content Include="Content\Images\Busqueda\ico_dash_03.png" />
+    <Content Include="Content\Images\collage.png" />
+    <Content Include="Content\Images\collagel.png" />
+    <Content Include="Content\Images\collager.png" />
+    <Content Include="Content\Images\filter-calendar.png" />
+    <Content Include="Content\Images\flags%402x.png" />
+    <Content Include="Content\Images\flags.png" />
+    <Content Include="Content\Images\flags16.png" />
+    <Content Include="Content\Images\flag_el_salvador.png" />
+    <Content Include="Content\Images\flag_guatemala.png" />
+    <Content Include="Content\Images\flag_honduras.png" />
+    <Content Include="Content\Images\flag_r_dominicana.png" />
+    <Content Include="Content\Images\group-2x.png" />
+    <Content Include="Content\Images\group-3x.png" />
+    <Content Include="Content\Images\group.png" />
+    <Content Include="Content\Images\group_2.png" />
+    <Content Include="Content\Images\group_2_2.png" />
+    <Content Include="Content\Images\group_7-2x.png" />
+    <Content Include="Content\Images\group_7-3x.png" />
+    <Content Include="Content\Images\group_7.png" />
+    <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\Images\lupa.png" />
+    <Content Include="Content\Images\PORTADA_LANDING_CONTACT.png" />
+    <Content Include="Content\Images\PORTADA_LANDING_CONTACT2.png" />
+    <Content Include="Content\Images\PORTADA_LANDING_CONTACT3.png" />
+    <Content Include="Content\Images\PORTADA_LANDING_CONTACT_EN.png" />
+    <Content Include="Content\Images\products.png" />
+    <Content Include="Content\PagedList.css" />
+    <Content Include="Content\themes\base\accordion.css" />
+    <Content Include="Content\themes\base\all.css" />
+    <Content Include="Content\themes\base\autocomplete.css" />
+    <Content Include="Content\themes\base\base.css" />
+    <Content Include="Content\themes\base\button.css" />
+    <Content Include="Content\themes\base\core.css" />
+    <Content Include="Content\themes\base\datepicker.css" />
+    <Content Include="Content\themes\base\dialog.css" />
+    <Content Include="Content\themes\base\draggable.css" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_55_fbf9ee_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_65_ffffff_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_dadada_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_75_e6e6e6_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_glass_95_fef1ec_1x400.png" />
+    <Content Include="Content\themes\base\images\ui-bg_highlight-soft_75_cccccc_1x100.png" />
+    <Content Include="Content\themes\base\images\ui-icons_222222_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_2e83ff_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_444444_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_454545_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_555555_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777620_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_777777_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_888888_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cc0000_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_cd0a0a_256x240.png" />
+    <Content Include="Content\themes\base\images\ui-icons_ffffff_256x240.png" />
+    <Content Include="Content\themes\base\jquery-ui.css" />
+    <Content Include="Content\themes\base\jquery-ui.min.css" />
+    <Content Include="Content\themes\base\menu.css" />
+    <Content Include="Content\themes\base\progressbar.css" />
+    <Content Include="Content\themes\base\resizable.css" />
+    <Content Include="Content\themes\base\selectable.css" />
+    <Content Include="Content\themes\base\selectmenu.css" />
+    <Content Include="Content\themes\base\slider.css" />
+    <Content Include="Content\themes\base\sortable.css" />
+    <Content Include="Content\themes\base\spinner.css" />
+    <Content Include="Content\themes\base\tabs.css" />
+    <Content Include="Content\themes\base\theme.css" />
+    <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="DevTrends.MvcDonutCaching.README.txt" />
+    <Content Include="Fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Fonts\ProximaNova-Semibold.svg" />
+    <Content Include="Fonts\ProximaNova-Bold.svg" />
+    <Content Include="Fonts\ProximaNova-Light.svg" />
+    <Content Include="Fonts\ProximaNova-LightIt.svg" />
+    <Content Include="Fonts\ProximaNova-Regular.svg" />
+    <Content Include="Content\Images\ajax-loader.gif" />
+    <Content Include="Content\Images\AquaHeader.jpg" />
+    <Content Include="Content\Images\ayudamos_01.jpg" />
+    <Content Include="Content\Images\ayudamos_02.jpg" />
+    <Content Include="Content\Images\ayudamos_03.jpg" />
+    <Content Include="Content\Images\ayudamos_04.jpg" />
+    <Content Include="Content\Images\ayudamos_05.jpg" />
+    <Content Include="Content\Images\ayudamos_06.jpg" />
+    <Content Include="Content\Images\BlackGlassHeader.jpg" />
+    <Content Include="Content\Images\Blog\2015_03_not01_01.jpg" />
+    <Content Include="Content\Images\Blog\2015_05_not01_01.jpg" />
+    <Content Include="Content\Images\Blog\2015_06_not01_01.jpg" />
+    <Content Include="Content\Images\Blog\2015_07_not01_01.jpg" />
+    <Content Include="Content\Images\Blog\2015_07_not02_01.jpg" />
+    <Content Include="Content\Images\Blog\2015_08_not01_01.jpg" />
+    <Content Include="Content\Images\Blog\2015_09_not01_01.jpg" />
+    <Content Include="Content\Images\Blog\2015_11_not01_01.jpg" />
+    <Content Include="Content\Images\Blog\2015_11_not01_02.jpg" />
+    <Content Include="Content\Images\Blog\2015_11_not01_03.jpg" />
+    <Content Include="Content\Images\Blog\2015_11_not02_01.jpg" />
+    <Content Include="Content\Images\Blog\2015_11_not02_02.jpg" />
+    <Content Include="Content\Images\Blog\2015_12_not01_01.jpg" />
+    <Content Include="Content\Images\Blog\2015_12_not01_02.jpg" />
+    <Content Include="Content\Images\Blog\2015_12_not01_03.jpg" />
+    <Content Include="Content\Images\Blog\2016_10_not01_peq.jpg" />
+    <Content Include="Content\Images\Blog\2017_05_not01_01.jpg" />
+    <Content Include="Content\Images\Blog\2017_05_not01_02.jpg" />
+    <Content Include="Content\Images\Blog\2017_05_not01_03.jpg" />
+    <Content Include="Content\Images\Blog\2017_05_not01_04.jpg" />
+    <Content Include="Content\Images\Blog\2017_05_not01_05.jpg" />
+    <Content Include="Content\Images\Blog\2017_05_not01_peq.jpg" />
+    <Content Include="Content\Images\Blog\2017_06_not01_01.jpg" />
+    <Content Include="Content\Images\Blog\2017_06_not01_02.jpg" />
+    <Content Include="Content\Images\Blog\2017_06_not01_03.jpg" />
+    <Content Include="Content\Images\Blog\2017_06_not01_04.jpg" />
+    <Content Include="Content\Images\Blog\2017_06_not01_05.jpg" />
+    <Content Include="Content\Images\Blog\2017_06_not01_06.jpg" />
+    <Content Include="Content\Images\Blog\2017_06_not01_07.jpg" />
+    <Content Include="Content\Images\Blog\2017_06_not01_08.jpg" />
+    <Content Include="Content\Images\Blog\2017_06_not01_peq.jpg" />
+    <Content Include="Content\Images\Blog\2017_06_not02_01.jpg" />
+    <Content Include="Content\Images\Blog\2017_06_not02_02.jpg" />
+    <Content Include="Content\Images\Blog\2017_06_not02_03.jpg" />
+    <Content Include="Content\Images\Blog\2017_06_not02_04.jpg" />
+    <Content Include="Content\Images\Blog\2017_06_not02_05.jpg" />
+    <Content Include="Content\Images\Blog\2017_06_not02_06.jpg" />
+    <Content Include="Content\Images\Blog\2017_06_not02_peq.jpg" />
+    <Content Include="Content\Images\Blog\2017_07_not01_01.jpg" />
+    <Content Include="Content\Images\Blog\2017_07_not01_02.jpg" />
+    <Content Include="Content\Images\Blog\2017_07_not01_03.jpg" />
+    <Content Include="Content\Images\Blog\2017_07_not01_peq.jpg" />
+    <Content Include="Content\Images\Blog\2017_09_not01_01.jpg" />
+    <Content Include="Content\Images\Blog\2017_09_not01_02.jpg" />
+    <Content Include="Content\Images\Blog\2017_09_not01_03.jpg" />
+    <Content Include="Content\Images\Blog\2017_09_not01_peq.jpg" />
+    <Content Include="Content\Images\blog_fondo.jpg" />
+    <Content Include="Content\Images\blog_foto01g.jpg" />
+    <Content Include="Content\Images\blog_foto01p.jpg" />
+    <Content Include="Content\Images\blog_foto02p.jpg" />
+    <Content Include="Content\Images\blog_foto03p.jpg" />
+    <Content Include="Content\Images\blog_foto04p.jpg" />
+    <Content Include="Content\Images\blog_leidas_01.jpg" />
+    <Content Include="Content\Images\blog_leidas_02.jpg" />
+    <Content Include="Content\Images\boton_sentinel.png" />
+    <Content Include="Content\Images\boton_video_off.png" />
+    <Content Include="Content\Images\bot_ayuda01_off.jpg" />
+    <Content Include="Content\Images\bot_ayuda01_over.jpg" />
+    <Content Include="Content\Images\bot_ayuda01_sel.jpg" />
+    <Content Include="Content\Images\bot_ayuda02_off.jpg" />
+    <Content Include="Content\Images\bot_ayuda02_over.jpg" />
+    <Content Include="Content\Images\bot_ayuda02_sel.jpg" />
+    <Content Include="Content\Images\bot_ayuda03_off.jpg" />
+    <Content Include="Content\Images\bot_ayuda03_over.jpg" />
+    <Content Include="Content\Images\bot_ayuda03_sel.jpg" />
+    <Content Include="Content\Images\bot_ayuda04_off.jpg" />
+    <Content Include="Content\Images\bot_ayuda04_over.jpg" />
+    <Content Include="Content\Images\bot_ayuda04_sel.jpg" />
+    <Content Include="Content\Images\bot_ayuda05_off.jpg" />
+    <Content Include="Content\Images\bot_ayuda05_over.jpg" />
+    <Content Include="Content\Images\bot_ayuda05_sel.jpg" />
+    <Content Include="Content\Images\bot_ayuda06_off.jpg" />
+    <Content Include="Content\Images\bot_ayuda06_over.jpg" />
+    <Content Include="Content\Images\bot_ayuda06_sel.jpg" />
+    <Content Include="Content\Images\bot_excel_off.png" />
+    <Content Include="Content\Images\bot_excel_over.png" />
+    <Content Include="Content\Images\check.png" />
+    <Content Include="Content\Images\cliente-1.png" />
+    <Content Include="Content\Images\cliente-10.png" />
+    <Content Include="Content\Images\cliente-11.png" />
+    <Content Include="Content\Images\cliente-12.png" />
+    <Content Include="Content\Images\cliente-13.png" />
+    <Content Include="Content\Images\cliente-14.png" />
+    <Content Include="Content\Images\cliente-15.png" />
+    <Content Include="Content\Images\cliente-16.png" />
+    <Content Include="Content\Images\cliente-17.png" />
+    <Content Include="Content\Images\cliente-18.png" />
+    <Content Include="Content\Images\cliente-19.png" />
+    <Content Include="Content\Images\cliente-2.png" />
+    <Content Include="Content\Images\cliente-20.png" />
+    <Content Include="Content\Images\cliente-21.png" />
+    <Content Include="Content\Images\cliente-22.png" />
+    <Content Include="Content\Images\cliente-3.png" />
+    <Content Include="Content\Images\cliente-4.png" />
+    <Content Include="Content\Images\cliente-5.png" />
+    <Content Include="Content\Images\cliente-6.png" />
+    <Content Include="Content\Images\cliente-7.png" />
+    <Content Include="Content\Images\cliente-8.png" />
+    <Content Include="Content\Images\cliente-9.png" />
+    <Content Include="Content\Images\Clientes\logos_finales_01.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_02.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_03.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_04.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_05.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_06.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_07.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_08.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_09.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_10.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_11.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_12.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_13.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_14.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_15.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_16.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_17.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_18.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_19.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_20.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_21.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_22.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_23.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_24.jpg" />
+    <Content Include="Content\Images\Clientes\logos_finales_25.jpg" />
+    <Content Include="Content\Images\favicon.ico" />
+    <Content Include="Content\Images\flag_argentina.png" />
+    <Content Include="Content\Images\flag_bolivia.png" />
+    <Content Include="Content\Images\flag_brasil.png" />
+    <Content Include="Content\Images\flag_canada.png" />
+    <Content Include="Content\Images\flag_chile.png" />
+    <Content Include="Content\Images\flag_china.png" />
+    <Content Include="Content\Images\flag_colombia.png" />
+    <Content Include="Content\Images\flag_costa_rica.png" />
+    <Content Include="Content\Images\flag_ecuador.png" />
+    <Content Include="Content\Images\flag_estados_unidos.png" />
+    <Content Include="Content\Images\flag_europe.png" />
+    <Content Include="Content\Images\flag_india.png" />
+    <Content Include="Content\Images\flag_mexico.png" />
+    <Content Include="Content\Images\flag_panama.png" />
+    <Content Include="Content\Images\flag_paraguay.png" />
+    <Content Include="Content\Images\flag_peru.png" />
+    <Content Include="Content\Images\flag_uruguay.png" />
+    <Content Include="Content\Images\flag_usa.png" />
+    <Content Include="Content\Images\flecha.png" />
+    <Content Include="Content\Images\flecha_old.png" />
+    <Content Include="Content\Images\flechita.png" />
+    <Content Include="Content\Images\fondo_banner.jpg" />
+    <Content Include="Content\Images\fondo_suscripciones.jpg" />
+    <Content Include="Content\Images\GlassHeader.jpg" />
+    <Content Include="Content\Images\home_blogima01.jpg" />
+    <Content Include="Content\Images\home_blogima02.jpg" />
+    <Content Include="Content\Images\home_ima01.jpg" />
+    <Content Include="Content\Images\home_ima02.jpg" />
+    <Content Include="Content\Images\home_ima03.jpg" />
+    <Content Include="Content\Images\home_ima04.jpg" />
+    <Content Include="Content\Images\home_ima05.jpg" />
+    <Content Include="Content\Images\home_ima06.jpg" />
+    <Content Include="Content\Images\ico_buscar.jpg" />
+    <Content Include="Content\Images\ico_facebook_over.jpg" />
+    <Content Include="Content\Images\ico_form_contacto_01.jpg" />
+    <Content Include="Content\Images\ico_form_contacto_02.jpg" />
+    <Content Include="Content\Images\ico_form_contacto_03.jpg" />
+    <Content Include="Content\Images\ico_form_contacto_04.jpg" />
+    <Content Include="Content\Images\ico_google_over.jpg" />
+    <Content Include="Content\Images\ico_linkedin_over.jpg" />
+    <Content Include="Content\Images\ico_lupa.jpg" />
+    <Content Include="Content\Images\ico_mail_over.jpg" />
+    <Content Include="Content\Images\ico_sentinel.jpg" />
+    <Content Include="Content\Images\ico_social01_off.jpg" />
+    <Content Include="Content\Images\ico_social02_off.jpg" />
+    <Content Include="Content\Images\ico_social03_off.jpg" />
+    <Content Include="Content\Images\ico_telefono.jpg" />
+    <Content Include="Content\Images\ima_grafica_temp.jpg" />
+    <Content Include="Content\Images\ima_vl3_ventana.jpg" />
+    <Content Include="Content\Images\ima_vl_ico.jpg" />
+    <Content Include="Content\Images\ima_vml_ventana.jpg" />
+    <Content Include="Content\Images\play_button.png" />
+    <Content Include="Content\Images\logos_home_01.jpg" />
+    <Content Include="Content\Images\logos_home_02.jpg" />
+    <Content Include="Content\Images\logos_home_03.jpg" />
+    <Content Include="Content\Images\logo_cabecera.jpg" />
+    <Content Include="Content\Images\logo_cabecera_admin.jpg" />
+    <Content Include="Content\Images\menulist_flecha2_off.jpg" />
+    <Content Include="Content\Images\menulist_flecha_off.jpg" />
+    <Content Include="Content\Images\Minisite\arrow_down-2x.png" />
+    <Content Include="Content\Images\Minisite\arrow_down-3x.png" />
+    <Content Include="Content\Images\Minisite\arrow_down.png" />
+    <Content Include="Content\Images\Minisite\arrow_left-2x.png" />
+    <Content Include="Content\Images\Minisite\arrow_left-3x.png" />
+    <Content Include="Content\Images\Minisite\arrow_left.png" />
+    <Content Include="Content\Images\Minisite\arrow_right-2x.png" />
+    <Content Include="Content\Images\Minisite\arrow_right-3x.png" />
+    <Content Include="Content\Images\Minisite\arrow_right.png" />
+    <Content Include="Content\Images\Minisite\banner-2x.png" />
+    <Content Include="Content\Images\Minisite\banner-3x.png" />
+    <Content Include="Content\Images\Minisite\banner.png" />
+    <Content Include="Content\Images\Minisite\banner_gris-2x.png" />
+    <Content Include="Content\Images\Minisite\banner_gris-3x.png" />
+    <Content Include="Content\Images\Minisite\banner_gris.png" />
+    <Content Include="Content\Images\Minisite\banner_lg-2x.png" />
+    <Content Include="Content\Images\Minisite\banner_lg-3x.png" />
+    <Content Include="Content\Images\Minisite\banner_lg.png" />
+    <Content Include="Content\Images\Minisite\box-2x.png" />
+    <Content Include="Content\Images\Minisite\box-3x.png" />
+    <Content Include="Content\Images\Minisite\box.png" />
+    <Content Include="Content\Images\Minisite\eye-2x.png" />
+    <Content Include="Content\Images\Minisite\eye-3x.png" />
+    <Content Include="Content\Images\Minisite\eye.png" />
+    <Content Include="Content\Images\Minisite\gicon-3x.png" />
+    <Content Include="Content\Images\Minisite\gicon-x2.png" />
+    <Content Include="Content\Images\Minisite\gicon.png" />
+    <Content Include="Content\Images\Minisite\ico_lupa-2x.png" />
+    <Content Include="Content\Images\Minisite\ico_lupa-3x.png" />
+    <Content Include="Content\Images\Minisite\ico_lupa.png" />
+    <Content Include="Content\Images\Minisite\logo.png" />
+    <Content Include="Content\Images\Minisite\order_arrows-2x.png" />
+    <Content Include="Content\Images\Minisite\order_arrows-3x.png" />
+    <Content Include="Content\Images\Minisite\order_arrows.png" />
+    <Content Include="Content\Images\Minisite\refresh-2x.png" />
+    <Content Include="Content\Images\Minisite\refresh-3x.png" />
+    <Content Include="Content\Images\Minisite\refresh.png" />
+    <Content Include="Content\Images\Minisite\search-2x.png" />
+    <Content Include="Content\Images\Minisite\search-3x.png" />
+    <Content Include="Content\Images\Minisite\search.png" />
+    <Content Include="Content\Images\personaje.png" />
+    <Content Include="Content\Images\play_button_gray.png" />
+    <Content Include="Content\Images\semaforo_ambar.png" />
+    <Content Include="Content\Images\semaforo_gris.png" />
+    <Content Include="Content\Images\semaforo_rojo.png" />
+    <Content Include="Content\Images\semaforo_verde.png" />
+    <Content Include="Content\Images\sentinel.png" />
+    <Content Include="Content\Images\ServiciosPaises\pais_01.jpg" />
+    <Content Include="Content\Images\ServiciosPaises\pais_02.jpg" />
+    <Content Include="Content\Images\ServiciosPaises\pais_03.jpg" />
+    <Content Include="Content\Images\ServiciosPaises\pais_04.jpg" />
+    <Content Include="Content\Images\ServiciosPaises\pais_05.jpg" />
+    <Content Include="Content\Images\ServiciosPaises\pais_06.jpg" />
+    <Content Include="Content\Images\ServiciosPaises\pais_07.jpg" />
+    <Content Include="Content\Images\ServiciosPaises\pais_08.jpg" />
+    <Content Include="Content\Images\ServiciosPaises\pais_09.jpg" />
+    <Content Include="Content\Images\ServiciosPaises\pais_10.jpg" />
+    <Content Include="Content\Images\ServiciosPaises\pais_11.jpg" />
+    <Content Include="Content\Images\ServiciosPaises\pais_12.jpg" />
+    <Content Include="Content\Images\ServiciosPaises\pais_13.jpg" />
+    <Content Include="Content\Images\ServiciosPaises\pais_14.jpg" />
+    <Content Include="Content\Images\ServiciosPaises\pais_15.jpg" />
+    <Content Include="Content\Images\persona - copia.jpg" />
+    <Content Include="Content\Images\persona.jpg" />
+    <Content Include="Content\Images\PlasticBlueHeader.jpg" />
+    <Content Include="Content\Images\RedWineHeader.jpg" />
+    <Content Include="Content\Images\separador_puntos_azul.jpg" />
+    <Content Include="Content\Images\ServiciosPaises\pais_16.jpg" />
+    <Content Include="Content\Images\seteo_off.png" />
+    <Content Include="Content\Images\seteo_on.png" />
+    <Content Include="Content\Images\SliderTrial\captura01.jpg" />
+    <Content Include="Content\Images\SliderTrial\captura02.jpg" />
+    <Content Include="Content\Images\SliderTrial\captura03.jpg" />
+    <Content Include="Content\Images\SliderTrial\captura04.jpg" />
+    <Content Include="Content\Images\tabssup_off.png" />
+    <Content Include="Content\Images\tabssup_over.png" />
+    <Content Include="Content\Images\tabssup_sel.png" />
+    <Content Include="Content\Images\Tarjetas\compra_error.png" />
+    <Content Include="Content\Images\Tarjetas\compra_success.png" />
+    <Content Include="Content\Images\Tarjetas\cvv_logo.png" />
+    <Content Include="Content\Images\Tarjetas\cvv_preview.jpg" />
+    <Content Include="Content\Images\Tarjetas\ic_pt_amex.png" />
+    <Content Include="Content\Images\Tarjetas\ic_pt_discovercard.png" />
+    <Content Include="Content\Images\Tarjetas\ic_pt_mastercard.png" />
+    <Content Include="Content\Images\Tarjetas\ic_pt_visa.png" />
+    <Content Include="Content\Images\transparente.gif" />
+    <Content Include="Content\Images\trash.png" />
+    <Content Include="Content\Images\UE_Espanol.jpg" />
+    <Content Include="Content\Images\ven_botcerrar_off.png" />
+    <Content Include="Content\Images\ven_botcerrar_over.png" />
+    <Content Include="Content\Images\veritrade_logo.png" />
+    <Content Include="Content\Images\video_marco01.png" />
+    <Content Include="Content\Images\video_marco02.png" />
+    <Content Include="Content\Images\video_marco03.png" />
+    <Content Include="Content\Images\video_marco04.png" />
+    <Content Include="Content\jquery-ui.css" />
+    <Content Include="Content\jquery-ui.min.css" />
+    <Content Include="Content\Responsive\_1360px.css" />
+    <Content Include="Content\Responsive\_1560px.css" />
+    <Content Include="Content\Responsive\_375px.css" />
+    <Content Include="Content\Responsive\_480px.css" />
+    <Content Include="Content\Responsive\_768px.css" />
+    <Content Include="Content\Responsive\_992px.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Global.asax" />
+    <Content Include="Plugins\OwlCarousel2-2.2.1\assets\ajax-loader.gif" />
+    <Content Include="Plugins\OwlCarousel2-2.2.1\assets\owl.carousel.css" />
+    <Content Include="Plugins\OwlCarousel2-2.2.1\assets\owl.carousel.min.css" />
+    <Content Include="Plugins\OwlCarousel2-2.2.1\assets\owl.theme.default.css" />
+    <Content Include="Plugins\OwlCarousel2-2.2.1\assets\owl.theme.default.min.css" />
+    <Content Include="Plugins\OwlCarousel2-2.2.1\assets\owl.theme.green.css" />
+    <Content Include="Plugins\OwlCarousel2-2.2.1\assets\owl.theme.green.min.css" />
+    <Content Include="Plugins\OwlCarousel2-2.2.1\assets\owl.video.play.png" />
+    <Content Include="Plugins\OwlCarousel2-2.2.1\owl.carousel.js" />
+    <Content Include="Plugins\OwlCarousel2-2.2.1\owl.carousel.min.js" />
+    <Content Include="Scripts\ace.js" />
+    <Content Include="Scripts\Admin\admin.js" />
+    <Content Include="Scripts\Admin\Functions.js" />
+    <Content Include="Scripts\Admin\updatepanelhook.fusioncharts.js" />
+    <Content Include="Scripts\Assets\menu.js" />
+    <Content Include="Scripts\Assets\vertical-tabs.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\cldr.event.js" />
+    <Content Include="Scripts\cldr.js" />
+    <Content Include="Scripts\cldr.supplemental.js" />
+    <Content Include="Scripts\cldr.unresolved.js" />
+    <Content Include="Scripts\demo\dataTablesEvents.js" />
+    <Content Include="Scripts\ext-language_tools.js" />
+    <Content Include="Scripts\globalize.currency.js" />
+    <Content Include="Scripts\globalize.date.js" />
+    <Content Include="Scripts\globalize.js" />
+    <Content Include="Scripts\globalize.message.js" />
+    <Content Include="Scripts\globalize.number.js" />
+    <Content Include="Scripts\intlTelInput.js" />
+    <Content Include="Scripts\intlTelInput.utils.js" />
+    <Content Include="Scripts\jquery-1.11.3.js" />
+    <Content Include="Scripts\jquery-1.11.3.min.js" />
+    <Content Include="Scripts\jquery-highlight1.js" />
+    <Content Include="Scripts\jquery-ui-1.11.4.js" />
+    <Content Include="Scripts\jquery-ui-1.11.4.min.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.js" />
+    <Content Include="Scripts\jquery-ui-1.12.1.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\knockout-3.3.0.debug.js" />
+    <Content Include="Scripts\knockout-3.3.0.js" />
+    <Content Include="packages.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Fonts\ProximaNova-Bold.eot" />
+    <Content Include="Fonts\ProximaNova-Bold.otf" />
+    <Content Include="Fonts\ProximaNova-Bold.ttf" />
+    <Content Include="Fonts\ProximaNova-Bold.woff" />
+    <Content Include="Fonts\ProximaNova-Light.eot" />
+    <Content Include="Fonts\ProximaNova-Light.otf" />
+    <Content Include="Fonts\ProximaNova-Light.ttf" />
+    <Content Include="Fonts\ProximaNova-Light.woff" />
+    <Content Include="Fonts\ProximaNova-LightIt.eot" />
+    <Content Include="Fonts\ProximaNova-LightIt.otf" />
+    <Content Include="Fonts\ProximaNova-LightIt.ttf" />
+    <Content Include="Fonts\ProximaNova-LightIt.woff" />
+    <Content Include="Fonts\ProximaNova-Regular.eot" />
+    <Content Include="Fonts\ProximaNova-Regular.otf" />
+    <Content Include="Fonts\ProximaNova-Regular.ttf" />
+    <Content Include="Fonts\ProximaNova-Regular.woff" />
+    <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Content\bootstrap.min.css.map" />
+    <Content Include="Files\EN\Argentina.xlsx" />
+    <Content Include="Files\EN\Bolivia.xlsx" />
+    <Content Include="Files\EN\Brasil.xlsx" />
+    <Content Include="Files\EN\Chile.xlsx" />
+    <Content Include="Files\EN\China_Statistic.xlsx" />
+    <Content Include="Files\EN\Colombia.xlsx" />
+    <Content Include="Files\EN\Costarica.xlsx" />
+    <Content Include="Files\EN\Ecuador.xlsx" />
+    <Content Include="Files\EN\India.xlsx" />
+    <Content Include="Files\EN\Mexico.xlsx" />
+    <Content Include="Files\EN\Panama.xlsx" />
+    <Content Include="Files\EN\Paraguay.xlsx" />
+    <Content Include="Files\EN\Peru.xlsx" />
+    <Content Include="Files\EN\Peru_B.xlsx" />
+    <Content Include="Files\EN\Peru_BL.xlsx" />
+    <Content Include="Files\EN\UEuropea.xlsx" />
+    <Content Include="Files\EN\Uruguay.xlsx" />
+    <Content Include="Files\EN\USA_Export_BL.xlsx" />
+    <Content Include="Files\EN\USA_Import_BL.xlsx" />
+    <Content Include="Files\EN\USA_Statistic.xlsx" />
+    <Content Include="Files\ES\Argentina.xlsx" />
+    <Content Include="Files\ES\Bolivia.xlsx" />
+    <Content Include="Files\ES\Brasil.xlsx" />
+    <Content Include="Files\ES\Chile.xlsx" />
+    <Content Include="Files\ES\China_Statistic.xlsx" />
+    <Content Include="Files\ES\Colombia.xlsx" />
+    <Content Include="Files\ES\Costarica.xlsx" />
+    <Content Include="Files\ES\Ecuador.xlsx" />
+    <Content Include="Files\ES\India.xlsx" />
+    <Content Include="Files\ES\Mexico.xlsx" />
+    <Content Include="Files\ES\Panama.xlsx" />
+    <Content Include="Files\ES\Paraguay.xlsx" />
+    <Content Include="Files\ES\Peru.xlsx" />
+    <Content Include="Files\ES\Peru_B.xlsx" />
+    <Content Include="Files\ES\Peru_BL.xlsx" />
+    <Content Include="Files\ES\UEuropea.xlsx" />
+    <Content Include="Files\ES\Uruguay.xlsx" />
+    <Content Include="Files\ES\USA_Export_BL.xlsx" />
+    <Content Include="Files\ES\USA_Import_BL.xlsx" />
+    <Content Include="Files\ES\USA_Statistic.xlsx" />
+    <Content Include="Fonts\ProximaNova-Semibold.eot" />
+    <Content Include="Fonts\ProximaNova-Semibold.otf" />
+    <Content Include="Fonts\ProximaNova-Semibold.ttf" />
+    <Content Include="Fonts\ProximaNova-Semibold.woff" />
+    <Content Include="Fonts\ProximaNova-Semibold.woff2" />
+    <Content Include="Models\Minisite\Json\last_searchs.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Assets\admin\admin.scss" />
+    <Content Include="Content\Assets\admin\mis-busquedas.scss" />
+    <Content Include="Content\Assets\admin\mis-grupos.scss" />
+    <Content Include="Content\Assets\admin\mis-productos.scss" />
+    <Content Include="Content\Assets\admin\_buttons.scss" />
+    <Content Include="Content\Assets\admin\_colores.scss" />
+    <Content Include="Content\Assets\admin\_components.scss" />
+    <Content Include="Content\Assets\admin\_fonts.scss" />
+    <Content Include="Content\Assets\admin\_forms.scss" />
+    <Content Include="Content\Assets\admin\_helpers.scss" />
+    <Content Include="Content\Assets\admin\_menu.scss" />
+    <Content Include="Content\Assets\admin\_tables.scss" />
+    <Content Include="Models\ProductProfile\Json\last_searches_en.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Models\ProductProfile\Json\last_searchs.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <None Include="Properties\PublishProfiles\CustomProfile.pubxml" />
+    <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
+    <None Include="Properties\PublishProfiles\Perfil-PreProd.pubxml" />
+    <None Include="Properties\PublishProfiles\PreProd.pubxml" />
+    <None Include="Properties\PublishProfiles\vrtd-dev - FTP.pubxml" />
+    <None Include="Properties\PublishProfiles\vrtd-dev - Web Deploy.pubxml" />
+    <Content Include="Scripts\misproductos.js" />
+    <Content Include="Scripts\moment-with-locales.js" />
+    <Content Include="Scripts\moment-with-locales.min.js" />
+    <Content Include="Scripts\moment.js" />
+    <Content Include="Scripts\moment.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\css\bootstrap-datepicker.css" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\css\bootstrap-datepicker.min.css" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\css\bootstrap-datepicker.standalone.css" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\css\bootstrap-datepicker.standalone.min.css" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\css\bootstrap-datepicker3.css" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\css\bootstrap-datepicker3.min.css" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\css\bootstrap-datepicker3.standalone.css" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\css\bootstrap-datepicker3.standalone.min.css" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\js\bootstrap-datepicker.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\js\bootstrap-datepicker.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.ar.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.az.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.bg.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.bs.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.ca.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.cs.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.cy.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.da.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.de.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.el.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.en-AU.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.en-GB.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.eo.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.es.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.et.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.eu.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.fa.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.fi.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.fo.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.fr-CH.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.fr.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.gl.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.he.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.hr.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.hu.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.hy.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.id.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.is.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.it-CH.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.it.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.ja.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.ka.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.kh.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.kk.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.ko.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.kr.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.lt.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.lv.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.me.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.mk.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.mn.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.ms.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.nb.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.nl-BE.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.nl.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.no.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.pl.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.pt-BR.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.pt.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.ro.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.rs-latin.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.rs.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.ru.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.sk.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.sl.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.sq.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.sr-latin.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.sr.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.sv.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.sw.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.th.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.tr.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.uk.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.vi.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.zh-CN.min.js" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="Scripts\Plugins\DataTablesCheckBoxes\css\dataTables.checkboxes.css" />
+    <Content Include="Scripts\Plugins\DataTablesCheckBoxes\js\dataTables.checkboxes.js" />
+    <Content Include="Scripts\Plugins\DataTablesCheckBoxes\js\dataTables.checkboxes.min.js" />
+    <Content Include="Scripts\Plugins\DataTables\css\datatables.css" />
+    <Content Include="Scripts\Plugins\DataTables\css\datatables.min.css" />
+    <Content Include="Scripts\Plugins\DataTables\js\datatables.js" />
+    <Content Include="Scripts\Plugins\DataTables\js\datatables.min.js" />
+    <Content Include="Scripts\Plugins\Highcharts\css\highcharts.css" />
+    <Content Include="Scripts\Plugins\Highcharts\highcharts-3d.js" />
+    <Content Include="Scripts\Plugins\Highcharts\highcharts-3d.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\highcharts-more.js" />
+    <Content Include="Scripts\Plugins\Highcharts\highcharts-more.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\highcharts.js" />
+    <Content Include="Scripts\Plugins\Highcharts\highcharts.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\highcharts-3d.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\highcharts-3d.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\highcharts-more.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\highcharts-more.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\highcharts.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\highcharts.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\accessibility.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\accessibility.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\annotations.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\annotations.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\boost-canvas.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\boost-canvas.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\boost.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\boost.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\broken-axis.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\broken-axis.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\bullet.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\bullet.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\data.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\data.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\drag-panes.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\drag-panes.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\drilldown.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\drilldown.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\export-data.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\export-data.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\exporting.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\exporting.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\funnel.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\funnel.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\gantt.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\gantt.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\grid-axis.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\grid-axis.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\heatmap.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\heatmap.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\histogram-bellcurve.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\histogram-bellcurve.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\item-series.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\item-series.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\no-data-to-display.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\no-data-to-display.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\offline-exporting.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\offline-exporting.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\oldie.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\oldie.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\overlapping-datalabels.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\overlapping-datalabels.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\parallel-coordinates.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\parallel-coordinates.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\pareto.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\pareto.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\sankey.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\sankey.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\series-label.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\series-label.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\solid-gauge.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\solid-gauge.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\static-scale.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\static-scale.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\stock.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\stock.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\streamgraph.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\streamgraph.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\sunburst.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\sunburst.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\tilemap.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\tilemap.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\treemap.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\treemap.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\variable-pie.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\variable-pie.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\variwide.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\variwide.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\vector.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\vector.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\windbarb.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\windbarb.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\wordcloud.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\wordcloud.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\xrange.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\xrange.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\avocado.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\avocado.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\dark-blue.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\dark-blue.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\dark-green.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\dark-green.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\dark-unica.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\dark-unica.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\gray.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\gray.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\grid-light.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\grid-light.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\grid.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\grid.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\sand-signika.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\sand-signika.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\skies.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\skies.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\sunset.js" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\sunset.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\lib\canvg.js" />
+    <Content Include="Scripts\Plugins\Highcharts\lib\canvg.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\lib\jspdf.js" />
+    <Content Include="Scripts\Plugins\Highcharts\lib\jspdf.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\lib\rgbcolor.js" />
+    <Content Include="Scripts\Plugins\Highcharts\lib\rgbcolor.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\lib\svg2pdf.js" />
+    <Content Include="Scripts\Plugins\Highcharts\lib\svg2pdf.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\accessibility.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\accessibility.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\annotations.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\annotations.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\boost-canvas.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\boost-canvas.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\boost.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\boost.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\broken-axis.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\broken-axis.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\bullet.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\bullet.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\data.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\data.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\drag-panes.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\drag-panes.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\drilldown.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\drilldown.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\export-data.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\export-data.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\exporting.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\exporting.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\funnel.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\funnel.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\gantt.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\gantt.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\grid-axis.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\grid-axis.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\heatmap.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\heatmap.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\histogram-bellcurve.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\histogram-bellcurve.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\item-series.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\item-series.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\no-data-to-display.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\no-data-to-display.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\offline-exporting.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\offline-exporting.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\oldie.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\oldie.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\overlapping-datalabels.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\overlapping-datalabels.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\parallel-coordinates.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\parallel-coordinates.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\pareto.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\pareto.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\sankey.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\sankey.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\series-label.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\series-label.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\solid-gauge.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\solid-gauge.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\static-scale.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\static-scale.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\stock.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\stock.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\streamgraph.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\streamgraph.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\sunburst.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\sunburst.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\tilemap.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\tilemap.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\treemap.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\treemap.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\variable-pie.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\variable-pie.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\variwide.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\variwide.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\vector.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\vector.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\windbarb.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\windbarb.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\wordcloud.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\wordcloud.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\xrange.js" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\xrange.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\avocado.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\avocado.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\dark-blue.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\dark-blue.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\dark-green.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\dark-green.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\dark-unica.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\dark-unica.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\gray.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\gray.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\grid-light.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\grid-light.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\grid.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\grid.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\sand-signika.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\sand-signika.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\skies.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\skies.src.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\sunset.js" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\sunset.src.js" />
+    <Content Include="Scripts\Plugins\iframeResizer\ie8.polyfils.js" />
+    <Content Include="Scripts\Plugins\iframeResizer\iframeResizer.contentWindow.js" />
+    <Content Include="Scripts\Plugins\iframeResizer\iframeResizer.js" />
+    <Content Include="Scripts\Plugins\iframeResizer\iframeResizer.min.js" />
+    <Content Include="Scripts\Plugins\jquery.dotdotdot.js" />
+    <Content Include="Scripts\Plugins\jquery.twbsPagination.js" />
+    <Content Include="Scripts\Plugins\OwlCarousel\assets\ajax-loader.gif" />
+    <Content Include="Scripts\Plugins\OwlCarousel\assets\owl.carousel.css" />
+    <Content Include="Scripts\Plugins\OwlCarousel\assets\owl.carousel.min.css" />
+    <Content Include="Scripts\Plugins\OwlCarousel\assets\owl.theme.default.css" />
+    <Content Include="Scripts\Plugins\OwlCarousel\assets\owl.theme.default.min.css" />
+    <Content Include="Scripts\Plugins\OwlCarousel\assets\owl.theme.green.css" />
+    <Content Include="Scripts\Plugins\OwlCarousel\assets\owl.theme.green.min.css" />
+    <Content Include="Scripts\Plugins\OwlCarousel\assets\owl.video.play.png" />
+    <Content Include="Scripts\Plugins\OwlCarousel\owl.carousel.js" />
+    <Content Include="Scripts\Plugins\OwlCarousel\owl.carousel.min.js" />
+    <Content Include="Service References\PaymeReference\Veritrade2017.PaymeReference.RegisterCardHolderResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\css\bootstrap-datepicker.css.map" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\css\bootstrap-datepicker.min.css.map" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\css\bootstrap-datepicker.standalone.css.map" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\css\bootstrap-datepicker.standalone.min.css.map" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\css\bootstrap-datepicker3.css.map" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\css\bootstrap-datepicker3.min.css.map" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\css\bootstrap-datepicker3.standalone.css.map" />
+    <Content Include="Scripts\Plugins\BootstrapDatepicker\css\bootstrap-datepicker3.standalone.min.css.map" />
+    <Content Include="Scripts\Plugins\Highcharts\css\highcharts.scss" />
+    <Content Include="Scripts\Plugins\Highcharts\highcharts-3d.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\highcharts-more.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\highcharts.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\highcharts-3d.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\highcharts-more.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\highcharts.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\accessibility.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\annotations.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\boost-canvas.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\boost.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\broken-axis.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\bullet.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\data.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\drag-panes.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\drilldown.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\export-data.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\exporting.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\funnel.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\gantt.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\grid-axis.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\heatmap.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\histogram-bellcurve.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\item-series.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\no-data-to-display.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\offline-exporting.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\oldie.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\overlapping-datalabels.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\parallel-coordinates.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\pareto.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\sankey.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\series-label.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\solid-gauge.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\static-scale.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\stock.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\streamgraph.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\sunburst.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\tilemap.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\treemap.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\variable-pie.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\variwide.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\vector.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\windbarb.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\wordcloud.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\modules\xrange.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\avocado.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\dark-blue.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\dark-green.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\dark-unica.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\gray.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\grid-light.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\grid.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\sand-signika.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\skies.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\js\themes\sunset.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\accessibility.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\annotations.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\boost-canvas.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\boost.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\broken-axis.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\bullet.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\data.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\drag-panes.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\drilldown.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\export-data.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\exporting.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\funnel.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\gantt.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\grid-axis.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\heatmap.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\histogram-bellcurve.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\item-series.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\no-data-to-display.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\offline-exporting.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\oldie.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\overlapping-datalabels.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\parallel-coordinates.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\pareto.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\sankey.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\series-label.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\solid-gauge.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\static-scale.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\stock.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\streamgraph.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\sunburst.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\tilemap.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\treemap.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\variable-pie.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\variwide.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\vector.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\windbarb.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\wordcloud.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\modules\xrange.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\avocado.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\dark-blue.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\dark-green.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\dark-unica.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\gray.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\grid-light.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\grid.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\sand-signika.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\skies.js.map" />
+    <Content Include="Scripts\Plugins\Highcharts\themes\sunset.js.map" />
+    <None Include="Service References\PaymeReference\WalletCommerce.wsdl" />
+    <None Include="Service References\PaymeReference\WalletCommerce.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Service References\PaymeTestReference\Veritrade2017.PaymeTestReference.RegisterCardHolderResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <None Include="Service References\SentinelPeru\configuration91.svcinfo" />
+    <None Include="Service References\SentinelPeru\configuration.svcinfo" />
+    <None Include="Service References\SentinelPeru\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Fonts\OpenSans-Regular.ttf" />
+    <Content Include="Fonts\OpenSans-Bold.ttf" />
+    <Content Include="Fonts\OpenSans-BoldItalic.ttf" />
+    <Content Include="Fonts\OpenSans-ExtraBold.ttf" />
+    <Content Include="Fonts\OpenSans-ExtraBoldItalic.ttf" />
+    <Content Include="Fonts\OpenSans-Italic.ttf" />
+    <Content Include="Fonts\OpenSans-Light.ttf" />
+    <Content Include="Fonts\OpenSans-LightItalic.ttf" />
+    <Content Include="Fonts\OpenSans-Semibold.ttf" />
+    <Content Include="Fonts\OpenSans-SemiboldItalic.ttf" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <None Include="Service References\PaymeTestReference\configuration91.svcinfo" />
+    <None Include="Service References\PaymeTestReference\configuration.svcinfo" />
+    <None Include="Service References\PaymeTestReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <None Include="Service References\PaymeReference\configuration91.svcinfo" />
+    <None Include="Service References\PaymeReference\configuration.svcinfo" />
+    <None Include="Service References\PaymeReference\Reference.svcmap">
+      <Generator>WCF Proxy Generator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
+    <Content Include="Views\Consulta\Index.cshtml" />
+    <Content Include="Views\Shared\Mails\CompraMail.html" />
+    <Content Include="Views\Shared\Partials\Menu.cshtml" />
+    <Content Include="Views\Shared\Partials\InfoBar.cshtml" />
+    <Content Include="Views\Shared\Partials\Footer.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Web References\VeritradeAdmin\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <Content Include="Views\Shared\Modals\Modal_Terminos_Condiciones.cshtml" />
+    <Content Include="Views\Blog\Index.cshtml" />
+    <Content Include="Views\Blog\Post.cshtml" />
+    <Content Include="Views\Blog\Partials\Navegacion.cshtml" />
+    <Content Include="Views\Shared\Consulta\AjaxFormConsulta.cshtml" />
+    <Content Include="Views\Shared\Consulta\_FormFilters.cshtml" />
+    <Content Include="Views\Consulta\Partials\ResumenView.cshtml" />
+    <Content Include="Views\Consulta\Partials\ProductosView.cshtml" />
+    <Content Include="Views\Consulta\Partials\ImportadoresView.cshtml" />
+    <Content Include="Views\Consulta\Partials\ExportadoresView.cshtml" />
+    <Content Include="Views\Consulta\Partials\PaisOrigenView.cshtml" />
+    <Content Include="Views\Consulta\Partials\ViasTransportesView.cshtml" />
+    <Content Include="Views\Consulta\Partials\AduanasView.cshtml" />
+    <Content Include="Views\Consulta\Partials\DetalleExcelView.cshtml" />
+    <Content Include="Views\Consulta\TabsView.cshtml" />
+    <Content Include="Views\Planes\Compra.cshtml" />
+    <Content Include="Views\Planes\Partials\Modal_Planes.cshtml" />
+    <Content Include="Views\PruebaGratis\Modal_Slider.cshtml" />
+    <None Include="Service References\SentinelPeru\SentinelWS02.wsdl" />
+    <Content Include="Service References\SentinelPeru\Veritrade2017.SentinelPeru.CNSDTConRapWS.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Service References\SentinelPeru\Veritrade2017.SentinelPeru.ExecuteResponse.datasource">
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Content>
+    <Content Include="Views\Shared\Modals\Modal_Solicitud.cshtml" />
+    <Content Include="Views\Shared\Modals\Modal_Success.cshtml" />
+    <Content Include="Views\Planes\Compra\Compra_Section.cshtml" />
+    <Content Include="Views\Planes\Compra\Perfil_Section.cshtml" />
+    <Content Include="Views\Planes\Confirmacion_Compra.cshtml" />
+    <Content Include="Views\Minisite\Index.cshtml" />
+    <Content Include="Views\Minisite\_ChartImpMinisite.cshtml" />
+    <Content Include="Views\Minisite\_ChartExpMinisite.cshtml" />
+    <Content Include="Views\Minisite\_GridView1Partial.cshtml" />
+    <Content Include="Views\Minisite\_GridView2Partial.cshtml" />
+    <Content Include="Views\Minisite\_GridView3Partial.cshtml" />
+    <Content Include="Views\Planes\Compra\Compra_Payme.cshtml" />
+    <None Include="Service References\PaymeTestReference\WalletCommerce.wsdl" />
+    <None Include="Service References\PaymeTestReference\WalletCommerce.xsd">
+      <SubType>Designer</SubType>
+    </None>
+    <Content Include="Views\Minisite\Modals\Modal_Partida.cshtml" />
+    <Content Include="Views\Minisite\Modals\Modal_Embarque.cshtml" />
+    <Content Include="Views\Planes\Error_Compra.cshtml" />
+    <Content Include="Views\Planes\Compra\Compra_Factura.cshtml" />
+    <Content Include="Views\Planes\Partials\Modal_Error.cshtml" />
+    <Content Include="Views\PruebaGratis\Preview.cshtml" />
+    <Content Include="Views\Shared\Error.cshtml" />
+    <Content Include="Views\Empresas\Index.cshtml" />
+    <Content Include="Views\ProductoPerfil\Index.cshtml" />
+    <Content Include="Views\ProductoPerfil\Modals\Modal_Chart.cshtml" />
+    <Content Include="Views\ProductoPerfil\Modals\Modal_Detail.cshtml" />
+    <Content Include="Views\ProductoPerfil\Partials\Carousel.cshtml" />
+    <Content Include="Views\ProductoPerfil\Partials\Exportaciones.cshtml" />
+    <Content Include="Views\ProductoPerfil\Partials\Importaciones.cshtml" />
+    <Content Include="Views\ProductoPerfil\Partials\LastSearches.cshtml" />
+    <Content Include="Views\ProductoPerfil\Partials\ListPaises.cshtml" />
+    <Content Include="Views\ProductoPerfil\Partials\ProductByPais.cshtml" />
+    <Content Include="Views\ProductoPerfil\Partials\ProductByPais2.cshtml" />
+    <Content Include="Views\ProductoPerfil\Partials\RankingImport.cshtml" />
+    <Content Include="Views\ProductoPerfil\Partials\RankingPaging.cshtml" />
+    <Content Include="Views\ProductoPerfil\Partials\RankingPais.cshtml" />
+    <Content Include="Views\ProductoPerfil\Partials\RankPaisPaging.cshtml" />
+    <Content Include="Views\ProductoPerfil\Partials\TableDetalle.cshtml" />
+    <Content Include="Views\ProductoPerfil\Partials\TableRankImp.cshtml" />
+    <Content Include="Views\ProductoPerfil\Partials\TableRankPais.cshtml" />
+    <Content Include="Views\Productos\Index.cshtml" />
+    <Content Include="Views\Empresas\Partials\LastSearches.cshtml" />
+    <Content Include="Views\ProductoPerfil\Partials\TableComparative.cshtml" />
+    <Content Include="Views\ProductoPerfil\Partials\TablePrecProm.cshtml" />
+    <Content Include="Views\AdminFPC\Index.cshtml" />
+    <Content Include="Views\Contactanos\Index.cshtml" />
+    <Content Include="Views\Home\Modals\Modal_Login.cshtml" />
+    <Content Include="Views\Consulta\Modals\Modal_Informacion_Filtros.cshtml" />
+    <Content Include="Views\Consulta\Modals\Modal_Solicita_PruebaGratis.cshtml" />
+    <Content Include="Views\Consulta\Tabs\AduanasView.cshtml" />
+    <Content Include="Views\Consulta\Tabs\DetalleExcelView.cshtml" />
+    <Content Include="Views\Consulta\Tabs\DistritosView.cshtml" />
+    <Content Include="Views\Consulta\Tabs\ExportadoresView.cshtml" />
+    <Content Include="Views\Consulta\Tabs\ImportadoresView.cshtml" />
+    <Content Include="Views\Consulta\Tabs\MarcasView.cshtml" />
+    <Content Include="Views\Consulta\Tabs\ModelosView.cshtml" />
+    <Content Include="Views\Consulta\Tabs\PaisOrigenView.cshtml" />
+    <Content Include="Views\Consulta\Tabs\ProductosView.cshtml" />
+    <Content Include="Views\Consulta\Tabs\ResumenView.cshtml" />
+    <Content Include="Views\Consulta\Tabs\ViasTransporteView.cshtml" />
+    <Content Include="Views\Consulta\Index_2.cshtml" />
+    <None Include="Web References\VeritradeAdmin\Seguridad.disco" />
+    <Content Include="Web References\VeritradeServicios\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </Content>
+    <None Include="Web References\VeritradeServicios\ServiciosCorreo.disco" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
+    <Content Include="Views\Shared\_Layout.cshtml" />
+    <Content Include="Views\_ViewStart.cshtml" />
+    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Home\Partials\_Banner.cshtml" />
+    <Content Include="Views\Home\Partials\_Consulta.cshtml" />
+    <Content Include="Views\Home\Partials\_Servicios.cshtml" />
+    <Content Include="Views\Home\Partials\_Content.cshtml" />
+    <Content Include="Views\Home\Modals\Modal_Clientes.cshtml" />
+    <Content Include="Views\Home\Modals\Modal_Paises.cshtml" />
+    <Content Include="Views\Servicios\Index.cshtml" />
+    <Content Include="Views\Ayuda\Index.cshtml" />
+    <Content Include="Views\Shared\Consulta\_FormSection.cshtml" />
+    <Content Include="Views\Paises\Index.cshtml" />
+    <Content Include="Views\Paises\Partials\Detalle_Section.cshtml" />
+    <Content Include="Views\Planes\Index.cshtml" />
+    <Content Include="Views\Planes\Partials\Modal_Terminos_Venta.cshtml" />
+    <Content Include="Views\PruebaGratis\Index.cshtml" />
+    <Content Include="Views\PruebaGratis\AjaxFormFreeTrial.cshtml" />
+    <None Include="Web References\VeritradeAdmin\Seguridad.wsdl" />
+    <None Include="Web References\VeritradeServicios\ServiciosCorreo.wsdl" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AdminFpcController.cs" />
+    <Compile Include="Controllers\AyudaController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\BlogController.cs" />
+    <Compile Include="Controllers\CommonController.cs" />
+    <Compile Include="Controllers\ContactanosController.cs" />
+    <Compile Include="Controllers\EmpresasController.cs" />
+    <Compile Include="Controllers\MinisiteController.cs" />
+    <Compile Include="Controllers\ConsultaController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PaisesController.cs" />
+    <Compile Include="Controllers\PlanesController.cs" />
+    <Compile Include="Controllers\ProductoPerfilController.cs" />
+    <Compile Include="Controllers\ProductosController.cs" />
+    <Compile Include="Controllers\PruebaGratisController.cs" />
+    <Compile Include="Controllers\ServiciosController.cs" />
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="Helpers\ChangeFrequency.cs" />
+    <Compile Include="Helpers\CompressContentAttribute.cs" />
+    <Compile Include="Helpers\ConexProvider.cs" />
+    <Compile Include="Helpers\CultureHelper.cs" />
+    <Compile Include="Helpers\ExceptionUtility.cs" />
+    <Compile Include="Helpers\Extensiones.cs" />
+    <Compile Include="Helpers\Funciones.cs" />
+    <Compile Include="Helpers\FuncionesBusiness.cs" />
+    <Compile Include="Helpers\Functions.cs" />
+    <Compile Include="Helpers\Functions2.cs" />
+    <Compile Include="Helpers\Functions3.cs" />
+    <Compile Include="Helpers\FunctionsUser.cs" />
+    <Compile Include="Helpers\ISitemapItem.cs" />
+    <Compile Include="Helpers\ListaPaises.cs" />
+    <Compile Include="Helpers\MyAttributes.cs" />
+    <Compile Include="Helpers\ObjectDS.cs" />
+    <Compile Include="Helpers\RegexUtilities.cs" />
+    <Compile Include="Helpers\SettingUtility.cs" />
+    <Compile Include="Helpers\Sha2.cs" />
+    <Compile Include="Helpers\SitemapItem.cs" />
+    <Compile Include="Helpers\Variables.cs" />
+    <Compile Include="Helpers\XmlSitemapResult.cs" />
+    <Compile Include="Models\Admin\Chart.cs" />
+    <Compile Include="Models\Admin\ChartSerie.cs" />
+    <Compile Include="Models\Admin\MisProductos.cs" />
+    <Compile Include="Models\Ayuda.cs" />
+    <Compile Include="Models\AyudaVideo.cs" />
+    <Compile Include="Models\Clientes.cs" />
+    <Compile Include="Models\CompraDetalle.cs" />
+    <Compile Include="Models\CompraFactura.cs" />
+    <Compile Include="Models\CompraPayMe.cs" />
+    <Compile Include="Models\CompraPerfil.cs" />
+    <Compile Include="Models\Compras.cs" />
+    <Compile Include="Models\Configuraciones.cs" />
+    <Compile Include="Models\ConfiguracionesSeo.cs" />
+    <Compile Include="Models\ConsultaForm.cs" />
+    <Compile Include="Models\ConsultaResult.cs" />
+    <Compile Include="Models\FreeTrial.cs" />
+    <Compile Include="Models\Idiomas.cs" />
+    <Compile Include="Helpers\Conexion.cs" />
+    <Compile Include="Models\Consulta.cs" />
+    <Compile Include="Models\ListProductByPaises.cs" />
+    <Compile Include="Models\Minisite\Configuracion.cs" />
+    <Compile Include="Models\Minisite\Detalle.cs" />
+    <Compile Include="Models\Minisite\Empresa.cs" />
+    <Compile Include="Models\Minisite\BuscaEmpresaModel.cs" />
+    <Compile Include="Models\Minisite\Paises.cs" />
+    <Compile Include="Models\Minisite\Productos.cs" />
+    <Compile Include="Models\Minisite\Resumen.cs" />
+    <Compile Include="Models\OptionSelect.cs" />
+    <Compile Include="Models\Paises.cs" />
+    <Compile Include="Models\Periodo.cs" />
+    <Compile Include="Models\Planes.cs" />
+    <Compile Include="Models\PlanesPaisSuscription.cs" />
+    <Compile Include="Models\ProductProfile\BuscarProducto.cs" />
+    <Compile Include="Models\ProductProfile\Detalle.cs" />
+    <Compile Include="Models\ProductProfile\ProductoPerfil.cs" />
+    <Compile Include="Models\Solicitud.cs" />
+    <Compile Include="Models\PlanesPrecio.cs" />
+    <Compile Include="Models\PlanesPrecioDetalle.cs" />
+    <Compile Include="Models\Post.cs" />
+    <Compile Include="Models\PostLanguage.cs" />
+    <Compile Include="Models\Servicios.cs" />
+    <Compile Include="Models\ServiciosPaises.cs" />
+    <Compile Include="Models\ServiciosPaisesDetalles.cs" />
+    <Compile Include="Models\Usuario.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+      <DependentUpon>Settings.settings</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\PaymeReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\SentinelPeru\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Service References\PaymeTestReference\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.svcmap</DependentUpon>
+    </Compile>
+    <Compile Include="Util\Enums.cs" />
+    <Compile Include="Web References\VeritradeAdmin\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+    <Compile Include="Web References\VeritradeServicios\Reference.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Resources\Resources2017.csproj">
+      <Project>{52935d4e-6d89-4c94-86a1-37446700e0e0}</Project>
+      <Name>Resources2017</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References\" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://admin.veritrade.info/VeritradeAdmin/Seguridad.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\VeritradeAdmin\</RelPath>
+      <UpdateFromURL>http://admin.veritrade.info/VeritradeAdmin/Seguridad.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Veritrade2017_VeritradeAdmin_Seguridad</CachedSettingsPropName>
+    </WebReferenceUrl>
+    <WebReferenceUrl Include="http://admin.veritrade.info/VeritradeServicios/ServiciosCorreo.asmx">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\VeritradeServicios\</RelPath>
+      <UpdateFromURL>http://admin.veritrade.info/VeritradeServicios/ServiciosCorreo.asmx</UpdateFromURL>
+      <ServiceLocationURL>
+      </ServiceLocationURL>
+      <CachedDynamicPropName>
+      </CachedDynamicPropName>
+      <CachedAppSettingsObjectName>Settings</CachedAppSettingsObjectName>
+      <CachedSettingsPropName>Veritrade2017_VeritradeServicios_ServiciosCorreo</CachedSettingsPropName>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadataStorage Include="Service References\PaymeReference\" />
+    <WCFMetadataStorage Include="Service References\SentinelPeru\" />
+    <WCFMetadataStorage Include="Service References\PaymeTestReference\" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\licenses.licx" />
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target> -->
+  <Target Name="MvcBuildViews" AfterTargets="AfterBuild" Condition="'$(MvcBuildViews)'=='true'">
+    <AspNetCompiler VirtualPath="temp" PhysicalPath="$(WebProjectOutputDir)" />
+  </Target>
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <SaveServerSettingsInUserFile>True</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

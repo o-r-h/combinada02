@@ -1,0 +1,227 @@
+﻿@using Veritrade2017.Helpers
+@using Veritrade2017.Models
+@using Veritrade2017.Models.ProductProfile
+@model Detalle
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var idiomaText = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+    ViewData["CodesCampanias"] = Session["CodsCamp"];
+    var sty = ((Campania.TYPE_CAMPANIA)((int?)Session["TypeCampania"] ?? 0));
+
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    var CodesCampanias = Campania.CodFormateds3((ViewData["CodesCampanias"] as Dictionary<Campania.CONTROL, string>), culture, Request.Browser.IsMobileDevice, sty );
+
+    //var CodesCampanias = ViewData["CodesCampanias"] as Dictionary<Campania.CONTROL, string>;
+
+
+    var values = RouteDataContext.RouteValuesFromUri(Request.UrlReferrer);
+    if (values != null && sty == Campania.TYPE_CAMPANIA.ORGANIC )
+    {
+        if (new[] {/*"Productos",*/ "ProductoPerfil"}.Contains(/*values["controller"]*/controller))
+        {
+            if (culture != "es")
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_PRODUCTOS_EN];
+            }
+            else
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_PRODUCTOS];
+            }
+
+        }
+
+    }
+    string TipoOpe = Session["Regimen"].ToString().Substring(0, 11);
+}
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalEmbarque">
+    <div class="modal-dialog modal-special" role="document">
+        <div class="modal-content" style="padding: 20px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    @Resources.Close_Text <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    <span>@MinisiteResources.Modal02_Title</span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal_popup minisite">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="label-left">@MinisiteResources.Modal02_Desc01</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <label class="label-right">@Model.Partida</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="label-left">@MinisiteResources.Modal02_Desc02</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <label class="label-right">@Model.PartidaDesc</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="label-left">@MinisiteResources.Modal02_Desc03</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <label class="label-right">@Model.Aduana</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    @if (TipoOpe.Equals("Importacion"))
+                                    {
+                                        <label class="label-left">@MinisiteResources.Modal02_Desc04</label>
+                                    }
+                                    else
+                                    {
+                                        <label class="label-left">@MinisiteResources.Modal02_Desc05</label>
+                                    }
+                                </div>
+                                <div class="col-sm-9">
+                                    <label class="label-right">@string.Format(idiomaText, "{0:d}", Model.Fecha)</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="label-left">@MinisiteResources.Modal02_Desc06</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <label class="label-right">@Model.DesComercial</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="label-left">@MinisiteResources.Modal02_Desc07</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <label class="label-right">@Model.Importador</label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-sm-3">
+                                    <label class="label-left">@MinisiteResources.Modal02_Desc08</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <label class="label-right">@Model.Proveedor</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12" style="margin-top: 10px">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="column-impair">@MinisiteResources.Modal02_Table01_Header01</th>
+                                            <th class="column-pair">@MinisiteResources.Modal02_Table01_Header02</th>
+                                            <th class="column-impair">@MinisiteResources.Modal02_Table01_Header03</th>
+                                            <th class="column-pair">@MinisiteResources.Modal02_Table01_Header04</th>
+                                            @if (TipoOpe.Equals("Importacion"))
+                                            {
+                                                <th class="column-impair">@MinisiteResources.Modal02_Table01_Header05</th>
+                                                <th class="column-pair">@MinisiteResources.Modal02_Table01_Header06</th>
+                                                <th class="column-impair">@MinisiteResources.Modal02_Table01_Header07</th>
+                                            }
+                                            else
+                                            {
+                                                <th class="column-impair">@MinisiteResources.Modal02_Table01_Header05B</th>
+                                                <th class="column-impair">@MinisiteResources.Modal02_Table01_Header07B</th>
+                                            }
+                                            <th class="column-pair">@MinisiteResources.Modal02_Table01_Header08</th>
+                                            <th class="column-impair">@MinisiteResources.Modal02_Table01_Header09</th>
+                                            <th class="column-pair">@MinisiteResources.Modal02_Table01_Header10</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>@string.Format(idiomaText, "{0:N0}", Model.PesoBruto)</td>
+                                            <td>@string.Format(idiomaText, "{0:N0}", Model.PesoNeto)</td>
+                                            <td>@string.Format(idiomaText, "{0:N0}", Model.Cantidad)</td>
+                                            <td>@Model.Unidad</td>
+                                            @if (TipoOpe.Equals("Importacion"))
+                                            {
+                                                <td>@Model.PaisOrigen</td>
+                                                <td>@Model.PaisProced</td>
+                                                <td>@Model.PtoEmbarque</td>
+                                            }
+                                            else
+                                            {
+                                                <td>@Model.PaisOrigen</td>
+                                                <td>@Model.PtoEmbarque</td>
+                                            }
+                                            <td>@Model.ViaTransp</td>
+                                            <td class="text-uppercase">@Model.Transporte</td>
+                                            <td class="text-uppercase">@Model.Agente</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="col-xs-12 col-sm-12" style="margin-top: 10px">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="column-impair">FOB US$ TOTAL</th>
+                                            <th class="column-pair">FOB US$ UNIT.</th>
+                                            <th class="column-impair">@MinisiteResources.Modal02_Table02_Header01</th>
+                                            <th class="column-pair">@MinisiteResources.Modal02_Table02_Header02</th>
+                                            <th class="column-impair">@MinisiteResources.Modal02_Table02_Header03</th>
+                                            <th class="column-pair">@MinisiteResources.Modal02_Table02_Header04</th>
+                                            <th class="column-impair">CIF US$ TOTAL</th>
+                                            <th class="column-pair">CIF US$ UNIT.</th>
+                                            <th class="column-impair">@MinisiteResources.Modal02_Table02_Header05</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>@string.Format(idiomaText, "{0:N0}", Model.FobTot)</td>
+                                            <td>@string.Format(idiomaText, "{0:N3}", Model.FobUnit)</td>
+                                            <td>@string.Format(idiomaText, "{0:N0}", Model.FleteTot)</td>
+                                            <td>@string.Format(idiomaText, "{0:N3}", Model.FleteUnit)</td>
+                                            <td>@string.Format(idiomaText, "{0:N0}", Model.SeguroTot)</td>
+                                            <td>@string.Format(idiomaText, "{0:N3}", Model.SeguroUnit)</td>
+                                            <td>@string.Format(idiomaText, "{0:N0}", Model.CifTot)</td>
+                                            <td>@string.Format(idiomaText, "{0:N3}", Model.CifUnit)</td>
+                                            <td>@string.Format(idiomaText, "{0:N3}", Model.CIFImptoUnit)</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="col-sm-5 text-right hidden-xs">
+                            <img src="~/Content/Images/Minisite/logo.png" />
+                        </div>
+                        <div class="col-sm-5 text-left">
+                            <div class="footer-right" style="">
+                                <p class="footer-title-info">@MinisiteResources.Modal_Footer_Title</p>
+                                <p>@MinisiteResources.Modal_Footer_Description</p>
+                                <p>
+                                    @if (culture == "es")
+                                    {
+                                        <a href="@Url.RouteUrl("PruebaGratis", new {culture, campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS]})" onclick="dataLayerProducto2();" class="solicitud">@MinisiteResources.FreeTrial_Text</a>
+                                    }
+                                    else
+                                    {
+                                        <a href="@Url.RouteUrl("PruebaGratisUS", new {culture, campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS]})" onclick="dataLayerProducto2();" class="solicitud">@MinisiteResources.FreeTrial_Text</a>
+                                    }
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

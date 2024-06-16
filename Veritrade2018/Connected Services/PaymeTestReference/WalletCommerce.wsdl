@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<wsdl:definitions xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://pe.com.alignet/WalletCommerce/" name="WalletCommerce" targetNamespace="http://pe.com.alignet/WalletCommerce/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://pe.com.alignet/WalletCommerce/">
+      <xsd:include schemaLocation="WalletCommerce?xsd=WalletCommerce.xsd" />
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="RegisterCardHolderRequest">
+    <wsdl:part name="parameters" element="tns:RegisterCardHolderRequest" />
+  </wsdl:message>
+  <wsdl:message name="RegisterCardHolderResponse">
+    <wsdl:part name="parameters" element="tns:RegisterCardHolderResponse" />
+  </wsdl:message>
+  <wsdl:portType name="WalletCommerce">
+    <wsdl:operation name="RegisterCardHolder">
+      <wsdl:input message="tns:RegisterCardHolderRequest" />
+      <wsdl:output message="tns:RegisterCardHolderResponse" />
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="WalletCommerceSOAP" type="tns:WalletCommerce">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http" />
+    <wsdl:operation name="RegisterCardHolder">
+      <soap:operation soapAction="http://pe.com.alignet/WalletCommerce/RegisterCardHolder" />
+      <wsdl:input>
+        <soap:body use="literal" />
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal" />
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="WalletCommerce">
+    <wsdl:port name="WalletCommerceSOAP" binding="tns:WalletCommerceSOAP">
+      <soap:address location="https://integracion.alignetsac.com/WALLETWS/services/WalletCommerce/" />
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

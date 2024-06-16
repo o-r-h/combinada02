@@ -1,0 +1,96 @@
+﻿@model List<Detalle>
+@using Veritrade2018.Models.Minisite
+@using Veritrade2018.Helpers
+@using System.Globalization
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var idiomaText = culture.Equals("es") ? CultureInfo.CreateSpecificCulture("es-pe") : CultureInfo.CreateSpecificCulture("en-us");
+    var tipo = ViewData["tipo"].ToString() == "importaciones" ? @Resources.MinisiteResources.Table03_Header04 : @Resources.MinisiteResources.Table03_Header03;
+    var codCampania = ViewData["CodCampaña"];
+    var count = 0;
+}
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalPartida">
+    <div class="modal-dialog modal-special" role="document">
+        <div class="modal-content" style="padding: 20px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    @Resources.Resources.Close_Text <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    <span>@Resources.MinisiteResources.Modal01_Title @ViewData["partida"] @ViewData["descripcion"]</span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal_popup minisite" style="max-height: 300px; overflow-y: auto; overflow-x: hidden;">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12">
+                            <div class="table-responsive" style="position: relative">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th class="column-impair">Nº</th>
+                                            <th class="column-pair">@Resources.MinisiteResources.Table03_Header01</th>
+                                            <th class="column-impair">@Resources.MinisiteResources.Table03_Header02</th>
+                                            <th class="column-pair">@tipo</th>
+                                            <th class="column-impair">@Resources.MinisiteResources.Table03_Header05</th>
+                                            <th class="column-pair">@Resources.MinisiteResources.Table03_Header06</th>
+                                            <th class="column-impair">@Resources.MinisiteResources.Table03_Header07</th>
+                                            <th class="column-pair">US$ FOB unit</th>
+                                            <th class="column-impair">US$ CIF unit</th>
+                                            <th class="column-pair">US$ CIF Unit + Taxes</th>
+                                            <th class="column-impair">@Resources.MinisiteResources.Table03_Header10</th>
+                                            <th class="column-pair">@Resources.MinisiteResources.Table03_Header11</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @{
+                                            int counter = 1;
+                                        }
+                                        @foreach (var data in Model)
+                                        {
+
+                                            <tr>
+                                                <td>@counter</td>
+                                                <td>@string.Format(idiomaText, "{0:d}", data.FechaNum)</td>
+                                                <td>@data.Nandina</td>
+                                                <td class="text-left">@ViewData["empresa"]</td>
+                                                <td>@string.Format(idiomaText, "{0:N0}", data.PesoNeto)</td>
+                                                <td>@string.Format(idiomaText, "{0:N0}", data.Cantidad)</td>
+                                                <td>@data.Unidad</td>
+                                                <td>@string.Format(idiomaText, "{0:N3}", data.FobUnit)</td>
+                                                <td>@string.Format(idiomaText, "{0:N3}", data.CifUnit)</td>
+                                                <td>@string.Format(idiomaText, "{0:N3}", data.CifImptoUnit)</td>
+                                                <td>@data.PaisOrigen</td>
+                                                <td class="text-left">@data.DesComercial</td>
+                                            </tr>
+                                            counter++;
+                                        }
+                                    </tbody>
+                                </table>
+                                <div class="box-trial"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="col-sm-5 text-right hidden-xs">
+                            <img src="~/Content/Images/Minisite/logo.png" />
+                        </div>
+                        <div class="col-sm-5 text-left">
+                            <div class="footer-right" style="">
+                                <p class="footer-title-info">@Resources.MinisiteResources.Modal_Footer_Title</p>
+                                <p>@Resources.MinisiteResources.Modal_Footer_Description</p>
+                                <p>
+                                    <a href="@Url.Action("Index", "PruebaGratis", new {culture, campania = codCampania})" class="btn-prueba">@Resources.MinisiteResources.FreeTrial_Text</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

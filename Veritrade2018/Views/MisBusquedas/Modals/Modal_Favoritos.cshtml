@@ -1,0 +1,58 @@
+﻿
+<div class="modal fade modal-mis-filtros" tabindex="-1" role="dialog" id="ModalFavoritos">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="padding: 20px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="icon-close-modal" aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title" id="modal-favoritos-titulo">
+                </h4>
+            </div>
+            <div class="modal-body">
+
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="table-responsive">
+
+                            <table class="table table-bordered">
+                                <thead>
+                                    <tr class="table-title">
+                                        <th>
+                                            <input id="txtFavoritoF" type="text" />
+                                            <div id="autocompleteFavoritoF" class="autocomplete_content"></div>
+
+                                            <a id="lnkBuscarF"><img src="@Url.Content("/Content/Images/bot_lupal_off.png")" title="@Resources.Resources.LnkTitle_Search" width="20" height="20" class="cursor-action" /></a>
+                                            <a id="lnkRestablecerF"><img src="@Url.Content("/Content/Images/bot_recarga_off.png")" title="@Resources.Resources.LnkTitle_Reset" width="20" height="20" class="cursor-action" /></a>
+                                            <select id="cboFavoritosF" name="cboFavoritosF"></select>
+                                        </th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+
+                                <tbody id="modal-favoritos-body">
+                                </tbody>
+
+                            </table>
+                            
+                            <div id="pagingFavourites" class="pagedList" data-tipoFavorito="">
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12">
+                        <button id="btnAgregarFavAFiltros" class="btn btn-addToFilters pull-right">
+                            @Resources.Resources.Filters_AddButton
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+

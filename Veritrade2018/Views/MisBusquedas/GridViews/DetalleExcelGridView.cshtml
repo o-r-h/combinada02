@@ -1,0 +1,230 @@
+﻿@using Veritrade2018.Helpers
+@using Veritrade2018.Models.Admin
+@using Veritrade2018.Util
+@{
+    var objTabData = (TabData)Model;
+
+    var idsSeleccionados = objTabData.IdsSeleccionados;
+
+    bool verificarCheckBox = (idsSeleccionados != null && idsSeleccionados.Count > 0);
+
+    bool isDemo = Extensiones.GetCookie("IsDemo") == "1";
+
+}
+
+@if (objTabData.DropDownDescarga != null)
+{
+    <div class="row">
+        <div class="col-sm-12 divTabMessageExcel form-inline">
+            @Resources.Resources.Demo_ExcelDonwloadMessage_Part1
+            <span class="spanTabMessageExcel">@Resources.Resources.Demo_DetailExcel_Tab</span>
+            @Resources.Resources.Demo_ExcelDonwloadMessage_Part2&nbsp;
+
+             @Html.DropDownList("DropDownDescarga", null, new { @class = "form-control "+(Session["Plan"].ToString() != "UNIVERSIDADES"?"":"hidden") })
+
+
+            @*<select>
+            <option value="0">[TODOS LOS CAMPOS]</option>
+            <option value="18901">Plantilla 01</option>
+        </select>*@
+            &nbsp;
+            <a id="downloadFileVerRegistro2" href="javascript:void(0)">
+                <img src="/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" />
+            </a>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-sm-12">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                    <tr class="table-title">
+                        @foreach(var i in objTabData.HeadTitles)
+                        {
+                            if (i.visible)
+                            {
+                                <th @(i.className.Length>0 ? "class="+ i.className : "")  >@Html.Raw(i.label)</th>
+                            }
+                        }                       
+                    </tr>
+                </thead>
+                <tbody id="@("tbody"+Enums.TipoFiltro.Tab + objTabData.Filtro)">
+                    @foreach (var item in objTabData.ListRowsTab)
+                    {
+                    <tr>
+                        <td class="text-right">@item.Nro</td>
+                        <td class="text-center">
+                            @item.Fecha
+                            <br />
+                            @if (item.IsVisibleLupa)
+                            {
+                                <a href="javascript:void(0)" data-id="@item.Id" class="lnkVerDetalleById">
+                                    <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                </a>
+                            }
+                        </td>
+                        <td class="text-center">
+                            @item.PartidaAduanera
+                            <br />
+                            @if (item.IsVisibleLupaPartida)
+                            {
+                                if (isDemo)
+                                {
+                                    <a class="lnkSentinel">
+                                        <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a onclick="TablaDeDatos.ClickArancelesPartida('@item.PartidaAduanera');">
+                                        <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                    </a>
+                                }
+                            }
+                        </td>
+                        @if (objTabData.GridHead.IsVisibleImportador)
+                        {
+                    <td class="text-center">
+                        @item.Importador
+                        <br />
+                        @if (item.IsVisibleSentinel)
+                        {
+                            if (item.IsPlanPermiteSentinel)
+                            {
+                                <a data-idruc="@item.Ruc" href="javascript:void(0)" class="lnkSentinel" title="SENTINEL, Alertas y Reportes de Deudas">
+                                    <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" class="cursor-action" />
+                                </a>
+                            }
+                            else
+                            {
+                                <a title="SENTINEL, Alertas y Reportes de Deudas" onclick="TablaDeDatos.VerMensajePlanNoSentinel('@Resources.AdminResources.SentinelValidation_Text');" href="javascript:void(0)">
+                                    <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" class="cursor-action" />
+                                </a>
+                            }
+                        }
+                        @if ((item.mostrarInformaColombia) && (!isDemo))
+                        {
+                            if (item.IsPlanPermiteSentinel)
+                            {
+                                <a title="Informa Colombia" onclick="TablaDeDatos.ClickInformaColombia('@item.IdImportador2');">
+                                    <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                </a>
+                                @*<a title="Informa Colombia" onclick="TablaDeDatos.ObtenerImportadorColombia('@item.Id');">
+                                    <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                </a>*@
+                            }
+                            else
+                            {
+                                <a title="Informa Colombia" onclick="TablaDeDatos.VerMensajePlanNoInformaColombia('@Resources.AdminResources.SentinelValidation_Text');" href="javascript:void(0)">
+                                    <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                </a>
+                            }
+                        }
+                        else if ((item.mostrarInformaColombia) && (isDemo))
+                        {
+                            <a class="lnkSentinel">
+                                <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                            </a>
+                        }
+                        else
+                        {
+                            <a href="@item.LnkGoogle" target="_blank">
+                                <img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" class="cursor-action" />
+                            </a>
+                        }
+
+                    </td>
+                            }
+                        @if (objTabData.GridHead.IsVisibleExportador && (Session["TipoOpe"].ToString() == "I" ||
+                               (Session["TipoOpe"].ToString() == "E" && Session["Plan"].ToString() != "ESENCIAL")))
+                        {
+                            <td class="text-center">
+                                @item.Exportador
+                                <br />
+                                <a href="@item.LnkGoogle2" target="_blank">
+                                    <img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" class="cursor-action" />
+                                </a>
+                            </td>
+                        }
+
+                        @if (objTabData.GridHead.IsVisibleMarcaEC)
+                        {
+                            <td class="text-right">
+                                @item.Marca
+                            </td>
+                        }
+
+                        @if (objTabData.GridHead.IsVisibleKgNeto)
+                        {
+                            <td class="text-right">
+                                @item.TotalKg
+                            </td>
+                        }
+
+                        <td class="text-right">
+                            @item.Cantidad
+                        </td>
+                        <td class="text-right">
+                            @item.UndMedida
+                        </td>
+                        @if (objTabData.GridHead.IsVisibleFobUnit)
+                        {
+                            <td class="text-right">
+                                @item.FobUnit
+                            </td>
+                        }
+                        @if (objTabData.GridHead.IsVisibleCifUnit)
+                        {
+                            <td class="text-right">
+                                @item.CifUnit
+                            </td>
+                        }
+                        @if (objTabData.GridHead.IsVisibleCifImptos)
+                        {
+                            <td class="text-right">
+                                @item.CifUnitImp
+                            </td>
+                        }
+                        @if (objTabData.GridHead.IsVisibleDua)
+                        {
+                            <td class="text-center">@item.Dua</td>
+                        }
+                        @if (objTabData.GridHead.IsVisiblePaisOrigen)
+                        {
+                            <td class="text-center">@item.PaisOrigen</td>
+                        }
+                        @if (objTabData.GridHead.IsVisibleDesCom)
+                        {
+                            <td class="text-justify">
+                                <p class="wspace-normal">
+                                    @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                                </p>
+                            </td>
+                        }
+                        @if (objTabData.GridHead.IsVisibleDistrito)
+                        {
+                            <td>
+                                @item.Distrito
+                            </td>
+                        }
+                    </tr>
+                    }
+                </tbody>
+
+            </table>
+
+            @if (objTabData.TotalPaginasTab > 1)
+            {
+                <div class="text-center">
+                    <nav aria-label="Page navigation">
+                        <ul id="@("paging" +Enums.TipoFiltro.Tab+ objTabData.Filtro)"
+                            data-id-tabla="@(Enums.TipoFiltro.Tab+ objTabData.Filtro)"
+                            class="pagination pagination-sm"></ul>
+                    </nav>
+                </div>
+            }
+        </div>
+    </div>
+</div>

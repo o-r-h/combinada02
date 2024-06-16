@@ -1,0 +1,104 @@
+﻿$top-init: 8px;
+$bottom-init: 8px;
+
+.padding-height-sm {
+    padding-top: $top-init;
+    padding-bottom: $bottom-init;
+}
+
+.padding-height-md {
+    padding-top: $top-init *2;
+    padding-bottom: $bottom-init *2;
+}
+
+.padding-height-lg {
+    padding-top: $top-init * 3;
+    padding-bottom: $bottom-init *3;
+}
+
+.margin-height-sm {
+    margin-top: $top-init;
+    margin-bottom: $bottom-init;
+}
+
+.margin-height-md {
+    margin-top: $top-init *2;
+    margin-bottom: $bottom-init *2;
+}
+
+.margin-height-lg {
+    margin-top: $top-init * 3;
+    margin-bottom: $bottom-init *3;
+}
+
+.chat-container {
+    width: 100%;
+    height: 250px;
+    margin: 0 auto;
+    display: inline-block;
+}
+
+.null-padding {
+    padding-bottom: 0 !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    padding-top: 0 !important;
+}
+
+.null-padding-v {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+}
+
+.null-padding-h {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+.null-margin-v {
+    margin-bottom: 0 !important;
+    margin-top: 0 !important;
+}
+
+.null-margin-h {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.left {
+    float: left;
+    position: relative;
+}
+
+.right {
+    float: right;
+    position: relative;
+}
+
+.wspace-normal {
+    white-space: normal;
+}
+
+.wspace-nowrap {
+    white-space: nowrap;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+@media all and (max-width: 767px) {
+    .null-padding-h {
+        padding-left: initial !important;
+        padding-right: initial !important;
+    }
+
+    .wspace-normal {
+        white-space: normal;
+    }
+
+    .wspace-nowrap {
+        white-space: nowrap;
+    }
+
+}

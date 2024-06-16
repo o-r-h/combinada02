@@ -1,0 +1,39 @@
+﻿@model Veritrade2017.Models.CompraFactura
+@{
+    var pais = ViewData["pais"] != null ? ViewData["pais"].ToString() : "";
+    var rucText = pais.Equals("PE") ? "RUC" : "TAXID";
+}
+<div class="row">
+    <div class="col-sm-12 form-group">
+        <p>
+            <label>
+                @Html.CheckBoxFor(m => m.IsFactura)
+                @Resources.Invoice_Text
+            </label>
+        </p>
+        <p>
+            @Html.ValidationMessageFor(m => m.IsFactura, "", new {@class = "text-danger"})
+        </p>
+    </div>
+</div>
+<div id="content-factura" class="hidden">
+    <div class="row">
+        <div class="col-sm-6 form-group">
+            @Html.TextBoxFor(m => m.Ruc, new {placeholder = rucText, @class = "form-control-pago", autocomplete = "off"})
+            <span class="required-span">*</span>
+            @Html.ValidationMessageFor(m => m.Ruc, "", new {@class = "text-danger"})
+        </div>
+        <div class="col-sm-6 form-group">
+            @Html.TextBoxFor(m => m.RazonSocial, new {placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.RazonSocial).ToHtmlString()), @class = "form-control-pago", autocomplete = "off"})
+            <span class="required-span">*</span>
+            @Html.ValidationMessageFor(m => m.RazonSocial, "", new {@class = "text-danger"})
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 form-group">
+            @Html.TextBoxFor(m => m.Direccion, new {placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Direccion).ToHtmlString()), @class = "form-control-pago", autocomplete = "off"})
+            <span class="required-span">*</span>
+            @Html.ValidationMessageFor(m => m.Direccion, "", new {@class = "text-danger"})
+        </div>
+    </div>
+</div>

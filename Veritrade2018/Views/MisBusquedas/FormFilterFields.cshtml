@@ -1,0 +1,201 @@
+﻿@using Veritrade2018.Models.Admin
+@using Veritrade2018.Helpers
+@using Veritrade2018.Util;
+@{
+    var culture = CultureHelper.GetCurrentCulture();
+
+    var objMiBusqueda = (MiBusqueda)Model;
+
+    var listOriginCountries = new FuncionesBusiness().getOriginCountries(objMiBusqueda.CodPais, objMiBusqueda.CodPais2, culture);
+
+    var vFlag = new FiltroMisBusquedas(objMiBusqueda.TipoOpe, objMiBusqueda.CodPais);
+
+
+    string labelProveedor = !vFlag.IsManifiesto ?  Resources.Resources.Search_Form_Item06 : Resources.Resources.Search_Form_Item06_I;
+    string labelBtnMisProveedores = Resources.AdminResources.Filter_MyExporters_Button;
+
+    if (objMiBusqueda.CodPais == "CL")
+    {
+        labelProveedor = Resources.Resources.Search_Form_BrandField;
+        labelBtnMisProveedores = Resources.AdminResources.Filter_MyBrands_Button;
+    }
+
+    var IsDemo = Extensiones.GetCookie("IsDemo") == "1";
+    if (Session["Plan"].ToString() != "UNIVERSIDADES")
+    {
+        objMiBusqueda.MisPartidas = objMiBusqueda.MisImportadores = objMiBusqueda.MisImportadoresExp = objMiBusqueda.MisExportadores = objMiBusqueda.MisProveedores = !IsDemo;
+    }
+
+
+}
+
+@if (vFlag.PaisOrigen)
+{
+    <div class="form-group">
+        <label class="col-sm-2 col-xs-12 control-label filter-control-label-vt">
+            @(vFlag.TipoOpe == Enums.TipoOpe.I.ToString() ? (!vFlag.IsManifiesto ? Resources.AdminResources.OriginCountry_FormField_Label : Resources.AdminResources.EmbarqueCountry_FormField_Label) : Resources.AdminResources.DestinationCountry_FormField_Label)
+            
+
+        </label>
+        <div class="col-sm-6 col-xs-12">
+            @Html.DropDownList("cboPaisB", new SelectList(listOriginCountries.ToList(), "Value", "Text")
+                , new { @class = "form-control filter-selectField-vt" })
+        </div>
+    </div>
+}
+
+@if (vFlag.FlagDescComercialB)
+{
+    <div class="form-group">
+        <label class="col-sm-2 col-xs-12 control-label filter-control-label-vt">
+            @Resources.AdminResources.CommercialDescription_FormField_Label
+        </label>
+        <div class="col-sm-6 col-xs-12">
+            @if (vFlag.CodPais.Equals("USI") || vFlag.CodPais.Equals("USE"))
+            {
+                @Html.TextBox("txtDesComercialB", "", new { @class = "form-control filter-textField-vt", @placeholder = Resources.Resources.ComercialDescription_PlaceHolderUSI })
+            }
+            else
+            {
+                @Html.TextBox("txtDesComercialB", "", new { @class = "form-control filter-textField-vt", @placeholder = Resources.Resources.ComercialDescription_PlaceHolder })
+            }
+
+        </div>
+
+        <div class="col-sm-3 col-xs-12">
+            <button id="btnAgregarDesComercial" class="btn btn-filtro-vt">
+                @Resources.Resources.Filters_AddButton
+            </button>
+        </div>
+    </div>
+}
+
+@if (vFlag.ExistePartida )
+{
+<div class="form-group">
+    <label class="col-sm-2 col-xs-12 control-label filter-control-label-vt">
+        @Resources.Resources.Nandina_FormField_Label
+    </label>
+        <div class="col-sm-6 col-xs-12">
+            @Html.TextBox("txtNandinaB", "", new { @class = "form-control filter-textField-vt", @placeholder = Resources.Resources.Nandina_FormField_PlaceHolder })
+        </div>
+
+    <div class="col-sm-3 col-xs-12">
+        @if (objMiBusqueda.MisPartidas)
+        {
+        <button id="btnMisPartidas" class="btn btn-mi-filtro-vt" data-field="Mis Productos">
+            @Resources.AdminResources.Filter_MyProducts_Button
+        </button>
+        }
+    </div>
+</div>
+}
+
+
+
+@if (vFlag.TipoOpe == "I")
+{
+    if (vFlag.Importador)
+    {
+<div class="form-group">
+    <label class="col-sm-2 col-xs-12 control-label filter-control-label-vt">
+        @(!vFlag.IsManifiesto ? Resources.Resources.Search_Form_Item05 : Resources.Resources.Search_Form_Item05_I)
+    </label>
+    
+    <div class="col-sm-6 col-xs-12">
+            @Html.TextBox("txtImportadorB", "", new { @class = "form-control filter-textField-vt", @placeholder = Resources.Resources.Search_Form_Item05_placeholder })
+        </div>
+    <div class="col-sm-3 col-xs-12">
+        @if (objMiBusqueda.MisImportadores)
+        {
+            <button id="bntMisImportadores" class="btn btn-mi-filtro-vt">
+                @Resources.AdminResources.Filter_MyImporters_Button
+            </button>
+        }
+    </div>
+</div>
+    }
+
+    if (vFlag.Proveedor)
+    {
+<div class="form-group">
+    <label class="col-sm-2 col-xs-12 control-label filter-control-label-vt">
+        @labelProveedor
+    </label>
+    <div class="col-sm-6 col-xs-12">
+        @if (vFlag.CodPais.Equals("CL")){
+        @Html.TextBox("txtProveedorB", "", new { @class = "form-control filter-textField-vt", @placeholder = Resources.Resources.Search_Form_Item06_placeholder_chile })
+        } 
+        else {
+        @Html.TextBox("txtProveedorB", "", new { @class = "form-control filter-textField-vt", @placeholder = Resources.Resources.Search_Form_Item06_placeholder })
+        }
+    </div>
+    
+    <div class="col-sm-3 col-xs-12">
+        @if (objMiBusqueda.MisProveedores)
+        {
+            <button id="btnMisProveedores" class="btn btn-mi-filtro-vt" data-favoritosModalTitle="@labelBtnMisProveedores">
+                @labelBtnMisProveedores
+            </button>
+        }
+    </div>
+</div>
+    }
+}
+else
+{
+    if (vFlag.Exportador)
+    {
+<div class="form-group">
+    <label class="col-sm-2 col-xs-12 control-label filter-control-label-vt">
+        @*Ruben 202207*@
+        @*@labelProveedor*@
+        @(!vFlag.IsManifiesto ? Resources.Resources.Search_Form_Item06 : Resources.Resources.Search_Form_Item06_I)
+    </label>
+    <div class="col-sm-6 col-xs-12">
+        @Html.TextBox("txtExportadorB", "", new { @class = "form-control filter-textField-vt", @placeholder = Resources.Resources.Search_Form_Item06_placeholder })
+        @*@if (vFlag.CodPais.Equals("CL"))
+        {
+            @Html.TextBox("txtExportadorB", "", new { @class = "form-control filter-textField-vt", @placeholder = Resources.Resources.Search_Form_Item06_placeholder_chile })
+        }
+        else
+        {
+            @Html.TextBox("txtExportadorB", "", new { @class = "form-control filter-textField-vt", @placeholder = Resources.Resources.Search_Form_Item06_placeholder })
+        }*@
+    </div>
+    
+    
+    <div class="col-sm-3 col-xs-12">
+        @if (objMiBusqueda.MisExportadores)
+        {
+        <button id="btnMisExportadores" class="btn btn-mi-filtro-vt" data-field="Mis Exportadores">
+            @Resources.AdminResources.Filter_MyExporters_Button
+        </button>
+        }
+    </div>
+</div>
+    }
+    if (vFlag.ImportadorExp && Funciones.ObtieneIdPlan(Session["IdUsuario"].ToString()) != "77")
+    {
+        <div class="form-group">
+            <label class="col-sm-2 col-xs-12 control-label filter-control-label-vt">
+                @(!vFlag.IsManifiesto ? Resources.Resources.Search_Form_Item05 : Resources.Resources.Search_Form_Item05_I )
+            </label>
+            <div class="col-sm-6 col-xs-12">
+                @Html.TextBox("txtImportadorExpB", "", new { @class = "form-control filter-textField-vt", @placeholder = Resources.Resources.Search_Form_Item05_placeholder  })
+            </div>
+            <div class="col-sm-3 col-xs-12">
+                @if (objMiBusqueda.MisImportadoresExp)
+                {
+                <button id="btnImportadoresExp" class="btn btn-mi-filtro-vt" data-field="Mis Importadores">
+                    @Resources.AdminResources.Filter_MyImporters_Button
+                </button>
+                }
+            </div>
+        </div>
+    }
+}
+
+
+
+

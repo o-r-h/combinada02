@@ -1,0 +1,38 @@
+﻿@using Veritrade2018.Models
+@using Veritrade2018.Helpers
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var codCampania = ViewData["CodCampaña"];
+    if (Session["c"] != null && Session["c"].ToString() != "")
+    {
+        codCampania = Session["c"].ToString();
+    }
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+}
+
+@helper Selected(string c, string culture)
+{
+    if (c == culture)
+    {
+        @:selected="selected"
+    }
+}
+
+<div class="cabecera_fija like-table hidden-xs" style="background-color: #272727; z-index: 9999">
+    <div class="cab_linea01 container null-padding like-table-row">
+        <div class="text_cabecera like-table-cell">
+            <img src="@Url.Content("~/Content/Images/ico_telefono.jpg")" width="18" height="18" alt="" />
+            <a href="#">@Configuraciones.GetConfig(culture, "phone_footer").Valor</a>
+        </div>
+        <div class="info-cabecera like-table-cell">
+            @using (Html.BeginForm("SetCulture", controller, null, FormMethod.Post))
+            {
+                @Html.ActionLink(Resources.Resources.TrialText, "Index", "PruebaGratis", new { culture, campania = codCampania }, new { @class = "link_cabecera" })
+                <select name="culture" class="bot_cabecera_01">
+                    <option value="en-us" @Selected("en", culture)>English</option>
+                    <option value="es" @Selected("es", culture)>Español</option>
+                </select>
+            }
+        </div>
+    </div>
+</div>

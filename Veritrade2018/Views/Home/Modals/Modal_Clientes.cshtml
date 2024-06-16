@@ -1,0 +1,29 @@
+﻿@using Veritrade2018.Models
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalCliente">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="row">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                    </button>
+                </div>
+                <div class="modal_popup">
+                    <div class="title">
+                        <h2>@Resources.Resources.Home_Modal_Clientes_Title</h2>
+                    </div>
+                    <div class="modal_clientes_content">
+                        <div class="row">
+                            @foreach (var cliente in Clientes.GetClientes())
+                            {
+                                <div class="image-content">
+                                    <img src="~/Content/Images/Clientes/@cliente.Logo" alt="@cliente.Nombre" width="130" height="70" />
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

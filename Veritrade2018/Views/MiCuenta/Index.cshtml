@@ -1,0 +1,165 @@
+﻿@using Veritrade2018.Models.Admin
+@model dynamic
+@{
+    ViewBag.Title = "Veritrade Administrador";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+
+
+@section Styles{
+    <style type="text/css">
+        .table-title th {
+            text-align: center;
+        }
+        .msg{
+            color: red;
+        }
+    </style>
+}
+
+@section scripts {
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.0/mustache.min.js"></script>
+    <script src="@Url.Content("~/Scripts/Admin/admin.js?2")" type="text/javascript"></script>
+    <script src="~/Scripts/Admin/AdminUsers/AdminUsers.js"></script>
+
+    <script type="text/html" id="tplAddEditUserRow">
+        <tr data-id="{{Id}}" data-nro="{{Nro}}" {{#IsNew}}data-new{{/IsNew}}>
+            <td align="right" style="width: 20px;">{{Nro}}
+                <input name="Id" type="hidden" value="{{Id}}"/>
+            </td>
+            <td>
+                <input name="CodUsuario"  type="text" class="form-control my-email" value="{{CodUsuario}}" {{^EnableCodUsuario}} readonly="readonly" {{/EnableCodUsuario}} />
+                <span class="msg" style="display:none;">@Html.Raw(Resources.AdminResources.My_Acc_Valid_Email)</span>
+            </td>
+            <td><input name="Password" type="text" class="form-control" value="{{Password}}"/> </td>
+            <td><input name="Nombres" type="text" class="form-control" value="{{Nombres}}"/> </td>
+            <td><input name="Apellidos" type="text" class="form-control" value="{{Apellidos}}"/> </td>
+            <td><input name="Telefono" type="text" class="form-control" value="{{Telefono}}"/> </td>
+            <td>{{TipoUsuario}}</td>
+            <td>{{FechaCreacion}}</td>
+            <td>
+                <input name="CodEstado" type="hidden" value="{{CodEstado}}"/>
+                <input name="Estado" type="checkbox" {{#CheckedEstado}} checked="checked" {{/CheckedEstado}} {{^EnableEstado}} disabled="disabled" readonly="readonly"
+                       {{/EnableEstado}}/> {{Estado}}
+            </td>
+            <td>
+                <a href="javascript:void(0)" onclick="adm.saveMe($(this).closest('tr'))">@Resources.Resources.Ctrl_Save</a>&nbsp;
+                <a href="javascript:void(0)" onclick="adm.editMe($(this).closest('tr'), true)">@Resources.Resources.Ctrl_Undo</a>
+            </td>
+        </tr>
+    </script>
+    <script type="text/html" id="tplViewUserRow">
+        {{#.}}
+        <tr data-id="{{Id}}" data-nro="{{Nro}}">
+            <td align="right" style="width: 20px;">{{Nro}}</td>
+            <td>{{CodUsuario}}</td>
+            <td>{{Password}}</td>
+            <td>{{Nombres}}</td>
+            <td>{{Apellidos}}</td>
+            <td>{{Telefono}}</td>
+            <td>{{TipoUsuario}}</td>
+            <td>{{FechaCreacion}}</td>
+            <td>{{Estado}}</td>
+            <td><a href="javascript:void(0)" onclick="adm.editMe($(this).closest('tr'), false, FnInputRedered )">@Resources.Resources.Ctrl_Modify</a></td>
+        </tr>
+        {{/.}}
+    </script>
+
+    <script type="text/javascript">
+        var adm = window.admin_users.init({
+            urlData: "@Url.Action("GetData")",
+            urlEdit: "@Url.Action("EditMe")",
+            urlAdd: "@Url.Action("AddMe")",
+            urlSave: "@Url.Action("SaveMe")",
+        });
+        adm.getData();
+
+        function FnInputRedered(data) {
+            console.log($(data).find(".my-email").val());
+            $(".my-email").on("blur", function () {  
+                var email = $(this).val();
+                var re = @Html.Raw("/[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,4}/igm");
+                if (re.test(email)) {
+                    $(this).closest("tr").find('.msg').hide();
+                } else {
+                    $(this).closest("tr").find('.msg').show();
+                }
+            }).focus();
+
+        }
+
+        
+
+    </script>
+}
+
+
+
+<div id="loadingPageAdmin" class="loader is-active-loading">
+    <div class="objectLoading"></div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <h6 class="color-secondary" style="margin-bottom: 2px;"> Plan </h6>
+        <table class="table table-bordered table-condensed">
+            <thead>
+                <tr class="table-title">
+                    <th class="text-center">@Resources.AdminResources.LabelCompany_Text</th>
+                    <th>RUC</th>
+                    <th>Plan</th>
+                    <th>@Resources.AdminResources.LabelUser_Text</th>
+                    <th>@Resources.AdminResources.LabelAmount_Text US$</th>
+                    <th>@Resources.AdminResources.LabelStartDate_Text</th>
+                    <th>@Resources.AdminResources.LabelEndDate_Text</th>
+                </tr>
+            </thead>
+            <tbody class="text-center">
+
+                <tr>
+                    <td>@Model.oPlan.Empresa</td>
+                    <td>@Model.oPlan.RUC</td>
+                    <td>@Model.oPlan.Plan</td>
+                    <td>@Model.oPlan.Usuarios</td>
+                    <td>@Model.oPlan.ImporteUSD</td>
+                    <td>@Model.oPlan.FecInicio2</td>
+                    <td>@Model.oPlan.FecFin2</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <h6 class="color-secondary" style="margin-bottom: 2px;">
+            @Resources.AdminResources.LabelUserPlan_Text: <b>@Model.oPlan.Usuarios</b>
+            <button id="btnAdd" onclick="adm.addMe()" class="btn btn-xs btn boton-opcion" style="min-width: 126px;"> @Resources.AdminResources.BtnNewUser_Text </button>
+        </h6>
+        <table class="table table-bordered table-condensed">
+            <thead>
+                <tr class="table-title">
+                    <th>No.</th>
+                    <th>@Resources.AdminResources.LabelUser_Text</th>
+                    <th>@Resources.AdminResources.LabelPassword_Text</th>
+                    <th>@Resources.AdminResources.LabelNames_Text</th>
+                    <th>@Resources.AdminResources.LabelSurname_Text</th>
+                    <th>@Resources.AdminResources.LabelPhone_Text</th>
+                    <th>@Resources.AdminResources.LabelUserType_Text</th>
+                    <th>@Resources.AdminResources.LabelCreationDate_Text</th>
+                    <th>@Resources.AdminResources.LabelState_Text</th>
+                    <th>&nbsp;</th>
+                </tr>
+            </thead>
+            <tbody class="text-center" id="tbl-users">
+                <!-- rendered -->
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!--Inicio Modal Ventana Mensaje-->
+@Html.Partial("Admin/Modal_VentanaMensaje")
+
+
+
+

@@ -1,0 +1,26 @@
+﻿@using Veritrade2018.Helpers
+@using Veritrade2018.Models.Admin
+@{
+    var objDataTable = (TabDataTabMy) Model;
+}
+
+@foreach (var item in objDataTable.ListRows)
+{
+    <tr>
+        <td class="columnUnderline wspace-normal">
+            <a class="lnkVerRegistros"
+               title="@objDataTable.GridHead.TitleColumnTotalReg"
+               data-filtro="@objDataTable.Filtro"
+               data-idregistro="@item.Id">
+
+                @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+            </a>
+        </td>
+        <td class="column-text-right cell-vertical-align-middle">
+            @item.CiFoFobTot
+        </td>
+        <td class="column-text-right cell-vertical-align-middle">
+            @item.CiFoFobPor
+        </td>
+    </tr>
+}

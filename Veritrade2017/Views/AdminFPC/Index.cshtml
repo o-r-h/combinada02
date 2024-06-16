@@ -1,0 +1,503 @@
+﻿@using Veritrade2017.Models.Minisite
+@{
+    Layout = "";
+    var nCantEmpresa = 0;//(Int64) ViewData["nCantEmpresa"];
+    var nCantProducto = 0;//(Int64)ViewData["nCantProducto"];
+    var p =  Request.QueryString["p"] as string;
+    var p1 = Request.QueryString["p1"] as string;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Full Page Caching  </title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" type="text/javascript"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/2.3.2/mustache.min.js" type="text/javascript"></script>
+
+    <style type="text/css">
+        .reg-msg {
+            margin-top: 6px;
+        }
+
+        .my-mark {
+            font-size: 13px;
+            font-style: italic;
+        }
+
+        .sep {
+            padding-top: 10px;
+            border: 1px solid #ddd;
+            border-width: 1px 0 0 0;
+            margin-top: 10px;
+        }
+
+        .my-btn {
+            margin-right: 2px;
+            min-width: 70px;
+        }
+
+        .loading {
+            text-transform: lowercase;
+            font-style: italic;
+            display: inline-block;
+        }
+
+            .loading:after {
+                overflow: hidden;
+                display: inline-block;
+                vertical-align: bottom;
+                -webkit-animation: ellipsis steps(4,end) 900ms infinite;
+                animation: ellipsis steps(4,end) 900ms infinite;
+                content: "\2026"; /* ascii code for the ellipsis character */
+                width: 0px;
+            }
+
+        @@keyframes ellipsis {
+            to {
+                width: 1.25em;
+            }
+        }
+
+        @@-webkit-keyframes ellipsis {
+            to {
+                width: 1.25em;
+            }
+        }
+    </style>
+
+    <script type="text/javascript">
+        let nCanEmpresa = @nCantEmpresa;
+        let nCanProducto = @nCantProducto;
+
+
+        async function getCompanyByPosAsync(pos) {
+            return await
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.RouteUrl("FpcAjax1")",
+                    data: {
+                        pos: pos,
+                        pais: $("#cboPaisComp").val().trim(),
+                    },
+                });
+        };
+
+        async function doVisitaUrlCompany(obj, culture) {
+            return await
+                $.ajax({
+                    type: "POST",
+                    url: "/fpc/DoVisitaUrlCompany" + culture,
+                    data: obj,
+                });
+        };
+
+        async function runCompaniesAsync(nCanEmpresa) {
+            $("#r1").html("");
+            $("#gencp").button("loading");
+            var mark = $("#markcp");
+            $(mark).show();
+            $(mark).find("span:eq(1)").text(nCanEmpresa);
+            for (var i = 1; i <= nCanEmpresa; i++) {
+                await getCompanyByPosAsync(i)
+                    .then(function (obj) {
+                        var template = $('#tplCompany').html();
+                        Mustache.parse(template);   // optional, speeds up future uses
+                        var rendered = Mustache.render(template, obj);
+                        $(rendered).appendTo("#r1");
+
+                        doVisitaUrlCompany(obj, "Es").then(function (resp) {
+                            var lblEs = $("#c" + resp.IdEmpresa ).find("a.es");
+                            $(lblEs)
+                                .html("<i class='fa fa-fw fa-external-link' ></i> " + (resp.UrlVisitadaEs ? "OK" : "No"))
+                                .removeClass("loading label-default")
+                                .addClass(resp.UrlVisitadaEs ? "label-success" : "label-danger")
+                                .attr("target", "_blank")
+                                .attr("href", resp.AbsoluteUrlEs);
+                            doVisitaUrlCompany(obj, "En").then(function (resp) {
+                                var lblEn = $("#c" + resp.IdEmpresa).find("a.en");
+                                $(lblEn)
+                                    .html("<i class='fa fa-fw fa-external-link' ></i> " + (resp.UrlVisitadaEn ? "OK" : "No"))
+                                    .removeClass("loading label-default")
+                                    .addClass(resp.UrlVisitadaEn ? "label-success" : "label-danger")
+                                    .attr("target", "_blank")
+                                    .attr("href", resp.AbsoluteUrlEn);
+                            });
+                        });
+                    });
+                $(mark).find("span:eq(0)").text(i);
+            }
+            $("#gencp").button("reset");
+        };
+
+        //Producto Profile
+
+        async function getProductByPosAsync(pos) {
+            return await
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.RouteUrl("FpcAjax11")",
+                    data: {
+                        pos: pos,
+                        pais: $("#cboPaisProd").val().trim(),
+                    },
+                });
+        };
+
+        async function doVisitaUrlProduct(obj, culture) {
+            return await
+                $.ajax({
+                    type: "POST",
+                    url: "/fpc/DoVisitaUrlProduct" + culture,
+                    data: obj,
+                });
+        };
+
+        async function runProductsAsync(limCompany) {
+            $("#r2").html("");
+            $("#genpp").button("loading");
+            var mark = $("#markpp");
+            $(mark).show();
+            $(mark).find("span:eq(1)").text(nCanProducto);
+            for (var i = 1; i <= limCompany; i++) {
+                await getProductByPosAsync(i)
+                    .then(function (obj) {
+                        var template = $('#tplProduct').html();
+                        Mustache.parse(template);   // optional, speeds up future uses
+                        var rendered = Mustache.render(template, obj);
+                        $(rendered).appendTo("#r2");
+
+                        doVisitaUrlProduct(obj, "Es").then(function (resp) {
+                            var lblEs = $("#p" + resp.Nro ).find("a.es");
+                            $(lblEs)
+                                .html("<i class='fa fa-fw fa-external-link' ></i> " + (resp.UrlVisitadaEs ? "OK" : "No"))
+                                .removeClass("loading label-default")
+                                .addClass(resp.UrlVisitadaEs ? "label-success" : "label-danger")
+                                .attr("target", "_blank")
+                                .attr("href", resp.AbsoluteUrlEs);
+                            doVisitaUrlProduct(obj, "En").then(function (resp) {
+                                var lblEn = $("#p" + resp.Nro).find("a.en");
+                                $(lblEn)
+                                    .html("<i class='fa fa-fw fa-external-link' ></i> " + (resp.UrlVisitadaEn ? "OK" : "No"))
+                                    .removeClass("loading label-default")
+                                    .addClass(resp.UrlVisitadaEn ? "label-success" : "label-danger")
+                                    .attr("target", "_blank")
+                                    .attr("href", resp.AbsoluteUrlEn);
+                            });
+                        });
+                    });
+                $(mark).find("span:eq(0)").text(i);
+            }
+            $("#genpp").button("reset");
+        };
+
+        // Contenido General
+        async function runGeneraAndVisitaGCAsync() {
+            $("#gencg").button("loading");
+            return await
+                $.ajax({
+                    type: "POST",
+                    url: "@Url.RouteUrl("GeneraAndVisitaGC")",
+                })
+                .then(function (response) {
+                    var template = $('#tplContenidoGeneral').html();
+                    Mustache.parse(template);   // optional, speeds up future uses
+                    var rendered = Mustache.render(template, response);
+                    $("#r3").html(rendered);
+                    return $("#r3").find("tr");
+                })
+                .then(async function (response) {
+                    for (var i = 0; i < response.length; i++) {
+                        let e = $(response).eq(i);
+                        await $.ajax({
+                            type: "POST",
+                            url: "@Url.RouteUrl("UrlOk")",
+                            data: { url: $(e).data("url") },
+                        }) .then(function(oka) {
+                            $(e).find("a")
+                                .html("<i class='fa fa-fw fa-external-link' ></i> " + (oka.ok ? "OK" : "No"))
+                                .removeClass("loading label-default")
+                                .addClass(oka.ok ? "label-success" : "label-danger")
+                                .attr("target", "_blank")
+                                .attr("href", oka.url);
+                        });
+                    }
+                    $("#gencg").button("reset");
+                });
+        };
+
+
+        $(function() {
+            $("#gencp").on("click", function () {
+                nCanEmpresa = $("#cboPaisComp").find('option:selected').data("reg") | 0;
+                if (nCanEmpresa == 0) {
+                    alert("Debe seleccionar un país");
+                    return false;
+                }
+                runCompaniesAsync(nCanEmpresa);
+            });
+            $("#genpp").on("click", function () {
+                nCanProducto = $("#cboPaisProd").find('option:selected').data("reg") | 0;
+                if (nCanProducto == 0) {
+                    alert("Debe seleccionar un país");
+                    return false;
+                }
+                runProductsAsync(nCanProducto);
+            });
+
+            $("#gencg").on("click", function () {
+                runGeneraAndVisitaGCAsync();
+            });
+
+
+            $("#cboPaisComp").click(function() {
+                $("#_cboPaisComp").val($(this).val());
+            });
+
+
+            $("#cboPaisComp").change(function (e) {
+
+                if ($("#r1").find("tr").length > 0 || $("#gencp").text().trim() === "Procesando" ) {
+                    if (confirm("¿Va a cambiar de pais?")) {
+                        window.location.href = "/fpc/admin?p="+ $(this).val();
+                    } else {
+                        $(this).val($("#_cboPaisComp").val());
+                        return false;
+                    }
+                }
+
+                var template = $('#tplRegComp').html();
+                Mustache.parse(template);   // optional, speeds up future uses
+                var reg = $(this).find('option:selected').data("reg") | 0;
+                var rendered = Mustache.render(template, { nCantEmpresa: reg, nCantEmpresaX2: (reg*2), zero: reg === 0});
+                $("#reg-comp").html(rendered);
+            });
+
+            if ("@p".trim().length > 0) $("#cboPaisComp").val("@p".trim()).trigger("change");
+
+
+            $("#cboPaisProd").click(function() {
+                $("#_cboPaisProd").val($(this).val());
+            });
+
+
+            $("#cboPaisProd").change(function (e) {
+
+                if ($("#r2").find("tr").length > 0 || $("#genpp").text().trim() === "Procesando" ) {
+                    if (confirm("¿Va a cambiar de pais?")) {
+                        window.location.href = "/fpc/admin?p1="+ $(this).val();
+                    } else {
+                        $(this).val($("#_cboPaisProd").val());
+                        return false;
+                    }
+                }
+
+                var template = $('#tplRegProd').html();
+                Mustache.parse(template);   // optional, speeds up future uses
+                var reg = $(this).find('option:selected').data("reg") | 0;
+                var rendered = Mustache.render(template, { nCantProducto: reg, nCantProductoX2: (reg*2), zero: reg === 0});
+                $("#reg-prod").html(rendered);
+            });
+
+            if ("@p1".trim().length > 0) $("#cboPaisProd").val("@p1".trim()).trigger("change");
+
+
+        });
+    </script>
+    <script id="tplCompany" type="x-tmpl-mustache">
+        <tr id="c{{IdEmpresa}}">
+            <td>{{Nro}}</td>
+            <td>{{Nombre}}</td>
+            <td><a href="javascript:void(0)" class="loading label label-default es">Waiting</a> </td>
+            <td><a href="javascript:void(0)" class="loading label label-default en">Waiting</a> </td>
+        </tr>
+    </script>
+    <script id="tplProduct" type="x-tmpl-mustache">
+        <tr id="p{{Nro}}">
+            <td>{{Nro}}</td>
+            <td>{{Descripcion}}</td>
+            <td><a href="javascript:void(0)" class="loading label label-default es">Waiting</a> </td>
+            <td><a href="javascript:void(0)" class="loading label label-default en">Waiting</a> </td>
+        </tr>
+    </script>
+    <script id="tplContenidoGeneral" type="x-tmpl-mustache">
+        {{#.}}
+        <tr id="p{{Nro}}" data-url="{{Url}}" >
+            <td>{{Nro}}</td>
+            <td>{{Title}}</td>
+            <td  >{{Url}}</td>
+            <td><a href="javascript:void(0)" class="loading label label-default es">Waiting</a> </td>
+        </tr>
+        {{/.}}
+    </script>
+    <script id="tplRegComp" type="x-tmpl-mustache">
+        {{^zero}}
+        Son
+        <strong>{{nCantEmpresa}}</strong> companías encontradas.
+        Al Generar el caché, visitará un total de
+        <strong>{{nCantEmpresaX2}}</strong> Urls, español e inglés.
+        {{/zero}}
+    </script>
+    <script id="tplRegProd" type="x-tmpl-mustache">
+        {{^zero}}
+        Son
+        <strong>{{nCantProducto}}</strong> productos encontrados.
+        Al Generar el caché, visitará un total de
+        <strong>{{nCantProductoX2}}</strong> Urls, español e inglés.
+        {{/zero}}
+    </script>
+</head>
+<body>
+<div class="container">    
+    <h2>Full Page Caching</h2>
+    <ul class="nav nav-tabs">
+        <li class="active"><a data-toggle="tab" href="#t1">Company Profile</a></li>
+        <li><a data-toggle="tab" href="#t2">Product Profile</a></li>
+        <li><a data-toggle="tab" href="#t3">Contenido General</a></li>
+    </ul>
+    <div class="tab-content">
+        <div id="t1" class="tab-pane fade in active">
+            <h3>Company Profile</h3>
+            <form class="form-inline">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="cboPaisComp">Pa&iacute;s: </label>
+                                <input type="hidden" name="_cboPaisComp" id="_cboPaisComp"   />
+                                <select name="cboPaisComp" id="cboPaisComp" class="form-control">
+                                    <option> -- Seleccionar -- </option>
+                                    @foreach (var i in  ((List<Paises>) ViewData["lstPaisesComp"]))
+                                    {
+                                        <option value="@i.Nombre" data-reg ="@i.Registros"  >@i.Nombre</option>
+                                    }
+                                </select>
+                            </div>
+                            <p id="reg-comp" class="reg-msg" >
+                                <!--render msg -->
+                            </p>
+                            <div class="clearfix sep">
+                                <button id="gencp" data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando" type="button" class="btn btn-xs btn-info my-btn">Generar</button>
+                                <a onclick="return confirm('Deseas borrar todo el caché almacenado para companias profile?.')" href="@Url.RouteUrl("RemoveCacheCompanyProfile")" class="btn btn-xs btn-danger  my-btn">Limpiar</a>
+                                <div style="display: none;" id="markcp" class="pull-right my-mark">FPC: <mark><span>0</span>&nbsp; de &nbsp;<span>0</span></mark> compan&iacute;as.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-bordered table-condensed table-striped">
+                        <thead>
+                        <tr>
+                            <th>Nro</th>
+                            <th>Empresa</th>
+                            <th>Visita [ES] </th>
+                            <th>Visita [EN] </th>
+                        </tr>
+                        </thead>
+                        <tbody id="r1">
+                        <!-- render -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="t2" class="tab-pane fade">
+            <h3>Product Profile</h3>
+            <form class="form-inline">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="form-group">
+                                <label for="cboPaisProd">Pa&iacute;s: </label>
+                                <input type="hidden" name="_cboPaisProd" id="_cboPaisProd"   />
+                                <select name="cboPaisProd" id="cboPaisProd" class="form-control">
+                                    <option> -- Seleccionar -- </option>
+                                    @foreach (var i in  ((List<Paises>) ViewData["lstPaisesProd"]))
+                                    {
+                                        <option value="@i.Id" data-reg ="@i.Registros"  >@i.Nombre</option>
+                                    }
+                                </select>
+                            </div>
+                            <p id="reg-prod" class="reg-msg" >
+                                <!--render msg -->
+                            </p>
+                            <div class="clearfix sep">
+                                <button id="genpp"  data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando" type="button" class="btn btn-xs btn-info my-btn">Generar</button>
+                                <a onclick="return confirm('Deseas borrar todo el caché almacenado para producto profile?.')" href="@Url.RouteUrl("RemoveCacheProductProfile")"   class="btn btn-xs btn-danger  my-btn">Limpiar</a>
+                                <div style="display: none;" id="markpp" class="pull-right my-mark">FPC: <mark><span>0</span>&nbsp; de &nbsp;<span>0</span></mark> productos.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-bordered table-condensed table-striped">
+                        <thead>
+                        <tr>
+                            <th>Nro</th>
+                            <th>Producto</th>
+                            <th>Visita [ES] </th>
+                            <th>Visita [EN] </th>
+                        </tr>
+                        </thead>
+                        <tbody id="r2">
+                        <!-- render -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div id="t3" class="tab-pane fade">
+            <h3>Contenido General</h3>
+            <form class="form-inline">
+                <div class="well">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <p class="reg-msg">
+                                Son
+                                <strong>@ViewData["nCantContenidoGeneral"]</strong> urls de contenido general encontrados.
+                            </p>
+                            <div class="clearfix sep">
+                                <button id="gencg"  data-loading-text="<i class='fa fa-circle-o-notch fa-spin'></i> Procesando" type="button" class="btn btn-xs btn-info my-btn">Generar</button>
+                                <a onclick="return confirm('Deseas borrar todo el caché almacenado para contenidos generales?.')" href="@Url.RouteUrl("RemoveCacheContenidoGeneral")"   class="btn btn-xs btn-danger  my-btn">Limpiar</a>
+                                <div style="display: none;" id="markcg" class="pull-right my-mark">FPC: <mark><span>0</span>&nbsp; de &nbsp;<span>0</span></mark> urls.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+            <div class="row">
+                <div class="col-lg-12">
+                    <table class="table table-bordered table-condensed table-striped">
+                        <thead>
+                        <tr>
+                            <th>Nro</th>
+                            <th>Titulo</th>
+                            <th>URL</th>
+                            <th> Visitado </th>
+                        </tr>
+                        </thead>
+                        <tbody id="r3">
+                        <!-- render -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+        
+    </div>
+</div>
+</body>
+</html>

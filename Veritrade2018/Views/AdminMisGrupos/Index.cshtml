@@ -1,0 +1,184 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    ViewBag.Title = "Administrador Grupos";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+
+    AdminMyGroup objAdminMyGroup = (AdminMyGroup)ViewData["objAdminMyGroup"];
+
+    var tipoFavorito = ViewData["TipoFavorito"].ToString();
+}
+
+<style>
+    .wspace-normal {
+        white-space: nowrap;
+    }
+
+    .info-grupo-tabla p {
+        width: 15%;
+    }
+
+    .wspace-normal label {
+        display: inline;
+    }
+</style>
+
+<!-- Incio contenedor de Loading-->
+<div id="loadingPageAdmin" class="loader is-active-loading">
+    <div class="objectLoading"></div>
+</div>
+<!-- Fin contenedor de loading-->
+
+<div class="padding-height-sm">
+    <div class="row">
+        <div class="col-xs-12 col-sm-12">
+            <p class="tittle-info">
+                <label id="descQuantityGroups">
+                    @objAdminMyGroup.DescripcionCantidad
+                </label>
+            </p>
+        </div>
+
+        <div class="col-xs-12 col-sm-12">
+            @Html.Partial("GridViews/TableView", objAdminMyGroup)
+        </div>
+
+        <div class="col-xs-12 col-sm-12 text-center">
+            @Html.Partial("Partials/Options_GroupsTable", tipoFavorito)
+        </div>
+    </div>
+</div>
+
+
+@Html.Partial("Modals/Modal_FavoritesByGroup")
+
+
+<!--Inicio Modal Ventana Sesión-->
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaSesion.cshtml")
+<!--Fin-->
+
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaContactenos.cshtml")
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaMensaje.cshtml")
+
+@Html.Partial("Modal_Informativo_MyGroups")
+
+@section Scripts{
+    <script src="@Url.Content("~/Scripts/Plugins/jquery.twbsPagination.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Admin/admin.js?2")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Admin/AdminMyGroups/AdminMyGroups.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/MixPanel/MisGrupos/MisGruposMP.js?1")" type="text/javascript"></script>
+    <script type="text/javascript">
+        //Lógica de sessión
+        var t;
+        var timeout = 15 * 60 * 1000;
+
+        function SessionExpiredAlert() {
+            t = setTimeout(function () {
+                $('#ModalVentanaSesion').modal({
+                    show: true,
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }, timeout);
+        };
+
+        function InIEventSession() {
+            clearTimeout(t);
+            SessionExpiredAlert();
+        };
+        //
+
+        $(document).ready(function () {
+
+            var urlPagingTableGroups = '@Url.Action("PageIndexChanging", "AdminMisGrupos")';
+            var urlPagingTableFavorites = '@Url.Action("PageIndexChangingFavoritesByGroup", "AdminMisGrupos")';
+
+            if ('@objAdminMyGroup.TotalPaginas' > 0) {
+                TableAdminMyGroups.RegisterPaging(urlPagingTableGroups,
+                    '@objAdminMyGroup.TotalPaginas',
+                    '@objAdminMyGroup.CountVisiblePages');
+            }
+
+            $(document).on('click',
+                'a.clickShowFavorites',
+                function () {
+                    TableAdminMyGroups.ShowFavorites('@Url.Action("GetFavoritesByGroup","AdminMisGrupos")',
+                        $(this).data("idgrupo"),
+                        urlPagingTableFavorites);
+                });
+
+
+            $(document).on('click',
+                'a.clickModifyGroup',
+                function () {
+                    var idTextGroup = $(this).data("idlabelgroup");
+                    var idTxtGroup = $(this).data("id-txtgroup");
+                    $("#" + idTxtGroup).val($("#" + idTextGroup).text());
+                    var idFormModifyGroup = $(this).data("id-form-modifygroup");
+                    $("#" + idFormModifyGroup).removeClass("no-display");
+                });
+
+            $(document).on('click',
+                'a.clickSaveUpdateGroup',
+                function () {
+                    var idTxtGroup = $(this).data("id-txtgroup");
+                    var textGroup = $("#" + idTxtGroup).val();
+                    var idGroup = $(this).data("idgroup");
+
+                    if (textGroup != "") {
+                        TableAdminMyGroups.SaveUpdateGroup('@Url.Action("UpdateGroup","AdminMisGrupos")',
+                            idGroup,
+                            textGroup);
+                    } else {
+                        $("#" + idTxtGroup).focus();
+                        return;
+                    }
+
+                });
+
+            $(document).on('click',
+                'a.clickCancelModifyGroup',
+                function () {
+                    var idFormModifyGroup = $(this).data("id-form-modifygroup");
+                    $("#" + idFormModifyGroup).addClass("no-display");
+                });
+
+
+            $(document).on('click',
+                'button.clickDeleteSelectedGroups',
+                function () {
+                    OptionAdminMyGroup.DeleteGroups('@Url.Action("DeleteGroups","AdminMisGrupos")', urlPagingTableGroups );
+                });
+
+            $(document).on('click',
+                'button#btnDeleteFavorite',
+                function () {
+                    TableAdminMyGroups.DeleteFavorites('@Url.Action("DeleteFavorites", "AdminMisGrupos")',
+                        urlPagingTableFavorites);
+                });
+
+            LoadingAdminPage.showOrHideLoadingPage(false);
+        });
+
+
+        //Inicialiar y Verificar Sesión activa
+        $(document).ready(function() {
+            InIEventSession();
+            $('#ModalVentanaSesion').on('hidden.bs.modal', function () {
+                window.location.href = '@Url.Action("Index", "Home")';
+            });
+        });
+
+        $(document).ajaxError(function (event, jqxhr, settings, thrownError) {
+            if (jqxhr.status === 401) {
+                window.location.href = '@Url.Action("Index","Home")';
+            } else {
+                console.log(thrownError);
+            }
+        });
+        $( document ).ajaxComplete(function() {
+            InIEventSession();
+        });
+        //
+
+    </script>
+}

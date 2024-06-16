@@ -1,0 +1,166 @@
+﻿@model Veritrade2018.Models.Solicitud
+@using Veritrade2018.Models
+
+@using System.Drawing
+@using Veritrade2018.Helpers
+
+@{
+    ViewBag.Title = Resources.Resources.Btn_Contactanos;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.EnableClientValidation();
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var ayuda = (Ayuda)ViewData["ayuda"];
+
+}
+
+@section Styles
+{
+    <link href="@Url.Content("~/Content/Assets/prueba_gratis.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Scripts/Plugins/OwlCarousel/assets/owl.carousel.min.css")" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/Plugins/OwlCarousel/owl.carousel.min.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#loading2').hide();
+            $("#solicitudFormLanding").attr("action",
+            "@Url.Action("Contactanos", "Home", new {culture})");
+        });
+
+           function OnSuccessSolicitud2(response) {
+               $(':input', '#solicitudFormLanding')
+            .removeAttr('checked')
+            .removeAttr('selected')
+            .not(':button, :submit, :reset, :hidden, :radio, :checkbox')
+            .val('');
+        $('#send_button2').prop("disabled", false);
+        $("#loading-compra").hide();
+        $("#success_title").html(response.SuccessTitle);
+        $("#success_message").html(response.SuccessMsg);
+        setTimeout(function() { $("#ModalSuccess").modal('show'); }, 1000);
+    }
+
+    function OnFailureSolicitud2(response) {
+        $(':input', '#solicitudFormLanding')
+            .removeAttr('checked')
+            .removeAttr('selected')
+            .not(':button, :submit, :reset, :hidden, :radio, :checkbox')
+            .val('');
+        $('#send_button2').prop("disabled", false);
+        $("#loading-compra").hide();
+        $("#success_title").html(response.ErrorTitle);
+        $("#success_message").html(response.ErrorMsg);
+
+        setTimeout(function() { $("#ModalSuccess").modal('show'); }, 1000);
+    }
+
+    function onValidateBeginSol2() {
+        $('#loading2').show();
+        $('#send_button2').prop("disabled", true);
+        $('.home_link').css('border-color', '#c9c9c9');
+        $('.home_link').css('color', '#c9c9c9');
+        $('.home_link').css('cursor', 'not-allowed');
+        $('.home_link').css('background-color', '#fff');
+    }
+
+    function onValidateCompleteSol2() {
+
+        $('#loading2').hide();
+        $('#send_button2').prop("disabled", false);
+        $('.home_link').css('border-color', '#5cb3e8');
+        $('.home_link').css('color', '#5cb3e8');
+        $('.home_link').css('cursor', 'pointer');
+        $('.home_link').css('background-color', '#fff');
+    }
+
+    function btnContacto2() {
+
+        $('#loading2').hide();
+        $("#ModalSolicitud").find("form").attr("action",
+            "@Url.Action("Contactanos", "Home", new {culture})");
+    }
+    </script>
+}
+<div class="container">
+    <div class="col-xs-12 col-sm-12">
+        <div class="contact_landing_image" style="background-image: url('@Url.Content("~/Content/Images/PORTADA_LANDING_CONTACT.png")')">
+
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12">
+        <h3 class="contact_landing_title">@ayuda.Titulo</h3>
+        <p class="ayuda_description contact_landing_subtitle">@ayuda.Descripcion</p>
+    </div>
+    <div class="col-xs-12 col-sm-12">
+        <div class="">
+            <div class=" contact_landing_subtitle2_box">
+                <h2 class="contact_landing_subtitle2">@Resources.Resources.Request_Text01</h2>
+            </div>
+            @using (Ajax.BeginForm("", "", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessSolicitud2", OnFailure = "OnFailureSolicitud2", LoadingElementId = "loading2", OnBegin = "onValidateBeginSol2", OnComplete = "onValidateCompleteSol2" }, new { id = "solicitudFormLanding", @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <label>@Resources.Resources.Field_Fullname_Text</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <img src="~/Content/Images/ico_form_contacto_01.jpg" alt="" width="34" height="27" />
+                            </span>
+                            @Html.TextBoxFor(model => model.NombreCompleto, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.NombreCompleto, "", new { @class = "text-danger " })
+                    </div>
+                    <div class="col-sm-6">
+                        <label>@Resources.Resources.Field_Phone_Text</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <img src="~/Content/Images/ico_form_contacto_03.jpg" alt="" width="34" height="27" />
+                            </span>
+                            @Html.TextBoxFor(model => model.Telefono, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Telefono, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <label>@Resources.Resources.Field_Company_Text</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <img src="~/Content/Images/ico_form_contacto_02.jpg" alt="" width="34" height="27" />
+                            </span>
+                            @Html.TextBoxFor(model => model.Empresa, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Empresa, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-6">
+                        <label>@Resources.Resources.Field_Email_Text</label>
+                        <div class="input-group">
+                            <span class="input-group-addon">
+                                <img src="~/Content/Images/ico_form_contacto_04.jpg" alt="" width="34" height="27" />
+                            </span>
+                            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+                        </div>
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-sm-6">
+                        <label>@Resources.Resources.Field_Message_Text</label>
+                        @Html.TextAreaFor(model => model.Mensaje, new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.Mensaje, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="form-group" style="display: inline;">
+                    <div class="col-sm-12 text-center">
+                        <button type="submit" class="home_link" id="send_button2" style="background-color: #ffffff" onclick="ga('send', 'event', 'boton', 'click', 'contacto');">@Resources.Resources.Send_Button</button>
+                        <div id="loading2">
+                            <img src="~/Content/Images/ajax-loader-min.gif" width="23" height="23" alt="" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

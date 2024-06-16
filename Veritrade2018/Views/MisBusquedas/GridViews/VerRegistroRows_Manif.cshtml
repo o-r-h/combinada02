@@ -1,0 +1,99 @@
+﻿@using Veritrade2018.Models.Admin
+@using PagedList;
+@using PagedList.Mvc;
+@{
+    var objVerRegistroTable = (VerRegistroTable)Model;
+    var objVerRegistroTableHead = objVerRegistroTable.VerRegistroTableHead;
+    var listaVerRegistroTableRows = objVerRegistroTable.PagedListTableRows;
+
+    var vFlags = objVerRegistroTable.MiBusqueda.FlagVarVisibles;
+}
+
+@foreach (var item in listaVerRegistroTableRows)
+{
+    <tr>
+        <td class="column-text-right">
+            @item.Numero
+        </td>
+        <td class="column-text-center">
+            @item.Fecha
+        </td>
+        @if (objVerRegistroTable.TipoOpe == "I")
+        {
+            <td class="column-text-center">
+                @item.Importador
+            </td>
+
+            if (vFlags.ExisteNotificado)
+            {
+                <td class="column-text-center">
+                    @item.Notificado
+                </td>
+            }
+            if (vFlags.ExisteProveedor)
+            {
+                <td class="column-text-center">
+                    @item.ExportadorProveedor
+                </td>
+            }
+            <td class="column-text-center">
+                @item.PaisEmbarque
+            </td>
+        }
+        else
+        {
+            <td class="column-text-center">
+                @item.Exportador
+            </td>
+
+            @*if (vFlags.ExisteNotificado)
+                {
+                    <th class="column-text-center">
+                        @Resources.Resources.Demo_Notif_Tab_Fil
+                    </th>
+                }*@
+            if (vFlags.ExisteImportadorExp)
+            {
+                <th class="column-text-center">
+                    @item.ImportadorExp
+                </th>
+            }
+            <th class="column-text-center">
+                @item.PaisOrigenODestino
+            </th>
+        }
+
+        <th class="column-text-center">
+            @item.Pto
+        </th>
+
+        <th class="column-text-center">
+            @item.PesoBruto
+        </th>
+
+        <th class="column-text-center">
+            @item.QtyOrButos
+        </th>
+
+        @if (vFlags.CodPais == "USI" || vFlags.CodPais == "USE")
+        {
+            <th class="column-text-center">
+                @item.Unidad
+            </th>
+        }
+
+        @if (vFlags.ExisteDesComercial)
+        {
+            <th class="column-text-center"><p>
+                @item.DesComercial
+            </p> </th>
+        }
+
+        @if (vFlags.ExisteDesAdicional)
+        {
+            <th class="column-text-center">
+                @item.DesAdicional
+            </th>
+        }
+    </tr>
+}

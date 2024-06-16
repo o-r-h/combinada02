@@ -1,0 +1,33 @@
+﻿@using Veritrade2017.Models
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+}
+
+<div class="servicios_section" >
+    <div class="container" >
+        <div class="title" style="text-align: center">
+            <h2>¿@Resources.MenuItem01?</h2>
+        </div>
+
+        <div class="servicios_content">
+            @foreach (var servicio in (List<Servicios>) ViewData["servicios"])
+            {
+                <div class="col-sm-4 col-md-4 col-lg-4 servicio">
+                    <div class="servicios_item">
+                        <img src="@Url.Content("~/Content/Images/" + servicio.Imagen)" alt="@servicio.Titulo"/>
+                        <label class="servicios_title">@servicio.Titulo</label>
+                        <p class="servicios_description">@servicio.Descripcion</p>
+                        @if (culture == "es")
+                        {
+                            @Html.RouteLink(Resources.Home_Service_Button, "Servicios", new { culture, slug = servicio.Slug }, new { @class = "home_link" })
+                        }
+                        else
+                        {
+                            @Html.RouteLink(Resources.Home_Service_Button, "ServiciosUS", new { culture, slug = servicio.Slug }, new { @class = "home_link" })
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

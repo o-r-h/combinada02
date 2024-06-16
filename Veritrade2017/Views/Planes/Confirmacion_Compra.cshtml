@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = Resources.Compra_Text;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+    <link href="@Url.Content("~/Content/Assets/planes.css")" rel="stylesheet" type="text/css"/>
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Plugins/OwlCarousel2-2.2.1/owl.carousel.min.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+
+            var nombre_plan = sessionStorage.getItem("nombre_plan");
+            console.log(nombre_plan);
+            dataLayer.push({
+                'event': 'comprar', //valor estático
+                'paso': 'compra_exitosa', // valor estático
+                'plan': nombre_plan // valor dinámico
+            });
+
+            var txtCodUsuario = document.getElementById("txtCodUsuario");
+            var txtPassword = document.getElementById("txtPassword");
+            var form = document.getElementById('loginForm');
+            var hiddenInput = document.createElement('input');
+            var hiddenInput2 = document.createElement('input');
+
+            txtCodUsuario.value = "@ViewData["User"]";
+            txtPassword.value = "@ViewData["Password"]";
+
+            hiddenInput.setAttribute('type', 'hidden');
+            hiddenInput.setAttribute('name', 'inicio');
+            hiddenInput.setAttribute('value', 'ok');
+            form.appendChild(hiddenInput);
+
+            hiddenInput2.setAttribute('type', 'hidden');
+            hiddenInput2.setAttribute('name', 'compra');
+            hiddenInput2.setAttribute('value', 'compra');
+            form.appendChild(hiddenInput2);
+
+            $("#back").click(function(e) {
+                e.preventDefault();
+                document.getElementById('loginForm').submit();
+            });
+        });
+    </script>
+}
+
+<div class="container compra-container">
+    <div class="compra-completada">
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <img class="compra-image" src="@Url.Content("~/Content/Images/Tarjetas/compra_success.png")" alt=""/>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-sm-offset-4 text-center">
+                <h3>@Html.Raw(Resources.Compra_Confirmacion_Titulo)</h3>
+                <br/>
+                <div class="clearfix"></div>
+                <br/>
+                <p>@Html.Raw(Resources.Compra_Confirmacion_Mensaje)</p>
+            </div>
+        </div>
+        <br/><br/>
+        <div class="row">
+            <div class="col-xs-12 text-center">
+                <a id="back" class="btn-back">@Resources.Button_GoHome</a>
+            </div>
+        </div>
+    </div>
+</div>

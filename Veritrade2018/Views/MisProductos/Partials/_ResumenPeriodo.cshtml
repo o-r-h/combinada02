@@ -1,0 +1,68 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    var objResumenPeriodo = (ResumenPeriodo)Model;
+}
+
+<div class="title-container">
+    <p class="chart-tittle title-period-summary">@Resources.AdminResources.PeriodSummary_Text</p>
+</div>
+
+
+<div class="col-sm-12 data-content resumen-content">
+    <div class="table-view">
+        <div class="col-sm-4 col-xs-4 null-padding table-cell">
+            <div class="media-space">
+                <div class="media media-title-periodSummary">
+                    <div class="media-left">
+                        <img class="media-object" src="~/Content/Images/Busqueda/ico_dash_01.png" alt="...">
+                    </div>
+                    <div class="media-body">
+                        <span>
+                        @Html.Raw(@objResumenPeriodo.DescripcionTotal)
+                        </span>
+                    </div>
+                </div>
+                <p class="resume-text">
+                    @objResumenPeriodo.CifTot<br/>
+                    <span>
+                        @Resources.AdminResources.TypeUSS_Text
+                    </span>
+                </p>
+            </div>
+        </div>
+        <div class="col-sm-4 col-xs-4 null-padding table-cell">
+            <div class="media-space border-media">
+                <div class="media media-title-periodSummary">
+                    <div class="media-left">
+                        <img class="media-object" src="~/Content/Images/Busqueda/ico_dash_02.png" alt="...">
+                    </div>
+                    <div class="media-body">
+                        <span>
+                        @Html.Raw(@objResumenPeriodo.DescripcionCantidad)
+                        </span>
+                    </div>
+                </div>
+                <p class="resume-text">
+                    @objResumenPeriodo.Cantidad <br /> <span>@objResumenPeriodo.UnidadesCantidad</span>
+                </p>
+            </div>
+        </div>
+        <div class="col-sm-4 col-xs-4 null-padding table-cell">
+            <div class="media-space">
+                <div class="media media-title-periodSummary">
+                    <div class="media-left">
+                        <img class="media-object" src="~/Content/Images/Busqueda/ico_dash_03.png" alt="...">
+                    </div>
+                    <div class="media-body">
+                        <span>
+                            @Html.Raw(@Resources.AdminResources.UnitPrice_Text)
+                        </span>
+                    </div>
+                </div>
+                <p class="resume-text">
+                   @objResumenPeriodo.CifUnit <br /> <span> @Resources.AdminResources.TypeUSS_Text/@objResumenPeriodo.UnidadCifUnit</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>

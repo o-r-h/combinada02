@@ -1,0 +1,108 @@
+﻿@using Veritrade2017.Models.ProductProfile
+
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var last_searches = (List<BuscarProducto>)Model;
+}
+
+@if (last_searches.Count > 0)
+{
+    <div class="t_ultimas_busquedas">
+        <h4><img src="@Url.Content("~/Content/images/lupa.png")" />@Resources.LastestSearch</h4>
+        <div class="row">
+            <div class="col-md-6">
+                <ul>
+                    @if (culture == "es")
+                    {
+                        for (var i = 0; i < 5; i++)
+                        {
+                            var e = last_searches.ElementAtOrDefault(i);
+                            if (e == null)
+                            {
+                                break;
+                            }
+                            var NombreProducto = "";
+                            if (e.Producto.Length > 44)
+                            {
+                                NombreProducto = e.Producto.Substring(0, 43) + "...";
+                            }
+                            else
+                            {
+                                NombreProducto = e.Producto;
+                            }
+                            <li><a href="/@culture/@e.Pais.Replace(" ", "-").ToLower()/importaciones-y-exportaciones/@e.Uri/@e.CodPartida"> @NombreProducto - <span>@e.Pais.ToUpper()</span></a></li> @*Ruben 202306*@
+                        }
+                    }
+                    else
+                    {
+                        for (var i = 0; i < 5; i++)
+                        {
+                            var e = last_searches.ElementAtOrDefault(i);
+                            if (e == null)
+                            {
+                                break;
+                            }
+                            var NombreProducto = "";
+                            if (e.Producto.Length > 44)
+                            {
+                                NombreProducto = e.Producto.Substring(0, 43) + "...";
+                            }
+                            else
+                            {
+                                NombreProducto = e.Producto;
+                            }
+                            <li><a href="/@culture/@e.Pais.Replace(" ", "-").ToLower()/importaciones-y-exportaciones/@e.Uri/@e.CodPartida"> @NombreProducto - <span>@e.Pais.ToUpper()</span></a></li> @*Ruben 202306*@
+                        }
+                    }
+                </ul>
+            </div>
+            <div class="col-md-6">
+                <ul>
+                    @if (culture == "es")
+                    {
+                        for (var i = 5; i < 10; i++)
+                        {
+                            var e = last_searches.ElementAtOrDefault(i);
+                            if (e == null)
+                            {
+                                break;
+                            }
+                            var NombreProducto = "";
+                            if (e.Producto.Length > 44)
+                            {
+                                NombreProducto = e.Producto.Substring(0, 43) + "...";
+                            }
+                            else
+                            {
+                                NombreProducto = e.Producto;
+                            }
+                            <li><a href="/@culture/@e.Pais.Replace(" ", "-").ToLower()/importaciones-y-exportaciones/@e.Uri/@e.CodPartida"> @NombreProducto - <span>@e.Pais.ToUpper()</span></a></li> @*Ruben 202306*@
+                        }
+                    }
+                    else
+                    {
+                        for (var i = 5; i < 10; i++)
+                        {
+                            var e = last_searches.ElementAtOrDefault(i);
+                            if (e == null)
+                            {
+                                break;
+                            }
+                            var NombreProducto = "";
+                            if (e.Producto.Length > 44)
+                            {
+                                NombreProducto = e.Producto.Substring(0, 43) + "...";
+                            }
+                            else
+                            {
+                                NombreProducto = e.Producto;
+                            }
+                            <li><a href="/@culture/@e.Pais.Replace(" ", "-").ToLower()/importaciones-y-exportaciones/@e.Uri/@e.CodPartida"> @NombreProducto - <span>@e.Pais.ToUpper()</span></a></li> @*Ruben 202306*@
+                        }
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+
+}

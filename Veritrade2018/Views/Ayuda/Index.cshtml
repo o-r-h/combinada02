@@ -1,0 +1,41 @@
+﻿@using Veritrade2018.Models
+@using Veritrade2018.Helpers
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var uri = HttpContext.Current.Request.Url.AbsolutePath;
+    var seoConf = ConfiguracionesSeo.GetConfig(culture, uri);
+    var ayuda = (Ayuda)ViewData["ayuda"];
+    var videos = new AyudaVideo();
+
+    ViewBag.Title = seoConf.Title;
+    ViewBag.Description = seoConf.Description;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+    <link href="@Url.Content("~/Content/Assets/ayuda.css")" rel="stylesheet" type="text/css" />
+}
+
+<div class="container" style="margin: 10px auto">
+    <div class="ayuda_section">
+        <div class="ayuda_content">
+            <div class="row video_content">
+                <div class="col-lg-12">
+                    <h3>@ayuda.Titulo</h3>
+                    <p class="ayuda_description">@ayuda.Descripcion</p>
+                </div>
+            </div>
+            <div class="row video_content">
+                @foreach (var video in videos.GetVideos(ayuda.Id))
+                {
+                    <div class="video_item">
+                        <h4>@video.Titulo</h4>
+                        <iframe class="video_ayuda" src="@video.UrlVideo" allowfullscreen="false"></iframe>
+                        <p class="video_description">@video.Descripcion</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

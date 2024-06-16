@@ -1,0 +1,174 @@
+﻿
+@{
+    var lista = (List<SelectListItem>)Model;
+    var listaFavoritos = (List<SelectListItem>)Session["ListaMyFavourites"];
+    var tipoFavorito = Session["tipoFavorito"].ToString();
+    List<string> valor = new List<string>();
+    int cont = 0;
+    foreach (var v in listaFavoritos)
+    {
+        valor.Add(v.Value);
+        cont++;
+    }
+    var count = 1;
+    var clase = "col-xs-12 col-sm-8 col-sm-offset-2";
+    if (tipoFavorito == "Producto" || tipoFavorito == "Compañia")
+    {
+        clase = "col-xs-12 col-sm-8 col-sm-offset-2 no-display";
+    }
+    var id = "myTabla2";
+    if (tipoFavorito.Equals("ProductoCompañia") || tipoFavorito.Equals("CompañiaProducto"))
+    {
+        id = "myTabla";
+    }
+}
+
+<div id="TableView" class="@clase">
+
+    <div class="table-responsive" style="max-height: 500px; overflow-y: scroll;">
+        
+            <table class="table table-condensed table-bordered" id="@id" >
+        
+        
+            <thead>
+                <tr class="table-title" style="height: 4em;">
+                    <th class="text-center column-width-min">No.</th>
+                    @if (tipoFavorito != "")
+                    {
+                        if (tipoFavorito.Equals("ProductoCompañia") || tipoFavorito.Equals("Producto"))
+                        {
+                            <th class="text-center">
+                                @Resources.AdminResources.Product_Text_02
+                                @if (tipoFavorito.Equals("Producto"))
+                                {
+                                    <br />
+                                    <input type="text" name="txtDesComercialB" id="txtDescripcion" value="" />
+                                    <a id="lnkBuscarDescripcion">
+                                        <img src="@Url.Content("/Content/Images/bot_lupal_off.png")" title="@Resources.Resources.LnkTitle_Search" width="20" height="20" class="cursor-action" />
+                                    </a>
+
+                                    <a id="lnkRestablecerDescripcion">
+                                        <img src="@Url.Content("/Content/Images/bot_recarga_off.png")" title="@Resources.Resources.LnkTitle_Reset" width="20" height="20" class="cursor-action" />
+                                    </a>
+                                    <div>
+                                        <label id="lblResultadoDesripcion"></label>
+                                    </div>
+                                }
+                            </th>
+                        }
+                        else
+                        {
+                            <th class="text-center">
+                                @Resources.AdminResources.Company_Text_02
+                                @if (tipoFavorito.Equals("Compañia"))
+                                {
+                                    <br />
+                                    <input type="text" name="txtDesComercialB" id="txtDescripcion" value="" />
+                                    <a id="lnkBuscarDescripcion">
+                                        <img src="@Url.Content("/Content/Images/bot_lupal_off.png")" title="@Resources.Resources.LnkTitle_Search" width="20" height="20" class="cursor-action" />
+                                    </a>
+
+                                    <a id="lnkRestablecerDescripcion">
+                                        <img src="@Url.Content("/Content/Images/bot_recarga_off.png")" title="@Resources.Resources.LnkTitle_Reset" width="20" height="20" class="cursor-action" />
+                                    </a>
+                                    <div>
+                                        <label id="lblResultadoDesripcion"></label>
+                                    </div>
+                                }
+                            </th>
+                        }
+                    }
+
+                    <th class="text-center column-width-xs">
+                        @Resources.MiPerfil.Select_Text
+                    </th>
+                </tr>
+            </thead>
+            <tbody id="tbodyPreference">
+                @foreach (var list in lista)
+                {
+                    <tr>
+                        <td>
+                            @(count++)
+                        </td>
+                        <td class="valueField" data-field="Nandina">
+                            @list.Text
+                        </td>
+                        <td class="checkField">
+                            <div class="text-center">
+                                @if (tipoFavorito.Equals("ProductoCompañia") || tipoFavorito.Equals("CompañiaProducto"))
+                                {
+                                    <img id="@list.Value" src="@Url.Content("~/Content/Images/Admin/pencil.png")" class="icon-detail" alt="" />
+                                }
+                                <label>
+                                    @{
+
+                                        if (tipoFavorito.Equals("ProductoCompañia") || tipoFavorito.Equals("CompañiaProducto"))
+                                        {
+                                            @*string[] valores = list.Value.Split('-');
+                                            if (valor.Contains(valores[1]))
+                                            {
+                                                <input class="c_template_checkbox" type="checkbox" value="@list.Value" aria-label="...">
+                                            }
+                                            else
+                                            {
+                                                <input class="c_template_checkbox" type="checkbox" value="@list.Value" aria-label="...">
+                                            }*@
+                                        }
+                                        else
+                                        {
+                                            if (valor.Contains(list.Value))
+                                            {
+                                                <input class="c_template_checkbox" type="checkbox" checked value="@list.Value" aria-label="...">
+                                            }
+                                            else
+                                            {
+                                                <input class="c_template_checkbox" type="checkbox" value="@list.Value" aria-label="...">
+                                            }
+                                        }
+
+                                    }
+                                </label>
+                            </div>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    
+</div>
+
+
+<div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center">
+    @if (tipoFavorito.Equals("ProductoCompañia") || tipoFavorito.Equals("CompañiaProducto"))
+    {
+        <button id="btnActualizarPCE" class="btn boton-opcion">
+            @Resources.AdminResources.Add_Text
+        </button>
+        @*<button id="btnDelete2" class="btn boton-delete margin-height-sm">
+                @Resources.AdminResources.Delete_ToMyAlerts_Button
+            </button>*@
+        <button id="btnActualizarPC" class="btn boton-opcion no-display">
+            @Resources.AdminResources.Update_ToMyAlerts_Button
+        </button>
+    }
+    else
+    {
+        <button id="btnActualizarE" class="btn boton-opcion">
+            @Resources.AdminResources.BtnSetAlert_Text  @*@Resources.AdminResources.BtnSetAlert_Text*@
+        </button>
+
+        <button id="btnActualizar" class="btn boton-opcion no-display">
+            @Resources.AdminResources.Update_ToMyAlerts_Button
+        </button>
+        <button id="btnCancelar" class="btn boton-opcion no-display">
+            Cancelar
+        </button>
+    }
+    <a href="@Url.Action("Index", "MisAlertasFavoritos")" class="btn boton-volver margin-height-sm" id="Volver">
+        @Resources.MiPerfil.Btn_Back
+    </a>
+
+</div>

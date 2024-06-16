@@ -1,0 +1,53 @@
+﻿@using Veritrade2018.Helpers
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var codCampania = ViewData["CodCampaña"];
+    if (Session["c"] != null && Session["c"].ToString() != "")
+    {
+        codCampania = Session["c"].ToString();
+    }
+
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+
+    if (controller.ToLower() == "demo")
+    {
+        if (culture == "es")
+        {
+            codCampania = " 12101";
+        }
+        else
+        {
+            codCampania = " 12102";
+        }
+    }
+
+}
+<div class="modal fade modal-consulta" tabindex="-1" role="dialog" id="ModalRequestFreeTrial">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="padding: 20px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="icon-close-modal-pageDemo" aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title ">
+                    @Resources.Resources.Title_FreeTrial_Modal
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12">
+                        <div class="informacion-mensaje">
+                            @Resources.Resources.Message_FreeTrial_Modal_Part1 pru
+                            <br />
+                            @Resources.Resources.Message_FreeTrial_Modal_Part2
+                        </div>
+                        <div class="divLinkFreeTrial">
+                            @Html.ActionLink(Resources.Resources.TrialText, "Index", "PruebaGratis", new { culture, campania = codCampania }, new { @class = "LinkFreeTrial" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

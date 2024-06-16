@@ -1,0 +1,95 @@
+﻿@using Veritrade2017.Models
+@using Veritrade2017.Helpers
+@using System.Globalization
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+
+    var uri = HttpContext.Current.Request.Url.AbsolutePath;
+    var seoConf = ConfiguracionesSeo.GetConfig(culture, uri);
+
+    //ViewBag.Title = culture == "es" ? "Consulta Gratis" : "Free Search";
+    ViewBag.Title = seoConf.Title;
+    ViewBag.Description = seoConf.Description;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var urlAdmin = SettingUtility.GetUrlBack();
+    //var urlDemo = urlAdmin + "/" + culture + "/demo/Index3?cp=" + ViewData["codigoPais"].ToString();
+    var urlDemo = urlAdmin + "/" + culture + "/demo/Index3";
+
+    if(ViewData["metodo"].ToString() == "POST")
+    {
+        urlDemo += "?acc=demo&cp=" + ViewData["CodPais"].ToString() + "&to="+ ViewData["rdbTipoOpe"].ToString() + "&op="+
+            ViewData["cboOpcion"].ToString()+"&nom="+ ViewData["txtDesComercialB"] + "&par="+ ViewData["CodPartida"].ToString();
+    }
+    else
+    {
+        urlDemo+="?cp=" + ViewData["codigoPais"].ToString();
+    }
+
+}
+
+<style>
+    #iConsulta {
+        width: 1px;
+        min-width: 100%;
+        min-height: 380px;
+        background: url('../../Content/Images/ajax-loader.gif') center center no-repeat;
+        background-size: auto 70px;
+    }
+</style>
+
+@*<iframe id="iConsulta" src="@urlAdmin/@culture/demo/Index3" scrolling="no" frameborder="0"></iframe>*@
+<iframe id="iConsulta" src="@urlDemo" scrolling="no" frameborder="0"></iframe>
+
+
+@Html.Partial("Modals/Modal_Solicita_PruebaGratis")
+@section Scripts{
+    <!-- MDN PolyFils for IE8 (This is not normally needed if you use the jQuery version) -->
+    <!--[if lte IE 8]>
+            <script type="text/javascript" src="~/Scripts/Plugins/iframeResizer/ie8.polyfils.js"></script>
+        <![endif]-->
+    <script src="~/Scripts/Plugins/iframeResizer/iframeResizer.min.js"></script>
+
+    <script type="text/javascript">
+        function TableDemoPage() {
+        }
+       
+        TableDemoPage.prototype.showModalRequestFreeTrial = function () {
+            $('#ModalRequestFreeTrial').modal({
+                show: true,
+                backdrop: 'static',
+                keyboard: false
+            });
+        }
+      
+        $(window).load(function () {
+            iFrameResize({ log: false }, '#iConsulta');
+        });
+
+        function scrollToPoint(top) {
+            $("html, body").animate({ scrollTop: top }, "slow")
+        }
+
+        var eventMethod = window.addEventListener ? "addEventListener" : "attachEvent";
+        var eventer = window[eventMethod];
+        var messageEvent = eventMethod == "attachEvent" ? "onmessage" : "message";
+
+        // Listen to message from child window
+        eventer(messageEvent, function (e) {
+            var key = e.message ? "message" : "data";
+            var data = e[key];
+            //console.log(data);
+            switch (data) {
+                case "scrollDown":
+                    setTimeout(function () {
+                        $("html, body").animate({ scrollTop: 600 }, 1000);
+                    }, 300);
+                    break;
+                case "showModal":
+                    TableDemoPage.prototype.showModalRequestFreeTrial();
+                    break;
+            }
+
+        }, false);
+
+    </script>
+}

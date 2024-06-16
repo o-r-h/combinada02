@@ -1,0 +1,78 @@
+﻿@{
+    string url = (string)ViewData["url"];
+}
+<script type="text/javascript">
+
+</script>
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalLogin">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content" style="padding: 20px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    @Resources.Resources.Close_Text <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">@Resources.Resources.LoginTitle</h4>
+            </div>
+            <div class="modal-body" style="padding: 0px;">
+                <div class="modal_popup">
+
+                    <div id="loadingLogin2" class="loaderLogin">
+                        <div class="objectLoadingLogin"></div>
+                    </div>
+
+
+                    <form action="@Url.Action("Index", "LoginAlerts",new {ruta = url})" id="loginForm2" method="post" role="form">
+                        @Html.AntiForgeryToken()
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>@Resources.Resources.LoginUserLabel</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <img src="~/Content/Images/ico_form_contacto_01.jpg" alt="" width="34" height="27" />
+                                    </span>
+                                    @Html.TextBox("txtCodUsuario2", null, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <label>@Resources.Resources.LoginPasswordLabel</label>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <img src="~/Content/Images/ico_form_contacto_02.jpg" alt="" width="34" height="27" />
+                                    </span>
+                                    @Html.Password("txtPassword2", null, new { @class = "form-control" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-12" style="margin-top: 10px;">
+                                <a href="#" class="forgot_link">@Resources.Resources.LoginForgotLabel</a>
+                                <span id="login_button2" class="bot_cabecera">Login ></span>
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <div class="col-sm-12">
+                                <div class="login_text">
+                                    @Resources.Resources.LoginDevelopedLabel<br />@Resources.Resources.LoginNavegadoresLabel
+                                </div>
+                            </div>
+                        </div>
+                        <center>
+                            <div class="login_text">
+                                <input id="chkTerminos2" checked="checked" type="checkbox">
+                                @Resources.Resources.LoginTerminosLabel
+
+                                @Html.ActionLink(Resources.Resources.Footer_TermsConditions, "", null, new { @class = "link_terminos", href = "#ModalTerminosCondiciones", data_toggle = "modal" })
+                            </div>
+                        </center>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

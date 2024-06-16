@@ -1,0 +1,76 @@
+﻿@using Veritrade2017.Models.Minisite
+
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var last_searches = (List<BuscaEmpresaModel>)Model;
+}
+
+<div class="t_ultimas_busquedas">
+    <h4><img src="@Url.Content("~/Content/images/lupa.png")" />@Resources.LastestSearch</h4>
+    <div class="row">
+        <div class="col-md-6">
+            <ul>
+                @if (culture == "es")
+                {
+                    for (var i = 0; i < 5; i++)
+                    {
+                        var e = last_searches.ElementAtOrDefault(i);
+                        if (e == null)
+                        {
+                            break;
+                        }
+                        /* Ruben 202306*/
+                        @*<li><a href="/@culture/importaciones-exportaciones-@e.Pais.ToLower()/@e.Uri/@e.Trib.ToLower()-@e.Ruc.Trim()"> @e.Empresa - <span>@e.Trib.ToUpper() @e.Ruc - @e.Pais.ToUpper()</span></a></li>*@
+                        <li><a href="/@culture/@e.Pais.Replace(" ", "-").ToLower()/importaciones-y-exportaciones-@e.Uri/@e.Trib.ToLower()-@e.Ruc.Trim()"> @e.Empresa - <span>@e.Trib.ToUpper() @e.Ruc - @e.Pais.ToUpper()</span></a></li>
+                    }
+                }
+                else
+                {
+                    for (var i = 0; i < 5; i++)
+                    {
+                        var e = last_searches.ElementAtOrDefault(i);
+                        if (e == null)
+                        {
+                            break;
+                        }
+                        /* Ruben 202306*/
+                        @*<li><a href="/@culture/imports-exports-@e.Pais.ToLower()/@e.Uri/@e.Trib.ToLower()-@e.Ruc.Trim()"> @e.Empresa - <span>@e.Trib.ToUpper() @e.Ruc - @e.Pais.ToUpper()</span></a></li>*@
+                        <li><a href="/@culture/@e.Pais.Replace(" ", "-").ToLower()/imports-and-exports-@e.Uri/@e.Trib.ToLower()-@e.Ruc.Trim()"> @e.Empresa - <span>@e.Trib.ToUpper() @e.Ruc - @e.Pais.ToUpper()</span></a></li>
+                    }
+                }
+            </ul>
+        </div>
+        <div class="col-md-6">
+            <ul>
+                @if (culture == "es")
+                {
+                    for (var i = 5; i < 10; i++)
+                    {
+                        var e = last_searches.ElementAtOrDefault(i);
+                        if (e == null)
+                        {
+                            break;
+                        }
+                        /* Ruben 202306*/
+                        @*<li><a href="/@culture/importaciones-exportaciones-@e.Pais.ToLower()/@e.Uri/@e.Trib.ToLower()-@e.Ruc.Trim()"> @e.Empresa - <span>@e.Trib.ToUpper() @e.Ruc - @e.Pais.ToUpper()</span></a></li>*@
+                        <li><a href="/@culture/@e.Pais.Replace(" ", "-").ToLower()/importaciones-y-exportaciones-@e.Uri/@e.Trib.ToLower()-@e.Ruc.Trim()">@e.Empresa - <span>@e.Trib.ToUpper() @e.Ruc - @e.Pais.ToUpper()</span></a></li>
+                    }
+                }
+                else
+                {
+                    for (var i = 5; i < 10; i++)
+                    {
+                        var e = last_searches.ElementAtOrDefault(i);
+                        if (e == null)
+                        {
+                            break;
+                        }
+                        /* Ruben 202306*/
+                        @*<li><a href="/@culture/imports-exports-@e.Pais.ToLower()/@e.Uri/@e.Trib.ToLower()-@e.Ruc.Trim()"> @e.Empresa - <span>@e.Trib.ToUpper() @e.Ruc - @e.Pais.ToUpper()</span></a></li>*@
+                        <li><a href="/@culture/@e.Pais.Replace(" ", "-").ToLower()/imports-and-exports-@e.Uri/@e.Trib.ToLower()-@e.Ruc.Trim()">@e.Empresa - <span>@e.Trib.ToUpper() @e.Ruc - @e.Pais.ToUpper()</span></a></li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+</div>

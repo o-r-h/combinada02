@@ -1,0 +1,79 @@
+﻿@using Veritrade2018.Helpers
+@using Veritrade2018.Models.Admin
+@using Veritrade2018.Util;
+@{
+    var objTabData = (TabData)Model;
+
+    var vFlag = objTabData.FlagVarVisibles;
+
+}
+
+@foreach (var item in objTabData.ListRowsTab)
+{
+<tr>
+    <td class="text-right">@item.Nro</td>
+    <td class="text-center">
+        @item.Fecha
+        <br />
+        <a href="javascript:void(0)" data-id="@item.Id" class="lnkVerDetalleById">
+            <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+        </a>
+    </td>
+    <td class="text-center">
+        @item.ImportadorOrExportador <br />
+        <a href="@item.LnkGoogle" target="_blank">
+            <img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" class="cursor-action" />
+        </a>
+    </td>
+    @if (vFlag.ExisteNotificado)
+    {
+        <td class="text-center">
+            @item.Notificado
+        </td>
+    }
+    @*Ruben 202210*@
+    @if ((vFlag.TipoOpe == "I" && vFlag.ExisteProveedor) || (vFlag.TipoOpe == "E" && vFlag.ExisteImportadorExp))
+    {
+        <td class="text-center">
+            @item.ExportadorOrImportador <br /> @vFlag.TipoOpe @vFlag.ExisteProveedor @vFlag.ExisteImportadorExp
+            <a href="@item.LnkGoogle2" target="_blank">
+                <img src="@Url.Content("~/Content/Images/ico_buscar.jpg")" class="cursor-action" />
+            </a>
+        </td>
+    }
+    <td class="text-center">
+        @item.PaisEmbarqueOrPaisDest
+    </td>
+    <td class="text-center">
+        @item.Puerto
+    </td>
+    <td class="text-center">
+        @item.PesoBruto
+    </td>
+    <td class="text-center">
+        @item.CantidadOrBultos
+    </td>
+    @if (vFlag.CodPais == "USI" || vFlag.CodPais == "USE")
+    {
+        <td class="text-center">
+            @item.UndMedida
+        </td>
+    }
+    @if (vFlag.ExisteDesComercial)
+    {
+        <td class="text-justify">
+            <p class="wspace-normal">
+                @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+            </p>
+        </td>
+    }
+    @if (vFlag.ExisteDesAdicional)
+    {
+        <td class="text-justify">
+            <p class="wspace-normal">
+                @Html.Raw(string.Concat(item.DesAdicional, item.Descripcion.AppendMoreLess()))
+            </p>
+        </td>
+    }
+</tr>
+}

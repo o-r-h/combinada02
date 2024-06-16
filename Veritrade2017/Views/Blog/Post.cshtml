@@ -1,0 +1,75 @@
+﻿@using Veritrade2017.Models
+
+@{
+    var postContent = (PostLanguage)ViewData["contenido_post"];
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var idiomafecha = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+
+    var sty = ((Campania.TYPE_CAMPANIA)((int?)Session["TypeCampania"] ?? 0));
+    var CodesCampanias = Campania.CodFormateds3((ViewData["CodesCampanias"] as Dictionary<Campania.CONTROL, string>), culture, Request.Browser.IsMobileDevice, sty );
+
+    ViewBag.Title = postContent.Titulo;
+    ViewBag.Description = ViewData["post_description"];
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles
+{
+    <link href="@Url.Content("~/Content/Assets/blog.css")" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function toggleTable(id) {
+            var lTable = document.getElementById(id);
+            lTable.style.display = (lTable.style.display === "block") ? "none" : "block";
+        }
+
+        // Ruben 202305
+        function prueba_gratis(Campaña) {
+            dataLayer.push({
+                'event': 'prueba_gratis', //valor estático
+                'categoria': 'blog', // valor dinámico
+                'post': '@postContent.Titulo' // valor dinámico
+            });
+
+            window.location = 'https://www.veritradecorp.com/es/pruebagratis/' + Campaña;
+        }
+    </script>
+}
+
+<div class="container" style="margin-top: -2px;">
+    <div class="noticias-blog">
+        <div class="col-sm-8 blog_content_left">
+            <div class="post_content">
+                <h1>@postContent.Titulo</h1>
+                <span class="fecha-pub">@Resources.Post_Publish @postContent.FechaPublicacion.ToString("dd MMMM yyyy", idiomafecha)</span>
+                <div class="post-rrss">
+                    <div style="background-color: #F5F5F5">
+                        <label>Comparte</label>
+                        <a href="https://www.facebook.com/veritrade/" target="new">
+                            <img src="~/Content/Images/ico_facebook_over.jpg" width="30" height="30" alt="">
+                        </a>
+                        <a href="https://plus.google.com/u/0/105745704279265511357/posts" target="new">
+                            <img src="~/Content/Images/ico_google_over.jpg" width="30" height="30" alt="">
+                        </a>
+                        <a href="https://www.linkedin.com/company/veritrade-analysis" target="new">
+                            <img src="~/Content/Images/ico_linkedin_over.jpg" width="30" height="30" alt="">
+                        </a>
+                        <a href="#">
+                            <img src="~/Content/Images/ico_mail_over.jpg" width="30" height="30" alt="">
+                        </a>
+                    </div>
+                </div>
+                <div class="content_detail">
+                    @Html.Raw(postContent.Contenido)
+                </div>
+                @Html.ActionLink(Resources.Button_Back, "Index", "Blog", new {  campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )}, new { culture, @class = "boton-atras" })
+            </div>
+        </div>
+        <div class="col-sm-4 blog_content_right">
+            @Html.Partial("Partials/Navegacion")
+        </div>
+    </div>
+</div>

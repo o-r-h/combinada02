@@ -1,0 +1,176 @@
+﻿@using Veritrade2017.Models
+@{
+    var modelo = (ConsultaForm)Model;
+}
+
+
+<div id="tabsPageDemo" class="tabsViewDemo">
+    <!-- Nav nav-pills -->
+    <ul id="nav-pills-consulta">
+        <li>
+            <a href="#tab-resumen">
+                @Resources.Demo_Summay_Tab
+            </a>
+        </li>
+        @if (modelo.FlagVarVisibles.ExistePartida)
+        {
+            <li>
+                <a href="#tab-productos">
+                    @Resources.Demo_Products_Tab
+                </a>
+            </li>
+        }
+        @if (modelo.CodPais == "PEB")
+        {
+            <li>
+                <a href="#tab-marcas">
+                    @Resources.Demo_Brands_Tab
+                </a>
+            </li>
+
+            <li>
+                <a href="#tab-modelos">
+                    @Resources.Demo_Models_Tab
+                </a>
+            </li>
+        }
+
+
+
+        @if (modelo.TipoOpe == "I")
+        {
+            if (modelo.FlagVarVisibles.ExisteImportador)
+            {
+                <li id="liTabImportadores">
+                    <a href="#tab-importadores">
+                        @Resources.Demo_Importers_Tab
+                    </a>
+                </li>
+            }
+
+            if (modelo.FlagVarVisibles.ExisteProveedor)
+            {
+                <li id="liTabExportadores">
+                    <a href="#tab-exportadores">
+                        @if (modelo.CodPais != "CL")
+                        {
+                            @Resources.Demo_Exporters_Tab
+                        }
+                        else
+                        {
+                            @Resources.Demo_Brands_Tab
+                        }
+                    </a>
+                </li>
+            }
+            if (modelo.FlagVarVisibles.ExistePaisOrigen)
+            {
+                <li id="liTabPaises">
+                    <a href="#tab-paisOrigen">
+                        @Resources.Demo_OriginCountries_Tab
+                    </a>
+                </li>
+            }
+        }
+        else
+        {
+            if (modelo.FlagVarVisibles.ExisteExportador)
+            {
+                <li id="liTabExportadores">
+                    <a href="#tab-exportadores">
+                        @Resources.Demo_Exporters_Tab
+                    </a>
+                </li>
+            }
+            if (modelo.FlagVarVisibles.ExisteImportadorExp /*&& Session["Plan"].ToString() != "ESENCIAL"*/)
+            {
+                <li id="liTabImportadores">
+                    <a href="#tab-importadores">
+                        @Resources.Demo_Importers_Tab
+                    </a>
+                </li>
+            }
+            if (modelo.FlagVarVisibles.ExistePaisDestino)
+            {
+                <li id="liTabPaises">
+                    <a href="#tab-paisOrigen">
+                        @Resources.Demo_DestinationCountries_Tab
+                    </a>
+                </li>
+            }
+        }
+
+        @if (modelo.FlagVarVisibles.ExisteViaTransp)
+        {
+            <li id="liTabViasTransporte">
+                <a href="#tab-viasTransporte">
+                    @Resources.Demo_Vias_Tab
+                </a>
+            </li>
+        }
+        @if (modelo.FlagVarVisibles.ExisteDistrito@*modelo.ExisteDistrito*@)
+{
+<li id="liTabDistrito">
+    <a href="#tab-distrito" data-toggle="tab">
+        @Resources.Demo_Districts_Tab
+    </a>
+</li>
+}
+
+        @if (modelo.FlagVarVisibles.ExisteAduana@*modelo.ExisteAduana*@)
+{
+<li id="liTabAduanaDUAs">
+    <a href="#tab-aduanas">
+        @((modelo.CodPais != "BR" && modelo.CodPais != "CO" && modelo.CodPais != "MX" && modelo.CodPais != "UY") ? @Resources.Demo_CustomsDuas_Tab : Resources.Demo_Aduanas_Tab)
+    </a>
+</li>
+}
+
+        <li>
+            <a id="tabDetalleExcel" href="#tab-DetalleExcel">
+                @Resources.Demo_DetailExcel_Tab
+            </a>
+        </li>
+    </ul>
+
+    @Html.Partial("Tabs/ResumenView", modelo)
+    @if (modelo.FlagVarVisibles.ExistePartida)
+    {
+        @Html.Partial("Tabs/ProductosView", modelo)
+    }
+    @if (modelo.FlagVarVisibles.ExisteMarcasModelos@*modelo.CodPais == "PEB"*@)
+{
+@Html.Partial("Tabs/MarcasView", modelo);
+@Html.Partial("Tabs/ModelosView", modelo);
+}
+    @if ((modelo.TipoOpe == "I" && modelo.FlagVarVisibles.ExisteImportador) ||
+            (modelo.TipoOpe == "E" && modelo.FlagVarVisibles.ExisteImportador/* && Session["Plan"].ToString() != "ESENCIAL"*/) ||
+         (modelo.FlagVarVisibles.ExisteImportadorExp/* && Session["Plan"].ToString() != "ESENCIAL"*/))
+    {
+        @Html.Partial("Tabs/ImportadoresView", modelo)
+    }
+    @if (modelo.FlagVarVisibles.ExisteProveedor || modelo.FlagVarVisibles.ExisteExportador)
+    {
+        @Html.Partial("Tabs/ExportadoresView", modelo)
+    }
+    @if (modelo.FlagVarVisibles.ExistePaisOrigen)
+    {
+        @Html.Partial("Tabs/PaisOrigenView", modelo)
+    }
+    @if (modelo.FlagVarVisibles.ExisteViaTransp)
+    {
+        @Html.Partial("Tabs/ViasTransporteView", modelo)
+    }
+    @if (modelo.FlagVarVisibles.ExisteDistrito@*modelo.ExisteDistrito*@)
+{
+@Html.Partial("Tabs/DistritosView", modelo)
+}
+
+    @if (modelo.FlagVarVisibles.ExisteAduana@*modelo.ExisteAduana*@)
+{
+@Html.Partial("Tabs/AduanasView", modelo)
+}
+
+
+    @Html.Partial("Tabs/DetalleExcelView", modelo)
+</div>

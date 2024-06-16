@@ -1,0 +1,429 @@
+﻿@using Veritrade2018.Helpers
+@using Veritrade2018.Models.Admin
+@using Veritrade2018.Util
+@{
+    var objDataTab = (TabData)Model;
+    bool isDemo = Extensiones.GetCookie("IsDemo") == "1";
+    if ((objDataTab.Filtro == "Partida") && (objDataTab.CodPais == "PE"))
+    {
+        foreach (var item in objDataTab.ListRowsTab)
+        {
+            item.IsVisibleLupaPartida = true;
+        }
+    }
+}
+
+@if (objDataTab.IsVisbleOpcionDescarga && !objDataTab.HideTabExcel && objDataTab.Filtro != Enums.Filtro.InfoTabla.ToString())
+{
+    <div class="row">
+        <div class="col-xs-12 divTabMessageExcel">
+            @if (objDataTab.Filtro == Enums.Filtro.Marca.ToString())
+            {
+                @Resources.Resources.BrandsModels_ExcelDonwloadMessage_Part1
+                <span class="spanTabMessageExcel">@Resources.Resources.MySearchs_BrandsModels_Tabs</span>
+                <a class="downloadExcel" data-opcion="@Enums.Filtro.Modelo.ToString()">
+                    <img src="~/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" />
+                </a>
+                if (!objDataTab.FlagRegMax)
+                {
+                    @(Resources.Resources.BrandsModels_ExcelDonwloadMessage_Part3 + " ")
+                    <span class="spanTabMessageExcel">@Resources.Resources.BrandsModels_Detail_InvoiceDetails</span>
+                    <a class="downloadExcelDetalleB">
+                        <img src="~/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" data-exp-excel-let="B" />
+                    </a>
+                }
+            }
+            else /*if(objDataTab.Filtro != Enums.Filtro.InfoTabla.ToString())*/
+            {
+                @Resources.Resources.Demo_ExcelDonwloadMessage_Part1
+                <span class="spanTabMessageExcel">@objDataTab.TituloTab</span>
+                @(Resources.Resources.Demo_ExcelDonwloadMessage_Part2 + " ")
+                <a class="downloadExcel" data-opcion="@objDataTab.Filtro">
+                    <img src="~/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" />
+                </a>
+            }
+        </div>
+    </div>
+}
+else if(objDataTab.Filtro == Enums.Filtro.InfoTabla.ToString())
+{
+    
+    <div class="row">
+        <div class="col-md-12 divTabMessageExcel">
+            @if (Session["TipoOpe"].ToString() == "I")
+            {
+                @Resources.AdminResources.InfoTabla_Details1
+            }
+            else
+            {
+                @Resources.AdminResources.InfoTabla_Details2
+            }
+
+        </div>
+        @*<div class="col-xs-12 divTabMessageExcel">
+            @Resources.Resources.Demo_ExcelDonwloadMessage_Part1
+            <span class="spanTabMessageExcel">@objDataTab.TituloTab</span>
+            @(Resources.Resources.Demo_ExcelDonwloadMessage_Part2 + " ")
+            <a class="downloadExcel" data-opcion="@objDataTab.Filtro">
+                <img src="~/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" />
+            </a>
+        </div>*@
+    </div>
+}
+
+
+
+        @if (objDataTab.IsVisbleOpcionDescarga && objDataTab.HideTabExcel && objDataTab.TituloTab == Resources.Resources.MySearchs_BrandsModels_Tabs)
+        {
+            <div class="row">
+                <div class="col-xs-12 divTabMessageExcel">
+                    @if (objDataTab.Filtro == Enums.Filtro.Marca.ToString())
+                    {
+                        @Resources.Resources.BrandsModels_ExcelDonwloadMessage_Part1
+                        <span class="spanTabMessageExcel">@Resources.Resources.MySearchs_BrandsModels_Tabs</span>
+                        <a class="downloadExcel" data-opcion="@Enums.Filtro.Modelo.ToString()">
+                            <img src="~/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" />
+                        </a>
+
+                    }
+                    else
+                    {
+                        @Resources.Resources.Demo_ExcelDonwloadMessage_Part1
+                        <span class="spanTabMessageExcel">@objDataTab.TituloTab</span>
+                        @(Resources.Resources.Demo_ExcelDonwloadMessage_Part2 + " ")
+                        <a class="downloadExcel" data-opcion="@objDataTab.Filtro">
+                            <img src="~/Content/Images/bot_excel_off.png" width="24" height="24" class="ico_excel" alt="" />
+                        </a>
+                    }
+                </div>
+            </div>
+        }
+
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="table-responsive">
+
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr class="table-title">
+                                <th>
+                                    @objDataTab.GridHead.Descripcion
+                                    @if (objDataTab.GridHead.IsVisibleFiltroCboDescripcion)
+                                    {
+                                        <br />
+                                        <select class="pull-left select-columnHead-tableLarge cboFiltroTabla"
+                                                data-filtro-cbo="@objDataTab.Filtro">
+                                            <option value="0" selected="selected">
+                                                @Resources.Resources.Option_Filter_All.ToUpper()
+                                            </option>
+                                            @foreach (var item in objDataTab.ListRowsCbo)
+                                            {
+                                                <option value="@item.Id">@item.Descripcion</option>
+                                            }
+                                        </select>
+                                    }
+                                    <a class="pull-right orderIconColumnDescripcion lnkOrdenarTabla"
+                                       data-filtro="@objDataTab.Filtro"
+                                       data-orden="@objDataTab.Filtro"
+                                       data-tipofiltro="@Enums.TipoFiltro.Tab">
+                                        <img src="@Url.Content("~/Content/Images/Minisite/order_arrows-2x.png")" alt="" width="16" height="16" />
+                                    </a>
+                                </th>
+                               
+                                @if (objDataTab.IsVisibleInfoComplementario && (objDataTab.Filtro == "PaisOrigen" || objDataTab.Filtro == "PaisDestino") && (bool)(Session["isVisibleInfoComplementario"] ?? false))
+                                {
+                                <th>
+                                    @if (objDataTab.Filtro == "PaisOrigen")
+                                    {
+                                        @Resources.AdminResources.AduanaOriginInfoComplementaria_text
+                                    }
+                                    else
+                                    {
+                                        @Resources.AdminResources.AduanaDestinationInfoComplementaria_text
+                                    }
+                                </th>
+                                }
+                                <th>
+                                    <div class="pull-left tableHeadText">
+                                        @objDataTab.GridHead.TotalReg
+                                    </div>
+                                    <a class="pull-right orderIconProducts lnkOrdenarTabla"
+                                       data-filtro="@objDataTab.Filtro"
+                                       data-orden="CantReg desc"
+                                       data-tipofiltro="@Enums.TipoFiltro.Tab">
+                                        <img src="@Url.Content("~/Content/Images/Minisite/order_arrows-2x.png")" alt="" width="16" height="16" />
+                                    </a>
+                                </th>
+                                <th>
+                                    <div class="pull-left tableHeadText">
+                                        @objDataTab.GridHead.CiFoFobTot
+                                    </div>
+                                    <a class="pull-right orderIconProducts lnkOrdenarTabla"
+                                       data-filtro="@objDataTab.Filtro"
+                                       data-orden="@(objDataTab.GridHead.OrdenCiFoFobTot+" desc")"
+                                       data-tipofiltro="@Enums.TipoFiltro.Tab">
+                                        <img src="@Url.Content("~/Content/Images/Minisite/order_arrows-2x.png")" alt="" width="16" height="16" />
+                                    </a>
+
+                                </th>
+                                @if (objDataTab.Filtro != Enums.Filtro.InfoTabla.ToString())
+                                {
+                                    <th class="column-percentage column-text-center">
+                                        @objDataTab.GridHead.CiFoFobPor
+                                    </th>
+                                }
+
+
+                                @if (objDataTab.GridHead.IsVisibleTotalKg)
+                                {
+                                    <th>
+                                        <div class="pull-left tableHeadText">
+                                            @objDataTab.GridHead.TotalKg
+                                        </div>
+                                        <a class="pull-right orderIconProducts lnkOrdenarTabla"
+                                           data-filtro="@objDataTab.Filtro"
+                                           data-orden="@objDataTab.GridHead.OrdenTotalKg"
+                                           data-tipofiltro="@Enums.TipoFiltro.Tab">
+                                            <img src="@Url.Content("~/Content/Images/Minisite/order_arrows-2x.png")" alt="" width="16" height="16" />
+                                        </a>
+                                    </th>
+                                }
+                                @if (objDataTab.GridHead.IsVisblePrecio)
+                                {
+                                    <th class="column-text-center">
+                                        @objDataTab.GridHead.Precio
+                                    </th>
+                                }
+
+                                @if (objDataTab.GridHead.IsVisibleColumnCheck && objDataTab.IsVisibleCheck)
+                                {
+                                    <th class="column-checkbox">
+                                        <input id="chkAll@(Enums.TipoFiltro.Tab+ objDataTab.Filtro)" type="checkbox"
+                                               onclick="TablaDeDatos.SeleccionaTodo('@("tbody" +Enums.TipoFiltro.Tab+ objDataTab.Filtro)', this);" />
+                                    </th>
+                                }
+
+                            </tr>
+                        </thead>
+                        <tbody id="@("tbody"+Enums.TipoFiltro.Tab + objDataTab.Filtro)">
+                            @foreach (var item in objDataTab.ListRowsTab)
+                            {
+                            <tr>
+                                <td>
+                                    <p class="wspace-normal">
+                                        @if (item.IsVisibleSentinel)
+                                        {
+                                            if (item.IsPlanPermiteSentinel)
+                                            {
+                                                <a data-idruc="@item.Ruc" class="lnkSentinel" title="SENTINEL, Alertas y Reportes de Deudas">
+                                                    <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" class="cursor-action" />
+                                                </a>
+                                            }
+
+                                            else
+                                            {
+                                                <a title="SENTINEL, Alertas y Reportes de Deudas" onclick="TablaDeDatos.VerMensajePlanNoSentinel('@Resources.AdminResources.SentinelValidation_Text');">
+                                                    <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_sentinel.jpg")" class="cursor-action" />
+                                                </a>
+                                            }
+                                            @Html.Raw("&nbsp;" + string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                                        }
+                                        else if ((item.mostrarInformaColombia) && (!isDemo))
+                                        {
+                                            if (item.IsPlanPermiteSentinel)
+                                            {
+                                                <a title="Informa Colombia" class="fas fa-search click_informaColombia" onclick="TablaDeDatos.ClickInformaColombia('@item.Id');">
+                                                    <img alt="icono informa colombia" src="@Url.Content("~/Content/Images/ico_lupa.jpg")" />
+                                                </a>
+                                                @Html.Raw("&nbsp;" + string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                                            }
+                                            else
+                                            {
+                                                <a title="Informa Colombia" onclick="TablaDeDatos.VerMensajePlanNoInformaColombia('@Resources.AdminResources.SentinelValidation_Text');">
+                                                    <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                                </a>
+                                                @Html.Raw("&nbsp;" + string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                                            }
+                                        }
+                                        else if ((item.mostrarInformaColombia) && (isDemo))
+                                        {
+                                            <a class="lnkSentinel">
+                                                <img src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                            </a>
+                                            @Html.Raw("&nbsp;" + string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                                        }
+                                        else if (item.IsVisibleLupaPartida)
+                                        {
+                                            if (isDemo)
+                                            {
+                                                <a class="lnkSentinel">
+                                                    <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                                </a>
+                                                @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                                            }
+                                            else
+                                            {
+                                                <a onclick="TablaDeDatos.ClickArancelesPartida('@item.Descripcion');">
+                                                    <img alt="icono sentinel" src="@Url.Content("~/Content/Images/ico_lupa.jpg")" class="cursor-action" />
+                                                </a>
+                                                @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                                            }
+                                        }
+                                        else
+                                        {
+                                            @Html.Raw(string.Concat(item.Descripcion, item.Descripcion.AppendMoreLess()))
+                                        }
+
+                                    </p>
+                                </td>
+                                @if (objDataTab.IsVisibleInfoComplementario && (objDataTab.Filtro == "PaisOrigen" || objDataTab.Filtro == "PaisDestino") && (bool)(Session["isVisibleInfoComplementario"] ?? false))
+                                {
+                                    if (!string.IsNullOrEmpty(item.CodPaisComplementario))
+                                    {
+                                        <td>
+                                            <button class="InfoComplement" data-idregistro="@item.CodPaisComplementario" data-filtro="InfoComplementario">
+                                                @Resources.AdminResources.DetailButton_Text
+                                            </button>
+                                        </td>
+                                    }
+                                    else
+                                    {
+                                        <td></td>
+                                    }
+
+                                }
+                                <td class="columnUnderline column-text-right cell-vertical-align-middle">
+                                    @if (item.IsEnabledTotalReg)
+                                    {
+                                        <a class="lnkVerRegistros 111"
+                                           title="@objDataTab.GridHead.TitleColumnTotalReg"
+                                           data-filtro="@objDataTab.Filtro"
+                                           data-idregistro="@item.Id">
+                                            @item.TotalReg
+                                        </a>
+                                    }
+                                    else
+                                    {
+                                        @item.TotalReg
+                                    }
+                                </td>
+                                <td class="column-text-right cell-vertical-align-middle">
+                                    @item.CiFoFobTot
+                                </td>
+                                @if (objDataTab.Filtro != Enums.Filtro.InfoTabla.ToString())
+                                {
+                                    <td class="column-text-right cell-vertical-align-middle">
+                                        @item.CiFoFobPor
+                                    </td>
+                                }
+
+
+                                @if (objDataTab.GridHead.IsVisibleTotalKg)
+                                {
+                                    <td class="column-text-right cell-vertical-align-middle">
+                                        @item.TotalKg
+                                    </td>
+                                }
+                                @if (objDataTab.GridHead.IsVisblePrecio)
+                                {
+                                    <td class="column-text-right cell-vertical-align-middle">
+                                        @item.Precio
+                                    </td>
+                                }
+
+                                @if (objDataTab.GridHead.IsVisibleColumnCheck && objDataTab.IsVisibleCheck)
+                                {
+                                    <td class="cell-vertical-align-middle">
+                                        <input value="@item.Id" id="@("chk"+item.Id.ToString())" type="checkbox"
+                                               onclick="ValidarSeleccionCheck('@("chk"+item.Id.ToString())','@(Enums.TipoFiltro.Tab+ objDataTab.Filtro)')" />
+                                    </td>
+                                }
+                            </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr class="table-footer">
+                                <th>
+                                    @Resources.Resources.TotalsText
+                                </th>
+                                @if (objDataTab.IsVisibleInfoComplementario && (objDataTab.Filtro == "PaisOrigen" || objDataTab.Filtro == "PaisDestino") && (bool)(Session["isVisibleInfoComplementario"] ?? false))
+                                {
+                                    <th>
+
+                                    </th>
+                                }
+                                <th class="column-text-right">
+                                    @objDataTab.TotalRegistros
+                                </th>
+                                <th class="column-text-right">
+                                    @objDataTab.CiFoFobTotal
+                                </th>
+                                @if (objDataTab.Filtro != Enums.Filtro.InfoTabla.ToString())
+                                {
+                                    <th class="column-text-right">100.00%</th>
+                                }
+
+
+                                @if (objDataTab.GridHead.IsVisibleTotalKg)
+                                {
+                                    <th class="column-text-right">
+                                        @objDataTab.PesoNeto
+                                    </th>
+
+                                }
+                                @if (objDataTab.GridHead.IsVisblePrecio)
+                                {
+                                    <th>
+                                    </th>
+                                }
+                                @if (objDataTab.GridHead.IsVisibleColumnCheck && objDataTab.IsVisibleCheck)
+                                {
+                                    <th></th>
+                                }
+                            </tr>
+                        </tfoot>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+
+
+
+        <div class="row buttons-options-table">
+            @*@if (objDataTab.TotalPaginasTab > 1)
+            {*@
+            <div class="col-sm-6">
+                <nav aria-label="Page navigation">
+                    <ul id="@("paging" + Enums.TipoFiltro.Tab + objDataTab.Filtro)"
+                        data-id-tabla="@(Enums.TipoFiltro.Tab + objDataTab.Filtro)"
+                        class="pagination pagination-sm"></ul>
+                </nav>
+            </div>
+            @*}*@
+
+            @if (objDataTab.Filtro != Enums.Filtro.InfoTabla.ToString())
+            {
+                <div class="col-sm-6">
+                    @if (objDataTab.IsVisibleButtons)
+                    {
+                        <button class="btn btn-addToFilters pull-right btnAddFilterAndSearch"
+                                data-filtro="@objDataTab.Filtro"
+                                data-id-tabla="@(Enums.TipoFiltro.Tab + objDataTab.Filtro)">
+                            @objDataTab.AddToFiltersAndSearchButton
+                        </button>
+
+                        if (!(bool)(Session["opcionFreeTrial"] ?? false) && objDataTab.AddMyFavouritesButton != "" && Session["Plan"].ToString() != "UNIVERSIDADES"
+                            && Extensiones.GetCookie("IsDemo") != "1")
+                        {
+                            <button class="btn btn-addToFilters btn-margin-right pull-right btnAddMyFavourites"
+                                    data-id-tabla="@(Enums.TipoFiltro.Tab + objDataTab.Filtro)"
+                                    data-filtro="@objDataTab.Filtro">
+                                @objDataTab.AddMyFavouritesButton
+                            </button>
+                        }
+                    }
+                </div>
+            }
+        </div>

@@ -1,0 +1,27 @@
+﻿@using Veritrade2018.Models
+@using Veritrade2018.Helpers
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+}
+
+<div class="servicios_section" style="background-color: #f9f9f9; margin: 0;">
+    <div class="container" style="padding: 30px 0">
+        <div class="title" style="text-align: center">
+            <h2>¿@Resources.Resources.MenuItem01?</h2>
+        </div>
+
+        <div class="servicios_content" style="background-color: #ffffff">
+            @foreach (var servicio in (List<Servicios>)ViewData["servicios"])
+            {
+                <div class="col-sm-4 col-md-4 col-lg-4 servicio">
+                    <div class="servicios_item">
+                        <img src="@Url.Content("~/Content/Images/" + servicio.Imagen)" alt="@servicio.Titulo" />
+                        <label class="servicios_title">@servicio.Titulo</label>
+                        <p class="servicios_description">@servicio.Descripcion</p>
+                        @Html.ActionLink(Resources.Resources.Home_Service_Button, "Index", "Servicios", new { culture, slug = servicio.Slug }, new { @class = "home_link" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

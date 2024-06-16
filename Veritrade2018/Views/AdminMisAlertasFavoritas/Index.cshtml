@@ -1,0 +1,1022 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    ViewBag.Title = "Administrador Plantillas";
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    bool flagCombo2 = (bool)ViewData["FlagCombo2"];
+    var selected = ViewData["NumFavoritos"].ToString() + " seleccionados";
+    var lista = (List<SelectListItem>)ViewData["Lista"];
+    var listaFavoritos = (List<SelectListItem>)Session["ListaMyFavourites"];
+    var listaPC = (List<SelectListItem>)ViewData["ListaPC"];
+    var listaPC2 = new List<SelectListItem>();//(List<SelectListItem>)ViewData["ListaPC2"];
+    var cont = listaPC.Count;
+    string nameBotonPC = "";
+    int alertasUtilizadas = (int)ViewData["AlertasUtilizadas"];
+    int LimiteAlertaTotal = (int)ViewData["LimiteAlertaTotal"];
+
+    string limiteAgregar = (alertasUtilizadas == LimiteAlertaTotal) ? "true" : "false";
+
+    string CantidadAlertas = ViewData["CantidadAlertas"].ToString();
+
+    if (alertasUtilizadas > LimiteAlertaTotal)
+    {
+        alertasUtilizadas = LimiteAlertaTotal;
+    }
+
+    if (cont == 0)
+    {
+        nameBotonPC = Resources.AdminResources.Add_Alerts;
+    }
+    else
+    {
+        nameBotonPC = Resources.AdminResources.Add_Text; //Resources.AdminResources.Update_ToMyAlerts_Button;
+    }
+
+    var limiteAlerta = (int)ViewData["othersAlert"];
+    var max = limiteAlerta;
+    var tipoFavorito = Session["tipoFavorito"].ToString();
+    var fav = "";
+    if (max > 1)
+    {
+        fav = culture == "es" ? "favoritos" : "favorites";
+    }
+    else
+    {
+        fav = culture == "es" ? "favorito" : "favorite";
+    }
+
+    var display = "";
+    if (listaFavoritos.Count == 0)
+    {
+        display = "ocultar";
+    }
+    string labelAlert = "Tienes 4 alertas de 6";
+
+
+
+}
+
+@section Styles{
+    <link href="@Url.Content("~/Content/Components/ui-autocomplete.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Components/select2.min.css")" rel="stylesheet" type="text/css" />
+
+    <style type="text/css">
+        .disable {
+            display: none;
+        }
+
+        .select-formfield {
+            font-size: 12px;
+            /*max-width: 190px !important;*/
+        }
+
+        .form-horizontal {
+            margin-top: 10px;
+        }
+
+        #message a {
+            font-size: 29px;
+        }
+
+        #ModalVentanaMensaje .texto-ventana-mensaje #lnkContactenos a {
+            cursor: pointer;
+        }
+
+        .list-selected {
+            font-size: 12px;
+            color: #9c9c9c;
+            font-style: italic;
+            text-align: left !important;
+        }
+        .icon-detail {
+            width: 20px;
+            vertical-align: top !important;
+
+            cursor: pointer;
+        }
+
+        .ui-autocomplete-loading {
+            background: white url("@Url.Content("~/Content/Images/ui-anim_basic_16x16.gif")") right center no-repeat;
+        }
+
+        #txtProductOrCompany{
+            font-size : 12px;
+        }
+
+        .highlight-row {
+            border: 3px solid yellowgreen;
+        }
+
+        #myTabla tbody tr {
+            cursor: pointer;
+        }
+
+
+
+    </style>
+    <style>
+
+        .padd {
+            padding-left: 3px;
+        }
+
+        #TitlePC, #Title2PC {
+            font-size: 18px !important;
+            margin-top: 10px;
+            margin-bottom: 10px;
+        }
+
+        #TitlePC {
+            padding-left: 8px;
+        }
+
+        #txtBusqueda {
+            display: inline;
+            width: 40%;
+            margin-left: 30px;
+        }
+
+        .ocultar {
+            display: none;
+        }
+
+        .select2-selection__rendered {
+            font-size: 12px;
+            color: #7a8090 !important;
+        }
+
+        .select2-results__option {
+            font-size: 12px;
+        }
+
+        .st-ale {
+            color: #999;
+            font-size: 14px;
+            line-height: 18px;
+            font-weight: normal;
+        }
+
+        #btnCancelar, #btnCancelarPC {
+            background-color: rgb(79, 129, 189);
+        }
+    </style>
+}
+
+<div id="loadingPageAdmin" class="loader is-active-loading">
+    <div class="objectLoading"></div>
+</div>
+@if (tipoFavorito.Equals("ProductoCompañia") || tipoFavorito.Equals("CompañiaProducto"))
+{
+
+    <h2 class="col-sm-2 col-sm-offset-3 col-xs-12 control-label filter-control-label-vt" id="TitlePC">
+        @Resources.AdminResources.LayoutMenu_Item05
+        @*<span class="pull-right st-ale"> Tienes @alertasUtilizadas alertas de @ViewData["LimiteAlertaTotal"].ToString()</span>*@
+        <span class="pull-right st-ale">@CantidadAlertas</span>
+    </h2>
+}
+<input type="hidden" name="idLimitAlert" id="idLimitAlert" value="@limiteAgregar" />
+<div class="padding-height-sm">
+    <div class="row">
+        @if (!flagCombo2)
+        {
+            <div role="form">
+
+                <div class="col-xs-12 col-sm-8 col-sm-offset-4 padding-height-sm" id="SearchData">
+
+                    <div class="form-horizontal">
+                        <div class="form-group">
+
+                            <h2 class="col-sm-3 col-xs-12 control-label filter-control-label-vt" style="font-size: 18px !important;padding-right: 0px;">
+                                @Resources.AdminResources.LayoutMenu_Item05
+                                <span class="pull-right st-ale">@CantidadAlertas</span>
+                            </h2>
+                            <div class="col-sm-5 col-xs-12 no-display">
+                                @Html.TextBox("txtProducto", "", new { @class = "form-control filter-textField-vt" })
+                            </div>
+                            <label class="col-sm-2 col-xs-12 control-label list-selected no-display" id="lblSelected"> @selected</label>
+                        </div>
+                        <label class="col-sm-1 col-xs-12 control-label filter-control-label-vt"></label>
+                        <div class="col-sm-5 col-xs-12 padd">
+                            @Html.ListBox("lstFiltros", listaFavoritos, new { @class = "form-control filter-selectField-vt " + display })
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="TableSingle" class="col-xs-12 col-sm-8 col-sm-offset-2">
+                @Html.Partial("GridViews/TableView", lista)
+            </div>
+        }
+
+        else
+        {
+            <div class="col-xs-12 col-sm-8 col-sm-offset-2" id="TableCombined">
+                @Html.Partial("GridViews/TableView", listaPC)
+            </div>
+            <div role="form" class="row">
+                <label class="col-sm-2 col-sm-offset-3 col-xs-12 control-label filter-control-label-vt no-display" id="Title2PC">
+                    @Resources.AdminResources.Title_Alerts_02
+
+                </label>
+                <div class="col-xs-12 col-sm-8 col-sm-offset-3 padding-height-sm no-display" id="SearchDataPC">
+
+                    <div class="form-horizontal">
+                        <div class="form-group">
+
+                            <label class="col-sm-2 col-xs-12 control-label filter-control-label-vt">
+                                @if (tipoFavorito == "Producto" || tipoFavorito == "ProductoCompañia")
+                                {
+                                    @Resources.AdminResources.Product_Text
+                                }
+                                else
+                                {
+                                    @Resources.AdminResources.Company_Text
+                                }
+                            </label>
+                            <div class="col-sm-6 col-xs-12">
+                                @Html.DropDownList("cboProductOrCompany", new SelectList(lista, "Value", "Text")
+                                , new { @class = "form-control filter-selectField-vt ", @style="width:100%;" })
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+
+                            <label class="col-sm-2 col-xs-12 control-label filter-control-label-vt">
+                                @if (tipoFavorito == "ProductoCompañia")
+                                {
+                                    @Resources.AdminResources.Company_Text
+                                }
+                                else
+                                {
+                                    @Resources.AdminResources.Product_Text
+                                }
+                            </label>
+                            <div class="col-sm-6 col-xs-12">
+
+                                @*<input type="text" class="form-control" id="txtProductOrCompany" name="txtProductOrCompany">*@
+                                @*<div id="autocompleteFilter" class="ui-menu-item-wrapper"></div>*@
+                                @Html.DropDownList("cboProductOrCompany2", new SelectList(listaPC2, "Value", "Text")
+                                , new { @class = "form-control filter-selectField-vt", @style = "width:100%;" })
+                            </div>
+
+                        </div>
+
+                        <!--Sección de filtros agregados-->
+                        <div class="form-group no-display" id="filtros">
+                            <label class="col-sm-2 col-xs-12 control-label filter-control-label-vt">
+                                @Resources.Resources.Search_Form_Item07
+                            </label>
+                            <div class="col-sm-6 col-xs-12">
+                                @Html.ListBox("lstFiltros", new List<SelectListItem>(), new { @class = "form-control filter-selectField-vt" })
+                            </div>
+                            <div class="col-sm-3 col-xs-12">
+                                <button id="btnDeleteDetail" class="btn btn-mi-filtro-vt">
+                                    @Resources.Resources.Filters_DeleteButton
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-xs-12 col-sm-8 col-sm-offset-2 text-center no-display" id="ButtonsPC">
+                    <button id="btnActualizarPCE" class="btn boton-opcion no-display">
+                        @Resources.AdminResources.btnAddAlert_Text
+                    </button>
+                    <button id="btnActualizarPC" class="btn boton-opcion">
+                        @Resources.AdminResources.Update_ToMyAlerts_Button
+                    </button>
+
+                    <button id="btnDelete" class="btn boton-delete margin-height-sm">
+                        @Resources.AdminResources.Delete_ToMyAlerts_Button
+                    </button>
+
+                    <button id="btnCancelarPC" class="btn boton-opcion">
+                        Cancelar
+                    </button>
+                </div>
+            </div>
+        }
+
+    </div>
+</div>
+<!--Inicio Modal Ventana Mensaje-->
+@Html.Partial("Modals/Modal_VentanaMensaje")
+<!--Fin-->
+<!--Inicio - Modal Ventana Contactenos-->
+@Html.Partial("Modals/Modal_VentanaContactenos")
+<!--Fin-->
+<!--Inicio Modal Ventana Sesión-->
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaSesion.cshtml")
+<!--Fin-->
+
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaContactenos.cshtml")
+@Html.Partial("~/Views/Shared/Admin/Modal_VentanaMensaje.cshtml")
+
+@section Scripts{
+    <script src="@Url.Content("~/Scripts/Admin/admin.js?2")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Admin/AdminMyAlerts/AdminMyAlerts.js")" defer type="text/javascript"></script>
+    <script src="~/Scripts/jquery-ui.min.js"></script>
+    <script src="~/Scripts/select2.min.js"></script>
+    <script src="@Url.Content("~/Scripts/MixPanel/MisAlertas/MisAlertasMP.js?1")" type="text/javascript"></script>
+    <script type="text/javascript">
+        var listSelect = [];
+        var t;
+        var timeout = 15 * 60 * 1000;
+        var limiteAgregar = @limiteAgregar;
+        function SessionExpiredAlert() {
+            t = setTimeout(function () {
+                $('#ModalVentanaSesion').modal({
+                    show: true,
+                    backdrop: 'static',
+                    keyboard: false
+                });
+            }, timeout);
+        };
+
+        function InIEventSession() {
+            clearTimeout(t);
+            SessionExpiredAlert();
+        };
+
+        var isPC = @Html.Raw(tipoFavorito == "ProductoCompañia" ? "true": "false");
+        var urlDetalleFavorito = '@Url.Action("VerDetalleFavorito", "AdminMisAlertasFavoritas")';
+        function addFilterToFilterList(listOptions) {
+            var version = navigator.appVersion.toLowerCase();
+
+            var selected = "";
+            if (version.indexOf("android") > -1)
+                selected = "selected";
+
+
+            $.each(listOptions,
+                function (index, val) {
+                    $("select[name='lstFiltros']")
+                        .append("<option value='" + val.value + "' " + selected + " >" + val.text + "</option>");
+                });
+
+            Filtros.adjustSizeHeightFilters()
+
+            if ($("#lstFiltros").prop("size") > 0) {
+                $("#filtros").removeClass('no-display');
+                $("#filtros").removeClass('ocultar');
+            } else {
+                $("#filtros").addClass('no-display');
+            }
+
+        };
+
+        function VerDetalleFavorito(urlPost, idSeleccionado, flag) {
+
+            //console.log(idSeleccionado)
+            if (!(idSeleccionado == null)) {
+                $.ajax({
+                    url: urlPost,
+                    type: "POST",
+                    data: {
+                        culture: '@culture',
+                        idSeleccionado
+                    },
+                    beforeSend: function () {
+                        LoadingAdminPage.showOrHideLoadingPage(true);
+                    },
+                    success: function (response) {
+                        //console.log(response.listDetalle.length);
+                        if (flag) {
+                            $('#cboProductOrCompany').val(response.idSeleccionado).trigger('change.select2');
+                            //$('#cboProductOrCompany').trigger('change');
+                        }
+                        $("select[name='lstFiltros']").html("");
+                        var version = navigator.appVersion.toLowerCase();
+
+                        var selected = "";
+
+                        if (version.indexOf("android") > -1)
+                            selected = "selected";
+                        $.each(response.listDetalle,
+                            function (index, val) {
+                                $("select[name='lstFiltros']")
+                                    .append("<option value='" + val.value + "' " + selected + " >" + val.text + "</option>");
+                            });
+                        Filtros.adjustSizeHeightFilters();
+                        //console.log(response.listDetalle.length)
+
+                        if (response.listDetalle.length > 0) {
+                            $("#filtros").removeClass('no-display');
+                            $("#filtros").removeClass('ocultar');
+                            //console.log("hay datos")
+                        } else {
+                            $("#filtros").addClass('no-display');
+                            //console.log("no hay datos")
+                        }
+
+
+                        if (response.listDetalle.length == 0) {
+                            $("#filtros").addClass('no-display');
+                        }
+
+                        LoadingAdminPage.showOrHideLoadingPage(false);
+
+                        //if (flag) {
+                            CargarCombo2();
+                        //}
+
+
+
+                    },
+                    error: function (dataError) {
+                        console.log(dataError);
+                        LoadingAdminPage.showOrHideLoadingPage(false);
+                    }
+                });
+            }
+
+
+
+
+
+        };
+
+        function AgregarDetalleFavorito(urlPost, idSeleccionado, descripcion) {
+
+            if ($("#lstFiltros option[value=" + idSeleccionado + "]").toArray().length == 0) {
+
+                $.ajax({
+                    url: urlPost,
+                    type: "POST",
+                    data: {
+                        culture: '@culture',
+                        idSeleccionado,
+                        descripcion,
+                        numFiltrosExistentes: $("#lstFiltros option").length
+                    },
+
+                    success: function (response) {
+                        //console.log(response)
+                        if (response.objMensaje == null) {
+                            addFilterToFilterList(response.nuevoFiltro);
+                            $('#txtProductOrCompany').val("");
+                        }
+                        else {
+                            ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                                "messageTitle",
+                                "Veritrade",
+                                "message",
+                                response.objMensaje.mensaje,
+                                "lnkContactenos",
+                                false);
+                            $('#txtProductOrCompany').val("");
+                        }
+                    }
+                });
+
+            } else {
+
+
+            }
+
+        };
+
+        function BuscarCoincidencia() {
+            var recorre = $("#tbodyPreference td.valueField");
+            var count = 1;
+            var txtValue = document.getElementById('txtProducto').value.toUpperCase();
+            recorre.each(function (index, value) {
+                if ($(this).html().includes(txtValue) == false) {
+                    $('#tbodyPreference tr:nth-child(' + (index + 1) + ')').addClass('disable');
+                }
+                else {
+                    $('#tbodyPreference tr:nth-child(' + (index + 1) + ')').removeClass('disable');
+                }
+            })
+        };
+        var message = '@Resources.AdminResources.Message_Alerts_Succes_Deleted';
+
+        function EliminarAlerta() {
+            var i = 0;
+            var filtro = '';
+            $("td input:checked ").each(function () {
+                filtro += $(this).attr('value') + ",";
+                i += 1;
+            });
+            if (i < 1) {
+                ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                    "messageTitle",
+                    "Veritrade",
+                    "message",
+                    '@Resources.AdminResources.Message_Alerts_Not_Selected',
+                    "lnkContactenos",
+                    false);
+            }
+            else {
+                MyAlert.DeleteAlerts('@culture', '@Url.Action("BtnEliminarFavoritoPC_Click", "AdminMisAlertasFavoritas")', filtro, message, urlDetalleFavorito);
+           }
+        };
+
+        function EliminarAlerta2() {
+            var i = 0;
+            var filtro = '';
+            $("#myTabla .highlight-row img").each(function () {
+                filtro += $(this).attr('id') + ",";
+                i += 1;
+            });
+            if (i < 1) {
+                ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                    "messageTitle",
+                    "Veritrade",
+                    "message",
+                    '@Resources.AdminResources.Message_Alerts_Not_Selected',
+                    "lnkContactenos",
+                    false);
+            }
+            else {
+                MyAlert.DeleteAlerts('@culture', '@Url.Action("BtnEliminarFavoritoPC_Click", "AdminMisAlertasFavoritas")', filtro, message, urlDetalleFavorito);
+           }
+        };
+        function EliminarDetalleAlerta() {
+            var i = 0;
+            var idFavorito = '';
+            var descFavorito = '';
+
+            $("#lstFiltros option").each(function () {
+                idFavorito += $(this).val() + ",";
+            });
+            $("#lstFiltros option").each(function () {
+                descFavorito += $(this).text() + "/-/";
+            });
+
+            var filtro = '';
+
+            $("#lstFiltros option").each(function () {
+                //console.log($(this).prop("selected"));
+                if ($(this).prop("selected") == true) {
+                    filtro += $(this).val() + ",";
+                    i++;
+                }
+            });
+
+            //console.log(filtro);
+            if (i < 1) {
+                ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                    "messageTitle",
+                    "Veritrade",
+                    "message",
+                    '@Resources.AdminResources.Message_Alerts_Not_Selected',
+                    "lnkContactenos",
+                    false);
+            }
+            else {
+
+                MyAlert.DeleteAlertsDetail('@Url.Action("BtnEliminarDetalleFavoritoPC_Click", "AdminMisAlertasFavoritas")', '@culture', idFavorito, descFavorito, filtro);
+           }
+        };
+        function ActualizarFavorito() {
+            var i = 0;
+            var filtro = '';
+            var idPadre = '';
+           /* $("td input:checked ").each(function () {
+                filtro += $(this).attr('value') + ",";
+                i += 1;
+            });*/
+
+            listSelect.forEach(function (e) {
+                filtro += e + ",";
+            });
+
+            MyAlert.InsertAlerts('@culture','@Url.Action("BtnGuardarFavorito_Click", "AdminMisAlertasFavoritas")', filtro, idPadre, urlDetalleFavorito);
+        };
+        function ActualizarDetalleFavorito() {
+            //console.log(cantidadFav)
+            //var i = 0;
+            var filtro = '';
+            $("#lstFiltros option").each(function () {
+                filtro += $(this).val() + ",";
+                //i += 1;
+            });
+            var idPadre = $("#cboProductOrCompany").val();
+            //console.log(filtro);
+            var cantidadFav = $("#myTabla tbody tr").length;//0;
+            var bandNuevo = true;
+            @*$("table input").each(function () {
+                if ($(this).val() == idPadre) {
+                    bandNuevo = false;
+                }
+                cantidadFav++;
+            });
+               if (bandNuevo && cantidadFav == @max ) {
+                    cantidadFav += 1 ;
+               }*@
+
+
+
+            if (cantidadFav  >= @LimiteAlertaTotal && $("#tbodyPreference .highlight-row").length == 0) {
+                ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                    "messageTitle",
+                    "Veritrade",
+                    "message",
+                    '@Resources.AdminResources.Message_Alerts_Max_Selected_02',
+                    "lnkContactenos",
+                    false);
+            }
+            else if (filtro == "") {
+                ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                    "messageTitle",
+                    "Veritrade",
+                    "message",
+                    '@Resources.AdminResources.Message_Alerts_Not_Detail_Selected',
+                    "lnkContactenos",
+                    false);
+            }
+            else {
+                MyAlert.InsertAlerts('@culture', '@Url.Action("BtnGuardarDetalleFavorito_Click", "AdminMisAlertasFavoritas")', filtro, idPadre, urlDetalleFavorito);
+           }
+        };
+
+        function CargarCombo2() {
+            $.ajax({
+                type: "POST",
+                url: '@Url.Action("CargarCombo2", "AdminMisAlertasFavoritas")',
+                data: {
+                    idPC: $('#cboProductOrCompany').val(),
+                        culture: '@culture'
+                },
+                beforeSend: function () {
+                    LoadingAdminPage.showOrHideLoadingPage(true);
+                },
+                success: function (response) {
+                    //console.log(response);
+
+                   // $("#cboProductOrCompany2").html("");
+                    var option = "";
+                    response.listaPC2.forEach(function (element) {
+
+                        option += '<option value="' + element.Value+'"> '+element.Text+'</option>';
+                    });
+                    $("#cboProductOrCompany2").html(option);
+
+                    $("#cboProductOrCompany2").select2("val", "-1");
+                    LoadingAdminPage.showOrHideLoadingPage(false);
+
+                },
+                error: function (dataError) {
+                    console.log(dataError);
+                    //LoadingAdminPage.showOrHideLoadingPage(false);
+                }
+            });
+        }
+
+        function MaxCheckSelected(e) {
+            var contador = 0;
+            //contador = $('input[type=checkbox]:checked').length;
+
+            //alert($('input[type=checkbox]:checked').length)
+            var banExceso = false;
+            //console.log('@max')
+            //console.log(e)
+
+            //console.log($('input[type=checkbox][value="' + e + '"]').prop('checked'))
+
+
+
+            if (listSelect.length >= @LimiteAlertaTotal && $('input[type=checkbox][value="' + e + '"]').prop('checked')) {
+
+                ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                    "messageTitle",
+                    "Veritrade",
+                    "message",
+                    '@Resources.AdminResources.Message_Alerts_Max_Selected_02',
+                    "lnkContactenos",
+                    false);
+
+                $('input[type=checkbox][value="' + e + '"]').prop('checked', false)
+            }
+            @*$('#TableSingle input[type=checkbox]').each(function () {
+                if ($(this).is(":checked"))
+                    contador++
+                $('#lblSelected').html((contador).toString() + " seleccionados");
+
+
+
+                if (contador > @LimiteAlertaTotal) {
+
+                    //$(this).prop('checked', false);
+                    contador--;
+                    //banExceso = true;
+                    ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                        "messageTitle",
+                        "Veritrade",
+                        "message",
+                        '@Resources.AdminResources.Message_Alerts_Max_Selected_02',
+                        "lnkContactenos",
+                        false);
+                    //alert("Superaste el máximo de seleccionados");
+                    $('input[type=checkbox][value="' + e + '"]').prop('checked', false)
+                }
+            });*@
+
+            if (!$('input[type=checkbox][value="' + e + '"]').prop('checked')) {
+                //console.log(listSelect.indexOf(e))
+                if (listSelect.indexOf(e) > -1) {
+                    listSelect.splice(listSelect.indexOf(e), 1)
+                }
+
+            } else {
+                listSelect.push(e);
+            }
+            //console.log(listSelect)
+            //contador = $('input[type=checkbox]:checked').length;
+
+            /*if (banExceso) {
+                alert("Superaste el máximo de seleccionados");
+                $('input[type=checkbox][value="'+e+'"]').prop('checked', false)
+            }*/
+
+        };
+
+        $(document).ajaxComplete(function () {
+            InIEventSession();
+        });
+
+        $(document).ready(function () {
+
+            InIEventSession();
+
+
+            LoadingAdminPage.LoadMethodsEdit(urlDetalleFavorito);
+            //LoadMethodsEdit();
+            @*function LoadMethodsEdit() {
+
+                $("#myTabla tbody tr").click(function () {
+                    var id = $(this).find(".icon-detail").attr("id");
+                    $("#TableView table tr").removeClass("highlight-row");
+                    $(this).closest("tr").addClass("highlight-row");
+                    //console.log($(this).attr("id"));
+                    $("#btnActualizarPCE").trigger("click");
+                    $("#cboProductOrCompany").prop("disabled", true);
+                    $("#btnDelete").removeClass("no-display");
+                    VerDetalleFavorito('@Url.Action("VerDetalleFavorito", "AdminMisAlertasFavoritas")', id, true);
+                });
+
+
+                $(".icon-detail").click(function () {
+                    $("#TableView table tr").removeClass("highlight-row");
+                    $(this).closest("tr").addClass("highlight-row");
+                    //console.log($(this).attr("id"));
+                    $("#btnActualizarPCE").trigger("click");
+                    $("#btnDelete").removeClass("no-display");
+                    $("#cboProductOrCompany").prop("disabled", true);
+                    VerDetalleFavorito('@Url.Action("VerDetalleFavorito", "AdminMisAlertasFavoritas")', $(this).attr("id"), true);
+                });
+            }*@
+
+
+            //$("#TableView table tbody tr").each();
+
+            $("#btnActualizarPCE").html('@nameBotonPC');
+            //BuscarCoincidencia();
+
+
+            $("#lnkBuscarDescripcion, #lnkRestablecerDescripcion").click(function () {
+                var vTxtDesComercial = $("#txtDescripcion").val();
+                if (this == $("#lnkRestablecerDescripcion")[0]) {
+                    vTxtDesComercial = "";
+                    $("#txtDescripcion").val("");
+                } else {
+                    //listSelect = [];
+                    /*$("td input:checked ").each(function () {
+                        listSelect.push($(this).attr('value'));
+                    });*/
+                }
+
+                $.ajax({
+                    type: "POST",
+                    url: '@Url.Action("BuscarPorDescripcion", "AdminMisAlertasFavoritas")',
+                    data: {
+                        txtDescripcion: vTxtDesComercial,
+                            culture: '@culture'
+                    },
+                    beforeSend: function () {
+                        LoadingAdminPage.showOrHideLoadingPage(true);
+                    },
+                    success: function (response) {
+                        if (response.objMensaje != null) {
+                            LoadingAdminPage.showOrHideLoadingPage(false);
+                            ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                                "messageTitle",
+                                response.objMensaje.titulo,
+                                "message",
+                                response.objMensaje.mensaje,
+                                "lnkContactenos",
+                                response.objMensaje.flagContactenos);
+                        } else {
+
+
+                            $("#lblResultadoDesripcion").text(response.resultadoDescripcion);
+                            $("#tbodyPreference").html(response.tablaVerRegistro);
+
+                            if (vTxtDesComercial != "") {
+                                //$.each($("#tbodyVerRegistros p"), function () {
+                                //    //console.log($(this).html())
+                                //    //var arreglo = $(this).html().split("<a");
+                                //    //var etiqueta = '<a ' + arreglo[1];
+                                //    var term = vTxtDesComercial;
+                                //    //console.log(term);
+                                //    var src_str = $(this).html();
+                                //    //var src_str = arreglo[0];
+                                //    //var term = "mY text";
+                                //    term = term.replace(/(\s+)/, "(<[^>]+>)*$1(<[^>]+>)*");
+                                //    //console.log(term);
+                                //    var pattern = new RegExp("(" + term + ")", "gi");
+
+                                //    src_str = src_str.replace(pattern, "<mark>$1</mark>");
+                                //    src_str = src_str.replace(/(<mark>[^<>]*)((<[^>]+>)+)([^<>]*<\/mark>)/, "$1</mark>$2<mark>$4");
+
+                                //    $(this).html(src_str);
+                                //    //$(this).html(src_str + etiqueta);
+                                //    //console.log(src_str + etiqueta);
+                                //});
+                            }
+
+                            //console.log(listSelect);
+                            LoadingAdminPage.showOrHideLoadingPage(false);
+                        }
+                    },
+                    error: function (dataError) {
+                        console.log(dataError);
+                        //LoadingAdminPage.showOrHideLoadingPage(false);
+                    }
+                });
+            });
+
+            $('#txtProducto').keyup(function () {
+                BuscarCoincidencia();
+            });
+            $(document).on("click","#btnActualizar", function () {
+                ActualizarFavorito();
+                $('#btnActualizar').addClass("no-display");
+                $('#btnActualizarE').removeClass("no-display");
+                $('#btnActualizarE').removeClass("no-display");
+                $('#TableView').addClass("no-display");
+                $('#btnCancelar').addClass("no-display");
+                $('.boton-volver').removeClass("no-display");
+            });
+            $(document).on("click", "#btnActualizarE", function () {
+                $('#btnActualizar').removeClass("no-display");
+                $('#btnActualizarE').addClass("no-display");
+                $('#TableView').removeClass("no-display");
+                $('#btnCancelar').removeClass("no-display");
+                $('.boton-volver').addClass("no-display");
+                if ($("#txtDescripcion").val() != "") {
+                    $('#lnkRestablecerDescripcion').trigger("click");
+                }
+
+                });
+
+            $(document).on("click", "#btnCancelar", function () {
+                $('#btnActualizar').addClass("no-display");
+                $('#btnActualizarE').removeClass("no-display");
+                $('#TableView').addClass("no-display");
+                $('#btnCancelar').addClass("no-display");
+                $('.boton-volver').removeClass("no-display");
+
+            });
+
+            $(document).on("click", "#btnActualizarPCE", function () {
+                console.log($("#idLimitAlert").val());
+                limiteAgregar = $("#idLimitAlert").val()
+                if (limiteAgregar == "true" && $("#tbodyPreference .highlight-row").length == 0) {
+                    ModalAdmin.showVentanaMensajeWithTitleAndMessage("ModalVentanaMensaje",
+                    "messageTitle",
+                    "Veritrade",
+                    "message",
+                    '@Resources.AdminResources.Message_Alerts_Max_Selected_02',
+                    "lnkContactenos",
+                    false);
+                } else {
+                    $('#SearchDataPC').removeClass("no-display");
+                    $('#Title2PC').removeClass("no-display");
+                    $('#ButtonsPC').removeClass("no-display");
+                    $('#btnActualizarPCE').addClass("no-display");
+                    $('#btnDelete2').addClass("no-display");
+                    $('#Volver').addClass("no-display");
+                    //$('#btnActualizarE').addClass("no-display");
+                    //$('#TableView').removeClass("no-display");
+                    $("#btnDelete").addClass("no-display");
+
+                    $("#cboProductOrCompany").val("").trigger("change");
+                    $("#cboProductOrCompany2").val("").trigger("change");
+                    $("#cboProductOrCompany2").html("");
+                    $("#lstFiltros option[value]").remove();
+                }
+
+            });
+
+            $(document).on("click", "#btnCancelarPC", function () {
+                $('#SearchDataPC').addClass("no-display");
+                $('#Title2PC').addClass("no-display");
+                $('#ButtonsPC').addClass("no-display");
+                $('#btnActualizarPCE').removeClass("no-display");
+                $('#btnDelete2').removeClass("no-display");
+                $('#Volver').removeClass("no-display");
+                $("#cboProductOrCompany").prop("disabled", false);
+                //$('#btnActualizarE').addClass("no-display");
+                //$('#TableView').removeClass("no-display");
+                $("#TableView table tr").removeClass("highlight-row");
+            });
+
+
+            $(document).on("click","#btnActualizarPC", function () {
+                ActualizarDetalleFavorito();
+            });
+            $(document).on("click","#btnDelete", function () {
+                //EliminarAlerta();
+                EliminarAlerta2();
+            });
+            $(document).on("click", "#btnDelete2", function () {
+                EliminarAlerta();
+                });
+            $(document).on("change", "#cboProductOrCompany2", function () {
+                //console.log($(this).val());
+                AgregarDetalleFavorito('@Url.Action("AgregarDetalleFavorito", "AdminMisAlertasFavoritas")', $('#cboProductOrCompany2').val(), $('#cboProductOrCompany2 option:selected').text())
+                Filtros.adjustSizeHeightFilters()
+            });
+            $(document).on("change", "input[type=checkbox]", function () {
+
+                MaxCheckSelected($(this).val());
+            });
+           /* $('input[type=checkbox]').change(function () {
+                console.log("entro")
+                MaxCheckSelected($(this).val());
+            });*/
+            $('#cboProductOrCompany').change(function () {
+                $('#txtProductOrCompany').val("");
+                $("select[name='lstFiltros']")
+                    .html("");
+                VerDetalleFavorito('@Url.Action("VerDetalleFavorito", "AdminMisAlertasFavoritas")', $(this).val() , false);
+                Filtros.adjustSizeHeightFilters()
+
+                });
+
+            @*$('#cboProductOrCompany2').change(function () {
+
+                console.log($('#cboProductOrCompany2').val());
+                console.log($('#cboProductOrCompany2 option:selected').text());
+                AgregarDetalleFavorito('@Url.Action("AgregarDetalleFavorito", "AdminMisAlertasFavoritas")', $('#cboProductOrCompany2').val(), $('#cboProductOrCompany2 option:selected').text())
+                Filtros.adjustSizeHeightFilters()
+            });*@
+
+            $("#btnDeleteDetail").click(function () {
+                //console.log("entra");
+                EliminarDetalleAlerta();
+            });
+            $(function () {
+                $("#txtProductOrCompany").autocomplete({
+                    appendTo: "#autocompleteFilter",
+                    source: function(request, response) {
+                        $.ajax({
+                            url: "@Url.Action("BuscarProductoOCompania", "AdminMisAlertasFavoritas")",
+                            type: "POST",
+                            dataType: "json",
+                            data: {
+                                descripcion: request.term,
+                                culture: '@culture',
+                                codigo: $('#cboProductOrCompany').val()
+                            },
+                            success: function (data) {
+                                response($.map(data,
+                                    function(item) {
+                                        return { id: item.id, value: item.value };
+                                    }));
+                            }
+                        });
+                    },
+                    minLength: 2,
+                    open: function (event, ui) {
+                        $('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
+                    },
+                    select: function (event, ui) {
+                        AgregarDetalleFavorito('@Url.Action("AgregarDetalleFavorito", "AdminMisAlertasFavoritas")', ui.item.id, ui.item.value)
+                        $(this).val("");
+                        return false;
+                        //console.log(ui.item.id + ": " + ui.item.value);
+                    }
+                    });
+            });
+            //$("#cboProductOrCompany").trigger("change");
+            LoadingAdminPage.showOrHideLoadingPage(false);
+            Filtros.adjustSizeHeightFilters();
+            $("#cboProductOrCompany").select2({
+                placeholder: isPC ? "--- @Resources.AdminResources.My_Alerts_Choise_Prod ---" : "--- @Html.Raw(Resources.AdminResources.My_Alerts_Choise_Comp) ---",
+            });
+            $("#cboProductOrCompany2").select2({
+                placeholder: isPC ? "--- @Html.Raw(Resources.AdminResources.My_Alerts_Choise_Comp) ---" : "--- @Resources.AdminResources.My_Alerts_Choise_Prod ---",
+            });
+
+            $("td input:checked ").each(function () {
+                listSelect.push($(this).attr('value'));
+            });
+            //console.log(listSelect)
+        });
+
+
+    </script>
+}

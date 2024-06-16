@@ -1,0 +1,140 @@
+﻿@using Veritrade2018.Models
+@{
+    var modelo = (ConsultaForm)Model;
+}
+
+
+<div id="tabsPageDemo" class="tabsViewDemo">
+    <!-- Nav nav-pills -->
+    <ul id="nav-pills-consulta">
+        <li>
+            <a href="#tab-resumen">
+                @Resources.Resources.Demo_Summay_Tab
+            </a>
+        </li>
+        <li>
+            <a href="#tab-productos">
+                @Resources.Resources.Demo_Products_Tab
+            </a>
+        </li>
+
+        @if (modelo.CodPais == "PEB")
+        {
+            <li>
+                <a href="#tab-marcas">
+                    @Resources.Resources.Demo_Brands_Tab
+                </a>
+            </li>
+
+            <li>
+                <a href="#tab-modelos">
+                    @Resources.Resources.Demo_Models_Tab
+                </a>
+            </li>
+        }
+
+
+
+        @if (modelo.TipoOpe == "I")
+        {
+            <li id="liTabImportadores">
+                <a href="#tab-importadores">
+                    @Resources.Resources.Demo_Importers_Tab
+                </a>
+            </li>
+            <li id="liTabExportadores">
+                <a href="#tab-exportadores">
+                    @if (modelo.CodPais != "CL")
+                    {
+                        @Resources.Resources.Demo_Exporters_Tab
+                    }
+                    else
+                    {
+                        @Resources.Resources.Demo_Brands_Tab
+                    }
+                </a>
+            </li>
+            <li id="liTabPaises">
+                <a href="#tab-paisOrigen">
+                    @Resources.Resources.Demo_OriginCountries_Tab
+                </a>
+            </li>
+        }
+        else
+        {
+            <li id="liTabExportadores">
+                <a href="#tab-exportadores">
+                    @Resources.Resources.Demo_Exporters_Tab
+                </a>
+            </li>
+            <li id="liTabImportadores">
+                <a href="#tab-importadores">
+                    @Resources.Resources.Demo_Importers_Tab
+                </a>
+            </li>
+            <li id="liTabPaises">
+                <a href="#tab-paisOrigen">
+                    @Resources.Resources.Demo_DestinationCountries_Tab
+                </a>
+            </li>
+        }
+
+
+        <li id="liTabViasTransporte">
+            <a href="#tab-viasTransporte">
+                @Resources.Resources.Demo_Vias_Tab
+            </a>
+        </li>
+
+        @if (modelo.ExisteDistrito)
+        {
+            <li id="liTabDistrito">
+                <a href="#tab-distrito" data-toggle="tab">
+                    @Resources.Resources.Demo_Districts_Tab
+                </a>
+            </li>
+        }
+
+        @if (modelo.ExisteAduana)
+        {
+            <li id="liTabAduanaDUAs">
+                <a href="#tab-aduanas">
+                    @((modelo.CodPais != "BR" && modelo.CodPais != "CO" && modelo.CodPais != "MX" && modelo.CodPais != "UY") ? @Resources.Resources.Demo_CustomsDuas_Tab : Resources.Resources.Demo_Aduanas_Tab)
+                </a>
+            </li>
+        }
+
+        <li>
+            <a id="tabDetalleExcel" href="#tab-DetalleExcel">
+                @Resources.Resources.Demo_DetailExcel_Tab
+            </a>
+        </li>
+    </ul>
+
+    @Html.Partial("Tabs/ResumenView", modelo)
+    @Html.Partial("Tabs/ProductosView", modelo)
+
+    @if (modelo.CodPais == "PEB")
+    {
+        @Html.Partial("Tabs/MarcasView", modelo);
+        @Html.Partial("Tabs/ModelosView", modelo);
+    }
+
+    @Html.Partial("Tabs/ImportadoresView", modelo)
+    @Html.Partial("Tabs/ExportadoresView", modelo)
+    @Html.Partial("Tabs/PaisOrigenView", modelo)
+    @Html.Partial("Tabs/ViasTransporteView", modelo)
+
+    @if (modelo.ExisteDistrito)
+    {
+        @Html.Partial("Tabs/DistritosView", modelo)
+    }
+
+    @if (modelo.ExisteAduana)
+    {
+        @Html.Partial("Tabs/AduanasView", modelo)
+    }
+
+
+    @Html.Partial("Tabs/DetalleExcelView", modelo)
+</div>

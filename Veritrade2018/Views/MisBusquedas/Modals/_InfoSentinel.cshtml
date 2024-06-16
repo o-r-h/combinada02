@@ -1,0 +1,290 @@
+﻿@using System.Globalization
+@using Veritrade2018.Models.Admin
+@{
+    var objInfoSentinel = (InfoSentinel) Model;
+    var objTabla1 = (InfoSentinelTabla1) objInfoSentinel.InfoSentinelTabla1;
+    var objTabla2 = (InfoSentinelTabla2) objInfoSentinel.InfoSentinelTabla2;
+
+    CultureInfo cultureInfo = new System.Globalization.CultureInfo("es-PE");
+}
+
+<div class="row fila-info-sentinel">
+    <div class="col-sm-12 info-empresa-sentinel">
+
+        <div class="col-sm-10 pull-left info-empresa">
+            <div class="form-horizontal">
+                <div class="form-group">
+                    <label class="col-md-5 descripcion-info">
+                        Razón social:
+                    </label>
+                    <label class="col-md-6 valor-informacion">
+                        @objInfoSentinel.RazonSocial
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-5 descripcion-info">
+                        Tipo de documento:
+                    </label>
+                    <label class="col-md-6  valor-informacion">
+                        R.U.C.
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-5 control-label descripcion-info">
+                        Número de documento:
+                    </label>
+                    <label class="col-md-6 control-label valor-informacion">
+                        @objInfoSentinel.Documento
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-5 control-label descripcion-info">
+                        Inicio de Actividades (SUNAT):
+                    </label>
+                    <label class="col-md-6 control-label valor-informacion ">
+                        @objInfoSentinel.FechaInicioActvidades
+                    </label>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-5 control-label descripcion-info">
+                        Tipo de Actividad (SUNAT):
+                    </label>
+                    <label class="col-md-6  control-label valor-informacion">
+                        @objInfoSentinel.TipoActividad
+                    </label>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="col-sm-2 pull-right">
+            <div class="pull-right imgLnkSentinel">
+                <a id="lnkSentinel" href="http://portal.sentinelperu.com/pages/index.shtml" target="_blank">
+                    <img src="@Url.Content("~/Content/Images/sentinel.png")" width="189" height="52" class="cursor-action" />
+                </a>
+            </div>
+            <div class="pull-right">
+                <a id="lnkContactoSentienl" href="http://portal.sentinelperu.com/pages/contactenos.shtml" 
+                   target="_blank"  class="btn btnContactoSentinel">
+                    Contáctenos
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr class="table-title">
+                    <th class="column-text-center">
+                        Fecha Proceso
+                    </th>
+                    <th class="column-text-center">
+                        Score
+                    </th>
+                    <th class="column-text-center">
+                        Deuda Total
+                    </th>
+                    <th class="column-text-center">
+                        Semáforo Actual
+                    </th>
+                    <th class="column-text-center">
+                        Semaforo Previo
+                    </th>
+                    <th class="column-text-center">
+                        Deuda Tributaria
+                    </th>
+                    <th class="column-text-center">
+                        Deuda Laboral
+                    </th>
+                    <th class="column-text-center">
+                        Deuda Impaga
+                    </th>
+                    <th class="column-text-center">
+                        Protestos
+                    </th>
+                    <th class="column-text-center">
+                        Score Promedio
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th class="column-text-center">
+                        @objTabla1.FechaProceso
+                    </th>
+                    <th class="column-text-center">
+                        @objTabla1.Score
+                    </th>
+                    <th class="column-text-center">
+                        @objTabla1.DeudaTotal
+                    </th>
+                    <th class="column-text-center">
+                        <img src="@Url.Content("~/Content/Images/semaforo_" + objTabla1.SemaforoSemanaActual + ".png")" width="20" height="20"/>
+                    </th>
+                    <th class="column-text-center">
+                        <img src="@Url.Content("~/Content/Images/semaforo_" + objTabla1.SemaforoSemanaPrevio + ".png")" width="20" height="20"/>
+                    </th>
+                    <th class="column-text-center">
+                        @objTabla1.DeudaTributaria
+                    </th>
+                    <th class="column-text-center">
+                        @objTabla1.DeudaLaboral
+                    </th>
+                    <th class="column-text-center">
+                        @objTabla1.DeudaImpaga
+                    </th>
+                    <th class="column-text-center">
+                        @objTabla1.DeudaProtestos
+                    </th>
+                    <th class="column-text-center">
+                        @objTabla1.ScorePromedio
+                    </th>
+                </tr>
+                </tbody>
+
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr class="table-title">
+                    <th class="column-text-center" colspan="24">
+                        Semáforos de los últimos 24 meses
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td align="center">
+                        <table class="tabla-semaforo">
+                            <tr>
+                                @if (objInfoSentinel.Semaforos != null)
+                                {
+                                    for (int i = 0; i <= 23; i++)
+                                     {
+                                         <td align="center">
+                                             <img src="@Url.Content("~/Content/Images/semaforo_" + objInfoSentinel.Semaforos[i] + ".png")" width="20" height="20" />
+                                         </td>
+                                     }
+                                }
+                               
+                            </tr>
+
+                            <tr>
+                                
+                                @if (objTabla1.FechaProceso != null)
+                                {
+                                    for (int i = 0; i < 24; i++)
+                                    {
+                                        var auxFecha = Convert.ToDateTime(objTabla1.FechaProceso, cultureInfo).AddMonths(i - 23);
+                                        if (auxFecha.Month == 1)
+                                        {
+                                             <td align="center">
+                                                 @auxFecha.ToString("yyyy")
+                                             </td>
+                                         }
+                                         else
+                                         {
+                                             <td align="center">
+                                                 @auxFecha.ToString("MMM",cultureInfo).Substring(0,1).ToUpper()
+                                             </td>
+                                         }
+                                     }
+                                }
+                                
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead>
+                <tr class="table-title">
+                    <th class="column-text-center">
+                        Nro. de Entidades
+                    </th>
+                    <th class="column-text-center">
+                        Calificación SBS / Microf.
+                    </th>
+                    <th class="column-text-center">
+                        Deuda SBS / Microf.
+                    </th>
+                    <th class="column-text-center">
+                        Deuda SBS / Microf. Vencida
+                    </th>
+                    <th class="column-text-center">
+                        Total Tarjetas / Ctas. Anuladas / Cerradas
+                    </th>
+                    <th class="column-text-center">
+                        Veces 24m
+                    </th>
+                    <th class="column-text-center">
+                        Estado Domicilio Fiscal
+                    </th>
+                    <th class="column-text-center">
+                        Condición Domicilio Fiscal
+                    </th>
+                    <th class="column-text-center">
+                        Total Reportes Negativos
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+
+                        <td class="column-text-center">
+                            @objTabla2.NroEntidades
+                        </td>
+                        <td class="column-text-center">
+                            @objTabla2.CalificacionSBSMicrof
+                        </td>
+                        <td class="column-text-center">
+                            @objTabla2.DeudaSBSMicrof
+                        </td>
+                        <td class="column-text-center">
+                            @objTabla2.DeudaSBSMicrofVencida
+                        </td>
+                        <td class="column-text-center">
+                            @objTabla2.TotalTarjetasCtasAnuladasCerradas
+                        </td>
+                        <td class="column-text-center">
+                            @objTabla2.Veces24m
+                        </td>
+                        <td class="column-text-center">
+                            @objTabla2.EstadoDomicilioFiscal
+                        </td>
+                        <td class="column-text-center">
+                            @objTabla2.CondicionDomicioFiscal
+                        </td>
+                        <td class="column-text-center">
+                            @objTabla2.TotalReportesNegativos
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

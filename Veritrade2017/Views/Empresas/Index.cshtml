@@ -1,0 +1,223 @@
+﻿@using System.Web.Optimization
+@using Veritrade2017.Models
+@using Veritrade2017.Models.Minisite
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+
+    ViewBag.Title = Resources.Empresas_Buscar_Seo_Title;
+    ViewBag.Description = Resources.Empresas_Buscar_Seo_Description;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var last_searches = (List<BuscaEmpresaModel>)ViewData["last_searches"];
+    int count_last_searches = (Int32)ViewData["CountSearches"];
+
+}
+@section Styles
+{
+    @Styles.Render("~/Content/home")
+    <link href="@Url.Content("~/Content/Assets/prueba_gratis.css")" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.11.4.min.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Admin/admin.js")"></script>
+    <script type="text/javascript">
+        $(document).ready(function () { 
+            var flag = true;
+            //var cont = 10;
+            //setTimeout(console.log("HASDASDASDSS"), 3000);
+            function timeout(flag) {
+                if (flag) {
+                    setTimeout(function () {
+                            @*if (cont >= @count_last_searches ) {
+                                cont = 0;
+                            }*@
+                            Refresh('@Url.Action("LastSearches", "Empresas")', '@culture');
+                            flag = false;
+                            timeout(flag);                            
+                            //cont += 10;
+                    },
+                    5000);
+                }
+            }
+            timeout(flag);
+        });
+
+        @*setTimeout(Productos.LastSearches(urlPost), 5000);*@
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $("#txtEmpresa").autocomplete({
+                appendTo: "#autocompleteEmpresa",
+                source: function(request, response) {
+                    $.ajax({
+                        url: "@Url.Action("BuscarEmpresa", "Minisite")",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            nandina: request.term
+                        },
+                        success: function(data) {
+                            response($.map(data,
+                                function(item) {
+                                    return { id: item.id, label: item.value, value: item.value };
+                                }));
+                        }
+                    });
+                },
+                minLength: 2,
+                open: function (event, ui) {
+                    $('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
+                },
+                select: function (event, ui) {
+                    //console.log(ui);
+                    $('#search').prop("disabled", false);
+                    if ('@culture' == "es") {
+                        /* Ruben 202211*/
+                        /* https://www.veritradecorp.com/es/importaciones-exportaciones-peru/alicorp/ruc-20100055237*/
+                        @*$("#slug").val("/@culture" +
+                            "/importaciones-exportaciones-" + ui.item.id.pais + "/" + ui.item.id.uri + "/" + ui.item.id.trib + "-" + ui.item.id.ruc);*@
+                        $("#slug").val("/@culture/" +
+                            ui.item.id.pais.replace(" ", "-") + // Ruben 202306
+                            "/importaciones-y-exportaciones-" +
+                            ui.item.id.uri +
+                            "/" +
+                            ui.item.id.trib +
+                            "-" +
+                            ui.item.id.ruc);
+                    } else {
+                        @*$("#slug").val("/@culture" +
+                            "/imports-exports-" + ui.item.id.pais + "/" + ui.item.id.uri + "/" + ui.item.id.trib + "-" + ui.item.id.ruc);*@
+                        $("#slug").val("/@culture/" +
+                            ui.item.id.pais.replace(" ", "-") + // Ruben 202306
+                            "/imports-and-exports-" +
+                            ui.item.id.uri +
+                            "/" +
+                            ui.item.id.trib +
+                            "-" +
+                            ui.item.id.ruc);
+                    }
+                }
+            });
+            $('#txtEmpresa').blur(function () {
+                if ($('#txtEmpresa').val().trim() === '') {
+                   $('#search').prop("disabled", true);
+                }
+            })
+
+
+            $("#search").click(function() {
+
+                // Ruben 202304
+                var txtEmpresa1 = $("#txtEmpresa").val().trim();
+                sessionStorage.setItem("busca_empresa", txtEmpresa1);
+                console.log(txtEmpresa1);
+                dataLayer.push({
+                    'event': 'buscador', //valor estático
+                    'tipo': 'empresa', // valor dinámico
+                    'palabra': txtEmpresa1 // valor dinámico
+                });
+
+                if ($("#slug").val().trim() !== "") {
+                    window.location.replace($("#slug").val());
+                }
+            });
+        });
+    </script>
+}
+
+<div class="t_fondo_celeste-w">
+    <div class="t_fondo_celeste-l">
+        <div class="t_fondo_celeste-r">
+            <div class="t_fondo_celeste">
+                <div class="container t_container_b">
+                    <h1 class="empresas_content_title"> @Html.Raw(Resources.Empresas_Buscar_Content_Title)</h1>
+                    <h2 class="empresas_content_subtitle">@Resources.Empresas_Buscar_Content_Subtitle</h2>
+
+                    <div class="t_buscar">
+                        <div class="row">
+                            <div class="col-md-8">
+                                @Html.Hidden("slug")
+                                @*<input type="text" id="txtEmpresa" placeholder="@Resources.Empresas_Buscar_Content_Subtitle">*@
+                                <input type="text" id="txtEmpresa" placeholder="@Resources.Home_Search_Company_Placeholder">
+
+                            <div id="autocompleteEmpresa" class="autocomplete_content"></div>
+                            </div>
+                            <div class="col-md-4">
+                                <button id="search" disabled class="btn-search btn btn-lg btn-primary" onclick="ga('send', 'event', 'boton', 'click', 'buscar')">@Resources.Search_Button</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="LastSearches">
+                        @Html.Partial("Partials/LastSearches", last_searches)
+                    </div>
+                    @*@if (last_searches.Count > 0)
+                        {
+                            <div class="t_ultimas_busquedas">
+                                <h4><img src="@Url.Content("~/Content/images/lupa.png")" />@Resources.LastestSearch</h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <ul>
+                                            @if (culture == "es")
+                                            {
+                                                for (var i = 0; i < 5; i++)
+                                                {
+                                                    var e = last_searches.ElementAtOrDefault(i);
+                                                    if (e == null)
+                                                    {
+                                                        break;
+                                                    }
+                                                    <li><a href="/@culture/@e.Pais.ToLower()/importaciones-y-exportaciones-@e.Uri/@e.Trib.ToLower()-@e.Ruc.Trim()"> @e.Empresa - <span>@e.Trib.ToUpper() @e.Ruc - @e.Pais.ToUpper()</span></a></li>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                for (var i = 0; i < 5; i++)
+                                                {
+                                                    var e = last_searches.ElementAtOrDefault(i);
+                                                    if (e == null)
+                                                    {
+                                                        break;
+                                                    }
+                                                    <li><a href="/@culture/@e.Pais.ToLower()/imports-and-exports-@e.Uri/@e.Trib.ToLower()-@e.Ruc.Trim()"> @e.Empresa - <span>@e.Trib.ToUpper() @e.Ruc - @e.Pais.ToUpper()</span></a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <ul>
+                                            @if(culture == "es"){
+                                                for (var i = 5; i < 10; i++)
+                                                {
+                                                    var e = last_searches.ElementAtOrDefault(i);
+                                                    if (e == null)
+                                                    {
+                                                        break;
+                                                    }
+                                                    <li><a href="/@culture/@e.Pais.ToLower()/importaciones-y-exportaciones-@e.Uri/@e.Trib.ToLower()-@e.Ruc.Trim()">@e.Empresa - <span>@e.Trib.ToUpper() @e.Ruc - @e.Pais.ToUpper()</span></a></li>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                for (var i = 5; i < 10; i++)
+                                                {
+                                                    var e = last_searches.ElementAtOrDefault(i);
+                                                    if (e == null)
+                                                    {
+                                                        break;
+                                                    }
+                                                    <li><a href="/@culture/@e.Pais.ToLower()/imports-and-exports-@e.Uri/@e.Trib.ToLower()-@e.Ruc.Trim()">@e.Empresa - <span>@e.Trib.ToUpper() @e.Ruc - @e.Pais.ToUpper()</span></a></li>
+                                                }
+                                            }
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        }*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

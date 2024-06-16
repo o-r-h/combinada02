@@ -1,0 +1,214 @@
+﻿@using System.Drawing
+@using Veritrade2017.Models
+@model Veritrade2017.Models.FreeTrial
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+
+    var uri = HttpContext.Current.Request.Url.AbsolutePath;
+    var seoConf = ConfiguracionesSeo.GetConfig(culture, "/" + culture + "/pruebagratis");
+    ViewBag.Title = seoConf.Title;
+    //ViewBag.Title = Resources.TrialText;
+    //ViewBag.Description = Resources.Meta_Description_PruebaGratis;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    Html.EnableClientValidation();
+}
+
+@section Styles
+{
+    <link href="@Url.Content("~/Content/Assets/prueba_gratis.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Plugins/OwlCarousel2-2.2.1/assets/owl.carousel.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/Assets/intlTelInput.css")" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts
+{
+    <script src="@Url.Content("~/Plugins/OwlCarousel2-2.2.1/owl.carousel.min.js")"></script>
+    <script src="@Url.Content("~/Scripts/intlTelInput.js")"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            var owlOptions = {
+                items: 1,
+                loop: true,
+                center: true,
+                autoplay: true,
+                autoplayTimeout: 3000
+            };
+
+
+
+            $('#imageSliderPri').owlCarousel(owlOptions);
+            $('#imageSliderSec').owlCarousel(owlOptions);
+
+            $("#FtEmail").change(function() {
+                if ($("#mailExist").html().length > 0) {
+                    $("#mailExist").html("");
+                }
+            });
+            var button = document.getElementById('btnContinuarPrueba');
+            button.addEventListener(
+                'click',
+                function() {
+                    fbq('track', 'Lead');
+                },
+                false
+            );
+            $("#validationForm").submit(function (event) {
+              // comentado https://app.asana.com/0/1202736242952541/1205682748217961/f
+              // no se puede ligado con el proyecto 2018
+              ga('send', 'event', 'boton', 'click', 'pruebagratis');
+
+                if ($("#validationForm").valid()) {
+                    $(button).attr("disabled", "disabled");
+
+                    event.preventDefault();
+                    event.stopImmediatePropagation();
+                    var action = $("#validationForm").attr("action");
+                    var dataString = new FormData($("#validationForm").get(0));
+                    dataString.append("FtPais", $("#FtTelefono").intlTelInput("getSelectedCountryData").iso2 || "");
+
+                    $.ajax({
+                        type: "POST",
+                        url: action,
+                        data: dataString,
+                        dataType: "json",
+                        contentType: false,
+                        processData: false,
+                        beforeSend: function() {
+                            $("#mailExist").html("");
+                        },
+                        success: function(result) {
+                            if (result.respuesta === "EXISTE") {
+                                $("#mailExist").html("@ValidationResource.Error_Email_Exist");
+                            } else {
+                                var txtCodUsuario = document.getElementById("txtCodUsuario");
+                                var txtPassword = document.getElementById("txtPassword");
+                                var form = document.getElementById('loginForm');
+                                var hiddenInput = document.createElement('input');
+
+                                txtCodUsuario.value = result.email;
+                                txtPassword.value = result.respuesta;
+
+                                // Ruben 202304
+                                console.log(txtCodUsuario.value);
+                                dataLayer.push({
+                                    'event': 'prueba_gratis', //valor estático
+                                    'categoria': 'prueba_iniciada', // valor estático
+                                    'correo': txtCodUsuario.value // valor dinámico
+                                });
+
+                                hiddenInput.setAttribute('type', 'hidden');
+                                hiddenInput.setAttribute('name', 'inicio');
+                                hiddenInput.setAttribute('value', 'preview');
+                                form.appendChild(hiddenInput);
+                                form.action = "@Url.Action("Preview", "PruebaGratis")";
+                                form.submit();
+                            }
+                        },
+                        error: function() {
+                            alert("ocurrio un error al enviar el correo");
+                            $(button).removeAttr("disabled");
+                        },
+                        complete: function(data) {
+                           $(button).removeAttr("disabled");
+                        }
+                    });
+                }
+            });
+            $("#FtTelefono").intlTelInput({
+                defaultCountry: "@ViewData["paisIP"]",
+                //utilsScript: "@Url.Content("~/Scripts/intlTelInput.utils.js")", // just for formatting/placeholders etc
+            });
+
+        });
+
+    </script>
+}
+<div class="container t_container">
+    <div class="row">
+        <div class="row roww">
+            <div class="col-xs-12 col-sm-6">
+                <div class="t_slider hidden-xs">
+                    <div class="owl-carousel" id="imageSliderPri">
+                        <div id="infoPlataforma">
+                            <div class="t_puerto t_puerto_puerto">
+                                <div class="t_puerto--textos">
+                                    <h2>@Resources.FreeTrial_Title_Slide_01</h2>
+                                    @Html.Raw(Resources.FreeTrial_Content_Slide_01)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="t_puerto">
+                                <div class="t_puerto--textos t_puerto--textos-b">
+                                    <h2>@Resources.FreeTrial_Title_Slide_02</h2>
+                                    <a href="#" data-toggle="modal" data-target="#ModalSlider">
+                                        <img src="@Url.Content("~/Content/Images/PruebaGratis/mis_productos.png")" alt="" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="t_puerto">
+                                <div class="t_puerto--textos t_puerto--textos-b">
+                                    <br>
+                                    <h2>@Resources.FreeTrial_Title_Slide_03</h2>
+                                    <a href="#" data-toggle="modal" data-target="#ModalSlider">
+                                        <img src="@Url.Content("~/Content/Images/PruebaGratis/mis_busquedas.png")" alt="" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <div class="t_puerto">
+                                <div class="t_puerto--textos t_puerto--textos-b">
+                                    <br>
+                                    <h2>@Resources.FreeTrial_Title_Slide_04</h2>
+                                    <a href="#" data-toggle="modal" data-target="#ModalSlider">
+                                        <img src="@Url.Content("~/Content/Images/PruebaGratis/mis_companias.png")" alt="" />
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+
+
+            </div>
+            <div class="col-xs-12 col-sm-6">
+                <div class="t_m_section_head">
+                    <h2>@Resources.FreeTrial_Title01</h2>
+                </div>
+                <div class="prueba_section t_prueba_section">
+
+
+                    <div class="title">
+                        <h1>@Resources.FreeTrial_Title02</h1>
+                    </div>
+                    @using (Ajax.BeginForm("AjaxForm", "PruebaGratis", null, new AjaxOptions { HttpMethod = "POST" }, new { id = "validationForm", @class = "edit_form", role = "form" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        @Html.Partial("AjaxFormFreeTrial", Model)
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    /*
+    jQuery.validator.addMethod("phone", function (value, element) {
+        //return !regexp.test(value);
+        //return $(element).intlTelInput("isValidNumber");
+    });
+    jQuery.validator.unobtrusive.adapters.addBool("phone");
+    */
+</script>
+
+@Html.Partial("Modal_Slider")

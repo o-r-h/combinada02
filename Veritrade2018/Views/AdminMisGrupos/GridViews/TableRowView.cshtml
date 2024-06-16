@@ -1,0 +1,75 @@
+﻿@using Veritrade2018.Models.Admin
+@{
+    var objAdminMyGroup = (AdminMyGroup)Model;
+    var idsSeleccionados = objAdminMyGroup.IdsSeleccionados;
+    bool verificarCheckBox = (idsSeleccionados != null && idsSeleccionados.Count > 0);
+
+}
+@foreach (var grupo in objAdminMyGroup.GruposFavoritos)
+{
+<tr>
+    <td class="text-center">@grupo.Index</td>
+    <td>
+        <div class="info-grupo-tabla">
+            <p class="wspace-normal">
+                @Html.Raw("<label id=\"labelGroup" + grupo.IdGrupo + "\" >" + grupo.Grupo + "</label> (" + grupo.CantidadFavoritos + " " + Resources.AdminResources.Favorites_Word.ToLower() + ")")
+            </p>
+
+            <div class="text-center">
+                <a href="javascript:void(0)"
+                   data-idgrupo="@grupo.IdGrupo"
+                   class="lnkOperacionesColumnaTabla lnkShowfavorites clickShowFavorites">
+                    @Resources.MiPerfil.ShowFavorites_Text
+                </a>
+
+                <a href="javascript:void(0)"
+                   data-id-form-modifygroup="@("formModifyGroup"+grupo.IdGrupo)"
+                   data-idlabelgroup="@("labelGroup"+grupo.IdGrupo)"
+                   data-id-txtgroup="@("txtGroup"+grupo.IdGrupo)"
+                   class="lnkOperacionesColumnaTabla lnkEditGroup clickModifyGroup">
+                    @Resources.MiPerfil.ModifyGroup_Text
+                </a>
+            </div>
+        </div>
+
+        <div id="@("formModifyGroup"+grupo.IdGrupo)" class="div-informacion-a-editar no-display">
+            <form class="form-inline" role="form">
+                <div class="form-group">
+                    @Html.TextBox("txtGroup" + grupo.IdGrupo, grupo.Grupo, new { @class = "form-control" })
+                </div>
+                <a href="javascript:void(0)"
+                   data-id-txtgroup="@("txtGroup"+grupo.IdGrupo)"
+                   data-idgroup="@grupo.IdGrupo"
+                   class="clickSaveUpdateGroup">
+                    @Resources.MiPerfil.Save_Text
+                </a>
+
+                <a href="javascript:void(0)"
+                   data-id-form-modifygroup="@("formModifyGroup"+grupo.IdGrupo)"
+                   class="clickCancelModifyGroup">
+                    @Resources.AdminResources.Cancel_Text
+                </a>
+            </form>
+        </div>
+
+    </td>
+
+    <td class="text-center center-vertical">
+        @if (verificarCheckBox)
+        {
+            if (idsSeleccionados.Contains(grupo.IdGrupo))
+            {
+                <input class="mt_m8" type="checkbox" name="name" value="@grupo.IdGrupo"  checked="checked" />
+            }
+            else
+            {
+                <input class="mt_m8" type="checkbox" name="name" value="@grupo.IdGrupo" />
+            }
+        }
+        else
+        {
+            <input class="mt_m8" type="checkbox" name="name" value="@grupo.IdGrupo" />
+        }
+    </td>
+</tr>
+}

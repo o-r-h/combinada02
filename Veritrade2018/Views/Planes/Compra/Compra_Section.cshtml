@@ -1,0 +1,273 @@
+﻿@model CompraDetalle
+@using Veritrade2018.Helpers
+@using Veritrade2018.Models
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var names = ViewData["names"];
+    var apellidos = ViewData["LastNames"];
+}
+<div class="content_detalle_pago">
+    <h2 class="titulo">
+        <span>3.</span> @Resources.Resources.Compra_Titulo03
+    </h2>
+    <div class="row" style="margin-top: 40px">
+        <div class="col-xs-12 col-sm-12">
+            @using (Html.BeginForm("Payment", "Planes", FormMethod.Post, new { id = "payment-form", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+                @Html.Hidden("culture", culture)
+                @Html.Hidden("ChargeId", Model.ChargeId)
+                @Html.Hidden("CodCampania", Model.CodCampania)
+                @Html.Hidden("Email", Model.Correo)
+                @Html.Hidden("Nombres", Model.NombreTarjeta)
+                @Html.Hidden("Nombres_", names)
+                @Html.Hidden("Apellidos_", apellidos)
+                @Html.Hidden("Telefono", Model.Telefono)
+                @Html.Hidden("Empresa", Model.Empresa)
+                @Html.Hidden("Pais", Model.Pais)
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <div id="card-element" class="form-control-pago"></div>
+                        <div id="card-errors" class="text-error" role="alert"></div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <p>
+                            <label>@Resources.Resources.TypeCard_Text</label>
+                            <label id="visa" class="radio-image">
+                                <img src="~/Content/Images/Tarjetas/ic_pt_visa.png" alt="">
+                            </label>
+                            <label id="amex" class="radio-image">
+                                <img src="~/Content/Images/Tarjetas/ic_pt_amex.png" alt="">
+                            </label>
+                            <label id="mastercard" class="radio-image">
+                                <img src="~/Content/Images/Tarjetas/ic_pt_mastercard.png" alt="">
+                            </label>
+                            <label id="discover" class="radio-image">
+                                <img src="~/Content/Images/Tarjetas/ic_pt_discovercard.png" alt="">
+                            </label>
+                        </p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        <div class="row">
+                            <div class="col-xs-8 col-sm-8">
+                                <div id="cardCvc-element" class="form-control-pago"></div>
+                                <div id="cardCvc-errors" class="text-error" role="alert"></div>
+                            </div>
+                            <div class="col-xs-4 col-sm-4">
+                                <img src="~/Content/Images/Tarjetas/cvv_logo.png" alt="cvv" onmouseover="document.getElementById('vvDes').style.display = 'block';" onmouseout="document.getElementById('vvDes').style.display = 'none';">
+                                <div id="vvDes" class="image-cvv-over">
+                                    <img alt="preview" src="~/Content/Images/Tarjetas/cvv_preview.jpg">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        <div id="cardExpiry-element" class="form-control-pago"></div>
+                        <div id="cardExpiry-errors" class="text-error" role="alert"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6 form-group">
+                        @Html.TextBoxFor(m => m.NombreTarjeta, new { placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.NombreTarjeta).ToHtmlString()), @class = "form-control-pago", autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.NombreTarjeta, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-sm-6 form-group">
+                        @Html.TextBoxFor(m => m.Correo, new { placeholder = HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.Correo).ToHtmlString()), @class = "form-control-pago", autocomplete = "off" })
+                        @Html.ValidationMessageFor(m => m.Correo, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-12 form-group">
+                        <p>
+                            <label>
+                                @Html.CheckBoxFor(m => m.IsAgree)
+                                @Resources.Resources.Agree_Text
+                                @Html.ActionLink(Resources.Resources.Footer_TermsConditions, "", null, new { href = "#ModalTerminosVenta", @class = "terminos_link", data_toggle = "modal" })
+                            </label>
+                        </p>
+                        <p>
+                            @Html.ValidationMessageFor(m => m.IsAgree, "", new { @class = "text-danger" })
+                        </p>
+                    </div>
+                </div>
+                @Html.Partial("Compra/Compra_Factura", new CompraFactura())
+                <div class="row">
+                    <div class="col-xs-12 form-group">
+                        <button class="btn button-pagar">@Resources.Resources.Button_Pay</button>
+                        <div id="loading-compra">
+                            <img src="~/Content/Images/ajax-loader.gif" alt="" />
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $.validator.unobtrusive.parse("#payment-form");
+
+    // extend jquery range validator to work for required checkboxes
+    var defaultRangeValidator = $.validator.methods.range;
+    $.validator.methods.range = function(value, element, param) {
+        if (element.type === 'checkbox') {
+            // if it's a checkbox return true if it is checked
+            return element.checked;
+        } else {
+            // otherwise run the default validation function
+            return defaultRangeValidator.call(this, value, element, param);
+        }
+    }
+
+    var stripe = Stripe('@SettingUtility.GetStripeKey()');
+    var elements = stripe.elements({ locale: "@culture.Substring(0, 2)" });
+    var card = elements.create('cardNumber',
+        {
+            placeholder: "@Resources.Resources.Stripe_Form_CardNumber",
+            base: {
+                color: '#303238',
+                fontSize: '16px',
+                lineHeight: '48px',
+                fontFamily: '"ProximaNova-Regular"',
+                fontSmoothing: 'antialiased',
+                '::placeholder': {
+                    color: '#2d3b61'
+                }
+            },
+            invalid: {
+                color: '#a94442',
+                ':focus': {
+                    color: '#303238'
+                }
+            }
+        });
+    card.mount('#card-element');
+
+    card.on('change',
+        function(event) {
+            if (event.brand === 'visa') {
+                $("#visa").addClass("highlight");
+            } else if (event.brand === 'amex') {
+                $("#amex").addClass("highlight");
+            } else if (event.brand === 'mastercard') {
+                $("#mastercard").addClass("highlight");
+            } else if (event.brand === 'discover') {
+                $("#discover").addClass("highlight");
+            } else {
+                $("#visa").removeClass("highlight");
+                $("#amex").removeClass("highlight");
+                $("#mastercard").removeClass("highlight");
+                $("#discover").removeClass("highlight");
+            }
+        });
+
+    var expiry = elements.create('cardExpiry',
+        {
+            placeholder: "@Resources.Resources.Stripe_Form_Expiry",
+            base: {
+                color: '#303238',
+                fontSize: '16px',
+                lineHeight: '48px',
+                fontFamily: '"ProximaNova-Regular"',
+                fontSmoothing: 'antialiased',
+                '::placeholder': {
+                    color: '#2d3b61'
+                }
+            },
+            invalid: {
+                color: '#a94442',
+                ':focus': {
+                    color: '#303238'
+                }
+            }
+        });
+    expiry.mount('#cardExpiry-element');
+
+    var cvc = elements.create('cardCvc',
+        {
+            placeholder: "@Resources.Resources.Stripe_Form_Cvc",
+            base: {
+                color: '#303238',
+                fontSize: '16px',
+                lineHeight: '48px',
+                fontFamily: '"ProximaNova-Regular"',
+                fontSmoothing: 'antialiased',
+                '::placeholder': {
+                    color: '#2d3b61'
+                }
+            },
+            invalid: {
+                color: '#a94442',
+                ':focus': {
+                    color: '#303238'
+                }
+            }
+        });
+    cvc.mount('#cardCvc-element');
+
+    card.addEventListener('change',
+        function(event) {
+            var displayError = document.getElementById('card-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+    expiry.addEventListener('change',
+        function(event) {
+            var displayError = document.getElementById('cardExpiry-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+    cvc.addEventListener('change',
+        function(event) {
+            var displayError = document.getElementById('cardCvc-errors');
+            if (event.error) {
+                displayError.textContent = event.error.message;
+            } else {
+                displayError.textContent = '';
+            }
+        });
+
+    var form = document.getElementById('payment-form');
+    form.addEventListener('submit',
+        function(event) {
+            event.preventDefault();
+            stripe.createToken(card).then(function(result) {
+                if (result.error) {
+                    // Inform the user if there was an error
+                    var errorElement = document.getElementById('card-errors');
+                    errorElement.textContent = result.error.message;
+
+                    $('.button-pagar').prop("disabled", false);
+                    $("#loading-compra").hide();
+                } else {
+                    // Send the token to your server
+                    ga('send', 'event', 'boton', 'click', 'pagar-compra');
+                    stripeTokenHandler(result.token);
+                }
+            });
+        });
+
+    function stripeTokenHandler(token) {
+        // Insert the token ID into the form so it gets submitted to the server
+        var form = document.getElementById('payment-form');
+        var hiddenInput = document.createElement('input');
+        hiddenInput.setAttribute('type', 'hidden');
+        hiddenInput.setAttribute('name', 'StripeToken');
+        hiddenInput.setAttribute('value', token.id);
+        form.appendChild(hiddenInput);
+
+        // Submit the form
+        if ($(form).valid()) {
+            form.submit();
+        }
+    }
+</script>

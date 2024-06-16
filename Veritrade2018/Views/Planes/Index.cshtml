@@ -1,0 +1,425 @@
+﻿@using Veritrade2018.Models
+@using Veritrade2018.Helpers
+@using System.Globalization
+@{
+    var culture = CultureHelper.GetCurrentNeutralCulture();
+    var idiomaMoneda = culture.Equals("es") ? CultureInfo.CreateSpecificCulture("es-pe") : CultureInfo.CreateSpecificCulture("en-us");
+    var uri = HttpContext.Current.Request.Url.AbsolutePath;
+    var seoConf = ConfiguracionesSeo.GetConfig(culture, uri);
+    var codPais = ViewData["codPais"].ToString();
+    string[] planCL = { "16", "22", "25" };
+    ViewBag.Title = seoConf.Title;
+    ViewBag.Description = seoConf.Description;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var i = 1;
+
+}
+
+@section Styles
+{
+    <link href="@Url.Content("~/Content/Assets/planes.css")" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts
+{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#cotizacion").click(function () {
+                $("#ModalSolicitud").find("h4.modal-title").html("@Resources.Resources.Request_Text02");
+                $("#ModalSolicitud").find("form").attr("action", "@Url.Action("Cotizacion", "Planes", new {culture})");
+                $("#ModalSolicitud").modal("show");
+            });
+        });
+
+        function selectCommentBox() {
+            if (!document.location.hash) {
+                document.location.hash = 'planes';
+            }
+        }
+
+        selectCommentBox();
+    </script>
+}
+
+@helper BackColor(int orden)
+    {
+        if (orden % 2 == 0)
+        {
+            @:tipo-02
+        }
+        else if (orden % 3 == 0)
+        {
+            @:tipo-03
+        }
+        else
+        {
+            @:tipo-01
+        }
+}
+
+<div class="container">
+    <div class="planes_section" style="margin-top: 20px">
+        <div class="planes_content">
+            <a id="planes" class="anchor"></a>
+            <div class="col-xs-12">
+                <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3 hidden-xs">
+                    <div class="plan-item border-content">
+                        <div class="plan-descripcion titulo-plan">
+                            <p>@Resources.Resources.Plans_Title_Plans</p>
+                        </div>
+                        <div class="plan-descripcion precio back-color-01">
+                            <p>@Resources.Resources.Plans_Title_Price</p>
+                        </div>
+                        <div class="plan-descripcion descripcion back-color-02">
+                            <p>@Resources.Resources.Plans_Title_Countries</p>
+                        </div>
+                        <div class="plan-descripcion descripcion back-color-01">
+                            <p>@Resources.Resources.Plans_Title_Information</p>
+                        </div>
+                        <div class="plan-descripcion descripcion back-color-02">
+                            <p>@Resources.Resources.Plans_Title_Modules</p>
+                        </div>
+                        <div class="plan-descripcion descripcion back-color-01">
+                            <p>@Resources.Resources.Plans_Title_Users</p>
+                        </div>
+                        <div class="plan-descripcion descripcion back-color-02">
+                            <p>@Resources.Resources.Plans_Title_Downloads</p>
+                        </div>
+                        <div class="plan-descripcion descripcion back-color-01">
+                            <p>@Resources.Resources.Plans_Title_Favorites</p>
+                        </div>
+                        <div class="plan-descripcion descripcion back-color-02">
+                            <p>@Resources.Resources.Plans_Title_Excel</p>
+                        </div>
+                        <div class="plan-descripcion compra back-color-01">
+                            <p>&nbsp;</p>
+                        </div>
+                    </div>
+                </div>
+
+                @foreach (var plan in (List<Planes>)ViewData["planes"])
+                {
+                    PlanesPrecio precio;
+                    {
+                        precio = PlanesPrecio.GetPrecioPlan(plan.Id);
+                    }
+
+                    
+
+                    <div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+                        <div class="plan-item @BackColor(plan.Orden)">
+                            <div class="plan-descripcion titulo-plan">
+                                <p>@Html.Raw(plan.Nombre)</p>
+                            </div>
+                            <div class="plan-precio precio">
+                                <div class="precio-content">
+                                    <p class="precio_total">
+                                        @if (codPais == "CL")
+                                        {
+                                             @planCL[plan.Id-1]<span>UF </span><span>@ViewData["igv"]</span>
+                                        }
+                                        else
+                                        {
+                                            <span>U$</span> @Convert.ToInt32(precio.Precio).ToString("N0", idiomaMoneda)<span>@ViewData["igv"]</span>
+                                        }
+
+                                    </p>
+                                    <p class="precio_periodo">
+                                        @precio.Periodo.Descripcion
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="plan-descripcion descripcion">
+                                <p>@Html.Raw(precio.Paises)</p>
+                            </div>
+                            <div class="plan-descripcion descripcion">
+                                <p>@Html.Raw(precio.InfoComex)</p>
+                            </div>
+                            <div class="plan-descripcion descripcion">
+                                <p>@Html.Raw(precio.Modulos)</p>
+                            </div>
+                            <div class="plan-descripcion descripcion">
+                                <p>@Html.Raw(precio.Usuarios)</p>
+                            </div>
+                            <div class="plan-descripcion descripcion">
+                                <p>@Html.Raw(precio.IngresosDescargas)</p>
+                            </div>
+                            <div class="plan-descripcion descripcion">
+                                <p>@Html.Raw(precio.FavoritosGrupos)</p>
+                            </div>
+                            <div class="plan-descripcion descripcion">
+                                <p>@Html.Raw(precio.Plantillas)</p>
+                            </div>
+                            <div class="plan-descripcion compra">
+                                <p>
+                                    <a href="@Url.Action("Compra", "Planes", new { culture, id = plan.Id })" class="btn-comprar"
+                                       onclick='ga("send", "event", "boton", "click", "@( "continuar-compra" + @i)");'>@Resources.Resources.Btn_Comprar</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    i++;
+                }
+            </div>
+        </div>
+    </div>
+    <div class="planes_section hidden-xs">
+        <div class="col-xs-12">
+            <hr class="plan-separator" />
+        </div>
+    </div>
+    <div class="planes_section hidden-xs">
+        <div class="title">
+            <h2>@Html.Raw(Resources.Resources.Plans_Details_Title)</h2>
+        </div>
+        <div class="planes_content">
+            <div class="col-xs-12">
+                <!-- Titulos -->
+                <div class="col-xs-12 table title-row">
+                    <div class="plan-item table-row">
+                        <div class="col-xs-12 col-sm-3 table-cell">
+                            <div class="plan-descripcion titulo-plan">
+                                <p>@Resources.Resources.Plans_Title_Plans</p>
+                            </div>
+                        </div>
+                        @foreach (var plan in (List<Planes>)ViewData["planes"])
+                        {
+                            <div class="col-xs-12 col-sm-3 table-cell">
+                                <div class="plan-descripcion titulo-plan">
+                                    <p>@plan.Nombre</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <div class="col-xs-12 table title-row title-fixed" style="display: none">
+                    <div class="plan-item table-row">
+                        <div class="col-xs-12 col-sm-3 table-cell">
+                            <div class="plan-descripcion titulo-plan">
+                                <p>@Resources.Resources.Plans_Title_Plans</p>
+                            </div>
+                        </div>
+                        @foreach (var plan in (List<Planes>)ViewData["planes"])
+                        {
+                            <div class="col-xs-12 col-sm-3 table-cell">
+                                <div class="plan-descripcion titulo-plan">
+                                    <p>@plan.Nombre</p>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- Precios -->
+                <div class="col-xs-12 table">
+                    <div class="plan-item table-row">
+                        <div class="col-xs-12 col-sm-3 border-content table-cell back-color-01">
+                            <div class="plan-descripcion precio">
+                                <p>@Resources.Resources.Plans_Title_Price</p>
+                            </div>
+                        </div>
+                        @foreach (var plan in (List<Planes>)ViewData["planes"])
+                        {
+                            PlanesPrecio precio;
+                            {
+                                precio = PlanesPrecio.GetPrecioPlan(plan.Id);
+                            }
+                            <div class="col-xs-12 col-sm-3 table-cell @BackColor(plan.Orden)">
+                                <div class="plan-precio precio">
+                                    <div class="precio-content">
+                                        <hr class="separador">
+                                        <p class="precio_total">
+                                            <span>U$</span> @Convert.ToInt32(precio.Precio).ToString("N0", idiomaMoneda)<span>@ViewData["igv"]</span>
+                                        </p>
+                                        <p class="precio_periodo">
+                                            <span>•</span> @precio.Periodo.Descripcion
+                                        </p>
+                                        <hr class="separador">
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- Paises-->
+                <div class="col-xs-12 table">
+                    <div class="plan-item table-row">
+                        <div class="col-xs-12 col-sm-3 border-content table-cell back-color-02">
+                            <div class="plan-descripcion descripcion">
+                                <p>@Resources.Resources.Plans_Title_Countries</p>
+                            </div>
+                        </div>
+                        @foreach (var plan in (List<Planes>)ViewData["planes"])
+                        {
+                            string detalle;
+                            {
+                                detalle = PlanesPrecioDetalle.GetPaisesDescripcion(plan.Id);
+                            }
+                            <div class="col-xs-12 col-sm-3 table-cell @BackColor(plan.Orden)">
+                                <div class="detalle-descripcion">@Html.Raw(detalle)</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- Informacion Comex-->
+                <div class="col-xs-12 table">
+                    <div class="plan-item table-row">
+                        <div class="col-xs-12 col-sm-3 border-content table-cell back-color-01">
+                            <div class="plan-descripcion descripcion">
+                                <p>@Resources.Resources.Plans_Title_Information</p>
+                            </div>
+                        </div>
+                        @foreach (var plan in (List<Planes>)ViewData["planes"])
+                        {
+                            string detalle;
+                            {
+                                detalle = PlanesPrecioDetalle.GetInfoComexDescripcion(plan.Id);
+                            }
+
+                            <div class="col-xs-12 col-sm-3 table-cell @BackColor(plan.Orden)">
+                                <div class="detalle-descripcion">@Html.Raw(detalle)</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- Modulos -->
+                <div class="col-xs-12 table">
+                    <div class="plan-item table-row">
+                        <div class="col-xs-12 col-sm-3 border-content table-cell back-color-02">
+                            <div class="plan-descripcion descripcion">
+                                <p>@Resources.Resources.Plans_Title_Modules</p>
+                            </div>
+                        </div>
+                        @foreach (var plan in (List<Planes>)ViewData["planes"])
+                        {
+                            string detalle;
+                            {
+                                detalle = PlanesPrecioDetalle.GetModulosDescripcion(plan.Id);
+                            }
+
+                            <div class="col-xs-12 col-sm-3 table-cell @BackColor(plan.Orden)">
+                                <div class="detalle-descripcion">@Html.Raw(detalle)</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- Usuario -->
+                <div class="col-xs-12 table">
+                    <div class="plan-item table-row">
+                        <div class="col-xs-12 col-sm-3 border-content table-cell back-color-01">
+                            <div class="plan-descripcion descripcion">
+                                <p>@Resources.Resources.Plans_Title_Users</p>
+                            </div>
+                        </div>
+                        @foreach (var plan in (List<Planes>)ViewData["planes"])
+                        {
+                            string detalle;
+                            {
+                                detalle = PlanesPrecioDetalle.GetUsuariosDescripcion(plan.Id);
+                            }
+
+                            <div class="col-xs-12 col-sm-3 table-cell @BackColor(plan.Orden)">
+                                <div class="detalle-descripcion">@Html.Raw(detalle)</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- Ingresos y Descargas -->
+                <div class="col-xs-12 table">
+                    <div class="plan-item table-row">
+                        <div class="col-xs-12 col-sm-3 border-content table-cell back-color-02">
+                            <div class="plan-descripcion descripcion">
+                                <p>@Resources.Resources.Plans_Title_Downloads</p>
+                            </div>
+                        </div>
+                        @foreach (var plan in (List<Planes>)ViewData["planes"])
+                        {
+                            string detalle;
+                            {
+                                detalle = PlanesPrecioDetalle.GetIngresosDescargasDescripcion(plan.Id);
+                            }
+
+                            <div class="col-xs-12 col-sm-3 table-cell @BackColor(plan.Orden)">
+                                <div class="detalle-descripcion">@Html.Raw(detalle)</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- Favoritos y Grupos -->
+                <div class="col-xs-12 table">
+                    <div class="plan-item table-row">
+                        <div class="col-xs-12 col-sm-3 border-content table-cell back-color-01">
+                            <div class="plan-descripcion descripcion">
+                                <p>@Resources.Resources.Plans_Title_Favorites</p>
+                            </div>
+                        </div>
+                        @foreach (var plan in (List<Planes>)ViewData["planes"])
+                        {
+                            string detalle;
+                            {
+                                detalle = PlanesPrecioDetalle.GetFavoritosGruposDescripcion(plan.Id);
+                            }
+
+                            <div class="col-xs-12 col-sm-3 table-cell @BackColor(plan.Orden)">
+                                <div class="detalle-descripcion">@Html.Raw(detalle)</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- Plantillas Excel -->
+                <div class="col-xs-12 table">
+                    <div class="plan-item table-row">
+                        <div class="col-xs-12 col-sm-3 border-content table-cell back-color-02">
+                            <div class="plan-descripcion descripcion">
+                                <p>@Resources.Resources.Plans_Title_Excel</p>
+                            </div>
+                        </div>
+                        @foreach (var plan in (List<Planes>)ViewData["planes"])
+                        {
+                            string detalle;
+                            {
+                                detalle = PlanesPrecioDetalle.GetPlantillasDescripcion(plan.Id);
+                            }
+
+                            <div class="col-xs-12 col-sm-3 table-cell @BackColor(plan.Orden)">
+                                <div class="detalle-descripcion">@Html.Raw(detalle)</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- Boton Comprar -->
+                <div class="col-xs-12 table">
+                    <div class="plan-item table-row">
+                        <div class="col-xs-12 col-sm-3 border-content table-cell back-color-02 compra">
+                            <div class="plan-descripcion descripcion">
+                                <p>&nbsp;</p>
+                            </div>
+                        </div>
+                        @{
+                            i = 1;
+                        }
+                        @foreach (var plan in (List<Planes>)ViewData["planes"])
+                        {
+                            <div class="col-xs-12 col-sm-3 table-cell compra @BackColor(plan.Orden)">
+                                <div class="detalle-descripcion">
+                                    <p>
+                                        <a href="@Url.Action("Compra","Planes", new { culture, id = plan.Id })" class="btn-comprar"
+                                           onclick='ga("send", "event", "boton", "click", "@( "continuar-compra" + @i)");'>@Resources.Resources.Btn_Comprar</a>
+                                    </p>
+                                </div>
+                            </div>
+                            i++;
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xs-12 planes-button-content">
+        <div class="col-xs-12 col-sm-6">
+            <a id="cotizacion" class="btn-planes">@Resources.Resources.Btn_Planes</a>
+        </div>
+        <div class="col-xs-12 col-sm-6">
+            <a href="@Url.Action("Pdf", "Planes", new { culture })" class="btn-planes">@Resources.Resources.Pdf_text</a>
+        </div>
+    </div>
+</div>

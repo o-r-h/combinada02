@@ -1,0 +1,56 @@
+﻿@model Veritrade2018.Models.PlanesPrecioDetalle
+
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalPlanes">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="padding: 20px">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    @Resources.Resources.Close_Text <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">
+                    @Resources.Resources.PlanSummary_Text <span>@Model.TituloPlan</span>
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="modal_popup">
+                    <div class="row">
+                        <div class="col-sm-4">
+                            <div class="modal_section">
+                                <h2 class="titulo_section">@Resources.Resources.Plans_Title_Countries</h2>
+                                <div class="descripcion_section">@Html.Raw(Model.PaisesDescripcion)</div>
+                            </div>
+                            <div class="modal_section">
+                                <h2 class="titulo_section">@Resources.Resources.Plans_Title_Excel</h2>
+                                <div class="descripcion_section">@Html.Raw(Model.PlantillasDescripcion)</div>
+                            </div>
+                            <div class="modal_section">
+                                <h2 class="titulo_section">@Resources.Resources.Plans_Title_Users</h2>
+                                <div class="descripcion_section">@Html.Raw(Model.UsuariosDescripcion)</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="modal_section">
+                                <h2 class="titulo_section">@Resources.Resources.Plans_Title_Information</h2>
+                                <div class="descripcion_section">@Html.Raw(Model.InfoComexDescripcion)</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-4">
+                            <div class="modal_section">
+                                <h2 class="titulo_section">@Resources.Resources.Plans_Title_Favorites</h2>
+                                <div class="descripcion_section">@Html.Raw(Model.FavoritosGruposDescripcion)</div>
+                            </div>
+                            <div class="modal_section">
+                                <h2 class="titulo_section">@Resources.Resources.Plans_Title_Downloads</h2>
+                                <div class="descripcion_section">@Html.Raw(Model.IngresosDescargasDescripcion)</div>
+                            </div>
+                            <div class="modal_section">
+                                <h2 class="titulo_section">@Resources.Resources.Plans_Title_Modules</h2>
+                                <div class="descripcion_section">@Html.Raw(Model.ModulosDescripcion)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

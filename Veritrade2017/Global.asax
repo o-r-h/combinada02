@@ -1,0 +1,1 @@
+<%@ Application Codebehind="Global.asax.cs" Inherits="Veritrade2017.MvcApplication" Language="C#" %>

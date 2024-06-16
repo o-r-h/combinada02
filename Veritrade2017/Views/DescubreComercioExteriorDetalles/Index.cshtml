@@ -1,0 +1,56 @@
+﻿@using Veritrade2017.Models
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var idiomaMoneda = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+    var uri = "";
+    if (culture == "es")
+    {
+        uri = HttpContext.Current.Request.Url.AbsolutePath.Substring(0, 10);
+    }
+    else
+    {
+        uri = HttpContext.Current.Request.Url.AbsolutePath.Substring(0, 9);
+    }
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@section Styles{
+
+
+    <link href="@Url.Content("~/Content/Assets/loadingProductProfile.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Plugins/OwlCarousel2-2.2.1/assets/owl.carousel.min.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/bootstrap-theme.css")" rel="stylesheet" type="text/css" />
+    <link href="@Url.Content("~/Content/fontawesome.min.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/CustomCountryProfile.css")" rel="stylesheet" />
+    <link href="@Url.Content("~/Content/Responsive.css")" rel="stylesheet" />
+    <!-- Icon font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+}
+
+
+
+<div class="container">
+
+    <div class="row" style="padding-left:20px; padding-left:55px; padding-bottom: 20px">
+        <h4><strong> Descubre Comercio Exterior Detalles</strong>  </h4>
+    </div>
+
+
+
+
+
+    <!-- End Layout Country Profile -->
+    <!-- JavaScript Includes -->
+
+
+
+
+
+</div>
+<script src="/Scripts/jquery.min.js"></script>
+<script src="/Scripts/transition.js"></script>
+<script src="/Scripts/collapse.js"></script>
+

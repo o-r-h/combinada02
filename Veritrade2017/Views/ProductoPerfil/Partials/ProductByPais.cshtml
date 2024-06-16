@@ -1,0 +1,40 @@
+﻿@using Veritrade2017.Helpers
+@using Veritrade2017.Models.Admin
+
+@{
+    MisProductos objProducto = (MisProductos)Model;
+    ViewData["FlagPais"] = "flag_" + (objProducto.PaisAduana.ToLower().Replace(" ","_")).Replace(".","_") + ".png"; 
+    var culture = CultureHelper.GetCurrentCulture();
+    var idiomaText = culture.Equals("es") ? CultureInfoExtensions.CreateSpecificCulture("es-pe") : CultureInfoExtensions.CreateSpecificCulture("en-us");
+    var regimen = "";
+    if (objProducto.RegimenActual=="Importaciones")
+    {
+        regimen = ProductProfileResources.Imports;
+    }
+    else
+    {
+        regimen = ProductProfileResources.Exports;
+    }
+}
+<style>
+    .comerc {
+        margin-top: 7px;
+        font-family: 'ProximaNova-Regular';
+        font-size: 14px;
+        font-weight: bold;
+        color: #2d3b61;
+        text-align: justify;
+        line-height: 20px;
+    }
+</style>
+<div class="info-title">
+    <h2 id="codProducto">
+        @objProducto.CodProducto: @objProducto.Descripcion
+    </h2>
+    <div>
+        <img src="~/Content/Images/@ViewData["FlagPais"]" alt="" style="vertical-align: unset" /> <h4 id="flagPais" style="display: inline; padding-right: 10px;"> @objProducto.PaisAduana.ToUpper() </h4><h4 id="paisInfo" style="display: inline; font-weight: bold"> @regimen: @string.Format(idiomaText, "{0:N0}", objProducto.TotalByRegimen) </h4>
+        <p class="comerc">
+            <span>@MinisiteResources.Block03_Text01.ToUpper()</span><br />
+        </p>
+    </div>
+</div>

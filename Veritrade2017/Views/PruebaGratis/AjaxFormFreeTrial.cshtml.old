@@ -1,0 +1,38 @@
+﻿@using Veritrade2017.Helpers
+@model Veritrade2017.Models.FreeTrial
+
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+}
+
+@Html.Hidden("culture", culture)
+@Html.Hidden("FtCodCampania", ViewData["cod_campaña"])
+<div class="form-group">
+    <label>@Html.DisplayNameFor(m => m.FtEmail)</label>
+    @Html.TextBoxFor(m => m.FtEmail, new { @class = "form-control", autocomplete = "off" })
+    @Html.ValidationMessageFor(m => m.FtEmail, "", new { @class = "text-danger" })
+    <span class="text-danger" id="mailExist"></span>
+</div>
+<div class="form-group">
+    <label>@Html.DisplayNameFor(m => m.FtNombreCompleto)</label>
+    @Html.TextBoxFor(m => m.FtNombreCompleto, new { @class = "form-control", autocomplete = "off" })
+    @Html.ValidationMessageFor(m => m.FtNombreCompleto, "", new { @class = "text-danger" })
+</div>
+<div class="form-group">
+    <label>@Html.DisplayNameFor(m => m.FtEmpresa)</label>
+    @Html.TextBoxFor(m => m.FtEmpresa, new { @class = "form-control", autocomplete = "off" })
+    @Html.ValidationMessageFor(m => m.FtEmpresa, "", new { @class = "text-danger" })
+</div>
+<div class="form-group">
+    <label>@Html.DisplayNameFor(m => m.FtPais)</label>
+    @Html.DropDownListFor(m => m.FtPais, new SelectList(new ListaPaises().Listado(culture), "Value", "Text", ViewData["paisIP"]), HttpUtility.HtmlDecode(Html.DisplayNameFor(m => m.FtPais).ToHtmlString()), new { @class = "form-control", autocomplete = "off" })
+    @Html.ValidationMessageFor(m => m.FtPais, "", new { @class = "text-danger" })
+</div>
+<div class="form-group">
+    <label>@Html.DisplayNameFor(m => m.FtTelefono)</label>
+    @Html.TextBoxFor(m => m.FtTelefono, new { @class = "form-control", autocomplete = "off" })
+    @Html.ValidationMessageFor(m => m.FtTelefono, "", new { @class = "text-danger" })
+</div>
+<div class="form-group">
+    <button type="submit" name="btnUpdate" class="btn button_trial" id="btnContinuarPrueba">@Resources.FreeTrial_Button_Send</button>
+</div>

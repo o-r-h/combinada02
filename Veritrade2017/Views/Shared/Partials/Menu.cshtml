@@ -1,0 +1,402 @@
+﻿@using System.Diagnostics
+@using Veritrade2017.Helpers
+@using Veritrade2017.Models
+@{
+    var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
+    var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
+    string[] OrganicEmpCods = { "20100", "20100m", "20100I", "20100mI" };
+    string[] OrganicProdCods = { "20200", "20200I", "20200m", "20200mI" };
+
+    string rutaIconoBandera = "/Content/Images/"+Session["iconoBandera"];
+    bool useMobile = Request.Browser.IsMobileDevice;
+    //var codCampania = ViewData["CodCampaña"];
+    //if (Session["c"] == null)
+    //{
+    //    Session["c"] = ViewData["CodCampaña"].ToString();
+    //}
+    //if (Session["c"] != null && Session["c"].ToString() != "")
+    //{
+    //    Session["c"] = culture == "es" ? Session["c"].ToString().Replace("I", "") : Session["c"].ToString().Replace("I", "") + "I";
+    //    codCampania = Session["c"].ToString();
+    //}
+
+    //var objCamp = ViewData["oc"] as Campania;
+
+    var sty = ((Campania.TYPE_CAMPANIA)((int?)Session["TypeCampania"] ?? 0));
+
+    var CodesCampanias = Campania.CodFormateds3((ViewData["CodesCampanias"] as Dictionary<Campania.CONTROL, string>), culture, Request.Browser.IsMobileDevice, sty );
+    //var CodesCampanias = ViewData["CodesCampanias"] as Dictionary<Campania.CONTROL, string>;
+
+    string test = Url.Action("Index", "Empresas", new { culture = (culture == "en" ? "US" : ""), campania = CodesCampanias[Campania.CONTROL.BUSCAR_EMPRESAS] });
+
+    var values = RouteDataContext.RouteValuesFromUri(Request.UrlReferrer);
+    var campania = "";
+    if (values != null && sty == Campania.TYPE_CAMPANIA.ORGANIC)
+    {
+        var contr = values["controller"].ToString();
+        if (values["campania"] != null)
+        {
+            campania = values["campania"].ToString();
+        }
+        if (new[] { "Empresas", "Minisite" }.Contains(/*values["controller"]*/controller) || (OrganicEmpCods.Contains(campania) && contr == "PruebaGratis" && controller.Equals("PruebaGratis"))
+            || (new[] { "Empresas", "Minisite" }.Contains(values["controller"]) && controller.Equals("PruebaGratis")))
+        {
+            if (culture != "es")
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_EMPRESAS_EN];
+            }
+            else
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_EMPRESAS];
+            }
+            CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] += Request.Browser.IsMobileDevice ? "m" : "";
+        }
+        if (new[] { "Productos", "ProductoPerfil" }.Contains(/*values["controller"]*/controller) || (OrganicProdCods.Contains(campania) && contr == "PruebaGratis" && controller.Equals("PruebaGratis"))
+            || (new[] { "Productos", "ProductoPerfil" }.Contains(values["controller"]) && controller.Equals("PruebaGratis")))
+        {
+            if (culture != "es")
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_PRODUCTOS_EN];
+            }
+            else
+            {
+                CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] = Campania.CodesOrganics[Campania.CONTROL.BUSCAR_PRODUCTOS];
+            }
+
+        }
+    }
+
+
+    var urlAdmin = SettingUtility.GetUrlBackHome(culture) ;
+
+    var codCompaniaAux = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS];
+
+    bool prueba = true;
+
+    if (controller.ToLower() == "consulta" && prueba)
+    {
+        if (culture == "es")
+        {
+            codCompaniaAux = "12101";
+        }
+        else
+        {
+            codCompaniaAux = "12102";
+        }
+    }
+
+}
+
+@helper Selected(string c, string culture)
+{
+    if (c == culture)
+    {
+        @:selected="selected"
+    }
+}
+
+@helper ActiveMenu(string item)
+{
+    if (ViewBag.Menu == item)
+    {
+        @:active
+    }
+    else
+    {
+        @:""
+    }
+}
+
+@if (culture == "es")
+{
+    <style>
+        .navbar.barra_navegacion li a.link_menu, .navbar.barra_navegacion li a.link_menu:visited { font-size: 13.5px !important; }
+    </style>
+}
+@if (controller == "Contactanos")
+{
+    <style>
+        .display-contact{
+            display:none;
+        }
+    </style>
+}
+<nav class="navbar navbar-inverse barra_navegacion nav-menu-movil display-contact" style="border: none; z-index: 9998">
+    <div class="container">
+        <div class="navbar-header">
+            <div class="nopadding">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <a class="navbar-brand nav-logo" href="@Url.Action("Index", "Home", new {culture})">
+                <img class="cabecera_logo" alt="Veritrade" src="@Url.Content("~/Content/Images/logo_cabecera-removebg-preview.png")">
+            </a>
+            <div class="visible-xs movil-form-select col-xs-12 nopadding">
+                <div id="telefonoPais_menu" class="col-xs-7 nopadding">
+                    <div class="lista_telefonos lista_telefonosMobile">
+                        <select title="Seleccione el país" class="selectTelefonoPaisMobile selectpicker" data-style="btn_telefono_paises_menu btn_select_movil" data-width="90%"></select>
+                    </div>
+                    <div class="espaciado_numero_telefono">
+                        <span>
+                            @*<i class="fas fa-phone-alt"></i>*@
+                            <img src="@Url.Content("~/Content/Images/ico_telefono.jpg")" width="10" height="10" alt="" />
+                        </span>
+                        <span class="num_telefono">
+                            <a class="hrefTelefonoPais" href="#"><span class="telefonoPais"></span></a>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-2 tel_wsp nopadding">
+                    <a href="https://wa.me/51932512040">
+                        <img src="@Url.Content("~/Content/Images/ico_whatsapp.png")" width="25" height="25" alt="" />
+                    </a>
+                </div>
+                <div class="prueba_movil_content col-xs-3 nopadding">
+                    @Html.RouteLink(Resources.TrialText, "PruebaGratis" + (culture == "en" ? "US" : ""),
+                        new { culture, campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] }, new { @class = "prueba_movil" })
+                </div>
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse-1">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle link_menu @ActiveMenu("servicios")" data-toggle="dropdown">@Resources.MenuItem01</a>
+                    <ul class="dropdown-menu submenu-left">
+                        @foreach (var servicio in (List<Servicios>)ViewData["serviciosMenu"])
+                        {
+                            if (culture == "es")
+                            {
+                                <li>@Html.RouteLink(servicio.Titulo, "Servicios", new { culture, slug = servicio.Slug, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES]) }, new { @class = "" })</li>
+                            }
+                            else
+                            {
+                                <li>@Html.RouteLink(servicio.Titulo, "ServiciosUS", new { culture, slug = servicio.Slug, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES]) }, new { @class = "" })</li>
+                            }
+                        }
+                    </ul>
+                </li>
+                <li>
+                    @if (culture == "es")
+                    {
+                        <a href="@Url.RouteUrl("Ayuda", new {culture, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )})" class="link_menu @ActiveMenu("ayuda")">@Resources.MenuItem02</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.RouteUrl("AyudaUS", new {culture, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )})" class="link_menu @ActiveMenu("ayuda")">@Resources.MenuItem02</a>
+                    }
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Consulta", new {culture, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )})" class="link_menu @ActiveMenu("consulta")">@Resources.MenuItem03</a>
+                </li>
+                <li>
+                    @Html.RouteLink(@Resources.MenuItem04, "CountryProfileListaPais", new { culture }, new { @class = "link_menu @ActiveMenu('paises')" })
+                    @*<a href="@Url.RouteUrl()" class="dropdown-toggle link_menu @ActiveMenu("paises")" data-toggle="dropdown">@Resources.MenuItem04</a>
+                    <a href="@Url.RouteUrl("AyudaUS", new {culture, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )})" class="link_menu @ActiveMenu("ayuda")">@Resources.MenuItem02</a>
+                    @*<ul class="dropdown-menu submenu-right">
+            @foreach (var pais in (List<ServiciosPaises>)ViewData["paisesMenu"])
+            {
+                <li>
+                    @if (culture == "es")
+                    {
+                        <a href="@Url.RouteUrl("Paises", new {culture, slug = pais.Abreviatura.ToLower().Trim(), campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )})">
+                            <img class="image-menu" src="@Url.Content("~/Content/Images/" + pais.ImagenBandera)" width="27" height="16" alt=""> @pais.NombrePais
+                        </a>
+                    }
+                    else
+                    {
+                        <a href="@Url.RouteUrl("PaisesUS", new {culture, slug = pais.Abreviatura.ToLower().Trim(), campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )})">
+                            <img class="image-menu" src="@Url.Content("~/Content/Images/" + pais.ImagenBandera)" width="27" height="16" alt=""> @pais.NombrePais
+                        </a>
+                    }
+                </li>
+            }
+        </ul>*@
+                </li>
+                <li>
+                    <a href="@Url.RouteUrl("Planes"+(culture=="en" ? "US" : ""), new {culture, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] ) })" class="link_menu @ActiveMenu("planes")">@Resources.MenuItem05</a>
+                    @*<a href="@Url.RouteUrl("Planes"+(culture=="en" ? "US" : ""), new {culture})" class="link_menu @ActiveMenu("planes")">@Resources.MenuItem05</a>*@
+                </li>
+                <li>
+                    <a href="@Url.RouteUrl("Empresas" + (culture == "en" ? "US" : ""), new {culture, campania = CodesCampanias[Campania.CONTROL.BUSCAR_EMPRESAS], action = "Index"})" class="link_menu @ActiveMenu(culture == "en" ? "search-companies" : "buscar-empresas")">@Resources.MenuItem09</a>
+                </li>
+                <li>
+                    <a href="@Url.RouteUrl("Productos" + (culture == "en" ? "US" : ""), new {culture, campania = CodesCampanias[Campania.CONTROL.BUSCAR_PRODUCTOS], action = "Index"})" class="link_menu @ActiveMenu(culture == "en" ? "search-products" : "buscar-productos")">@Resources.MenuItem10</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Blog", new {culture, campania = CodesCampanias[Campania.CONTROL.BLOG]})" class="link_menu @ActiveMenu("blog")">@Resources.MenuItem06</a>
+                </li>
+
+                <li class="hidden-xs">
+                    <img class="separator" src="@Url.Content("~/Content/Images/transparente.gif")" alt="">
+                </li>
+                <li class="visible-xs">
+                    <hr />
+                </li>
+                <li class="link_log">
+                    <a href="#" class="contactenos access_content">@Resources.MenuItem07</a>
+                </li>
+                <li id="li_login" class="link_log dropdown">
+                    @if (ViewData["registrado"] != null)
+                    {
+                        <a href="@urlAdmin" class="access_content">@ViewData["registrado"]</a>
+                    }
+                    else
+                    {
+                        <a id="login" href="#" onclick="ga('send', 'event', 'boton', 'click', 'login');" class="dropdown-toggle access_content" data-toggle="dropdown">@Resources.MenuItem08</a>
+                        <div class="login-form dropdown-menu">
+
+                            <div id="loadingLogin" class="loaderLogin">
+                                <div class="objectLoadingLogin"></div>
+                            </div>
+
+                            <p class="title">@Resources.LoginTitle </p>
+
+                            <form action="@urlAdmin" id="loginForm" method="post" role="form">
+                                @Html.AntiForgeryToken()
+                                <div>
+                                    <label>@Resources.LoginUserLabel</label>
+
+                                    @Html.TextBox("txtCodUsuario", null, new { @class = "control" })
+                                </div>
+                                <div>
+                                    <label>@Resources.LoginPasswordLabel</label>
+
+                                    @Html.Password("txtPassword", null, new { @class = "control" })
+                                </div>
+                                <div style="margin-top: 15px;">
+                                    <p>
+                                        <a href="#" class="forgot_link">@Resources.LoginForgotLabel</a>
+                                        <span id="login_button" class="bot_cabecera login_button">Login ></span>
+                                    </p>
+                                </div>
+                                <div>
+                                    <div class="login_text">
+                                        @Resources.LoginDevelopedLabel<br />@Resources.LoginNavegadoresLabel
+                                    </div>
+                                </div>
+                                <div>
+                                    <div class="login_text">
+                                        <input id="chkTerminos" checked="checked" type="checkbox">
+                                        @Resources.LoginTerminosLabel
+
+                                        @Html.ActionLink(Resources.Footer_TermsConditions, "", null, new { @class = "link_terminos", href = "#ModalTerminosCondiciones", data_toggle = "modal" })
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    }
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div>
+</nav>
+
+
+<nav class="navbar navbar-inverse navbar-fixed-top barra_navegacion barra_navegacion_fixed" style="border: none;">
+    <div class="container">
+        <div class="navbar-header">
+            <div class="nopadding">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+            </div>
+            <a class="navbar-brand nav-logo" href="@Url.Action("Index", "Home", new {culture})">
+                <img class="cabecera_logo" alt="Veritrade" src="@Url.Content("~/Content/Images/logo_cabecera-removebg-preview.png")">
+            </a>
+            <div class="visible-xs movil-form-select col-xs-12 nopadding">
+                <div id="telefonoPais_menu" class="col-xs-7 nopadding">
+                    <div class="lista_telefonos lista_telefonosMobile">
+                        <select title="Seleccione el país" class="selectTelefonoPaisMobile selectpicker" data-style="btn_telefono_paises_menu btn_select_movil" data-width="90%"></select>
+                    </div>
+                    <div class="espaciado_numero_telefono">
+                        <span>
+                            @*<i class="fas fa-phone-alt"></i>*@
+                            <img src="@Url.Content("~/Content/Images/ico_telefono.jpg")" width="10" height="10" alt="" />
+                        </span>
+                        <span class="num_telefono">
+                            <a class="hrefTelefonoPais" href="#"><span class="telefonoPais"></span></a>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-xs-2 tel_wsp nopadding">
+                    <a href="https://wa.me/51932512040 ">
+                        <img src="@Url.Content("~/Content/Images/ico_whatsapp.png")" width="25" height="25" alt="" />
+                    </a>
+                </div>
+                <div class="prueba_movil_content col-xs-3 nopadding">
+                    @Html.RouteLink(Resources.TrialText, "PruebaGratis" + (culture == "en" ? "US" : ""),
+                        new { culture, campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] }, new { @class = "prueba_movil" })
+                </div>
+            </div>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-collapse-2">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle link_menu @ActiveMenu("servicios")" data-toggle="dropdown">@Resources.MenuItem01</a>
+                    <ul class="dropdown-menu submenu-left">
+                        @foreach (var servicio in (List<Servicios>)ViewData["serviciosMenu"])
+                        {
+                            if (culture == "es")
+                            {
+                                <li>@Html.RouteLink(servicio.Titulo, "Servicios", new { culture, slug = servicio.Slug }, new { @class = "" })</li>
+                            }
+                            else
+                            {
+                                <li>@Html.RouteLink(servicio.Titulo, "ServiciosUS", new { culture, slug = servicio.Slug }, new { @class = "" })</li>
+                            }
+                        }
+                    </ul>
+                </li>
+                <li>
+                    @if (culture == "es")
+                    {
+                        <a href="@Url.RouteUrl("Ayuda", new {culture})" class="link_menu @ActiveMenu("ayuda")">@Resources.MenuItem02</a>
+                    }
+                    else
+                    {
+                        <a href="@Url.RouteUrl("AyudaUS", new {culture})" class="link_menu @ActiveMenu("ayuda")">@Resources.MenuItem02</a>
+                    }
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Consulta", new {culture})" class="link_menu @ActiveMenu("consulta")">@Resources.MenuItem03</a>
+                </li>
+                <li>
+                    <!-- menu nuevo pais -->
+                    @*<a href="#" class="dropdown-toggle link_menu @ActiveMenu("paises")" data-toggle="dropdown">@Resources.MenuItem04</a>*@
+                    @Html.RouteLink(@Resources.MenuItem04, "CountryProfileListaPais", new { culture }, new { @class = "link_menu @ActiveMenu('paises')" })
+
+                </li>
+                <li>
+                    <a href="@Url.RouteUrl("Planes"+(culture=="en" ? "US" : ""), new {culture, campania = CodesCampanias[Campania.CONTROL.PLANES] })" class="link_menu @ActiveMenu("planes")">@Resources.MenuItem05</a>
+                </li>
+                <li>
+                    <a href="@Url.RouteUrl("Empresas" + (culture == "en" ? "US" : ""), new {culture, campania = CodesCampanias[Campania.CONTROL.BUSCAR_EMPRESAS], action = "Index"})" class="link_menu @ActiveMenu(culture == "en" ? "search-companies" : "buscar-empresas")">@Resources.MenuItem09</a>
+                </li>
+                <li>
+                    <a href="@Url.RouteUrl("Productos" + (culture == "en" ? "US" : ""), new {culture, campania = CodesCampanias[Campania.CONTROL.BUSCAR_PRODUCTOS], action = "Index"})" class="link_menu @ActiveMenu(culture == "en" ? "search-products" : "buscar-productos")">@Resources.MenuItem10</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("Index", "Blog", new {culture, campania = CodesCampanias[Campania.CONTROL.BLOG]})" class="link_menu @ActiveMenu("blog")">@Resources.MenuItem06</a>
+                </li>
+                <li class="hidden-xs">
+                    <img class="separator" src="@Url.Content("~/Content/Images/transparente.gif")" alt="">
+                </li>
+                <li class="visible-xs">
+                    <hr/>
+                </li>
+                <li class="link_prueba">
+                    @Html.RouteLink(Resources.TrialText, "PruebaGratis" + (culture == "en" ? "US" : ""), 
+                        new { culture, campania = codCompaniaAux /*CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS]*/ }, new { @class = "access_content" })
+                </li>
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div>
+</nav>
+

@@ -1,0 +1,1386 @@
+﻿@using Veritrade2018.Helpers
+@using System.Globalization
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+    var culture = CultureHelper.GetCurrentCulture();
+    var idioma = culture.Equals("es") ? CultureInfo.CreateSpecificCulture("es-pe") : CultureInfo.CreateSpecificCulture("en-us");
+    var tipoOperacion = "I";
+}
+@section styles
+{
+    <link href="@Url.Content("~/Content/Assets/productprofile.css")" rel="stylesheet" type="text/css" />
+}
+@section scripts
+{
+    <script src="@Url.Content("~/Scripts/Admin/admin.js?2")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/misproductos.js")" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/Plugins/Highcharts/highcharts.js")" defer type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/canvg/1.4.0/rgbcolor.js" defer type="text/javascript"></script>
+    <script src="@Url.Content("~/Scripts/jquery-ui-1.12.1.min.js")" defer type="text/javascript"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#productName").autocomplete({
+                //appendTo: "#autocompleteFilter",
+                source: function(request, response) {
+                    $.ajax({
+                        url: "@Url.Action("BuscarProducto", "ProductoPerfil")",
+                        type: "POST",
+                        dataType: "json",
+                        data: {
+                            description: request.term
+                        },
+                        success: function (data) {
+                            //console.log(data);
+                            response($.map(data,
+                                function(item) {
+                                    return { id: item.id, label: item.value, value: item.value };
+                                }));
+                        }
+                    });
+                },
+                minLength: 2,
+                open: function(event, ui) {
+                    $('.ui-autocomplete').off('menufocus hover mouseover mouseenter');
+                },
+                select: function (event, ui) {
+                    //console.log(ui);
+
+                    $("#slug").val(ui.item.id.uri);
+                }
+            });
+
+
+
+            $("#search").click(function() {
+                if ($("#slug").val().trim() !== "") {
+                    //window.location.replace($("#slug").val());
+                    //console.log($("#slug").val());
+                    Busqueda.searchDataByProduct('@Url.Action("BuscarClick", "ProductoPerfil")',
+                        '@culture');
+                }
+            });
+        });
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            // Custom colors
+            Highcharts.Color.prototype.parsers.push({
+                regex: /^[a-z]+$/,
+                parse: function (result) {
+                    var rgb = new RGBColor(result[0]);
+                    if (rgb.ok) {
+                        return [rgb.r, rgb.g, rgb.b, 1]; // returns rgba to Highcharts
+                    }
+                }
+            });
+
+            //Highcharts.chart('container', {
+            //    title: {
+            //        text: 'Valor CIF Importador US$'
+            //    },
+            //    legend: {
+            //        enabled: false
+            //    },
+            //    colors: ['#4F81BD'],
+            //    xAxis: {
+            //        categories: [
+            //            [
+            //                'OCT 17',
+            //            ],
+            //            [
+            //                'NOV 17',
+            //            ],
+            //            [
+            //                'DIC 17',
+            //            ],
+            //            [
+            //                'ENE 18',
+            //            ],
+            //            [
+            //                'FEB 18',
+            //            ]
+            //        ],
+            //        crosshair: true
+            //    },
+            //    yAxis: {
+            //        min: 0,
+            //        title: {
+            //            text: ''
+            //        }
+            //    },
+            //    tooltip: {
+            //        formatter: function () {
+            //            var yVal = this.y;
+            //            return "<b>" + this.x + '</b>: $' + yVal.toLocaleString('en');
+            //        }
+            //    },
+            //    plotOptions: {
+            //        column: {
+            //            pointPadding: 0,
+            //            borderWidth: 0
+            //        }
+            //    },
+            //    series: [{
+            //        type: 'column',
+            //        data: [
+            //            [
+            //                2152012
+            //            ],
+            //            [
+            //                4265112
+            //            ],
+            //            [
+            //                3686898
+            //            ],
+            //            [
+            //                2964566
+            //            ],
+            //            [
+            //                253451
+            //            ]
+            //        ]
+            //    }]
+            //});
+
+            Highcharts.chart('container-1', {
+                title: {
+                    text: 'Valor CIF Importador US$'
+                },
+                legend: {
+                    enabled: false
+                },
+                colors: ['#4F81BD'],
+                xAxis: {
+                    categories: [
+                        [
+                            'OCT 17',
+                        ],
+                        [
+                            'NOV 17',
+                        ],
+                        [
+                            'DIC 17',
+                        ],
+                        [
+                            'ENE 18',
+                        ],
+                        [
+                            'FEB 18',
+                        ]
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: ''
+                    }
+                },
+                tooltip: {
+                    formatter: function () {
+                        var yVal = this.y;
+                        return "<b>" + this.x + '</b>: $' + yVal.toLocaleString('en');
+                    }
+                },
+                plotOptions: {
+                    column: {
+                        pointPadding: 0,
+                        borderWidth: 0
+                    }
+                },
+                series: [{
+                    type: 'column',
+                    data: [
+                        [
+                            2152012
+                        ],
+                        [
+                            4265112
+                        ],
+                        [
+                            3686898
+                        ],
+                        [
+                            2964566
+                        ],
+                        [
+                            253451
+                        ]
+                    ]
+                }]
+            });
+
+            //Highcharts.chart('container2', {
+            //    title: {
+            //        text: 'Precio Promedio $US/Unidad'
+            //    },
+            //    yAxis: {
+            //        title: {
+            //            text: ''
+            //        }
+            //    },
+            //    legend: {
+            //        enabled: false
+            //    },
+            //    xAxis: {
+            //        categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            //    },
+            //    plotOptions: {
+            //        line: {
+            //            dataLabels: {
+            //                enabled: true
+            //            },
+            //            enableMouseTracking: true
+            //        },
+            //    },
+            //    tooltip: {
+            //        crosshairs: [true],
+            //        formatter: function () {
+            //            var yVal = this.y;
+            //            return "<b>" + this.x + '</b>: $' + yVal.toLocaleString('en');
+            //        }
+            //    },
+            //    series: [{
+            //        name: 'Installation',
+            //        data: [43934, 52503, 57177, 69658, 97031, 119931]
+            //    }],
+            //    responsive: {
+            //        rules: [{
+            //            condition: {
+            //                maxWidth: 500
+            //            },
+            //            chartOptions: {
+            //                legend: {
+            //                    layout: 'horizontal',
+            //                    align: 'center',
+            //                    verticalAlign: 'bottom'
+            //                }
+            //            }
+            //        }]
+            //    }
+            //});
+
+            Highcharts.chart('container-2', {
+                title: {
+                    text: 'Precio Promedio $US/Unidad'
+                },
+                yAxis: {
+                    title: {
+                        text: ''
+                    }
+                },
+                legend: {
+                    enabled: false
+                },
+                xAxis: {
+                    categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+                },
+                plotOptions: {
+                    line: {
+                        dataLabels: {
+                            enabled: true
+                        },
+                        enableMouseTracking: true
+                    },
+                },
+                tooltip: {
+                    crosshairs: [true],
+                    formatter: function () {
+                        var yVal = this.y;
+                        return "<b>" + this.x + '</b>: $' + yVal.toLocaleString('en');
+                    }
+                },
+                series: [{
+                    name: 'Installation',
+                    data: [43934, 52503, 57177, 69658, 97031, 119931]
+                }],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+
+            //Highcharts.chart('container3', {
+            //    title: {
+            //        text: 'Compatarivo CIF US$'
+            //    },
+            //    xAxis: {
+            //        crosshair: true
+            //    },
+            //    yAxis: {
+            //        min: 0,
+            //        title: {
+            //            text: ''
+            //        }
+            //    },
+            //    legend: {
+            //        layout: 'vertical',
+            //        align: 'right',
+            //        verticalAlign: 'middle'
+            //    },
+            //    plotOptions: {
+            //        series: {
+            //            label: {
+            //                connectorAllowed: false
+            //            }
+            //        }
+            //    },
+            //    series: [{
+            //        name: '2018',
+            //        data: [43934, 52503, 57177, 69658, 97031, 119931]
+            //    }, {
+            //        name: '2017',
+            //        data: [34916, 44064, 39742, 59851, 82490, 100282]
+            //    }, {
+            //        name: '2016',
+            //        data: [101744, 17722]
+            //    }],
+            //    responsive: {
+            //        rules: [{
+            //            condition: {
+            //                maxWidth: 500
+            //            },
+            //            chartOptions: {
+            //                legend: {
+            //                    layout: 'horizontal',
+            //                    align: 'center',
+            //                    verticalAlign: 'bottom'
+            //                }
+            //            }
+            //        }]
+            //    }
+            //});
+
+            Highcharts.chart('container-3', {
+                title: {
+                    text: 'Compatarivo CIF US$'
+                },
+                xAxis: {
+                    categories: [
+                        [
+                            'ENE',
+                        ],
+                        [
+                            'MAR',
+                        ],
+                        [
+                            'MAY',
+                        ],
+                        [
+                            'JUL',
+                        ],
+                        [
+                            'SEP',
+                        ],
+                        [
+                            'NOV',
+                        ]
+                    ],
+                    crosshair: true
+                },
+                yAxis: {
+                    min: 0,
+                    title: {
+                        text: ''
+                    }
+                },
+                legend: {
+                    layout: 'vertical',
+                    align: 'right',
+                    verticalAlign: 'middle'
+                },
+                plotOptions: {
+                    series: {
+                        label: {
+                            connectorAllowed: false
+                        }
+                    }
+                },
+                series: [{
+                    name: '2018',
+                    data: [43934, 52503, 57177, 69658, 97031, 119931]
+                }, {
+                    name: '2017',
+                    data: [34916, 44064, 39742, 59851, 82490, 100282]
+                }, {
+                    name: '2016',
+                    data: [101744, 17722]
+                }],
+                responsive: {
+                    rules: [{
+                        condition: {
+                            maxWidth: 500
+                        },
+                        chartOptions: {
+                            legend: {
+                                layout: 'horizontal',
+                                align: 'center',
+                                verticalAlign: 'bottom'
+                            }
+                        }
+                    }]
+                }
+            });
+
+            // Radialize the colors
+            Highcharts.setOptions({
+                colors: Highcharts.map(Highcharts.getOptions().colors, function (color) {
+                    return {
+                        radialGradient: {
+                            cx: 0.5,
+                            cy: 0.3,
+                            r: 0.7
+                        },
+                        stops: [
+                            [0, color],
+                            [1, Highcharts.Color(color).brighten(-0.3).get('rgb')] // darken
+                        ]
+                    };
+                })
+            });
+
+            // Build the chart
+            Highcharts.chart('piecontainer1', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Ranking Importadores'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            },
+                            connectorColor: 'silver'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Brands',
+                    data: [
+                        { name: 'IE', y: 56.33 },
+                        {
+                            name: 'Chrome',
+                            y: 24.03,
+                            sliced: true,
+                            selected: true
+                        },
+                        { name: 'Firefox', y: 10.38 },
+                        { name: 'Safari', y: 4.77 },
+                        { name: 'Opera', y: 0.91 },
+                        { name: 'Other', y: 0.2 }
+                    ]
+                }]
+            });
+
+            Highcharts.chart('piecontainer-1', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Ranking Importadores'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            },
+                            connectorColor: 'silver'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Brands',
+                    data: [
+                        { name: 'IE', y: 56.33 },
+                        {
+                            name: 'Chrome',
+                            y: 24.03,
+                            sliced: true,
+                            selected: true
+                        },
+                        { name: 'Firefox', y: 10.38 },
+                        { name: 'Safari', y: 4.77 },
+                        { name: 'Opera', y: 0.91 },
+                        { name: 'Other', y: 0.2 }
+                    ]
+                }]
+            });
+
+            Highcharts.chart('piecontainer2', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Ranking País Origen'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            },
+                            connectorColor: 'silver'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Brands',
+                    data: [
+                        { name: 'IE', y: 56.33 },
+                        {
+                            name: 'Chrome',
+                            y: 24.03,
+                            sliced: true,
+                            selected: true
+                        },
+                        { name: 'Firefox', y: 10.38 },
+                        { name: 'Safari', y: 8.77 },
+                        { name: 'Opera', y: 15.91 },
+                        { name: 'Other', y: 1.2 }
+                    ]
+                }]
+            });
+
+            Highcharts.chart('piecontainer-2', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Ranking País Origen'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            },
+                            connectorColor: 'silver'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Brands',
+                    data: [
+                        { name: 'IE', y: 56.33 },
+                        {
+                            name: 'Chrome',
+                            y: 24.03,
+                            sliced: true,
+                            selected: true
+                        },
+                        { name: 'Firefox', y: 10.38 },
+                        { name: 'Safari', y: 8.77 },
+                        { name: 'Opera', y: 15.91 },
+                        { name: 'Other', y: 1.2 }
+                    ]
+                }]
+            });
+
+            Highcharts.chart('piecontainer3', {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                title: {
+                    text: 'Ranking Exportadores'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            },
+                            connectorColor: 'silver'
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Brands',
+                    data: [
+                        { name: 'IE', y: 23.33 },
+                        {
+                            name: 'Chrome',
+                            y: 24.03,
+                            sliced: true,
+                            selected: true
+                        },
+                        { name: 'Firefox', y: 10.38 },
+                        { name: 'Safari', y: 4.77 },
+                        { name: 'Opera', y: 0.91 },
+                        { name: 'Other', y: 11.2 }
+                    ]
+                }]
+            });
+        });
+    </script>
+}
+
+@*<div class="padding-height-sm">
+        @using (@Html.BeginForm("Index", "MisProductos", FormMethod.Post, htmlAttributes: new { @id = "form-busqueda", @class = "form-horizontal", @role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+
+            @Html.Partial("~/Views/Shared/Consulta/_FormBusqueda.cshtml")
+        }
+    </div>*@
+<div class="row null-margin-h">
+    <div class="minisite-info">
+        <div class="col-xs-12 col-sm-24" style="margin-top: 20px; margin-bottom: 20px;">
+            <input type="hidden" name="slug" id="slug" value="" />
+            @*<div class="col-xs-12 col-sm-6 slogan">
+                    <div class="form-group">
+                        <label style="font-family: ProximaNova-Bold; font-size: 16px;">@Resources.MinisiteResources.Slogan_Text</label>
+                    </div>
+                </div>*@
+            @*<div class="col-xs-12 col-sm-12">*@
+            <div class="row">
+                <div class="col-xs-2 col-sm-2 text-right">
+                    <label class="search-label" for="productName">@Resources.MinisiteResources.Search_Company</label>
+                </div>
+                <div class="col-xs-4 col-sm-7">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="productName" name="productName">
+                        <div id="autocompleteFilter" class="autocomplete_content"></div>
+                    </div>
+                </div>
+                <div class="col-xs-12 col-sm-3">
+                    <input id="search" class="btn-search" type="submit" value="@Resources.Resources.Search_Button" />
+                </div>
+            </div>
+            @*</div>*@
+        </div>
+    </div>
+</div>
+<div class="principal">
+    <div class="containerA">
+        <div style="border-right: 2px solid #cfdee5;">
+            <div class="row null-margin-h">
+                <div class="minisite-info" style="overflow: hidden">
+                    <div class="col-xs-12 col-sm-7 null-margin-h like-table-cell info-left el_uno">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <div class="info-title">
+                                    <h2>
+                                        VINOS
+                                    </h2>
+                                    <h3 id="codProducto">
+                                        220410: EN RECIPIENTES CON CAPACIDAD INFERIOR O IGUAL A 2L.
+                                    </h3>
+                                    <h4 style="display: inline">Importaciones y Exportaciones <img id="flagPais" src="~/Content/Images/flag_peru.png" alt="" /></h4><h4 id="paisFlag" style="display: inline"> PERÚ</h4>
+                                    @*<div class="span-content" style="border: 1px solid #54ace6;">
+                                            <img src="~/Content/Images/Minisite/box.png" alt="" /> <label>@string.Format(idiomaText, "{0:N0}", totalEmbarques)</label> @Resources.MinisiteResources.Shipments_Text
+                                        </div>*@
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-5 null-margin-h like-table-cell info-right">
+                        <div class="row ">
+                            <div class="col-xs-12 col-sm-6 null-margin-h like-table-cell">
+                                <p class="info-description">
+                                    <span>IMPORTACIONES:</span>
+                                    <ul class="lista-descripcion">
+                                        <li style="display: inline">- US$: </li><li id="valorImpor" style="display: inline">1, 791, 468, 447</li><br/>
+                                        <li style="display: inline">- Importadores: </li><li id="cantEmpImpor" style="display: inline">200</li>
+                                    </ul>
+                                </p>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 null-margin-h like-table-cell" style="border-left: 2px solid #cfdee5;">
+                                <p class="info-description">
+                                    <span>EXPORTACIONES:</span>
+                                    <ul class="lista-descripcion">
+                                        <li style="display: inline">- US$: </li><li id="valorExpor" style="display: inline">1, 791, 468, 447</li><br/>
+                                        <li style="display: inline">- Exportadores: </li><li id="cantEmpExpor" style="display: inline">200</li>
+                                    </ul>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="resultados" class="row">
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-6 padding-height-sm">
+                            <p class="chart-tittle">Resumen Período</p>
+                            <div class="col-sm-12 data-content resum-cont resumen-content">
+                                <div class="table-view">
+                                    <div class="col-sm-4 col-xs-4 null-padding table-cell cinco ">
+                                        <div class="media-space">
+                                            <div class="media">
+                                                <div class="space-resum-1">
+                                                    <img class="media-img" src="~/Content/Images/Busqueda/ico_dash_01.png" alt="...">
+                                                </div>
+                                                <div class="media-body">
+                                                    <span>
+                                                        Total <br />
+                                                        @(tipoOperacion.Equals("I") ? "Importador" : "Exportador")
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <p id="totalImport"class="resum-subtext">
+                                                1,102,565<br />
+                                                <span>US$</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-4 null-padding table-cell cinco">
+                                        <div class="media-space border-media">
+                                            <div class="media">
+                                                <div class="space-resum-1">
+                                                    <img class="media-img" src="~/Content/Images/Busqueda/ico_dash_02.png" alt="...">
+                                                </div>
+                                                <div class="media-body">
+                                                    <span>
+                                                        Cantidad <br />
+                                                        @(tipoOperacion.Equals("I") ? "Importada" : "Exportada")
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <p id="cantTotalImpor" class="resum-subtext">
+                                                148,085 <br /> <span>KILOGRAMOS</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-4 null-padding table-cell cinco">
+                                        <div class="media-space">
+                                            <div class="media">
+                                                <div class="space-resum-1">
+                                                    <img class="media-img" src="~/Content/Images/Busqueda/ico_dash_03.png" alt="...">
+                                                </div>
+                                                <div class="media-body">
+                                                    <span>
+                                                        Precio <br />
+                                                        Unitario
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <p id="precioTotalImpor" class="resum-subtext">
+                                                7.445 <br /> <span>US$/KILOGRAMOS</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 padding-height-sm">
+                            <p class="chart-tittle">Valor CIF Importado US$</p>
+                            <div class="col-sm-12 data-content">
+                                <div id="container" class="chat-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-6 padding-height-sm">
+                            <p class="chart-tittle">Precio Promedio U$ / KILOGRAMOS</p>
+                            <div class="col-sm-12 data-content">
+                                <div id="container2" class="chat-container">NO HAY INFORMACIÓN</div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 padding-height-sm">
+                            <p class="chart-tittle">Comparativo CIF US$ </p>
+                            <div class="col-sm-12 data-content">
+                                <div id="container3" class="chat-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-6 padding-height-sm">
+                            <p class="chart-tittle">Ranking Importadores</p>
+                            <div class="col-sm-12 data-content">
+                                <div id="piecontainer1" class="graphic-content"></div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr class="table-title">
+                                                        <th>Importador</th>
+                                                        <th>Total CIF US$</th>
+                                                        <th>%</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Mark</td>
+                                                        <td>Otto</td>
+                                                        <td>dsdsd</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jacob</td>
+                                                        <td>Thornton</td>
+                                                        <td>wewewe</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Larry</td>
+                                                        <td>the Bird</td>
+                                                        <td>ewewer</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr class="table-footer">
+                                                        <th>Total</th>
+                                                        <th>300.009.342</th>
+                                                        <th>100.0</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+
+                                            <div class="text-center">
+                                                <nav aria-label="Page navigation">
+                                                    <ul class="pagination pagination-sm">
+                                                        <li>
+                                                            <a href="#" aria-label="Previous">
+                                                                <span aria-hidden="true">&laquo;</span>
+                                                            </a>
+                                                        </li>
+                                                        <li><a class="active" href="#">1</a></li>
+                                                        <li><a href="#">2</a></li>
+                                                        <li><a href="#">3</a></li>
+                                                        <li><a href="#">4</a></li>
+                                                        <li><a href="#">5</a></li>
+                                                        <li>
+                                                            <a href="#" aria-label="Next">
+                                                                <span aria-hidden="true">&raquo;</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 padding-height-sm">
+                            <p class="chart-tittle">Ranking Países Origen</p>
+                            <div class="col-sm-12 data-content">
+                                <div id="piecontainer2" class="graphic-content"></div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr class="table-title">
+                                                        <th>País Origen</th>
+                                                        <th>Total CIF US$</th>
+                                                        <th>%</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Mark</td>
+                                                        <td>Otto</td>
+                                                        <td>dsdsd</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jacob</td>
+                                                        <td>Thornton</td>
+                                                        <td>wewewe</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Larry</td>
+                                                        <td>the Bird</td>
+                                                        <td>ewewer</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr class="table-footer">
+                                                        <th>Total</th>
+                                                        <th>300.009.342</th>
+                                                        <th>100.0</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+
+                                            <div class="text-center">
+                                                <nav aria-label="Page navigation">
+                                                    <ul class="pagination pagination-sm">
+                                                        <li>
+                                                            <a href="#" aria-label="Previous">
+                                                                <span aria-hidden="true">&laquo;</span>
+                                                            </a>
+                                                        </li>
+                                                        <li><a class="active" href="#">1</a></li>
+                                                        <li><a href="#">2</a></li>
+                                                        <li><a href="#">3</a></li>
+                                                        <li><a href="#">4</a></li>
+                                                        <li><a href="#">5</a></li>
+                                                        <li>
+                                                            <a href="#" aria-label="Next">
+                                                                <span aria-hidden="true">&raquo;</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-6 padding-height-sm">
+                                <p class="chart-tittle">Ranking Exportadores</p>
+                                <div class="col-sm-12 data-content">
+                                    <div id="piecontainer3" class="graphic-content"></div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr class="table-title">
+                                                            <th>Exportador</th>
+                                                            <th>Total CIF US$</th>
+                                                            <th>%</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Mark</td>
+                                                            <td>Otto</td>
+                                                            <td>dsdsd</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Jacob</td>
+                                                            <td>Thornton</td>
+                                                            <td>wewewe</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Larry</td>
+                                                            <td>the Bird</td>
+                                                            <td>ewewer</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr class="table-footer">
+                                                            <th>Total</th>
+                                                            <th>300.009.342</th>
+                                                            <th>100.0</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+
+                                                <div class="text-center">
+                                                    <nav aria-label="Page navigation">
+                                                        <ul class="pagination pagination-sm">
+                                                            <li>
+                                                                <a href="#" aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                </a>
+                                                            </li>
+                                                            <li><a class="active" href="#">1</a></li>
+                                                            <li><a href="#">2</a></li>
+                                                            <li><a href="#">3</a></li>
+                                                            <li><a href="#">4</a></li>
+                                                            <li><a href="#">5</a></li>
+                                                            <li>
+                                                                <a href="#" aria-label="Next">
+                                                                    <span aria-hidden="true">&raquo;</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+            <br /><hr style="border: 1px dashed;"><br />
+
+            <div id="resultados" class="row">
+
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-6 padding-height-sm">
+                            <p class="chart-tittle">Resumen Período</p>
+                            <div class="col-sm-12 data-content resumen-content">
+                                <div class="table-view">
+                                    <div class="col-sm-4 col-xs-4 null-padding table-cell">
+                                        <div class="media-space">
+                                            <div class="media">
+                                                <div class="space-resum-1">
+                                                    <img class="media-img" src="~/Content/Images/Busqueda/ico_dash_01.png" alt="...">
+                                                </div>
+                                                <div class="media-body">
+                                                    <span>
+                                                        Total <br />
+                                                        @(tipoOperacion.Equals("I") ? "Importador" : "Exportador")
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <p class="resume-text">
+                                                1,102,565<br />
+                                                <span>US$</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-4 null-padding table-cell">
+                                        <div class="media-space border-media">
+                                            <div class="media">
+                                                <div class="space-resum-1">
+                                                    <img class="media-img" src="~/Content/Images/Busqueda/ico_dash_02.png" alt="...">
+                                                </div>
+                                                <div class="media-body">
+                                                    <span>
+                                                        Cantidad <br />
+                                                        @(tipoOperacion.Equals("I") ? "Importada" : "Exportada")
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <p class="resume-text">
+                                                148,085 <br /> <span>KILOGRAMOS</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-4 col-xs-4 null-padding table-cell">
+                                        <div class="media-space">
+                                            <div class="media">
+                                                <div class="space-resum-1">
+                                                    <img class="media-img" src="~/Content/Images/Busqueda/ico_dash_03.png" alt="...">
+                                                </div>
+                                                <div class="media-body">
+                                                    <span>
+                                                        Precio <br />
+                                                        Unitario
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <p class="resume-text">
+                                                7.445 <br /> <span>US$/KILOGRAMOS</span>
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 padding-height-sm">
+                            <p class="chart-tittle">Valor CIF Importado US$</p>
+                            <div class="col-sm-12 data-content">
+                                <div id="container-1" class="chat-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-6 padding-height-sm">
+                            <p class="chart-tittle">Precio Promedio U$ / KILOGRAMOS</p>
+                            <div class="col-sm-12 data-content">
+                                <div id="container-2" class="chat-container"></div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 padding-height-sm">
+                            <p class="chart-tittle">Comparativo CIF US$ </p>
+                            <div class="col-sm-12 data-content">
+                                <div id="container-3" class="chat-container"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-12">
+                    <div class="row">
+                        <div class="col-sm-6 padding-height-sm">
+                            <p class="chart-tittle">Ranking Importadores</p>
+                            <div class="col-sm-12 data-content">
+                                <div id="piecontainer-1" class="graphic-content"></div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr class="table-title">
+                                                        <th>Importador</th>
+                                                        <th>Total CIF US$</th>
+                                                        <th>%</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Mark</td>
+                                                        <td>Otto</td>
+                                                        <td>dsdsd</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jacob</td>
+                                                        <td>Thornton</td>
+                                                        <td>wewewe</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Larry</td>
+                                                        <td>the Bird</td>
+                                                        <td>ewewer</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr class="table-footer">
+                                                        <th>Total</th>
+                                                        <th>300.009.342</th>
+                                                        <th>100.0</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+
+                                            <div class="text-center">
+                                                <nav aria-label="Page navigation">
+                                                    <ul class="pagination pagination-sm">
+                                                        <li>
+                                                            <a href="#" aria-label="Previous">
+                                                                <span aria-hidden="true">&laquo;</span>
+                                                            </a>
+                                                        </li>
+                                                        <li><a class="active" href="#">1</a></li>
+                                                        <li><a href="#">2</a></li>
+                                                        <li><a href="#">3</a></li>
+                                                        <li><a href="#">4</a></li>
+                                                        <li><a href="#">5</a></li>
+                                                        <li>
+                                                            <a href="#" aria-label="Next">
+                                                                <span aria-hidden="true">&raquo;</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-6 padding-height-sm">
+                            <p class="chart-tittle">Ranking Países Origen</p>
+                            <div class="col-sm-12 data-content">
+                                <div id="piecontainer-2" class="graphic-content"></div>
+
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="table-responsive">
+                                            <table class="table table-bordered">
+                                                <thead>
+                                                    <tr class="table-title">
+                                                        <th>País Origen</th>
+                                                        <th>Total CIF US$</th>
+                                                        <th>%</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Mark</td>
+                                                        <td>Otto</td>
+                                                        <td>dsdsd</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Jacob</td>
+                                                        <td>Thornton</td>
+                                                        <td>wewewe</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Larry</td>
+                                                        <td>the Bird</td>
+                                                        <td>ewewer</td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr class="table-footer">
+                                                        <th>Total</th>
+                                                        <th>300.009.342</th>
+                                                        <th>100.0</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+
+                                            <div class="text-center">
+                                                <nav aria-label="Page navigation">
+                                                    <ul class="pagination pagination-sm">
+                                                        <li>
+                                                            <a href="#" aria-label="Previous">
+                                                                <span aria-hidden="true">&laquo;</span>
+                                                            </a>
+                                                        </li>
+                                                        <li><a class="active" href="#">1</a></li>
+                                                        <li><a href="#">2</a></li>
+                                                        <li><a href="#">3</a></li>
+                                                        <li><a href="#">4</a></li>
+                                                        <li><a href="#">5</a></li>
+                                                        <li>
+                                                            <a href="#" aria-label="Next">
+                                                                <span aria-hidden="true">&raquo;</span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                @*<div class="col-sm-12">
+                        <div class="row">
+                            <div class="col-sm-6 padding-height-sm">
+                                <p class="chart-tittle">Ranking Exportadores</p>
+                                <div class="col-sm-12 data-content">
+                                    <div id="piecontainer3" class="graphic-content"></div>
+
+                                    <div class="row">
+                                        <div class="col-sm-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr class="table-title">
+                                                            <th>Exportador</th>
+                                                            <th>Total CIF US$</th>
+                                                            <th>%</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>Mark</td>
+                                                            <td>Otto</td>
+                                                            <td>dsdsd</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Jacob</td>
+                                                            <td>Thornton</td>
+                                                            <td>wewewe</td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>Larry</td>
+                                                            <td>the Bird</td>
+                                                            <td>ewewer</td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr class="table-footer">
+                                                            <th>Total</th>
+                                                            <th>300.009.342</th>
+                                                            <th>100.0</th>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+
+                                                <div class="text-center">
+                                                    <nav aria-label="Page navigation">
+                                                        <ul class="pagination pagination-sm">
+                                                            <li>
+                                                                <a href="#" aria-label="Previous">
+                                                                    <span aria-hidden="true">&laquo;</span>
+                                                                </a>
+                                                            </li>
+                                                            <li><a class="active" href="#">1</a></li>
+                                                            <li><a href="#">2</a></li>
+                                                            <li><a href="#">3</a></li>
+                                                            <li><a href="#">4</a></li>
+                                                            <li><a href="#">5</a></li>
+                                                            <li>
+                                                                <a href="#" aria-label="Next">
+                                                                    <span aria-hidden="true">&raquo;</span>
+                                                                </a>
+                                                            </li>
+                                                        </ul>
+                                                    </nav>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>*@
+            </div>
+
+            <br /><hr style="border: 1px dashed;"><br />
+        </div>
+    </div>
+    <di id="containerB">
+        @*@Html.Partial("Partials/ListPaises")*@
+    </di>
+    
+</div>
+
+

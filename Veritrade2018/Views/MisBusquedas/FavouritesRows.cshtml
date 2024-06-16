@@ -1,0 +1,32 @@
+﻿@using PagedList;
+@using PagedList.Mvc;
+
+@{
+    var listFavourites = Model;
+}
+
+
+@foreach (var item in listFavourites)
+{
+    <tr>
+        @if (item.Favorito.Length >= 3 && item.Favorito.Substring(0, 3) == "[G]")
+        {
+            <td>
+                <a onclick="MisFavoritos.AgregarGrpAFiltros_Click('@Url.Action("AgregarGrpAFiltros_Click","MisBusquedas")',@item.IdFavorito);">@item.Favorito</a>
+            </td>
+            <td></td>
+        }
+        else
+        {
+            <td>
+                @item.Favorito
+            </td>
+            <td class="column-text-center cell-vertical-align-middle">
+                <input id="chkSel" type="checkbox" value="@item.IdFavorito" />
+            </td>
+        }
+    </tr>
+}
+
+
+

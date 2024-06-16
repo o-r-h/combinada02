@@ -1,0 +1,38 @@
+﻿<style>
+    #titulo-aranceles {
+        font-family: ProximaNova-Bold;
+        font-size: 14.5px;
+        color: #212934;
+        margin-left: 4%;
+    }
+
+</style>
+
+<div class="modal fade" tabindex="-1" role="dialog" id="ModalInfoArancelesPartida">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" style="padding: 20px;">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span class="icon-close-modal" aria-hidden="true">&times;</span>
+                </button>
+                <div style="text-align:right; margin-right:5%;">
+                    <strong>Fuente: </strong>
+                    <a class="sunat" href="http://www.aduanet.gob.pe/itarancel/arancelS01Alias" target="_blank" rel="noopener noreferrer">
+                        <img src="~/Content/Images/sunat-logo.jpg" width="80" height="25" />
+                    </a>
+                </div>
+                <h4 id="titulo-aranceles" class="modal-title">
+                    Aranceles por partida
+                </h4>
+            </div>
+            <div class="modal-body">
+                <br />
+                <div id="subtituloPartidaArancel" class="text-center"></div>
+                <div id="detallePartidaArancel"></div>
+                <p align='center'>
+                    <font face='verdana,arial' size=1><B> N.A.:</B> No es aplicable para esta subpartida</font>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
