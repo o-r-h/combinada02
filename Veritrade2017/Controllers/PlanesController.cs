@@ -68,14 +68,11 @@ namespace Veritrade2017.Controllers
             _ws.BuscaUbicacionIP2(direccionIp, ref codPaisIp);
             Session["IPPaisIngreso"] = codPaisIp;
 
+            ViewData["igv"] = "";
             if (codPaisIp == "PE")
-            {
-                ViewData["igv"] = "+IGV";
-            }
-            else
-            {
-                ViewData["igv"] = " ";
-            }            
+                ViewData["igv"] = "+ IGV";
+
+            ViewData["igv2"] = ""; // Ruben 202404
 
             var planPrecio = Planes.GetPlanPrecio(codPaisIp);
 
@@ -139,7 +136,12 @@ namespace Veritrade2017.Controllers
                 DataRow dr2 = dt2.Rows[0];
                 string Region = dr2["Region"].ToString();
                 if (Region == "UNION EUROPEA")
+                {
                     ViewData["CodMonedaPlan"] = "€";
+                    ViewData["igv2"] = "+ IVA (si aplica)"; // Ruben 202404
+                    if (culture == "en")
+                        ViewData["igv2"] = "+ IVA (if applies)"; // Ruben 202404
+                }
             }
 
             // Ruben 202303
@@ -1167,6 +1169,14 @@ namespace Veritrade2017.Controllers
                     var precio = PlanesPrecio.GetPrecioPlan(plan.Id);
                     var total = "US $ " + Convert.ToInt32(precio.Precio).ToString("N0") + " " +
                                 precio.Periodo.Descripcion;
+
+                    string sql = "select Region from VeritradeAdmin.dbo.V_Region_Pais where CodPais = '" + codPaisIp + "'";
+
+                    DataTable dt2 = Conexion.SqlDataTable(sql);
+                    if (dt2.Rows.Count > 0)
+                    {
+                        total = "€ " + Convert.ToInt32(precio.Precio).ToString("N0") + (culture == "es" ? " + IVA (si aplica)" : " + IVA (if applies)") + " " + precio.Periodo.Descripcion;
+                    }
 
                     clPrecios = new PdfPCell(new Phrase(total, standardFont));
                     clPrecios.BorderWidth = 0;

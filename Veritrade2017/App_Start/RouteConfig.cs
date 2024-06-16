@@ -12,7 +12,6 @@ namespace Veritrade2017
     {
         public static void RegisterRoutes(RouteCollection routes)
         {
-
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
             routes.IgnoreRoute("{resource}.ashx/{*pathInfo}");
 
@@ -30,29 +29,18 @@ namespace Veritrade2017
 
             // Ruben 202212
             routes.MapRoute(
-                name: "PasswordBypass",
-                url: "testing",
+                name: "Root",
+                url: "",
                 defaults: new
                 {
                     culture = CultureHelper.GetDefaultCulture(), // Ruben 202307
-                    controller = "PasswordBypass",
+                    controller = "Home",
                     action = "Index"
                 }
             );
 
+            // Ruben 202212
             routes.MapRoute(
-			   name: "Root",
-			   url: "",
-			   defaults: new
-			   {
-				   culture = CultureHelper.GetDefaultCulture(), // Ruben 202307
-				   controller = "home",
-				   action = "Index"
-			   }
-		   );
-
-			// Ruben 202212
-			routes.MapRoute(
                 name: "RootCulture",
                 url: "{culture}", // Ruben 202212
                 defaults: new
@@ -279,35 +267,35 @@ namespace Veritrade2017
 
             #endregion
 
-            //#region Paises
+            #region Paises
 
-            //routes.MapRoute(
-            //    name: "Paises", // Route name
-            //    url: "{culture}/paises/{slug}/{codCampania}", // URL with parameters
-            //    defaults: new
-            //    {
-            //        culture = CultureHelper.GetDefaultCulture(),
-            //        controller = "Paises",
-            //        action = "Index",
-            //        slug = UrlParameter.Optional,
-            //        codCampania = UrlParameter.Optional
-            //    } // Parameter defaults
-            //);
+            routes.MapRoute(
+                name: "Paises", // Route name
+                url: "{culture}/paises/{slug}/{codCampania}", // URL with parameters
+                defaults: new
+                {
+                    culture = CultureHelper.GetDefaultCulture(),
+                    controller = "Paises",
+                    action = "Index",
+                    slug = UrlParameter.Optional,
+                    codCampania = UrlParameter.Optional
+                } // Parameter defaults
+            );
 
-            //routes.MapRoute(
-            //    name: "PaisesUS", // Route name
-            //    url: "{culture}/countries/{slug}/{codCampania}", // URL with parameters
-            //    defaults: new
-            //    {
-            //        culture = CultureHelper.GetDefaultCulture(),
-            //        controller = "Paises",
-            //        action = "Index",
-            //        slug = UrlParameter.Optional,
-            //        codCampania = UrlParameter.Optional
-            //    } // Parameter defaults
-            //);
+            routes.MapRoute(
+                name: "PaisesUS", // Route name
+                url: "{culture}/countries/{slug}/{codCampania}", // URL with parameters
+                defaults: new
+                {
+                    culture = CultureHelper.GetDefaultCulture(),
+                    controller = "Paises",
+                    action = "Index",
+                    slug = UrlParameter.Optional,
+                    codCampania = UrlParameter.Optional
+                } // Parameter defaults
+            );
 
-            //#endregion
+            #endregion
 
             #region Planes
 
@@ -1075,513 +1063,8 @@ namespace Veritrade2017
                 } // Parameter defaults
             ).RouteHandler = new HyphenatedRouteHandler();
 
-			
-			routes.MapRoute(
-				name: "infoempresasargentinas",
-				url: "{culture}/infoempresasargentina/{action}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-					
-					controller = "infoempresasargentina",
-					action = "Index"
-				}
-			);
-
-			routes.MapRoute(
-				name: "infoempresasargentinasUS",
-				url: "{culture}/infoargentiniancompanies/{action}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-					
-					controller = "infoempresasargentina",
-					action = "Index"
-				}
-			);
-
-
-			routes.MapRoute(
-				name: "infoproductoargentina",
-				url: "{culture}/infoproductoargentina/{action}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "infoproductoargentina",
-					action = "Index"
-				}
-			);
-
-			routes.MapRoute(
-				name: "infoproductoargentinaUS",
-				url: "{culture}/infoargentinianproducts/{action}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "infoproductoargentina",
-					action = "Index"
-				}
-			);
-
-			
-
-			routes.MapRoute(
-			    name: "EmpresasporSubcategoria",
-			    url: "{culture}/empresasporsubcategoria/{action}",
-			    defaults: new
-			    {
-				    culture = CultureHelper.GetDefaultCulture(),
-
-    				controller = "EmpresasporSubcategoria",
-	    			action = "Index"
-		    	  }
-		    );
-
-			routes.MapRoute(
-			    name: "EmpresasporSubcategoriaUS",
-			    url: "{culture}/companiesbysubcategory/{action}",
-			    defaults: new
-			    {
-				    culture = CultureHelper.GetDefaultCulture(),
-
-				    controller = "EmpresasporSubcategoria",
-				    action = "Index"
-			    }
-		    );
-
-
-			routes.MapRoute(
-				name: "ProductosporSubcategoria",
-				url: "{culture}/productosporSubcategoria/{action}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "ProductosporSubcategoria",
-					action = "Index"
-				}
-			);
-
-			routes.MapRoute(
-				name: "ProductosporSubcategoriaUS",
-				url: "{culture}/productsbysubcategory/{action}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "ProductosporSubcategoria",
-					action = "Index"
-				}
-			);
-
-			routes.MapRoute(
-				name: "CountryProfileListaPais",
-				url: "{culture}/paises/{action}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "CountryProfileListaPais",
-					action = "Index"
-				}
-			);
-
-			routes.MapRoute(
-				name: "CountryProfileListaPaisUS",
-				url: "{culture}/countries/{action}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "CountryProfileListaPais",
-					action = "Index"
-				}
-			);
-
-
-			routes.MapRoute(
-				name: "DescubreComercioExterior",
-				url: "{culture}/paises/{paisNombre}/exportaciones",
-				//url: "{culture}/DescubreComercioExterior/{paisNombre}/{idpais}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "DescubreComercioExterior",
-					action = "Index",
-					paisNombre = UrlParameter.Optional				}
-			);
-
-
-			routes.MapRoute(
-				name: "DescubreComercioExteriorSetCulture",
-				url: "{culture}/DescubreComercioExterior/SetCulture",
-				//url: "{culture}/pais/{paisNombre}/exportaciones/{action}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-					controller = "DescubreComercioExterior",
-					action = "SetCulture"
-				}
-			);
-
-
-			routes.MapRoute(
-				name: "DescubreComercioExteriorUS",
-				url: "{culture}/countries/{paisNombre}/exports",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "DescubreComercioExterior",
-					action = "Index",
-					paisNombre = UrlParameter.Optional				}
-			);
-
-
-
-			routes.MapRoute(
-				name: "DescubreComercioExteriorImport",
-				url: "{culture}/paises/{paisNombre}/importaciones/",
-				//url: "{culture}/DescubreComercioExterior/{paisNombre}/{idpais}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "DescubreComercioExteriorImport",
-					action = "Index",
-					paisNombre = UrlParameter.Optional
-				}
-			);
-
-
-			routes.MapRoute(
-			name: "DescubreComercioExteriorImportUS",
-			url: "{culture}/countries/{paisNombre}/imports/",
-			//url: "{culture}/DescubreComercioExterior/{paisNombre}/{idpais}",
-			defaults: new
-			{
-				culture = CultureHelper.GetDefaultCulture(),
-				controller = "DescubreComercioExteriorImport",
-				action = "Index",
-				paisNombre = UrlParameter.Optional
-			}
-		);
-
-
-			routes.MapRoute(
-				name: "PaisExportacionesEmpresas",
-				url: "{culture}/paises/{paisNombre}/exportaciones/empresas",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "PaisExportacionesEmpresas",
-					action = "Index",
-					paisNombre = UrlParameter.Optional
-				}
-			);
-
-			routes.MapRoute(
-				name: "PaisExportacionesEmpresasUS",
-				url: "{culture}/countries/{paisNombre}/exports/companies",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "PaisExportacionesEmpresas",
-					action = "Index",
-					paisNombre = UrlParameter.Optional
-				}
-			);
-
-			//---
-
-			routes.MapRoute(
-			name: "PaisImportacionesEmpresas",
-			url: "{culture}/paises/{paisNombre}/importaciones/empresas",
-			defaults: new
-			{
-				culture = CultureHelper.GetDefaultCulture(),
-
-				controller = "PaisImportacionesEmpresas",
-				action = "Index",
-				paisNombre = UrlParameter.Optional
-			}
-		);
-
-			routes.MapRoute(
-				name: "PaisImportacionesEmpresasUS",
-				url: "{culture}/countries/{paisNombre}/imports/companies",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "PaisImportacionesEmpresas",
-					action = "Index",
-					paisNombre = UrlParameter.Optional
-				}
-			);
-			
-			//---//---
-
-			routes.MapRoute(
-			name: "PaisExportacionesProductos",
-			url: "{culture}/paises/{paisNombre}/exportaciones/productos",
-			defaults: new
-			{
-				culture = CultureHelper.GetDefaultCulture(),
-
-				controller = "PaisExportacionesProductos",
-				action = "Index",
-				paisNombre = UrlParameter.Optional
-			}
-		);
-
-			routes.MapRoute(
-				name: "PaisExportacionesProductosUS",
-				url: "{culture}/countries/{paisNombre}/exports/products",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "PaisExportacionesProductos",
-					action = "Index",
-					paisNombre = UrlParameter.Optional
-				}
-			);
-			//---
-
-
-			//---//---
-
-			routes.MapRoute(
-			name: "PaisImportacionesProductos",
-			url: "{culture}/paises/{paisNombre}/importaciones/productos",
-			defaults: new
-			{
-				culture = CultureHelper.GetDefaultCulture(),
-				controller = "PaisImportacionesProductos",
-				action = "Index",
-				paisNombre = UrlParameter.Optional
-			}
-		);
-
-			routes.MapRoute(
-				name: "PaisImportacionesProductosUS",
-				url: "{culture}/countries/{paisNombre}/imports/products",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-					controller = "PaisImportacionesProductos",
-					action = "Index",
-					paisNombre = UrlParameter.Optional
-				}
-			);
-			//---
-
-			//---//---
-
-			routes.MapRoute(
-			name: "PaisExportacionesEmpresasItem",
-			url: "{culture}/paises/{paisNombre}/exportaciones/empresas/{nombreItem}",
-			defaults: new
-			{
-				culture = CultureHelper.GetDefaultCulture(),
-				controller = "PaisExportacionesEmpresasItem",
-				action = "Index",
-				nombreItem = UrlParameter.Optional
-			}
-		);
-
-			routes.MapRoute(
-				name: "PaisExportacionesEmpresasItemUS",
-				url: "{culture}/countries/{paisNombre}/exports/companies/{nombreItem}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-					controller = "PaisExportacionesEmpresasItem",
-					action = "Index",
-					paisNombre = UrlParameter.Optional
-				}
-			);
-			//---
-
-			//---//---
-
-			routes.MapRoute(
-			name: "PaisExportacionesProductosItem",
-			url: "{culture}/paises/{paisNombre}/exportaciones/productos/{nombreItem}",
-			defaults: new
-			{
-				culture = CultureHelper.GetDefaultCulture(),
-				controller = "PaisExportacionesProductosItem",
-				action = "Index",
-				nombreItem = UrlParameter.Optional
-			}
-		);
-
-			routes.MapRoute(
-				name: "PaisExportacionesProductosItemUS",
-				url: "{culture}/countries/{paisNombre}/exports/products/{nombreItem}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-					controller = "PaisExportacionesProductosItem",
-					action = "Index",
-					paisNombre = UrlParameter.Optional
-				}
-			);
-			//---
-
-
-			//---//---
-
-			routes.MapRoute(
-			name: "PaisImportacionesEmpresasItem",
-			url: "{culture}/paises/{paisNombre}/importaciones/empresas/{nombreItem}",
-			defaults: new
-			{
-				culture = CultureHelper.GetDefaultCulture(),
-				controller = "PaisImportacionesEmpresasItem",
-				action = "Index",
-				nombreItem = UrlParameter.Optional
-			}
-		);
-
-			routes.MapRoute(
-				name: "PaisImportacionesEmpresasItemUS",
-				url: "{culture}/countries/{paisNombre}/imports/companies/{nombreItem}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-					controller = "PaisImportacionesEmpresasItem",
-					action = "Index",
-					paisNombre = UrlParameter.Optional
-				}
-			);
-			//---
-
-			//---//---
-
-			routes.MapRoute(
-			name: "PaisImportacionesProductosItem",
-			url: "{culture}/paises/{paisNombre}/importaciones/productos/{nombreItem}",
-			defaults: new
-			{
-				culture = CultureHelper.GetDefaultCulture(),
-				controller = "PaisImportacionesProductosItem",
-				action = "Index",
-				nombreItem = UrlParameter.Optional
-			}
-		);
-
-			routes.MapRoute(
-				name: "PaisImportacionesProductosItemUS",
-				url: "{culture}/countries/{paisNombre}/imports/products/{nombreItem}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-					controller = "PaisImportacionesProductosItem",
-					action = "Index",
-					paisNombre = UrlParameter.Optional
-				}
-			);
-			//---
-
-
-
-
-			routes.MapRoute(
-				name: "DescubreComercioExteriorEmpresas",
-				url: "{culture}/DescubreComercioExteriorEmpresas/{action}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "DescubreComercioExteriorEmpresas",
-					action = "Index"
-				}
-			);
-
-			routes.MapRoute(
-				name: "DescubreComercioExteriorEmpresasUS",
-				url: "{culture}/DescubreComercioExteriorEmpresas/{action}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "DescubreComercioExteriorEmpresas",
-					action = "Index"
-				}
-			);
-
-
-
-			routes.MapRoute(
-				name: "DescubreComercioExteriorDetalles",
-				url: "{culture}/DescubreComercioExteriorDetalles/{action}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "DescubreComercioExteriorDetalles",
-					action = "Index"
-				}
-			);
-
-			routes.MapRoute(
-				name: "DescubreComercioExteriorDetallesUS",
-				url: "{culture}/DescubreComercioExteriorDetalles/{action}",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "DescubreComercioExteriorDetalles",
-					action = "Index"
-				}
-			);
-
-			routes.MapRoute(
-				name: "CountryProfileData",
-				url: "{culture}/CountryProfileData/GetListadoExportacionEmpresa",
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-
-					controller = "CountryProfileData",
-					action = "GetListadoExportacionEmpresa"
-				}
-			);
-
-		
-			routes.MapRoute(
-				name: "MinisiteEmpresasGraficos", // Route name
-				url: "{culture}/minisite/BuscarDatoGrafico", // URL with parameters
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-					controller = "Minisite",
-					action = "BuscarDatoGrafico"
-				} // Parameter defaults
-			);
-
-
-			routes.MapRoute(
-				name: "SandBox", // Route name
-				url: "{culture}/SandBox", // URL with parameters
-				defaults: new
-				{
-					culture = CultureHelper.GetDefaultCulture(),
-					controller = "SandBox",
-					action = "Index"
-				} // Parameter defaults
-			);
-
-			#endregion
-		}
+            #endregion
+        }
     }
 
     public class HyphenatedRouteHandler : MvcRouteHandler

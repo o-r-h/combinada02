@@ -53,10 +53,8 @@
                 },
                 false
             );
-            $("#validationForm").submit(function (event) {
-              // comentado https://app.asana.com/0/1202736242952541/1205682748217961/f
-              // no se puede ligado con el proyecto 2018
-              ga('send', 'event', 'boton', 'click', 'pruebagratis');
+            $("#validationForm").submit(function(event) {
+                ga('send', 'event', 'boton', 'click', 'pruebagratis');
 
                 if ($("#validationForm").valid()) {
                     $(button).attr("disabled", "disabled");

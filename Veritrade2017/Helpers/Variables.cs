@@ -33,11 +33,7 @@ namespace Veritrade2017.Helpers
         public static int NumTrunTabMarcasAndAduana { get; } = 70;
         public static int NumTrunTabOthers { get; } = 26;
 
-        public static int DevelopInitialPageSW { get; set; } = 0;
-		public static DateTime DevelopInitialtime { get; set; }
-        public static string DevelopLastController { get; set; } = "";
-
-		public static bool ExisteFiltro(string IdTipoFiltro, string IdFiltro, string IdTipoOpe, string CodPais)
+        public static bool ExisteFiltro(string IdTipoFiltro, string IdFiltro, string IdTipoOpe, string CodPais)
         {
             int res = 0;
             using (var db = new ConexProvider().Open)

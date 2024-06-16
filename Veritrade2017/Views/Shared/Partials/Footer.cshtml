@@ -1,7 +1,6 @@
 ﻿@using Veritrade2017.Helpers
 @using Veritrade2017.Models
 @{
-    //cambios 2024
     var culture = System.Threading.Thread.CurrentThread.CurrentUICulture.Name.ToLowerInvariant();
     var servicios = (List<Servicios>) ViewData["serviciosMenu"];
     var controller = HttpContext.Current.Request.RequestContext.RouteData.Values["controller"].ToString();
@@ -60,7 +59,6 @@
 
 <footer class="footer">
     <div class="container">
-
         <div class="row hidden-xs">
             <div class="col-xs-12 col-sm-3 col-md-3">
                 <h4>@Resources.Footer_SiteMap</h4>
@@ -73,78 +71,44 @@
                     {
                         @Html.RouteLink(Resources.MenuItem01, "ServiciosUS", new { culture, slug = servicios[0].Slug }, new { })
                     }
-
+                    
                 </p>
                 <p>
                     @if (culture == "es")
                     {
-                        @Html.RouteLink(Resources.MenuItem02, "Ayuda", new { culture }, new { })
+                        @Html.RouteLink(Resources.MenuItem02,"Ayuda", new {culture}, new { })
                     }
                     else
                     {
                         @Html.RouteLink(Resources.MenuItem02, "AyudaUS", new { culture }, new { })
                     }
                 </p>
-                <p>@Html.ActionLink(Resources.MenuItem03, "Index", "Consulta", new { culture }, new { })</p>
+                <p>@Html.ActionLink(Resources.MenuItem03, "Index", "Consulta", new {culture}, new {})</p>
                 <p>
                     @if (culture == "es")
                     {
-                        @*@Html.RouteLink(Resources.MenuItem04, "Paises", new { culture, slug = "PER" }, new { })*@
+                        @Html.RouteLink(Resources.MenuItem04, "Paises", new { culture, slug = "PER" }, new { })
                     }
                     else
                     {
-                        @*@Html.RouteLink(Resources.MenuItem04, "PaisesUS", new { culture, slug = "PER" }, new { })*@
+                        @Html.RouteLink(Resources.MenuItem04, "PaisesUS", new { culture, slug = "PER" }, new { })
                     }
                 </p>
             </div>
-
-            <div class="col-xs-12 col-sm-3 col-md-3">
+            <div class="col-xs-12 col-sm-5 col-md-6">
                 <h4>&nbsp;</h4>
                 <p>
-                    @Html.RouteLink(Resources.MenuItem05, "Planes" + (culture == "es" ? "" : "US"), new { culture, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES]) }, new { })
-                </p>
+                    @Html.RouteLink(Resources.MenuItem05, "Planes" + (culture == "es" ? "" : "US"), new {culture, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES]) }, new {})
+                </p>              
                 <p>
-                    @Html.RouteLink(Resources.MenuItem09, "Empresas" + (culture == "es" ? "" : "US"), new { culture, campania = CodesCampanias[Campania.CONTROL.BUSCAR_EMPRESAS] }, new { })
+                    @Html.RouteLink(Resources.MenuItem09, "Empresas" + (culture == "es" ? "" : "US"), new {culture, campania = CodesCampanias[Campania.CONTROL.BUSCAR_EMPRESAS]}, new {})
                 </p>
                 <p>@Html.ActionLink(Resources.MenuItem06, "Index", "Blog", new { culture }, new { })</p>
                 <p>
-                    @Html.RouteLink(Resources.TrialText, "PruebaGratis" + (culture == "es" ? "" : "US"), new { culture, campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS] }, new { @class = "link_footer hidden-xs" })
+                    @Html.RouteLink(Resources.TrialText, "PruebaGratis" + (culture == "es" ? "" : "US"), new {culture, campania = CodesCampanias[Campania.CONTROL.PRUEBA_GRATIS]}, new {@class = "link_footer hidden-xs"})
                 </p>
             </div>
-            @if (culture == "es")
-            {
-                <div class="col-xs-12 col-sm-3 col-md-3">
-                    <h4>&nbsp;</h4>
-                    <p>
-                        @Html.RouteLink("Info Empresas Argentinas", "infoempresasargentinas", new { culture }, new { })
-                    </p>
-                    <p>
-                        @Html.RouteLink("Info Productos Argentinos", "infoproductoargentina", new { culture }, new { })
-
-
-
-                </p>
-                <!--<p>
-                    @Html.RouteLink("P", "CountryProfileListaPais", new { culture }, new { })
-                </p>
-
-                <p>
-                    @Html.RouteLink("PaisHub3", "DescubreComercioExterior", new {culture = "es", idPais = 1, paisNombre = "Argentina" })-->
-                    @*@Html.RouteLink(" -DD", "DescubreComercioExterior", new { culture = "es", idpais = 1, paisNombre = "Narnia" })*@
-                    <!--@Html.ActionLink("ARG", "Index", "DescubreComercioExterior", new { culture = "es", idPais = 1, paisNombre = "Argentina" }, null)
-                </p>
-
-                <p>
-                    @Html.RouteLink("E", "DescubreComercioExteriorEmpresas", new { culture }, new { })
-                </p>
-                <p>
-                    @Html.RouteLink("EL", "DescubreComercioExteriorDetalles", new { culture }, new { })
-                </p>-->
-
-
-                </div>
-            }
-            <div class="col-xs-12 col-sm-3 col-md-3">
+            <div class="col-xs-12 col-sm-4 col-md-3">
                 <h4>@Resources.MenuItem07</h4>
                 <p>@Resources.Footer_Email: @Configuraciones.GetConfig(culture, "email_footer").Valor</p>
                 @*<p>@Resources.Footer_Phone: @Configuraciones.GetConfig(culture, "phone_footer").Valor</p>*@
@@ -160,74 +124,30 @@
                         <span>
                             <a class="hrefTelefonoPais" href="#"><span class="telefonoPais"></span></a>
                         </span>
-                    <p />
+                    <p/>
                 </div>
                 <br>
                 <p>
                     <b>@Resources.Footer_Searchby: </b>
                     <a href="https://www.facebook.com/veritrade/" target="new">
-                        <img src="@Url.Content("~/Content/Images/ico_social01_off.jpg")" class="pie_icon" alt="" />
+                        <img src="@Url.Content("~/Content/Images/ico_social01_off.jpg")" class="pie_icon" alt=""/>
                     </a>
                     <a href="https://plus.google.com/u/0/105745704279265511357/posts" target="new">
-                        <img src="@Url.Content("~/Content/Images/ico_social02_off.jpg")" class="pie_icon" alt="" />
+                        <img src="@Url.Content("~/Content/Images/ico_social02_off.jpg")" class="pie_icon" alt=""/>
                     </a>
                     <a href="https://www.linkedin.com/company/veritrade-analysis" target="new">
-                        <img src="@Url.Content("~/Content/Images/ico_social03_off.jpg")" class="pie_icon" alt="" />
+                        <img src="@Url.Content("~/Content/Images/ico_social03_off.jpg")" class="pie_icon" alt=""/>
                     </a>
                 </p>
             </div>
         </div>
-        @if (culture == "es")
-        {
-            <div class="row hidden-lg hidden-md hidden-sm">
-
-                <div class="col-xs-6 col-sm-6 col-md-6">
-
-                    <p style="font-size:small">
-                        @Html.RouteLink("Info Empresas Argentinas", "infoempresasargentinas", new { culture }, new { })
-                    </p>
-
-
-                </div>
-                <div class="col-xs-6 col-sm-6 col-md-6">
-
-
-                    <p style="font-size:small">
-                        @Html.RouteLink("Info Productos Argentinos", "infoproductoargentina", new { culture }, new { })
-
-                    </p>
-
-                </div>
-
-                <div class="row hidden-lg hidden-md hidden-sm" style="padding-left:30px">
-
-
-                    <p>
-                        &#64;2015 Veritrade &nbsp;&#124;&nbsp; @Resources.Footer_AllRightsReserved &nbsp;&#124;&nbsp;
-                        @Html.ActionLink(Resources.Footer_TermsConditions, "", null, new { href = "#ModalTerminosCondiciones", data_toggle = "modal" })
-                    </p>
-
-                </div>
-                <div class="row hidden-lg hidden-md hidden-sm" style="padding-left:30px">
-
-
-                    <p>
-                        &nbsp;
-                    </p>
-
-                </div>
-
-            </div>
-        }
-        <div class="row hidden-xs">
+        <div class="row">
             <div class="col-xs-12 col-sm-12">
                 <p>
                     &#64;2015 Veritrade &nbsp;&#124;&nbsp; @Resources.Footer_AllRightsReserved &nbsp;&#124;&nbsp;
-                    @Html.ActionLink(Resources.Footer_TermsConditions, "", null, new { href = "#ModalTerminosCondiciones", data_toggle = "modal" })
+                    @Html.ActionLink(Resources.Footer_TermsConditions, "", null, new {href = "#ModalTerminosCondiciones", data_toggle = "modal"})
                 </p>
             </div>
         </div>
-       
-
     </div>
 </footer>

@@ -578,6 +578,90 @@ namespace Veritrade2018.Controllers
 
                         break;
 
+                    // Ruben 202404
+                    case "UAB":
+                        campaña = "0";
+
+                        bool validaUAB = !string.IsNullOrEmpty(IdUsuario);
+
+                        Funciones.BuscaURLReferido(variable, "0", ref URL1, ref URL2, ref URL3, ref URL4);
+
+                        validaUAB = validaUAB && (URLReferido.Contains(URL1) || (URL2 != "" && URLReferido.Contains(URL2)) || (URL3 != "" && URLReferido.Contains(URL3)) || (URL4 != "" && URLReferido.Contains(URL4)));
+
+                        //Funciones.GrabaLog("0", "", "", "0", "0", "Referido", "Test | " + variable + " | " + IdUsuario);
+
+                        if (validaUAB)
+                        {
+                            bool validaIP = FuncionesBusiness.ValidaRangoIP(DireccionIP, variable);
+                            if (validaIP)
+                            {
+                                txtCodUsuario = variable + "-" + IdUsuario;
+                                txtPassword = variable + "@Referid0";
+
+                                string Empresa = variable;
+                                string Nombres = "Usuario";
+                                string Apellidos = IdUsuario;
+                                string IdAplicacion = "1";
+
+                                if (!ExisteCodUsuario(txtCodUsuario, IdAplicacion))
+                                    CrearUsuario(txtCodUsuario, txtPassword, Empresa, Nombres, Apellidos, IdAplicacion, "Convenio", variable);
+
+                                inicio = "referid0";
+
+                                flag = true;
+                            }
+                            else
+                            {
+                                Funciones.GrabaLog("0", "", "", "0", "0", "Referido", "Error | " + variable + " | " + IdUsuario + " | " + DireccionIP);
+                            }
+                        }
+
+                        campus = "universidad";
+
+                        break;
+
+                    // Ruben 202404
+                    case "PUCV":
+                        campaña = "0";
+
+                        bool validaPUCV = !string.IsNullOrEmpty(IdUsuario);
+
+                        Funciones.BuscaURLReferido(variable, "0", ref URL1, ref URL2, ref URL3, ref URL4);
+
+                        validaPUCV = validaPUCV && (URLReferido.Contains(URL1) || (URL2 != "" && URLReferido.Contains(URL2)) || (URL3 != "" && URLReferido.Contains(URL3)) || (URL4 != "" && URLReferido.Contains(URL4)));
+
+                        //Funciones.GrabaLog("0", "", "", "0", "0", "Referido", "Test | " + variable + " | " + IdUsuario);
+
+                        if (validaPUCV)
+                        {
+                            bool validaIP = FuncionesBusiness.ValidaRangoIP(DireccionIP, variable);
+                            if (validaIP)
+                            {
+                                txtCodUsuario = variable + "-" + IdUsuario;
+                                txtPassword = variable + "@Referid0";
+
+                                string Empresa = variable;
+                                string Nombres = "Usuario";
+                                string Apellidos = IdUsuario;
+                                string IdAplicacion = "1";
+
+                                if (!ExisteCodUsuario(txtCodUsuario, IdAplicacion))
+                                    CrearUsuario(txtCodUsuario, txtPassword, Empresa, Nombres, Apellidos, IdAplicacion, "Convenio", variable);
+
+                                inicio = "referid0";
+
+                                flag = true;
+                            }
+                            else
+                            {
+                                Funciones.GrabaLog("0", "", "", "0", "0", "Referido", "Error | " + variable + " | " + IdUsuario + " | " + DireccionIP);
+                            }
+                        }
+
+                        campus = "universidad";
+
+                        break;
+
                     case "IDUSUARIO": //PARA ADEX
                         campaña = "36100";
                         string IdUsuarioADEX = BuscarIdUsuario("ADEX-0", "1");

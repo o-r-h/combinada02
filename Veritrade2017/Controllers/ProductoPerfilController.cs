@@ -48,7 +48,9 @@ namespace Veritrade2017.Controllers
             ViewData["serviciosMenu"] = new Servicios().GetServicios(culture);
             ViewData["paisesMenu"] = ServiciosPaises.GetList(culture);
             int IdProducto = MisProductos.SearchProductByUri(uri, codPartida);
-            DataTable idPais = MisProductos.SearchCountry(pais);
+            
+            DataTable idPais = MisProductos.SearchCountry(pais, culture); // Ruben 202403
+            
             int IdPaisAduana = Convert.ToInt32(idPais.Rows[0]["IdPaisAduana"].ToString());
             if (!MisProductos.ExistProduct(IdProducto))
             {
@@ -75,8 +77,6 @@ namespace Veritrade2017.Controllers
             //codigo que agregare
             MisProductos objMiProducto = null;
 
-
-
             //for (int i = 0; i < arrayPais.Length; i++)
             //{
             //    if (arrayPais[i].Contains(CodPaisIP) && MisProductos.ValidatePaisIP(IdProducto, i+1))
@@ -95,6 +95,9 @@ namespace Veritrade2017.Controllers
             DataTable dtImports = FuncionesBusiness.SearchImportsData(IdProducto, IdPaisAduana, TipoOpe);
             DataTable dtExports = FuncionesBusiness.SearchImportsData(IdProducto, IdPaisAduana, TipoOpe);
             DataTable dtPais = MisProductos.SearchNameCountry(IdPaisAduana);
+
+            string PaisAduana = dtPais.Rows[0]["PaisAduana"].ToString(); // Ruben 202403
+            string PaisAduanaEN = dtPais.Rows[0]["PaisAduanaEN"].ToString(); // Ruben 202403
 
             #region objMiProducto
 
@@ -178,6 +181,7 @@ namespace Veritrade2017.Controllers
                     Regimen = TipoOpe.ToString(),
                     IdPaisAduana = m.Field<int>("IdPaisAduana"),
                     PaisAduana = m.Field<string>("PaisAduana"),
+                    PaisAduanaEN = m.Field<string>("PaisAduanaEN"), //  Ruben 202404
                     AbrevPais = m.Field<string>("Abreviatura"),
                     Importaciones = m.Field<decimal>("Importaciones"),
                     Importadores = m.Field<int>("Importadores")
@@ -190,6 +194,7 @@ namespace Veritrade2017.Controllers
                     Regimen = TipoOpe.ToString(),
                     IdPaisAduana = m.Field<int>("IdPaisAduana"),
                     PaisAduana = m.Field<string>("PaisAduana"),
+                    PaisAduanaEN = m.Field<string>("PaisAduanaEN"), // Ruben 202404
                     AbrevPais = m.Field<string>("Abreviatura"),
                     Exportaciones = m.Field<decimal>("Exportaciones"),
                     Exportadores = m.Field<int>("Exportadores")
@@ -260,7 +265,10 @@ namespace Veritrade2017.Controllers
             ViewData["Carousel"] = listaConsolidado;
             ViewData["Producto"] = objMiProducto;
             ViewData["ImportsExports"] = objProductoByPais;
-            Session["Pais"] = pais.ToLower();
+
+            Session["Pais"] = PaisAduana; // Ruben 202403
+            Session["PaisEN"] = PaisAduanaEN; // Ruben 202403
+            
             Session["IdProducto"] = IdProducto;
             Session["UriEs"] = uriEs;
             Session["UriEn"] = uriEn;
@@ -281,7 +289,6 @@ namespace Veritrade2017.Controllers
             ViewData["FlagPais"] = "flag_" + dtPais.Rows[0]["PaisAduana"].ToString().ToLower() + ".png";
             return View();
         }
-       
         [HttpPost]
         public JsonResult BuscarProducto(string description, string idioma, string codPais = "", string opcion = "")
         {
@@ -301,30 +308,8 @@ namespace Veritrade2017.Controllers
             return Json(json);
         }
 
-
-		[HttpPost]
-		public JsonResult BuscarProductoCP(string description, string idioma, string codPais = "", string opcion = "")
-		{
-		
-
-#if DEBUG
-
-			string DireccionIP = Properties.Settings.Default.IP_Debug;
-#else
-            string DireccionIP = Request.ServerVariables["REMOTE_ADDR"];
-
-#endif
-
-	//		string Ubicacion = _ws.BuscaUbicacionIP2(DireccionIP, ref codPais);
-			//string idioma = "es";
-			var json = MisProductos.SearchProduct(description, codPais, idioma);
-			return Json(json);
-		}
-
-
-
-
-		[HttpPost]
+        
+        [HttpPost]
         [DonutOutputCache(CacheProfile = "CacheProductProfile")]
         public JsonResult CargarRankPais(int IdProducto, int IdPaisAduana, string tipoOpe, int pagina = 1)
         {
@@ -549,8 +534,8 @@ namespace Veritrade2017.Controllers
 
                 #region Gráficos
 
-                // Ruben 202310
-                int año = 2018;
+                // Ruben 202403
+                int año = 2019;
                 DataTable dtValorCIF = FuncionesBusiness.SearchCif(IdProducto, IdPaisAduana, TipoOpe, año);
 
                 if (dtValorCIF.Rows.Count > 0)
@@ -742,30 +727,34 @@ namespace Veritrade2017.Controllers
         {
             culture = CultureHelper.GetImplementedCulture(culture);
             RouteData.Values["culture"] = culture; // set culture 
-
-            var pais = "";
-            if (Session["Pais"] != null)
-                pais = Session["Pais"].ToString().ToLower(); // Ruben 202305
-
-            var id = "";
-            if (Session["IdProducto"] != null)
-                id = Session["IdProducto"].ToString();
-            var uri = "";
+            
+            //var id = "";
+            //if (Session["IdProducto"] != null)
+            //    id = Session["IdProducto"].ToString();
+            
             var codPartida = "";
             if (Session["CodPartida"] != null)
                 codPartida = Session["CodPartida"].ToString();
 
+            var pais = "";
+            var uri = "";
             if (culture == "es")
             {
+                if (Session["Pais"] != null)
+                    pais = Session["Pais"].ToString().ToLower(); // Ruben 202305
                 if (Session["UriEs"] != null)
                     uri = Session["UriEs"].ToString();
+
                 return RedirectToRoute("PerfilSearch", new { culture, pais, uri, codPartida });
             }
             else
             {
+                if (Session["PaisEN"] != null)
+                    pais = Session["PaisEN"].ToString().ToLower(); // Ruben 202403
                 if (Session["UriEn"] != null)
                     uri = Session["UriEn"].ToString();
-                return RedirectToRoute("PerfilSearchEN", new { culture, pais, uri, codPartida });
+
+                return RedirectToRoute("PerfilSearchEN", new { culture, pais, uri, codPartida }); // Ruben 202403
             }
             //return RedirectToAction("Index", "ProductoPerfil", new {culture,Pais, IdProducto});
         }

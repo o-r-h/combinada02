@@ -6,10 +6,8 @@ using System.Web;
 using System.Web.Caching;
 using System.Web.Mvc;
 using DevTrends.MvcDonutCaching;
-using Newtonsoft.Json;
 using Veritrade2017.Helpers;
 using Veritrade2017.Models;
-using Veritrade2017.Models.CountryProfile;
 using Veritrade2017.Models.Minisite;
 using Paises = Veritrade2017.Models.Minisite.Paises;
 
@@ -28,14 +26,15 @@ namespace Veritrade2017.Controllers
                 var usuarioRegistrado = Usuario.GetUsuario(idusuario);
                 ViewData["registrado"] = usuarioRegistrado.Nombres;
             }
-            
-			// Ruben 202311
+
+            // Ruben 202311
             // https://www.veritradecorp.com/es/peru/importaciones-y-exportaciones-importaciones-y-exportaciones-anaid-eirl/ruc-20532843023
             if (culture == "aa")
             {
                 culture = "es";
                 slug = "importaciones-y-exportaciones-" + slug;
             }
+
             // Ruben 202303
             // https://www.veritradecorp.com/es/peru/importaciones-y-exportaciones-alicorp-saa/ruc-20100055237
 
@@ -401,8 +400,6 @@ namespace Veritrade2017.Controllers
 
             return base.SetCulture(culture, slug_pais_ruc_trib);
         }
-
-		
-		
-	}
+        
+    }
 }

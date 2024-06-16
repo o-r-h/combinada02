@@ -12,6 +12,92 @@
     // Ruben 202205
     string Empresa = ViewData["nombreEmpresa"].ToString().ToUpperInvariant();
 
+    if (Empresa == "BISSU COSMETICOS SA DE CV" || Empresa == "CASA CUERVO SA DE CV"
+        || Empresa == "RACKY IMPORTACIONES S.A. DE C.V." || Empresa == "AVOCADO PACKING COMPANY S.A.C." || Empresa == "DANPER TRUJILLO S.A.C.")
+    {
+        ViewBag.Title = Empresa + " Importaciones y Exportaciones";
+    }
+    else if (Empresa == "ESTRATEGIAS COMERCIALES TIANZA SA DE CV")
+    {
+        ViewBag.Title = "ESTRATEGIAS COMERCIALES TIANZA SA Importaciones y Exportaciones THE COCA COLA COMPANY EN MEXICO";
+    }
+    else if (Empresa == "SABRITAS S DE RL DE CV")
+    {
+        ViewBag.Title = "SABRITAS S DE RL Importaciones y Exportaciones THE COCA COLA COMPANY EN MEXICO";
+    }
+    else if (Empresa == "THE COCA COLA EXPORT CORPORATION SUCURSAL EN MEXICO")
+    {
+        ViewBag.Title = "Importaciones y Exportaciones THE COCA COLA COMPANY EN MEXICO";
+    }
+    else if (Empresa == "BIMBO SA DE CV" || Empresa == "ALICORP SAA" || Empresa == "CAMPOSOL S.A." || Empresa == "QUIPERU S.A.C." || Empresa == "GLORIA S A" || Empresa == "LAIVE S.A." || Empresa == "WELDWELL PERU S.A.C.")
+    {
+        ViewBag.Title = Empresa + " Importaciones y Exportaciones | Veritrade";
+    }
+    else
+    {
+        ViewBag.Title = "Veritrade | Importaciones y Exportaciones de " + Empresa;
+    }
+    //ViewBag.Title = "Veritrade | Importaciones y Exportaciones de " + ViewData["nombreEmpresa"].ToString().ToUpperInvariant();
+
+    if (Empresa == "LOS KOVAS S.R.L")
+    {
+        ViewBag.Description = "Información Comercial de LOS KOVAS S.R.L. - Precios, Importaciones, Exportaciones, Proveedores y Más";
+    }
+    else if (Empresa == "BISSU COSMETICOS SA DE CV")
+    {
+        ViewBag.Description = "Información de Empresa - BISSU COSMETICOS - Precios, productos, clientes,  proveedores y más";
+    }
+    else if (Empresa == "CASA CUERVO SA DE CV")
+    {
+        ViewBag.Description = "Información de Empresa - CASA CUERVO - Precios, productos, clientes,  proveedores y más";
+    }
+    else if (Empresa == "ESTRATEGIAS COMERCIALES TIANZA SA DE CV")
+    {
+        ViewBag.Description = "Información Comercial de TIANZA - Precios, Importaciones, Exportaciones, Proveedores y Más";
+    }
+    else if (Empresa == "RACKY IMPORTACIONES S.A. DE C.V.")
+    {
+        ViewBag.Description = "Información Comercial de RACKY IMPORTACIONES - Precios, Importaciones, Exportaciones, Proveedores y Más";
+    }
+    else if (Empresa == "SABRITAS S DE RL")
+    {
+        ViewBag.Description = "Información Comercial de SABRITAS - Precios, Importaciones, Exportaciones, Proveedores y Más";
+    }
+    else if (Empresa == "THE COCA COLA EXPORT CORPORATION SUCURSAL EN MEXICO")
+    {
+        ViewBag.Description = "Información de Empresa - COCA COLA - Precios, productos, clientes,  proveedores y más";
+    }
+    else if (Empresa == "AVOCADO PACKING COMPANY S.A.C.")
+    {
+        ViewBag.Description = "Información de Empresa - AVOCADO PACKING COMPANY- Precios, productos,  proveedores y más";
+    }
+    else if (Empresa == "CAMPOSOL S.A.")
+    {
+        ViewBag.Description = "Información de Empresa - CAMPOSOL SA - Precios, productos, clientes,  proveedores y más";
+    }
+    else if (Empresa == "QUIPERU S.A.C.")
+    {
+        ViewBag.Description = "Información Comercial de " + Empresa + " - Precios, Importaciones, Exportaciones, Proveedores y Más";
+    }
+    else if (Empresa == "WELDWELL PERU S.A.C.")
+    {
+        ViewBag.Description = "Información Comercial de WELDWELL PERU SAC - Precios, Importaciones, Exportaciones, Proveedores y Más";
+    }
+    else if (Empresa == "BIMBO SA DE CV" || Empresa == "ALICORP SAA" || Empresa == "DANPER TRUJILLO S.A.C." || Empresa == "GLORIA S A" || Empresa == "LAIVE S.A.")
+    {
+        ViewBag.Description = "Información de Empresa - " + Empresa + " - Precios, productos, clientes, proveedores y más";
+    }
+    else
+    {
+        ViewBag.Description = "Información de comercio exterior: precios, productos, clientes, competencia, proveedores y más";
+    }
+    //ViewBag.Description = "Información de comercio exterior: precios, productos, clientes, competencia, proveedores y más";
+
+    if (culture != "es")
+    {
+        ViewBag.Title = "Veritrade | Imports & Exports from " + ViewData["nombreEmpresa"].ToString().ToUpperInvariant();
+        ViewBag.Description = "Foreign trade information: Prices, products, clients, competitors, suppliers and more.";
+    }
 
     /*ViewBag.Title = ViewData["nombreEmpresa"] + " con " + ViewData["registriTrib"] + ": " + ViewData["rucEmpresa"] +
                     " de " + ViewData["paisEmpresa"] + " - Exportaciones e Importaciones";*/

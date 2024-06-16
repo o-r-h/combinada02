@@ -15,7 +15,7 @@
         case "MEX": pais2 = "mx"; break;
         case "PER": pais2 = "pe"; break;
         case "UE": pais2 = "es"; break;
-    }
+    }    
 }
 @if (controller == "Contactanos")
 {
@@ -33,90 +33,30 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    @Styles.Render("~/Content/bundles")
-    @RenderSection("Styles", false)
-    <!--  Ini precargar fuentes  --->
-    <link rel="preload" href="/fonts/ProximaNova-LightIt.svg" as="font" type="font/woff2" crossOrigin="anonymous" />
-    <link rel="preload" href="/fonts/ProximaNova-Bold.svg" as="font" type="font/woff2" crossOrigin="anonymous" />
-    <link rel="preload" href="/fonts/ProximaNova-Regular.svg" as="font" type="font/woff2" crossOrigin="anonymous" />
-    <link rel="preload" href="/fonts/ProximaNova-Light.svg" as="font" type="font/woff2" crossOrigin="anonymous" />
-
-    <link rel="preload" href="/fonts/OpenSans-Bold.woff" as="font" type="font/woff" crossOrigin="anonymous" />
-    <link rel="preload" href="/fonts/OpenSans-ExtraBold.woff" as="font" type="font/woff" crossOrigin="anonymous" />
-    <link rel="preload" href="/fonts/OpenSans-Light.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
-    <link rel="preload" href="/fonts/OpenSans-Semibold.woff" as="font" type="font/woff" crossOrigin="anonymous" />
-    <link rel="preload" href="/fonts/OpenSans-Regular.woff" as="font" type="font/woff" crossOrigin="anonymous" />
-    <link rel="preload" href="/fonts/OpenSans-ExtraBoldItalic.woff" as="font" type="font/woff" crossOrigin="anonymous" />
-    <link rel="preload" href="/fonts/OpenSans-BoldItalic.woff" as="font" type="font/woff" crossOrigin="anonymous" />
-
-    <link rel="preload" href="/fonts/OpenSans-LightItalic.woff" as="font" type="font/woff" crossOrigin="anonymous" />
-    <link rel="preload" href="/fonts/OpenSans-Italic.woff" as="font" type="font/woff" crossOrigin="anonymous" />
-    <link rel="preload" href="/fonts/OpenSans-SemiboldItalic.woff" as="font" type="font/woff" crossOrigin="anonymous" />
-
-    @*<link rel="preload" href="/fonts/glyphicons-halflings-regular.sgv" as="font" type="font/woff2" crossOrigin="anonymous" />*@
-    <link  href="/fonts/ProximaNova-LightIt.eot" as="font" type="font/eot" crossOrigin="anonymous" />
-    <link  href="/fonts/ProximaNova-LightIt.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
-
-    @*<link rel="preload" href="/fonts/ProximaNova-Light.eot" as="font" type="font/eot" crossOrigin="anonymous" />*@
-    <link  href="/fonts/ProximaNova-Light.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
-
-    @*<link rel="preload" href="/fonts/ProximaNova-Regular.eot" as="font" type="font/eot" crossOrigin="anonymous" />*@
-    <link  href="/fonts/ProximaNova-Regular.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
-
-    @*<link rel="preload" href="/fonts/ProximaNova-Bold.eot" as="font" type="font/eot" crossOrigin="anonymous" />*@
-    <link  href="/fonts/ProximaNova-Bold.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
-
-    @*<link rel="preload" href="/fonts/ProximaNova-Semibold.svg" as="font" type="font/svg" crossOrigin="anonymous" />*@
-
-    <link  href="/fonts/ProximaNova-LightIt.otf" as="font" type="font/otf" crossOrigin="anonymous" />
-    <link  href="/fonts/ProximaNova-Bold.otf" as="font" type="font/otf" crossOrigin="anonymous" />
-    <link  href="/fonts/ProximaNova-Semibold.otf" as="font" type="font/otf" crossOrigin="anonymous" />
-
-
-    <link rel="preload" href="/fonts/ProximaNova-Light.otf" as="font" type="font/otf" crossOrigin="anonymous" />
-    <link rel="preload" href="/fonts/ProximaNova-Regular.otf" as="font" type="font/otf" crossOrigin="anonymous" />
-    <link rel="preload" href="/fonts/ProximaNova-Semibold.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
-
-    <link rel="preload" href="/fonts/glyphicons-halflings-regular.ttf" as="font" type="font/ttf" crossOrigin="anonymous" />
-    <!--- Fin precargar fuentes -->
-    <!-- #region DevExpress -->
-    @Html.DevExpress().GetStyleSheets(
-                new StyleSheet { ExtensionType = ExtensionType.LoadingPanel },
-                new StyleSheet { ExtensionType = ExtensionType.PageControl },
-                new StyleSheet { ExtensionType = ExtensionType.Chart }
-                )
-    @Html.DevExpress().GetScripts(
-          new Script { ExtensionType = ExtensionType.LoadingPanel },
-          new Script { ExtensionType = ExtensionType.PageControl },
-          new Script { ExtensionType = ExtensionType.Chart }
-          )
-
 
     <title>@ViewBag.Title</title>
+
+    @*Ruben 202402*@
+    @if (ViewBag.HreflangEs != null && ViewBag.HreflangEs != "")
+    {
+        if (culture == "es")
+        {
+            <link rel="alternate" href="@ViewBag.HreflangEs" hreflang="es" />
+            <link rel="alternate" href="@ViewBag.HreflangEn" hreflang="en" />
+        }
+        else
+        {
+            <link rel="alternate" href="@ViewBag.HreflangEn" hreflang="en" />
+            <link rel="alternate" href="@ViewBag.HreflangEs" hreflang="es" />
+
+        }
+    }
 
     @*Ruben 202306*@
     @if (ViewBag.Canonical != null && ViewBag.Canonical != "")
     {
         string Canonical = (string)ViewBag.Canonical;
-        if (ViewBag.Canonical == "https://www.veritradecorp.com/es"){
-
-            Canonical = "https://www.veritradecorp.com/es/";
-        }
-        if (ViewBag.Canonical == "https://www.veritradecorp.com/en")
-        {
-            Canonical = "https://www.veritradecorp.com/en/";
-        }
-
-
         <link rel="canonical" href="@Canonical.ToLower()" />
-    
-         }
-
-    @*Ruben 202304*@
-    @if (ViewBag.HreflangEs != null && ViewBag.HreflangEs != "")
-    {
-        <link rel="alternate" href="@ViewBag.HreflangEs" hreflang="es" />
-        <link rel="alternate" href="@ViewBag.HreflangEn" hreflang="en" />
     }
 
     <meta name="description" content="@ViewBag.Description">
@@ -141,7 +81,6 @@
     @*////////////////////// ANALYTICS ///////////////////////*@
 
     <!-- Google Tag Manager -->
-    @*comentado https://app.asana.com/0/1202736242952541/1205682748217961/f*@
     <script>
         (function (w, d, s, l, i) {
             w[l] = w[l] || [];
@@ -157,36 +96,53 @@
     @*////////////////////// END ANALYTICS ///////////////////////*@
 
     <!-- Facebook Pixel Code -->
-    @*comentado https://app.asana.com/0/1202736242952541/1205682748217961/f*@
     <script>
-            !function (f, b, e, v, n, t, s) {
-                if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments) }
-                    ; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
-            }
-                (window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js'); fbq('init', '791161605053531'); fbq('track', 'PageView');
-        </script>
-        <noscript><img height="1" width="1" src="https://www.facebook.com/tr?id=791161605053531&ev=PageView&noscript=1" /></noscript>
+        !function (f, b, e, v, n, t, s) {
+            if (f.fbq) return; n = f.fbq = function () { n.callMethod ? n.callMethod.apply(n, arguments) : n.queue.push(arguments) }
+                ; if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'; n.queue = []; t = b.createElement(e); t.async = !0; t.src = v; s = b.getElementsByTagName(e)[0]; s.parentNode.insertBefore(t, s)
+        }
+            (window, document, 'script', 'https://connect.facebook.net/en_US/fbevents.js'); fbq('init', '791161605053531'); fbq('track', 'PageView');
+    </script>
+    <noscript><img height="1" width="1" src="https://www.facebook.com/tr?id=791161605053531&ev=PageView&noscript=1" /></noscript>
     <!-- End Facebook Pixel Code -->
-    @*comentado https://app.asana.com/0/1202736242952541/1205682748217961/f*@
+    <!-- #region DevExpress -->
+    @Html.DevExpress().GetStyleSheets(
+                new StyleSheet { ExtensionType = ExtensionType.LoadingPanel },
+                new StyleSheet { ExtensionType = ExtensionType.PageControl },
+                new StyleSheet { ExtensionType = ExtensionType.Chart }
+                )
+    @Html.DevExpress().GetScripts(
+                new Script { ExtensionType = ExtensionType.LoadingPanel },
+                new Script { ExtensionType = ExtensionType.PageControl },
+                new Script { ExtensionType = ExtensionType.Chart }
+                )
+    <!-- #endregion -->
+    <!-- #region Import Renders -->
+    <!-- Styles -->
+    @Styles.Render("~/Content/bundles")
+    @RenderSection("Styles", false)
+
+    <!-- Scripts -->
+    @Scripts.Render("~/Scripts/bundles")
+    @RenderSection("Scripts", false)
+    <!-- #endregion -->
+
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-180256041-1"></script>
-        <script>
-            window.dataLayer = window.dataLayer || [];
-            function gtag() { dataLayer.push(arguments); }
-            gtag('js', new Date());
-            gtag('config', 'UA-180256041-1');
-        </script>
-
-
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'UA-180256041-1');
+    </script>
 
 </head>
 <body>
 
     <!-- Google Tag Manager (noscript) -->
-    @*comentado https://app.asana.com/0/1202736242952541/1205682748217961/f*@
     <noscript>
-            <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFVKK27"
-                    height="0" width="0" style="display:none;visibility:hidden"></iframe>
-        </noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-WFVKK27"
+                height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
     <!-- End Google Tag Manager (noscript) -->
 
 
@@ -248,207 +204,17 @@
             }
     });
 
-
-
-    //TODO: OMAR
     (function($) {
-        $("select[name='culture']").change(function () {
-            var flagdescubre = "@ViewBag.FlagDescubre";
-            var cultureValue = "@ViewBag.CultureValue"
-            LayoutCP
-            var LayoutCP =  "@ViewBag.LayoutCP";
-            var RutaCP_EN = "@ViewBag.RutaCP_EN";
-            var RutaCP_ES = "@ViewBag.RutaCP_ES";
+        $("select[name='culture']").change(function() {
+            // Ruben 202401
+            var Canonical = '@ViewBag.Canonical';
 
-            var urlActual = window.location.href;
-            var selectElement = document.querySelector('select[name="culture"]');
-            var valorSeleccionado = selectElement.value;
-
-            console.log("0--LenguajeSeleccionado: ", valorSeleccionado );
-            console.log("0--RutaActual: ", urlActual);
-            console.log("1--LayoutCP ", LayoutCP);
-            console.log("2--RutaCP_EN ", RutaCP_EN);
-            console.log("3--RutaCP_ES ", RutaCP_ES);
-            if ("@ViewBag.LayoutCP" == "CP1" || "@ViewBag.LayoutCP" == "CP1E"
-                || '@ViewBag.LayoutCP' == 'CP3ExportE' || '@ViewBag.LayoutCP' == 'CP3ImportE'
-                || '@ViewBag.LayoutCP' == "CP3ExportP" || '@ViewBag.LayoutCP' == "CP3ImportP"
-                || '@ViewBag.LayoutCP' == 'CP3ExportEitem' || '@ViewBag.LayoutCP' == "CP3ImportEitem"
-                || '@ViewBag.LayoutCP' == 'CP3ExportPitem' || '@ViewBag.LayoutCP' ==  'CP3ImportPitem' )
-            {
-
-               
-                //CP1E
-                if ("@ViewBag.LayoutCP" == "CP1") {
-                    if (valorSeleccionado != "es") {
-                        var urlNueva = urlActual.replace(RutaCP_ES, RutaCP_EN);
-                        console.log("3--nueva ruta ", urlNueva);
-                        window.location = urlNueva;
-                    }
-                    else {
-                        var urlNueva = urlActual.replace(RutaCP_EN, RutaCP_ES);
-                        console.log("3.1--nueva ruta ", urlNueva);
-                        window.location = urlNueva;
-                    }
-                }
-
-                if ("@ViewBag.LayoutCP" == "CP1E")
-                {
-                    if (valorSeleccionado != "es") {
-                        var urlNueva = urlActual.replace(RutaCP_ES, RutaCP_EN);
-                        console.log("3--nueva ruta ", urlNueva);
-
-                        window.location = urlNueva;
-                    }
-                    else
-                    {
-                        var urlNueva = urlActual.replace(RutaCP_EN, RutaCP_ES);
-                        console.log("3.1--nueva ruta ", urlNueva);
-
-                        window.location = urlNueva;
-                    }
-                }
-
-                if ("@ViewBag.LayoutCP" == "CP3ExportE") {
-                    if (valorSeleccionado != "es") {
-                        var urlNueva = urlActual.replace(RutaCP_ES, RutaCP_EN);
-                        console.log("3--nueva ruta ", urlNueva);
-                        window.location = urlNueva;
-                    }
-                    else {
-                        var urlNueva = urlActual.replace(RutaCP_EN, RutaCP_ES);
-                        console.log("3.1--nueva ruta ", urlNueva);
-                        window.location = urlNueva;
-                    }
-
-                }
-
-                if ("@ViewBag.LayoutCP" == "CP3ImportE") {
-                    if (valorSeleccionado != "es") {
-                        var urlNueva = urlActual.replace(RutaCP_ES, RutaCP_EN);
-                         console.log("3--nueva ruta ", urlNueva);
-                        window.location = urlNueva;
-                    }
-                    else {
-                        var urlNueva = urlActual.replace(RutaCP_EN, RutaCP_ES);
-                        console.log("3.1--nueva ruta ", urlNueva);
-                        window.location = urlNueva;
-                    }
-                }
-
-                if ("@ViewBag.LayoutCP" == "CP3ExportP") {
-                        if (valorSeleccionado != "es") {
-                            var urlNueva = urlActual.replace(RutaCP_ES, RutaCP_EN);
-                            console.log("3--nueva ruta ", urlNueva);
-                            window.location = urlNueva;
-                        }
-                       else {
-                            var urlNueva = urlActual.replace(RutaCP_EN, RutaCP_ES);
-                            console.log("3.1--nueva ruta ", urlNueva);
-                            window.location = urlNueva;
-                        }
-                }
-
-                if ("@ViewBag.LayoutCP" == "CP3ImportP") {
-
-                   if (valorSeleccionado != "es") {
-                         var urlNueva = urlActual.replace(RutaCP_ES, RutaCP_EN);
-                        console.log("3--nueva ruta ", urlNueva);
-                        window.location = urlNueva;
-                }
-                    else {
-                        var urlNueva = urlActual.replace(RutaCP_EN, RutaCP_ES);
-                        console.log("3.1--nueva ruta ", urlNueva);
-                        window.location = urlNueva;
-                    }
-                }
-
-                if ("@ViewBag.LayoutCP" == "CP3ExportEitem") {
-
-                    if (valorSeleccionado != "es") {
-
-                         var urlNueva = RutaCP_EN;
-                         console.log("3--nueva ruta ", urlNueva);
-                         window.location = urlNueva;
-                        }
-                         else {
-                            var urlNueva = RutaCP_ES;
-                            console.log("3.1--nueva ruta ", urlNueva);
-                            window.location = urlNueva;
-                        }
-                  }
-
-                if ("@ViewBag.LayoutCP" == "CP3ImportEitem") {
-                        if (valorSeleccionado != "es") {
-                             var urlNueva = RutaCP_EN;
-                            console.log("3--nueva ruta ", urlNueva);
-                            window.location = urlNueva;
-                        }
-                        else {
-                            var urlNueva = RutaCP_ES;
-                            console.log("3.1--nueva ruta ", urlNueva);
-                            window.location = urlNueva;
-                        }
-                   }
-
-                if ("@ViewBag.LayoutCP" == "CP3ExportPitem") {
-                    if (valorSeleccionado != "es") {
-                           var urlNueva = RutaCP_EN;
-                       console.log("3--nueva ruta ", urlNueva);
-                          window.location = urlNueva;
-                    }
-                    else {
-                        var urlNueva = RutaCP_ES;
-                        console.log("3.1--nueva ruta ", urlNueva);
-                        window.location = urlNueva;
-                 }
-                }
-
-                if ("@ViewBag.LayoutCP" == "CP3ImportPitem") {
-               if (valorSeleccionado != "es") {
-                      var urlNueva = RutaCP_EN;
-                  console.log("3--nueva ruta ", urlNueva);
-                     window.location = urlNueva;
-               }
-               else {
-                   var urlNueva = RutaCP_ES;
-                   console.log("3.1--nueva ruta ", urlNueva);
-                   window.location = urlNueva;
-            }
-}
-
-
-            }
+            if (Canonical == "https://www.veritradecorp.com/" || Canonical == "https://www.veritradecorp.com/es/")
+                window.location = "https://www.veritradecorp.com/en/";
+            else if (Canonical == "https://www.veritradecorp.com/en/")
+                window.location = "https://www.veritradecorp.com/es/";
             else
-            {
                 $(this).parents("form").submit();
-            }
-
-
-          //  var valorSeleccionado = selectElement.value;
-
-
-          //  alert("La valorSeleccionado es: " + valorSeleccionado);
-
-           // var regex = "";
-           // if ("@ViewBag.LayoutCP" == "CP1" && cultureValue = "es")
-           // {
-
-           // }
-           // else
-           // {
-
-          //  }
-
-
-           // if (flagdescubre != null) {
-
-
-            //    alert(flagdescubre);
-           // }
-           // else
-           // {
-           // $(this).parents("form").submit();
-           // }
         });
     })(jQuery);
 
@@ -666,7 +432,7 @@
 
     }
 
-    function f_ValidarJSON(codUsuario) {
+        function f_ValidarJSON(codUsuario) {
 
         habilitarbtnLogin(false);
         var dataString = new FormData($("#loginForm").get(0));
@@ -677,61 +443,57 @@
             dataType: "json",
             contentType: false,
             processData: false,
-            success: function (result) {
-                try {
+            success: function(result) {
                 var modalSuccess = $("#ModalSuccess");
                 if (result.respuesta === "OK") {
 
-                        // Ruben 202304
-                        console.log(codUsuario);
-                        dataLayer.push({
-                            'event': 'inicio_sesion', //valor estático
-                            'correo': codUsuario //valor dinamico
-                        });
-                        //return;
+                    // Ruben 202304
+                    console.log(codUsuario);
+                    dataLayer.push({
+                        'event': 'inicio_sesion', //valor estático
+                        'correo': codUsuario //valor dinamico
+                    });
+                    //return;
 
-                        var form = document.getElementById('loginForm');
-                        console.log("*** alert***" + alert);
-
-
-                        var hiddenInput = document.createElement('input');
-                        hiddenInput.setAttribute('type', 'hidden');
-                        hiddenInput.setAttribute('name', 'inicio');
-                        hiddenInput.setAttribute('value', 'ok');
-                        form.appendChild(hiddenInput);
-                        hiddenInput = document.createElement('input');
-                        hiddenInput.setAttribute('type', 'hidden');
-                        hiddenInput.setAttribute('name', 'ruta');
-                        hiddenInput.setAttribute('value', '@url');
-                        form.appendChild(hiddenInput);
-                        form.submit();
-                    } else if (result.respuesta === "INCORRECTO") {
-                        f_showOrHideLoadingLogin(false);
-                        modalSuccess.find("#success_title").html("@Resources.Success_title1");
-                        modalSuccess.find("#success_message").html(
-                            "@Resources.desc_title1<br />" +
-                            "@Resources.desc_title2<br />" +
-                            "@Resources.desc_title3 <a onclick='lnkContactoClick();' id='lnkContacto'>@Resources.MenuItem07.ToLower()</a>.");
-                        modalSuccess.modal("show");
-                        habilitarbtnLogin(true);
-                    } else if (result.respuesta === "INACTIVO") {
-                        f_showOrHideLoadingLogin(false);
-                        modalSuccess.find("#success_title").html("@Resources.Success_title2");
-                        modalSuccess.find("#success_message")
-                            .html(
-                                "@Resources.desc_title4<br/>@Resources.desc_title5 <a onclick='lnkContactoClick();' id='lnkContacto'>@Resources.MenuItem07.ToLower()</a>.");
-                        modalSuccess.modal("show");
-                        habilitarbtnLogin(true);
-                    } else if (result.respuesta === "OTROPAIS") {
-                        f_showOrHideLoadingLogin(false);
-                        modalSuccess.find("#success_title").html("@Resources.Success_title3");
-                        modalSuccess.find("#success_message").html(
-                            "@Resources.desc_title6<br />" +
-                            "@Resources.desc_title7 <a onclick='lnkContactoClick();' id='lnkContacto'>@Resources.MenuItem07.ToLower()</a>.<br />" +
-                            "@Resources.desc_title8 &nbsp<a HREF='@culture/PruebaGratis' id='lnkPrueba'>@Resources.TrialText.ToUpper()</a> ");
-                        modalSuccess.modal("show");
-                        habilitarbtnLogin(true);
-                    }
+                    var form = document.getElementById('loginForm');
+                    var hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'inicio');
+                    hiddenInput.setAttribute('value', 'ok');
+                    form.appendChild(hiddenInput);
+                    hiddenInput = document.createElement('input');
+                    hiddenInput.setAttribute('type', 'hidden');
+                    hiddenInput.setAttribute('name', 'ruta');
+                    hiddenInput.setAttribute('value', '@url');
+                    form.appendChild(hiddenInput);
+                    form.submit();
+                } else if (result.respuesta === "INCORRECTO") {
+                    f_showOrHideLoadingLogin(false);
+                    modalSuccess.find("#success_title").html("@Resources.Success_title1");
+                    modalSuccess.find("#success_message").html(
+                        "@Resources.desc_title1<br />" +
+                        "@Resources.desc_title2<br />" +
+                        "@Resources.desc_title3 <a onclick='lnkContactoClick();' id='lnkContacto'>@Resources.MenuItem07.ToLower()</a>.");
+                    modalSuccess.modal("show");
+                    habilitarbtnLogin(true);
+                } else if (result.respuesta === "INACTIVO") {
+                    f_showOrHideLoadingLogin(false);
+                    modalSuccess.find("#success_title").html("@Resources.Success_title2");
+                    modalSuccess.find("#success_message")
+                        .html(
+                            "@Resources.desc_title4<br/>@Resources.desc_title5 <a onclick='lnkContactoClick();' id='lnkContacto'>@Resources.MenuItem07.ToLower()</a>.");
+                    modalSuccess.modal("show");
+                    habilitarbtnLogin(true);
+                } else if (result.respuesta === "OTROPAIS") {
+                    f_showOrHideLoadingLogin(false);
+                    modalSuccess.find("#success_title").html("@Resources.Success_title3");
+                    modalSuccess.find("#success_message").html(
+                        "@Resources.desc_title6<br />" +
+                        "@Resources.desc_title7 <a onclick='lnkContactoClick();' id='lnkContacto'>@Resources.MenuItem07.ToLower()</a>.<br />" +
+                        "@Resources.desc_title8 &nbsp<a HREF='@culture/PruebaGratis' id='lnkPrueba'>@Resources.TrialText.ToUpper()</a> ");
+                    modalSuccess.modal("show");
+                    habilitarbtnLogin(true);
+                }
                 else {
                     f_showOrHideLoadingLogin(false);
                     modalSuccess.find("#success_title").html("@Resources.Success_title4");
@@ -740,9 +502,6 @@
                     modalSuccess.modal("show");
                     habilitarbtnLogin(true);
                 }
-            } catch(error) {
-                console.error("Error: " + error);
-            }
             },
             error: function () {
                 f_showOrHideLoadingLogin(false);
@@ -848,9 +607,7 @@
         } else {
             $("#loadingLogin2").removeClass("is-active-loading-login");
         }
-        }
-
-
+    }
 </script>
     <!-- begin olark code -->
     <script type="text/javascript" async>
@@ -911,13 +668,5 @@
         </script>
     }
     <!-- end olark code -->
-
-
-
-    @Scripts.Render("~/Scripts/bundles")
-    @RenderSection("Scripts", false)
-
-
-
 </body>
 </html>

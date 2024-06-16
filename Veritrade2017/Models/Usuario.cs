@@ -1,5 +1,4 @@
-﻿using Serilog;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -98,32 +97,17 @@ namespace Veritrade2017.Models
 
         public static string GetIdUsuario(string codUsuario)
         {
-            try
+            var id = "";
+            var sql = "SELECT IdUsuario FROM [dbo].[Usuario] " +
+                      "WHERE CodUsuario = '" + codUsuario + "'";
+
+            var dt = Conexion.SqlDataTable(sql);
+            foreach (DataRow row in dt.Rows)
             {
-				var id = "";
-				var sql = "SELECT IdUsuario FROM [dbo].[Usuario] " +
-						  "WHERE CodUsuario = '" + codUsuario + "'";
+                id = row["IdUsuario"].ToString();
+            }
 
-				var dt = Conexion.SqlDataTable(sql);
-				foreach (DataRow row in dt.Rows)
-				{
-					id = row["IdUsuario"].ToString();
-				}
-
-				return id;
-			}
-            catch (Exception ex)
-            {
-
-				Log.Logger = new LoggerConfiguration()
-					  .WriteTo.File(@"d:/logs/logGetIdUsuario.txt")
-					  .CreateLogger();
-
-				Log.Information("ERROR DE LOG GetIdUsuario " + ex.Message + "------ ERROR INNER ------" + ex.InnerException.ToString());
-				Log.CloseAndFlush();
-                return "";
-			}
-            
+            return id;
         }
     }
 }

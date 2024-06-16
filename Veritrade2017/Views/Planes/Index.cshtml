@@ -182,6 +182,11 @@
                                 <div class="precio-content" style="width:80%">
                                     <p class="precio_total">
                                         <span>@ViewData["CodMonedaPlan"]</span> @Convert.ToInt32(precio.Precio).ToString("N0", idiomaMoneda)<span>@ViewData["igv"]</span>
+                                        @if (ViewData["igv2"].ToString() != "")
+                                        {
+                                            <br />
+                                            <span>@ViewData["igv2"]</span>
+                                        }
                                     </p>
                                     @*Ruben 202305*@
                                     @{ string Descripcion2 = (culture == "es" ? "Dólares americanos" : "American dollars"); }
@@ -324,7 +329,12 @@
                                     <div class="precio-content" style="width:80%">
                                         <hr class="separador">
                                         <p class="precio_total">
-                                            <span>@ViewData["CodMonedaPlan"]</span> @Convert.ToInt32(precio.Precio).ToString("N0", idiomaMoneda)<span>@ViewData["igv"]</span>
+                                            <span>@ViewData["CodMonedaPlan"]</span> @Convert.ToInt32(precio.Precio).ToString("N0", idiomaMoneda)<span> @ViewData["igv"]</span>
+                                            @if (ViewData["igv2"].ToString() != "")
+                                            {
+                                                <br />
+                                                <span>@ViewData["igv2"]</span>
+                                            }
                                         </p>
                                         @*Ruben 202305*@
                                         @{ string Descripcion2 = (culture == "es" ? "Dólares americanos" : "American dollars"); }

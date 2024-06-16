@@ -29,7 +29,7 @@
                 <div class="item">
                     <div class="table like-table null-margin-v" style="white-space: nowrap;">
                         <input type="hidden" name="pais" class="pais" value="@i.IdPaisAduana" />
-                        <input type="hidden" name="pais2" class="pais2" value="@i.PaisAduana" /> @* Ruben 202310 *@
+                        <input type="hidden" name="pais2" class="pais2" value="@(culture == "es" ? i.PaisAduana : i.PaisAduanaEN)" /> @* Ruben 202404 *@
                         <div class="div1 like-table-cell"><img src="~/Content/Images/@flag" /> <span>@i.AbrevPais.ToUpper()</span> </div>
                         <div class="div2 like-table-cell">US$ @string.Format(idiomaText, "{0:N0}", i.Importaciones)</div>
                     </div>
@@ -44,6 +44,7 @@
                 <div class="item">
                     <div class="table like-table null-margin-v" style="white-space: nowrap;">
                         <input type="hidden" name="pais" class="pais" value="@i.IdPaisAduana" />
+                        <input type="hidden" name="pais2" class="pais2" value="@(culture == "es" ? i.PaisAduana : i.PaisAduanaEN)" /> @* Ruben 202404 *@
                         <div class="div1 like-table-cell"><img src="~/Content/Images/@flag" /> <span>@i.AbrevPais.ToUpper()</span> </div>
                         <div class="div2 like-table-cell">US$ @string.Format(idiomaText, "{0:N0}", i.Exportaciones)</div>
                     </div>

@@ -539,11 +539,21 @@ namespace Veritrade2017.VeritradeAdmin {
         /// <remarks/>
         [System.Web.Services.Protocols.SoapDocumentMethodAttribute("http://tempuri.org/BuscaUbicacionIP2", RequestNamespace="http://tempuri.org/", ResponseNamespace="http://tempuri.org/", Use=System.Web.Services.Description.SoapBindingUse.Literal, ParameterStyle=System.Web.Services.Protocols.SoapParameterStyle.Wrapped)]
         public string BuscaUbicacionIP2(string DireccionIP, ref string CodPais) {
-            object[] results = this.Invoke("BuscaUbicacionIP2", new object[] {
-                        DireccionIP,
-                        CodPais});
-            CodPais = ((string)(results[1]));
-            return ((string)(results[0]));
+            try
+            {
+				object[] results = this.Invoke("BuscaUbicacionIP2", new object[] {
+						DireccionIP,
+						CodPais});
+				CodPais = ((string)(results[1]));
+				return ((string)(results[0]));
+
+			}
+            catch (Exception ex)
+            {
+
+                return "";
+            }
+        
         }
         
         /// <remarks/>

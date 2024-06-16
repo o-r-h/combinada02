@@ -41,7 +41,9 @@
 
 <div class="container" style="margin-top: -2px;">
     <div class="noticias-blog">
-        <div class="col-sm-8 blog_content_left">
+        @*Ruben 202404*@
+        <div class="col-sm-12 blog_content_left">
+        @*<div class="col-sm-8 blog_content_left">*@
             <div class="post_content">
                 <h1>@postContent.Titulo</h1>
                 <span class="fecha-pub">@Resources.Post_Publish @postContent.FechaPublicacion.ToString("dd MMMM yyyy", idiomafecha)</span>
@@ -68,8 +70,9 @@
                 @Html.ActionLink(Resources.Button_Back, "Index", "Blog", new {  campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )}, new { culture, @class = "boton-atras" })
             </div>
         </div>
-        <div class="col-sm-4 blog_content_right">
+        @*Ruben 202404*@
+        @*<div class="col-sm-4 blog_content_right">
             @Html.Partial("Partials/Navegacion")
-        </div>
+        </div>*@
     </div>
 </div>

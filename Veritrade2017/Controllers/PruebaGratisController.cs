@@ -21,7 +21,7 @@ namespace Veritrade2017.Controllers
         private const string EMPRESA = "EMP";
 
         private readonly string _path = SettingUtility.GetUrlBackOld();
-        //comentario de prueba
+
         [HttpGet]
         [DonutOutputCache(CacheProfile = "CacheExtraLarge")]
         public ActionResult Index(string culture)

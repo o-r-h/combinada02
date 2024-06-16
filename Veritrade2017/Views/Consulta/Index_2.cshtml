@@ -37,6 +37,48 @@
     }
 </style>
 
+@*Ruben 202402*@
+<script type="text/javascript">
+    function data_layer(event, demoType, demoFrom, demoCountry, demoDescription, demoPartidaAduanera, demoImport, demoExport, demoDateStart, demoDateEnd) {
+
+        console.log('event: ', event);
+        console.log('demoType: ', demoType);
+        console.log('demoFrom: ', demoFrom);
+        console.log('demoCountry: ', demoCountry);
+        console.log('demoDescription: ', demoDescription);
+        console.log('demoPartidaAduanera: ', demoPartidaAduanera);
+        console.log('demoImport: ', demoImport);
+        console.log('demoExport: ', demoExport);
+        console.log('demoDateStart: ', demoDateStart);
+        console.log('demoDateEnd: ', demoDateEnd);
+
+        //return;
+
+        dataLayer.push({
+            'event': event,
+            'demoType': demoType,
+            'demoFrom': demoFrom,
+            'demoCountry': demoCountry,
+            'demoDescription': demoDescription,
+            'demoPartidaAduanera': demoPartidaAduanera,
+            'demoImport': demoImport,
+            'demoExport': demoExport,
+            'demoDateStart': demoDateStart,
+            'demoDateEnd': demoDateEnd
+        });
+    }
+
+    window.addEventListener('message', event => {        
+        var _variables = event.data;
+
+        var variables = _variables.split('|');
+
+        if (variables[0] == "demoSearch")
+            data_layer(variables[0], variables[1], variables[2], variables[3], variables[4], variables[5], variables[6], variables[7], variables[8], variables[9]);
+
+    });
+</script>
+
 @*<iframe id="iConsulta" src="@urlAdmin/@culture/demo/Index3" scrolling="no" frameborder="0"></iframe>*@
 <iframe id="iConsulta" src="@urlDemo" scrolling="no" frameborder="0"></iframe>
 

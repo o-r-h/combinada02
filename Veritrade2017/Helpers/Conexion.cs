@@ -13,7 +13,6 @@ namespace Veritrade2017.Helpers
         public static readonly string DataMinisiteString = System.Configuration.ConfigurationManager.ConnectionStrings["LocalMinisite"].ConnectionString;
         public static readonly string DataSystemString = System.Configuration.ConfigurationManager.ConnectionStrings["LocalSystem"].ConnectionString;
         public static readonly string DataProductProfileString = System.Configuration.ConfigurationManager.ConnectionStrings["LocalProductProfile"].ConnectionString;
-		
 #else
         public static readonly string DataContentString = System.Configuration.ConfigurationManager.ConnectionStrings["RemoteContent"].ConnectionString;
         public static readonly string DataMinisiteString = System.Configuration.ConfigurationManager.ConnectionStrings["RemoteMinisite"].ConnectionString;
@@ -21,11 +20,10 @@ namespace Veritrade2017.Helpers
         // Ruben 202301
         public static readonly string DataProductProfileString = System.Configuration.ConfigurationManager.ConnectionStrings["RemoteProductProfile"].ConnectionString;
         //public static readonly string DataProductProfileString = System.Configuration.ConfigurationManager.ConnectionStrings["LocalProductProfile"].ConnectionString;
-        
 #endif
 
-		// this is for just executing sql command with no value to return
-		public static void SqlExecute(string sql, bool contenido = false)
+        // this is for just executing sql command with no value to return
+        public static void SqlExecute(string sql, bool contenido = false)
         {
             var databaseConnectionString = contenido ? DataContentString : DataSystemString;
             using (var conn = new SqlConnection(databaseConnectionString))
@@ -179,33 +177,5 @@ namespace Veritrade2017.Helpers
                 throw;
             }
         }
-
-
-
-		public static DataTable SqlDataTableCountryProfile(string sql)
-		{
-			var databaseConnectionString = DataCountryProfileString;
-			try
-			{
-				using (var conn = new SqlConnection(databaseConnectionString))
-				{
-					var cmd = new SqlCommand(sql, conn);
-					cmd.Connection.Open();
-					var tempTable = new DataTable();
-					tempTable.Load(cmd.ExecuteReader());
-					cmd.Connection.Close();
-					return tempTable;
-				}
-			}
-			catch (Exception e)
-			{
-				Console.WriteLine(e);
-				throw;
-			}
-		}
-
-
-
-
-	}
+    }
 }

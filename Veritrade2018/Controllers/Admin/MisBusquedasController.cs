@@ -9154,7 +9154,8 @@ ReturnMe:
                 if (codPais == "CO")
                 {
                     var idPlan = Funciones.ObtieneIdPlan(Session["IdUsuario"].ToString());
-                    bool isPlanPermiteSentinel = FuncionesBusiness.IsVisibleSentinal(idPlan); // Ruben 202311
+                    bool isPlanPermiteSentinel = FuncionesBusiness.IsVisibleSentinal2023(idPlan); // Ruben 202404
+                    //bool isPlanPermiteSentinel = FuncionesBusiness.IsVisibleSentinal(idPlan); // Ruben 202311
 
                     foreach (var item in objTabData.ListRowsTab)
                     {
@@ -14330,7 +14331,8 @@ ReturnMe:
 
                     sheet.Cells["B4"].Value = Resources.AdminResources.RecordsFirsLetterUpperCase_Text + ": " + CantReg.ToString("n0");
                     if (EsFreeTrial && CantReg > CantRegMaxFreeTrial)
-                        sheet.Cells["B5"].Value = (idioma == "es") ? "Muestra: 20 registros" : "Sample: 20 records";
+                        sheet.Cells["B5"].Value = (idioma == "es") ? "Muestra: 10 registros" : "Sample: 10 records"; // Ruben 202311
+                        //sheet.Cells["B5"].Value = (idioma == "es") ? "Muestra: 20 registros" : "Sample: 20 records";
 
                     package.Save();
                 }

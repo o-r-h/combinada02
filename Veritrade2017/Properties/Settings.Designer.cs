@@ -12,7 +12,7 @@ namespace Veritrade2017.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.7.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -74,6 +74,15 @@ namespace Veritrade2017.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://www.veritrade.info")]
+        public string FrontEnd {
+            get {
+                return ((string)(this["FrontEnd"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("TEST")]
         public string AlignetEnviroment {
             get {
@@ -101,6 +110,42 @@ namespace Veritrade2017.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("8506")]
+        public string AlignetIdCommerce {
+            get {
+                return ((string)(this["AlignetIdCommerce"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1006")]
+        public string AlignetIdWallet {
+            get {
+                return ((string)(this["AlignetIdWallet"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("144")]
+        public string AlignetIdAdquiriente {
+            get {
+                return ((string)(this["AlignetIdAdquiriente"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("280")]
+        public string AlignetCodPedido {
+            get {
+                return ((string)(this["AlignetCodPedido"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("840")]
         public string AlignetMoneda {
             get {
@@ -123,6 +168,54 @@ namespace Veritrade2017.Properties {
         public string StripeWebKey {
             get {
                 return ((string)(this["StripeWebKey"]));
+            }
+        }
+
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("json-web-token-veritrade")]
+        public string Jwt_Secret_Key
+        {
+            get
+            {
+                return ((string)(this["Jwt_Secret_Key"]));
+            }
+        }
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("7")]
+        public string Jwt_Expire_Days
+        {
+            get
+            {
+                return ((string)(this["Jwt_Expire_Days"]));
+            }
+        }
+
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:63393")]
+        public string UrlWeb {
+            get {
+                return ((string)(this["UrlWeb"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:52530")]
+        public string UrlAdmin {
+            get {
+                return ((string)(this["UrlAdmin"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:52530")]
+        public string UrlAdminOld {
+            get {
+                return ((string)(this["UrlAdminOld"]));
             }
         }
         
@@ -165,6 +258,24 @@ namespace Veritrade2017.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("190.12.66.69")]
+        public string IP_Debug {
+            get {
+                return ((string)(this["IP_Debug"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("false")]
+        public string transbankHabilitado {
+            get {
+                return ((string)(this["transbankHabilitado"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("597020000540")]
         public string CodTransbankIntegracion {
             get {
@@ -174,10 +285,46 @@ namespace Veritrade2017.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("597035018859")]
+        public string CodTransbankProduccion {
+            get {
+                return ((string)(this["CodTransbankProduccion"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\cert\\597035018859.pfx")]
+        public string PrivateCertPath {
+            get {
+                return ((string)(this["PrivateCertPath"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("c:\\cert\\serverTBK.crt")]
         public string PublicCertPath {
             get {
                 return ((string)(this["PublicCertPath"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("veritrade")]
+        public string PrivateCertPass {
+            get {
+                return ((string)(this["PrivateCertPass"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\cert\\597035018859.crt")]
+        public string WebpayCertPath {
+            get {
+                return ((string)(this["WebpayCertPath"]));
             }
         }
         
@@ -224,180 +371,6 @@ namespace Veritrade2017.Properties {
         public string UrlProdHostWeb {
             get {
                 return ((string)(this["UrlProdHostWeb"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("200.111.233.190")]
-        public string IP_Debug {
-            get {
-                return ((string)(this["IP_Debug"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("35018859")]
-        public string CodTransbankProduccion {
-            get {
-                return ((string)(this["CodTransbankProduccion"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:/cert/597035018859.key")]
-        public string PrivateCertPath {
-            get {
-                return ((string)(this["PrivateCertPath"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string PrivateCertPass {
-            get {
-                return ((string)(this["PrivateCertPass"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("c:\\cert\\serverTBK.crt")]
-        public string WebpayCertPath {
-            get {
-                return ((string)(this["WebpayCertPath"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:52530/")]
-        public string FrontEnd {
-            get {
-                return ((string)(this["FrontEnd"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:63393/")]
-        public string UrlWeb {
-            get {
-                return ((string)(this["UrlWeb"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:52530/")]
-        public string UrlAdmin {
-            get {
-                return ((string)(this["UrlAdmin"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("http://localhost:52530/")]
-        public string UrlAdminOld {
-            get {
-                return ((string)(this["UrlAdminOld"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("true")]
-        public string transbankHabilitado {
-            get {
-                return ((string)(this["transbankHabilitado"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("clave-secreta-api")]
-        public string Jwt_Secret_Key {
-            get {
-                return ((string)(this["Jwt_Secret_Key"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("7")]
-        public string Jwt_Expire_Days {
-            get {
-                return ((string)(this["Jwt_Expire_Days"]));
-            }
-        }
-
-		[global::System.Configuration.ApplicationScopedSettingAttribute()]
-		[global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-		[global::System.Configuration.DefaultSettingValueAttribute("DESARROLLO")]
-		public string Ambiente
-		{
-			get
-			{
-				return ((string)(this["Ambiente"]));
-			}
-		}
-
-
-		[global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("7751")]
-        public string AlignetIdCommerce {
-            get {
-                return ((string)(this["AlignetIdCommerce"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("501")]
-        public string AlignetIdWallet {
-            get {
-                return ((string)(this["AlignetIdWallet"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("29")]
-        public string AlignetIdAdquiriente {
-            get {
-                return ((string)(this["AlignetIdAdquiriente"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("322")]
-        public string AlignetCodPedido {
-            get {
-                return ((string)(this["AlignetCodPedido"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:/Path/to/private/Cert.pfx")]
-        public string TransbankCertPath {
-            get {
-                return ((string)(this["TransbankCertPath"]));
-            }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("PfxPassword")]
-        public string TransbankCertPass {
-            get {
-                return ((string)(this["TransbankCertPass"]));
             }
         }
     }

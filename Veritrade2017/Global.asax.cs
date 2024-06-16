@@ -30,9 +30,9 @@ namespace Veritrade2017
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
             
-            //ModelBinders.Binders.DefaultBinder = new DevExpress.Web.Mvc.DevExpressEditorsBinder();
+            ModelBinders.Binders.DefaultBinder = new DevExpress.Web.Mvc.DevExpressEditorsBinder();
             
-            //DevExpress.Web.ASPxWebControl.CallbackError += Application_Error;
+            DevExpress.Web.ASPxWebControl.CallbackError += Application_Error;
 
             
         }

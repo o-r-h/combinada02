@@ -133,7 +133,7 @@
                 </button>
             </div>
             <a class="navbar-brand nav-logo" href="@Url.Action("Index", "Home", new {culture})">
-                <img class="cabecera_logo" alt="Veritrade" src="@Url.Content("~/Content/Images/logo_cabecera-removebg-preview.png")">
+                <img class="cabecera_logo" alt="Veritrade" src="@Url.Content("~/Content/Images/logo_cabecera.jpg")">
             </a>
             <div class="visible-xs movil-form-select col-xs-12 nopadding">
                 <div id="telefonoPais_menu" class="col-xs-7 nopadding">
@@ -193,28 +193,27 @@
                     <a href="@Url.Action("Index", "Consulta", new {culture, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )})" class="link_menu @ActiveMenu("consulta")">@Resources.MenuItem03</a>
                 </li>
                 <li>
-                    @Html.RouteLink(@Resources.MenuItem04, "CountryProfileListaPais", new { culture }, new { @class = "link_menu @ActiveMenu('paises')" })
-                    @*<a href="@Url.RouteUrl()" class="dropdown-toggle link_menu @ActiveMenu("paises")" data-toggle="dropdown">@Resources.MenuItem04</a>
-                    <a href="@Url.RouteUrl("AyudaUS", new {culture, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )})" class="link_menu @ActiveMenu("ayuda")">@Resources.MenuItem02</a>
-                    @*<ul class="dropdown-menu submenu-right">
-            @foreach (var pais in (List<ServiciosPaises>)ViewData["paisesMenu"])
-            {
-                <li>
-                    @if (culture == "es")
-                    {
-                        <a href="@Url.RouteUrl("Paises", new {culture, slug = pais.Abreviatura.ToLower().Trim(), campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )})">
-                            <img class="image-menu" src="@Url.Content("~/Content/Images/" + pais.ImagenBandera)" width="27" height="16" alt=""> @pais.NombrePais
-                        </a>
-                    }
-                    else
-                    {
-                        <a href="@Url.RouteUrl("PaisesUS", new {culture, slug = pais.Abreviatura.ToLower().Trim(), campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )})">
-                            <img class="image-menu" src="@Url.Content("~/Content/Images/" + pais.ImagenBandera)" width="27" height="16" alt=""> @pais.NombrePais
-                        </a>
-                    }
-                </li>
-            }
-        </ul>*@
+                    <a href="#" class="dropdown-toggle link_menu @ActiveMenu("paises")" data-toggle="dropdown">@Resources.MenuItem04</a>
+
+                    <ul class="dropdown-menu submenu-right">
+                        @foreach (var pais in (List<ServiciosPaises>)ViewData["paisesMenu"])
+                        {
+                            <li>
+                                @if (culture == "es")
+                                {
+                                    <a href="@Url.RouteUrl("Paises", new {culture, slug = pais.Abreviatura.ToLower().Trim(), campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )})">
+                                        <img class="image-menu" src="@Url.Content("~/Content/Images/" + pais.ImagenBandera)" width="27" height="16" alt=""> @pais.NombrePais
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.RouteUrl("PaisesUS", new {culture, slug = pais.Abreviatura.ToLower().Trim(), campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] )})">
+                                        <img class="image-menu" src="@Url.Content("~/Content/Images/" + pais.ImagenBandera)" width="27" height="16" alt=""> @pais.NombrePais
+                                    </a>
+                                }
+                            </li>
+                        }
+                    </ul>
                 </li>
                 <li>
                     <a href="@Url.RouteUrl("Planes"+(culture=="en" ? "US" : ""), new {culture, campania = (culture == "en" ? CodesCampanias[Campania.CONTROL.PLANES_EN] : CodesCampanias[Campania.CONTROL.PLANES] ) })" class="link_menu @ActiveMenu("planes")">@Resources.MenuItem05</a>
@@ -308,7 +307,7 @@
                 </button>
             </div>
             <a class="navbar-brand nav-logo" href="@Url.Action("Index", "Home", new {culture})">
-                <img class="cabecera_logo" alt="Veritrade" src="@Url.Content("~/Content/Images/logo_cabecera-removebg-preview.png")">
+                <img class="cabecera_logo" alt="Veritrade" src="@Url.Content("~/Content/Images/logo_cabecera.jpg")">
             </a>
             <div class="visible-xs movil-form-select col-xs-12 nopadding">
                 <div id="telefonoPais_menu" class="col-xs-7 nopadding">
@@ -368,10 +367,26 @@
                     <a href="@Url.Action("Index", "Consulta", new {culture})" class="link_menu @ActiveMenu("consulta")">@Resources.MenuItem03</a>
                 </li>
                 <li>
-                    <!-- menu nuevo pais -->
-                    @*<a href="#" class="dropdown-toggle link_menu @ActiveMenu("paises")" data-toggle="dropdown">@Resources.MenuItem04</a>*@
-                    @Html.RouteLink(@Resources.MenuItem04, "CountryProfileListaPais", new { culture }, new { @class = "link_menu @ActiveMenu('paises')" })
-
+                    <a href="#" class="dropdown-toggle link_menu @ActiveMenu("paises")" data-toggle="dropdown">@Resources.MenuItem04</a> 
+                    <ul class="dropdown-menu submenu-right">
+                        @foreach (var pais in (List<ServiciosPaises>) ViewData["paisesMenu"])
+                        {
+                            <li>
+                                @if (culture == "es")
+                                {
+                                    <a href="@Url.RouteUrl("Paises", new {culture, slug = pais.Abreviatura.Trim()})">
+                                        <img class="image-menu" src="@Url.Content("~/Content/Images/" + pais.ImagenBandera)" width="27" height="16" alt=""> @pais.NombrePais
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.RouteUrl("PaisesUS", new {culture, slug = pais.Abreviatura.Trim()})">
+                                        <img class="image-menu" src="@Url.Content("~/Content/Images/" + pais.ImagenBandera)" width="27" height="16" alt=""> @pais.NombrePais
+                                    </a>
+                                }
+                            </li>
+                        }
+                    </ul>
                 </li>
                 <li>
                     <a href="@Url.RouteUrl("Planes"+(culture=="en" ? "US" : ""), new {culture, campania = CodesCampanias[Campania.CONTROL.PLANES] })" class="link_menu @ActiveMenu("planes")">@Resources.MenuItem05</a>

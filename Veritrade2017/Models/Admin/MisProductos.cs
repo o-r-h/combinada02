@@ -222,9 +222,16 @@ namespace Veritrade2017.Models.Admin
 
             return json;
         }
-        public static DataTable SearchCountry(string pais)
+        
+        // Ruben 202403
+        public static DataTable SearchCountry(string pais, string idioma = "es")
         {
-            var sql = "SELECT IdPaisAduana FROM PAISADUANA WHERE PaisAduana = '" + pais + "'";
+            string sql;
+            
+            if (idioma == "es")
+                sql = "SELECT IdPaisAduana FROM PAISADUANA WHERE PaisAduana = '" + pais + "'";
+            else
+                sql = "SELECT IdPaisAduana FROM PAISADUANA WHERE PaisAduanaEN = '" + pais + "'"; // Ruben 202403
 
             DataTable dt;
             try
@@ -237,9 +244,11 @@ namespace Veritrade2017.Models.Admin
             }
             return dt;
         }
+
+        // Ruben 202403
         public static DataTable SearchNameCountry(int idPais)
         {
-            var sql = "SELECT PaisAduana FROM PAISADUANA WHERE IdPaisAduana = '" + idPais + "'";
+            var sql = "SELECT PaisAduana, PaisAduanaEN FROM PAISADUANA WHERE IdPaisAduana = '" + idPais + "'"; // Ruben 202403
 
             DataTable dt;
             try
@@ -252,6 +261,7 @@ namespace Veritrade2017.Models.Admin
             }
             return dt;
         }
+
         public static DataTable SearchRegimen(int IdProducto)
         {
             var sql = "SELECT TOP 1 T.Regimen FROM TOTALES T INNER JOIN PAISADUANA PA ON PA.IdPaisAduana = T.IdPaisAduana " +

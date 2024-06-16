@@ -9,7 +9,8 @@ namespace Veritrade2017.Models
     {
         public int Año { set; get; }
         public int IdPaisAduana { get; set; }
-        public String PaisAduana { get; set; }
+        public string PaisAduana { get; set; }
+        public string PaisAduanaEN { get; set; } // Ruben 202404
         public string AbrevPais { get; set; }
         public decimal Importaciones { get; set; }
         public decimal Exportaciones { get; set; }

@@ -16,7 +16,7 @@
                     @using (Ajax.BeginForm("", "", new AjaxOptions { HttpMethod = "POST", OnSuccess = "OnSuccessSolicitud", OnFailure = "OnFailureSolicitud", LoadingElementId = "loading", OnBegin = "onValidateBeginSol", OnComplete = "onValidateCompleteSol" }, new { id = "solicitudForm", @class = "form-horizontal", role = "form" }))
                     {
                         @Html.AntiForgeryToken()
-                       @Html.HiddenFor(model => model.CodSolicitud)
+                        @Html.HiddenFor(model => model.CodSolicitud)
                         <div class="form-group">
                             <div class="col-sm-6">
                                 <label>@Resources.Field_Fullname_Text</label>
@@ -47,7 +47,7 @@
                                         <img src="~/Content/Images/ico_form_contacto_02.jpg" alt="" width="34" height="27" />
                                     </span>
                                     @Html.TextBoxFor(model => model.Empresa, new { @class = "form-control" })
-                                </div> n 
+                                </div>
                                 @Html.ValidationMessageFor(model => model.Empresa, "", new { @class = "text-danger" })
                             </div>
                             <div class="col-sm-6">

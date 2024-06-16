@@ -894,19 +894,28 @@ objMiBusqueda.MisImportadoresExp = objMiBusqueda.MisExportadores = objMiBusqueda
                         var filtro1 = lstFiltros.options[i].text;
 
                         if (filtro1.substring(0, 17) == "[Desc. Comercial]")
-                            descripcion_comercial1 = filtro1.replace("[Desc. Comercial]", "").trim();
+                            descripcion_comercial1 += filtro1.replace("[Desc. Comercial]", "").trim() + " ";
                         else if (filtro1.substring(0, 9) == "[Partida]")
-                            producto1 = filtro1.replace("[Partida]", "").trim();
+                            producto1 += filtro1.replace("[Partida]", "").trim() + " ";
                         else if (filtro1.substring(0, 12) == "[Importador]")
-                            importador1 = filtro1.replace("[Importador]", "").trim();
+                            importador1 += filtro1.replace("[Importador]", "").trim() + " ";
                         else if (filtro1.substring(0, 12) == "[Exportador]")
-                            exportador1 = filtro1.replace("[Exportador]", "").trim();
+                            exportador1 += filtro1.replace("[Exportador]", "").trim() + " ";
                     }
 
-                    console.log(descripcion_comercial1);
-                    console.log(producto1);
-                    console.log(importador1);
-                    console.log(exportador1);
+                    // Ruben 202402
+                    var tipo_ope = $('input:radio[name=rdbTipoOpe]:checked').val();
+                    var pais = $("#cboPais").find("option:selected").text();
+                    var pais2 = $("#cboPaisB").find("option:selected").text();
+                    var desde = Fecha.getYearAndMonth($('#cboDesde').datepicker('getDate'));
+                    var hasta = Fecha.getYearAndMonth($('#cboHasta').datepicker('getDate'));
+
+                    var event = 'demoSearch', demoType = (tipo_ope == 'I' ? 'import' : 'export'), demoFrom = pais, demoCountry = pais2;
+                    var demoDescription = descripcion_comercial1.trim(), demoPartidaAduanera = producto1.trim(), demoImport = importador1.trim(), demoExport = exportador1.trim(), demoDateStart = desde, demoDateEnd = hasta;
+                    var _variables = event + '|' + demoType + '|' + demoFrom + '|' + demoCountry + '|' + demoDescription + '|' + demoPartidaAduanera + '|' + demoImport + '|' + demoExport + '|' + demoDateStart + '|' + demoDateEnd;
+
+                    parent.postMessage(_variables, 'https://www.veritradecorp.com/');
+                    //parent.data_layer(demoType, demoFrom, demoCountry, demoDescription, demoPartidaAduanera, demoImport, demoExport, demoDateStart, demoDateEnd);
 
                     dataLayer.push({
                         'event': 'buscador_demo', //valor estático

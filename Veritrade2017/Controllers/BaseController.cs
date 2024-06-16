@@ -30,7 +30,7 @@ namespace Veritrade2017.Controllers
             //Functions3.Log(DateTime.Now.ToString() + "|2|" + (cultureName != null ? cultureName : "NULL"));
 
             // Validate culture name
-             cultureName = CultureHelper.GetImplementedCulture(cultureName); // This is safe
+            cultureName = CultureHelper.GetImplementedCulture(cultureName); // This is safe
 
             // Ruben 202307
             //Functions3.Log(DateTime.Now.ToString() + "|3|" + (cultureName != null ? cultureName : "NULL"));
@@ -67,7 +67,7 @@ namespace Veritrade2017.Controllers
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            
+
             if (Session["CodPaisIP"] == null)
             {
                 string codPaisIp = "";
@@ -110,29 +110,7 @@ namespace Veritrade2017.Controllers
                 }
                 //filterContext.HttpContext.Session.RemoveAll();
             }
-   //         if ((controllerName.ToLower()!="home" && Variables.DevelopInitialPageSW >0) && 
-   //             (controllerName.ToLower()!= "passwordbypass" && Variables.DevelopInitialPageSW > 0)){
-   //             Variables.DevelopInitialPageSW = 0;
-
-			//}
-
-   //         if (Helpers.Variables.DevelopInitialtime.AddMinutes(2) <= DateTime.Now){
-			//	Variables.DevelopInitialPageSW = 0;
-			//}
-			if (Helpers.Variables.DevelopLastController.ToLower() != controllerName.ToLower()){
-				Helpers.Variables.DevelopLastController = controllerName.ToLower();
-			}else{
-                if (controllerName.ToLower() != "passwordbypass")
-                {
-                    Variables.DevelopInitialPageSW = 0;
-                }
-			}
-			
-			
-
-
-
-		}
+        }
         
         protected override void OnActionExecuted(ActionExecutedContext filterContext)
         {

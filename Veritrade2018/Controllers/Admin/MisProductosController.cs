@@ -1414,7 +1414,7 @@ namespace Veritrade2018.Controllers.Admin
                     else
                     {
                         titles.Add("titleValueImp", "Cantidad Exportada (" + textUnit + ")");
-                        titles.Add("titleComparative", "Comparativo " + cif + " US$");
+                        titles.Add("titleComparative", "Comparativo(" + textUnit + ")"); // Ruben 202311b
                     }
                 }
             }
@@ -2474,7 +2474,8 @@ namespace Veritrade2018.Controllers.Admin
                                               cantReg.ToString("n0", GetSpecificCulture());
 
                     if (isFreeTrial )//&& cantReg > Variables.CantRegMaxFreeTrial)
-                        sheet.Cells["B5"].Value = (idioma == "es") ? "Muestra: 20 registros" : "Sample: 20 records";
+                        sheet.Cells["B5"].Value = (idioma == "es") ? "Muestra: 10 registros" : "Sample: 10 records"; // Ruben 202311
+                        //sheet.Cells["B5"].Value = (idioma == "es") ? "Muestra: 20 registros" : "Sample: 20 records";
 
                     package.Save();
                 }

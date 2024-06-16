@@ -63,7 +63,7 @@
                     <div class="col-md-12 list_data_content">
                         @foreach (var pais in (List<Paises>) ViewData["paises_list"])
                         {
-                            @*<div class="list_data_item">
+                            <div class="list_data_item">
                                 @if (culture == "es")
                                 {
                                     <a href="@Url.RouteUrl("Paises", new {culture, slug = new Paises().GetCod3(pais.CodPais.Substring(0, 2))})" class="home_list_data">
@@ -80,7 +80,7 @@
                                         <span class="pull-right">@pais.FechaFin</span>
                                     </a>
                                 }
-                            </div>*@
+                            </div>
                             <hr/>
                         }
                         <div class="col-md-12" style="text-align: center">

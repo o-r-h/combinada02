@@ -1105,9 +1105,7 @@ namespace Veritrade2018.Helpers
         }
         static Int64 Dot2LongIP(string DottedIP)
         {
-			try
-			{
-				int i;
+            int i;
             string[] arrDec;
             double num = 0;
 
@@ -1120,13 +1118,7 @@ namespace Veritrade2018.Helpers
                     num += ((int.Parse(arrDec[i]) % 256) * Math.Pow(256, (3 - i)));
                 return Convert.ToInt64(num);
             }
-			}
-			catch (Exception ex)
-			{
-
-				return 0;
-			}
-		}
+        }
 
         static void BuscaDatosIP(string NumeroIP, ref string CodPais, ref string Pais, ref string Region,
             ref string Ciudad)

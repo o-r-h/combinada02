@@ -198,8 +198,11 @@
                 // Ruben 202310
                 //Cargar Por Pais
                 $(document).on("click", "#countries.owl-carousel .item", function () {
+                    var culture = '@culture';
                     var canonical_orig = '@ViewBag.Canonical';
                     var pais_orig = '/' + '@Session["Pais"].ToString()' + '/';
+                    if (culture == "en")
+                        pais_orig = '/' + '@Session["PaisEN"].ToString()' + '/';
                     var pais_new = '/' + $('.pais2', this).val() + '/';
                     var canonical_new = canonical_orig.replace(pais_orig, pais_new);
                     window.location = canonical_new;

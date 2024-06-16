@@ -9,7 +9,7 @@ using System.Configuration;
 using System.Web.Mvc;
 using Dapper;
 using System.Reflection;
-using Veritrade2017.Models.Minisite;
+
 
 namespace Veritrade2017.Helpers
 {
@@ -95,14 +95,7 @@ namespace Veritrade2017.Helpers
         {
             string CodPaisPorDefecto = "US";
 
-			var inci = new Incidencias();
-			string xx = CodPais != null ? CodPais.ToString() : "nulo";
-			inci.SalvarIncidencia($"1 ObtenerTelefonoPaisPorCodPais - codPais  :{xx}");
-			xx = culture != null ? culture.ToString() : "nulo";
-			inci.SalvarIncidencia($"2 ObtenerTelefonoPaisPorCodPais - culture  :{xx}");
-
-
-			if (culture == "es")
+            if(culture == "es")
             {
                 culture = "";
             }
@@ -118,27 +111,15 @@ namespace Veritrade2017.Helpers
                     break;
             }
 
-			
-			xx = CodPais != null ? CodPais.ToString() : "nulo";
-			inci.SalvarIncidencia($"3 ObtenerTelefonoPaisPorCodPais - codPais  :{xx}");
-			xx = culture != null ? culture.ToString() : "nulo";
-			inci.SalvarIncidencia($"4 ObtenerTelefonoPaisPorCodPais - culture  :{xx}");
-
-
-			string sql = $"Select tel.IdTelefono, adm.CodTelefono, tel.Telefono, tel.CodPais, tel.CodBandera, tel.Bandera, adm.Pais{idioma} ";
+            string sql = $"Select tel.IdTelefono, adm.CodTelefono, tel.Telefono, tel.CodPais, tel.CodBandera, tel.Bandera, adm.Pais{idioma} ";
                    sql += "from TelefonoPais tel, AdminPaisN adm ";
                    sql += "Where tel.CodPais = adm.CodPais ";
                    sql += $"and tel.CodPais = '{CodPais}' ";
                    sql += $"or tel.CodPais IS NULL";
 
             var dt = Conexion.SqlDataTable(sql);
-			
-			 xx = sql != null ? sql.ToString() : "nulo";
-			inci.SalvarIncidencia($"5 ObtenerTelefonoPaisPorCodPais - sql  ");
-			inci.SalvarIncidencia($"6 ObtenerTelefonoPaisPorCodPais - dt.Rows.Count  :{dt.Rows.Count.ToString()}");
 
-
-			if (dt.Rows.Count < 1 )
+            if (dt.Rows.Count < 1 )
             {
                 sql = $"Select adm.CodTelefono, tel.Telefono, tel.CodPais, tel.CodBandera, tel.Bandera, adm.Pais{idioma} ";
                 sql += "from TelefonoPais tel, AdminPaisN adm ";
@@ -146,36 +127,20 @@ namespace Veritrade2017.Helpers
                 sql += $"and tel.CodPais = '{CodPaisPorDefecto}' ";
 
                 dt = Conexion.SqlDataTable(sql);
-
-				xx = sql != null ? sql.ToString() : "nulo";
-				inci.SalvarIncidencia($"7 ObtenerTelefonoPaisPorCodPais - sql  si dt.Rows.Count < 1  :{xx}");
-			}
+            }
 
             DataRow dtTelefonoPais = dt.Rows[0];
-           
-            TelefonoPais telefonoPais = new TelefonoPais();
-            var x = dtTelefonoPais.ItemArray[0];
-          //  try
-           // {
-                telefonoPais.TelefonoId = int.Parse(dtTelefonoPais[0].ToString());
-                telefonoPais.CodTelefono = int.Parse(dtTelefonoPais[1].ToString());
-                telefonoPais.Telefono = long.Parse(dtTelefonoPais.ItemArray[2].ToString());
-				telefonoPais.CodPais = dtTelefonoPais.ItemArray[3].ToString();
-				telefonoPais.CodBandera = dtTelefonoPais.ItemArray[4].ToString();
-				telefonoPais.IconoBandera = dtTelefonoPais.ItemArray[5].ToString();
-				telefonoPais.NombrePais = dtTelefonoPais.ItemArray[6].ToString();
 
-		//	}
-			//catch (Exception ex)
-   //         {
-				
-			//	inci.SalvarIncidencia($"7 ObtenerTelefonoPaisPorCodPais - error  :{ex.Message + ex.InnerException.Message}");
-			//	var xxx = ex;
-   //         }
-
-                    
-			
-
+            TelefonoPais telefonoPais = new TelefonoPais
+            {
+                TelefonoId = int.Parse(dtTelefonoPais[0].ToString()),
+                CodTelefono = int.Parse(dtTelefonoPais[1].ToString()),
+                Telefono = Int64.Parse(dtTelefonoPais[2].ToString()),
+                CodPais = dtTelefonoPais[3].ToString(),
+                CodBandera = dtTelefonoPais[4].ToString(),
+                IconoBandera = dtTelefonoPais[5].ToString(),
+                NombrePais = dtTelefonoPais[6].ToString()
+            };
 
             return telefonoPais;
         }
@@ -283,6 +248,10 @@ namespace Veritrade2017.Helpers
 
         static string BuscaPlanPrecio(string codPais)
         {
+            if (codPais == ""){
+                codPais = "- ";
+
+			}
             var planPrecio = "USA";
             var sql = "select PlanPrecio from PlanPrecioPais where CodPais = '" + codPais + "'";
 
@@ -2101,67 +2070,68 @@ namespace Veritrade2017.Helpers
 
             return dt;
         }
-		// Ruben 202310
-		public static DataTable SearchCif(int IdProducto, int IdPaisAduana, string tipoOpe, int año)
-		{
-			// Ruben 202310
-			var sql = "SELECT IDPRODUCTO, IDPAISADUANA, REGIMEN, AÑO, SUM(VALOR) as VALOR " +
-					  "FROM TOTALESAÑO_MES WHERE IDPRODUCTO = " + IdProducto +
-					  " AND IDPAISADUANA = " + IdPaisAduana +
-					  " AND REGIMEN = '" + tipoOpe + "' AND AÑO = " + año + " GROUP BY IDPRODUCTO, IDPAISADUANA, REGIMEN, AÑO";
+        
+        // Ruben 202310
+        public static DataTable SearchCif(int IdProducto, int IdPaisAduana, string tipoOpe, int año)
+        {
+            // Ruben 202310
+            var sql = "SELECT IDPRODUCTO, IDPAISADUANA, REGIMEN, AÑO, SUM(VALOR) as VALOR " +
+                      "FROM TOTALESAÑO_MES WHERE IDPRODUCTO = " + IdProducto +
+                      " AND IDPAISADUANA = " + IdPaisAduana +
+                      " AND REGIMEN = '" + tipoOpe + "' AND AÑO = " + año +  " GROUP BY IDPRODUCTO, IDPAISADUANA, REGIMEN, AÑO";
 
-			DataTable dt;
-			try
-			{
-				dt = Conexion.SqlDataTableProductProfile(sql);
-			}
-			catch (Exception e)
-			{
-				dt = null;
-			}
+            DataTable dt;
+            try
+            {
+                dt = Conexion.SqlDataTableProductProfile(sql);
+            }
+            catch (Exception e)
+            {
+                dt = null;
+            }
 
-			// Ruben 202310
-			for (int i = año + 1; i < año + 5; i++)
-			{
-				var sql2 = "SELECT IDPRODUCTO, IDPAISADUANA, REGIMEN, AÑO, SUM(VALOR) as VALOR " +
-						  "FROM TOTALESAÑO_MES WHERE IDPRODUCTO = " + IdProducto +
-						  " AND IDPAISADUANA = " + IdPaisAduana +
-						  " AND REGIMEN = '" + tipoOpe + "' AND AÑO = " + i + " GROUP BY IDPRODUCTO, IDPAISADUANA, REGIMEN, AÑO";
-				DataTable dt2;
-				try
-				{
-					dt2 = Conexion.SqlDataTableProductProfile(sql2);
-				}
-				catch (Exception e)
-				{
-					dt2 = null;
-				}
+            // Ruben 202310
+            for (int i = año + 1; i < año + 5; i++)
+            {
+                var sql2 = "SELECT IDPRODUCTO, IDPAISADUANA, REGIMEN, AÑO, SUM(VALOR) as VALOR " +
+                          "FROM TOTALESAÑO_MES WHERE IDPRODUCTO = " + IdProducto +
+                          " AND IDPAISADUANA = " + IdPaisAduana +
+                          " AND REGIMEN = '" + tipoOpe + "' AND AÑO = " + i + " GROUP BY IDPRODUCTO, IDPAISADUANA, REGIMEN, AÑO";
+                DataTable dt2;
+                try
+                {
+                    dt2 = Conexion.SqlDataTableProductProfile(sql2);
+                }
+                catch (Exception e)
+                {
+                    dt2 = null;
+                }
 
-				if (dt2.Rows.Count > 0)
-				{
-					DataRow newRow = dt.NewRow();
-					newRow["IDPRODUCTO"] = IdProducto;
-					newRow["IDPAISADUANA"] = IdPaisAduana;
-					newRow["REGIMEN"] = tipoOpe;
-					newRow["AÑO"] = i;
-					newRow["VALOR"] = dt2.Rows[0]["VALOR"];
-					dt.Rows.Add(newRow);
-				}
-				else
-				{
-					DataRow newRow = dt.NewRow();
-					newRow["IDPRODUCTO"] = IdProducto;
-					newRow["IDPAISADUANA"] = IdPaisAduana;
-					newRow["REGIMEN"] = tipoOpe;
-					newRow["AÑO"] = i;
-					newRow["VALOR"] = 0.00;
-					dt.Rows.Add(newRow);
-				}
-			}
+                if (dt2.Rows.Count > 0)
+                {
+                    DataRow newRow = dt.NewRow();
+                    newRow["IDPRODUCTO"] = IdProducto;
+                    newRow["IDPAISADUANA"] = IdPaisAduana;
+                    newRow["REGIMEN"] = tipoOpe;
+                    newRow["AÑO"] = i;
+                    newRow["VALOR"] = dt2.Rows[0]["VALOR"];
+                    dt.Rows.Add(newRow);
+                }
+                else
+                {
+                    DataRow newRow = dt.NewRow();
+                    newRow["IDPRODUCTO"] = IdProducto;
+                    newRow["IDPAISADUANA"] = IdPaisAduana;
+                    newRow["REGIMEN"] = tipoOpe;
+                    newRow["AÑO"] = i;
+                    newRow["VALOR"] = 0.00;
+                    dt.Rows.Add(newRow);
+                }
+            }
 
-			return dt;
-		}
-		public static DataTable SearchPrecioProm(int IdProducto, int IdPaisAduana, string tipoOpe)
+            return dt;
+        }
+        public static DataTable SearchPrecioProm(int IdProducto, int IdPaisAduana, string tipoOpe)
         {
             string[] mes =
             {
@@ -2247,27 +2217,29 @@ namespace Veritrade2017.Helpers
                 return dt;
             }
         }
+        
+        // Ruben 202404
         public static DataTable SearchConsolidateCountries(int IdProducto, string tipoOpe)
         {
             var sql = "";
             if (tipoOpe == "Importaciones")
             {
                 sql = "SELECT PA.IdPaisAduana, " +
-                      " PA.PaisAduana," +
+                      " PA.PaisAduana, PA.PaisAduanaEN, " + // Ruben 202404
                       " PA.Abreviatura, " +
                       " Importaciones = ISNULL((SELECT VALOR FROM TOTALES WHERE IDPRODUCTO = " + IdProducto + " AND REGIMEN = 'Importaciones' AND IDPAISADUANA = PA.IDPAISADUANA),0), " +
                       " Importadores = ISNULL((SELECT CantidadEmpresas FROM TOTALES WHERE IDPRODUCTO = " + IdProducto + " AND REGIMEN = 'Importaciones' AND IDPAISADUANA = PA.IDPAISADUANA),0)" +
-                      " FROM TOTALES T INNER JOIN PAISADUANA PA ON PA.IdPaisAduana = T.IdPaisAduana GROUP BY PA.IDPAISADUANA, T.IDPRODUCTO , PA.PAISADUANA, PA.Abreviatura HAVING T.IDPRODUCTO = " + IdProducto +
+                      " FROM TOTALES T INNER JOIN PAISADUANA PA ON PA.IdPaisAduana = T.IdPaisAduana GROUP BY PA.IDPAISADUANA, T.IDPRODUCTO, PA.PAISADUANA, PA.PaisAduanaEN, PA.Abreviatura HAVING T.IDPRODUCTO = " + IdProducto + // Ruben 202404
                       " ORDER BY Importaciones DESC";
             }
             else
             {
                 sql = "SELECT PA.IdPaisAduana, " +
-                      " PA.PaisAduana," +
+                      " PA.PaisAduana, PA.PaisAduanaEN, " + // Ruben 202404
                       " PA.Abreviatura, " +
                       " Exportaciones = ISNULL((SELECT VALOR FROM TOTALES WHERE IDPRODUCTO = " + IdProducto + " AND REGIMEN = 'Exportaciones' AND IDPAISADUANA = PA.IDPAISADUANA),0)," +
                       "Exportadores = ISNULL((SELECT CantidadEmpresas FROM TOTALES WHERE IDPRODUCTO = " + IdProducto + " AND REGIMEN = 'Exportaciones' AND IDPAISADUANA = PA.IDPAISADUANA),0)" +
-                      " FROM TOTALES T INNER JOIN PAISADUANA PA ON PA.IdPaisAduana = T.IdPaisAduana GROUP BY PA.IDPAISADUANA, T.IDPRODUCTO , PA.PAISADUANA, PA.Abreviatura HAVING T.IDPRODUCTO = " + IdProducto +
+                      " FROM TOTALES T INNER JOIN PAISADUANA PA ON PA.IdPaisAduana = T.IdPaisAduana GROUP BY PA.IDPAISADUANA, T.IDPRODUCTO , PA.PAISADUANA, PA.PaisAduanaEN, PA.Abreviatura HAVING T.IDPRODUCTO = " + IdProducto + // Ruben 202404
                       " ORDER BY Exportaciones DESC";
             }
 

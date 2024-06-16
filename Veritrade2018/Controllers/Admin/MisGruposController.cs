@@ -147,14 +147,14 @@ namespace Veritrade2018.Controllers.Admin
         {
             MyFavoriteAndGroup objMyFavoriteAndGroup = new MyFavoriteAndGroup();
            
-            if (!(codPais.Length <= 2 || codPais == "MXD"))
+            if (!(codPais.Length <= 2 || codPais == "MXD" || codPais == "MXM")) // Ruben 202311b
             {
                 codPais = codPais.Substring(0, 2) + tipoOpe;
             }
 
             if (codPais2 != "4UE")
             {
-                objMyFavoriteAndGroup.ExistPartida = codPais.Length == 2 || codPais == "MXD";
+                objMyFavoriteAndGroup.ExistPartida = codPais.Length == 2 || codPais == "MXD" || codPais == "MXM"; // Ruben 202311b
 
                 var tabs = new TabMisBusquedas(tipoOpe, codPais);
 
